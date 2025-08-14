@@ -80,7 +80,6 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            pointer-events: none; /* CRITICAL FIX */
         }
 
         /* Contact Content */
@@ -89,65 +88,110 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            text-align: center;
-            position: relative;
-            z-index: 1;
+            padding: 120px 0;
         }
         .contact-box {
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 4rem;
+            padding: 3rem;
             border-radius: 24px;
             border: 1px solid var(--border-color);
-            max-width: 700px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            text-align: center;
         }
         .contact-box h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
         }
         .contact-box p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--secondary-text-color);
             margin-bottom: 2rem;
         }
-        .contact-cta {
-            display: inline-block;
+        
+        /* Form Styles */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: left;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.7s ease-in-out;
+        }
+        .form-group.active {
+            max-height: 1000px; /* Large enough to not clip content */
+            opacity: 1;
+        }
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-input, .form-textarea {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color-start);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-label input {
+            margin-right: 0.5rem;
+        }
+        .submit-button {
             background: var(--accent-gradient);
             color: #fff;
-            padding: 1rem 2.5rem;
-            border-radius: 980px;
+            padding: 1rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
+            border: none;
+            cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer; /* Add cursor pointer for better UX */
         }
-        .contact-cta:hover {
-            transform: scale(1.05);
+        .submit-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
         }
-
-        .shine-effect::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .shine-effect:hover::after {
-            left: 150%;
+        #form-status {
+            margin-top: 1.5rem;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
-    <canvas id="ballpit-canvas"></canvas>
     <div class="mouse-blur"></div>
+    <canvas id="ballpit-canvas"></canvas>
     
     <header id="main-header">
         <nav class="container">
@@ -159,23 +203,57 @@
                 <li><a href="playground.html">AI for Business Quiz!</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
-            <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+            <a href="contact.html" class="header-cta">Get Started</a>
         </nav>
     </header>
 
-    <div class="contact-wrapper">
+    <main class="contact-wrapper">
         <div class="contact-box">
             <h1>Let's Build Something Great</h1>
-            <p>We're passionate about helping small businesses succeed. If you're ready to see how AI can transform your operations, we're ready to talk.</p>
-            <!-- REMOVED href, ADDED id -->
-            <a id="consultation-link" class="contact-cta">Schedule Your Free Consultation</a>
+            <p>Tell us a bit about your business, and we'll get back to you to schedule your free consultation.</p>
+            
+            <form id="contact-form" class="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST">
+                <div class="form-group active">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                 <div class="form-group">
+                    <label for="phone">Callback Number (Optional)</label>
+                    <input type="tel" id="phone" name="phone" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="message">How can we help?</label>
+                    <textarea id="message" name="message" class="form-textarea" placeholder="Tell us about your business, your goals, and a good time to reach you..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Communication Method</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="communication_preference" value="Email" checked> Email</label>
+                        <label class="radio-label"><input type="radio" name="communication_preference" value="Phone"> Phone</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="submit-button">Schedule Your Free Consultation</button>
+                </div>
+            </form>
+            <p id="form-status"></p>
         </div>
-    </div>
+    </main>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const header = document.getElementById('main-header');
             header.classList.add('scrolled');
+
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
 
             const canvas = document.getElementById('ballpit-canvas');
             const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
@@ -244,19 +322,80 @@
                 Matter.Body.setPosition(rightWall, { x: width + 50, y: height / 2 });
             });
 
-            const mouseBlur = document.querySelector('.mouse-blur');
-            window.addEventListener('mousemove', (e) => {
-                const { clientX, clientY } = e;
-                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            // --- Formspree Form Handling ---
+            const form = document.getElementById('contact-form');
+            const status = document.getElementById('form-status');
+
+            async function handleSubmit(event) {
+                event.preventDefault();
+                const data = new FormData(event.target);
+                fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        status.innerHTML = "Thanks for your submission!";
+                        status.style.color = 'green';
+                        form.reset();
+                        // Reset form to initial state
+                        const formGroups = form.querySelectorAll('.form-group');
+                        formGroups.forEach((group, index) => {
+                            if (index === 0) {
+                                group.classList.add('active');
+                            } else {
+                                group.classList.remove('active');
+                            }
+                        });
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                            } else {
+                                status.innerHTML = "Oops! There was a problem submitting your form";
+                                status.style.color = 'red';
+                            }
+                        })
+                    }
+                }).catch(error => {
+                    status.innerHTML = "Oops! There was a problem submitting your form";
+                    status.style.color = 'red';
+                });
+            }
+            form.addEventListener("submit", handleSubmit);
+
+            // --- Progressive Form Reveal ---
+            const formGroups = Array.from(form.querySelectorAll('.form-group'));
+            const inputs = Array.from(form.querySelectorAll('.form-input, .form-textarea'));
+            const radios = form.querySelectorAll('input[type="radio"]');
+
+            const revealNext = (currentIndex) => {
+                if (currentIndex + 1 < formGroups.length) {
+                    formGroups[currentIndex + 1].classList.add('active');
+                }
+            };
+
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value.trim() !== '') {
+                        revealNext(index);
+                    }
+                });
+                 // Handle optional phone field
+                if (input.id === 'phone') {
+                    input.addEventListener('blur', () => {
+                         revealNext(index);
+                    });
+                }
             });
 
-            // --- NEW: JavaScript Click Handler for Mailto Link ---
-            const consultationBtn = document.getElementById('consultation-link');
-            consultationBtn.addEventListener('click', () => {
-                const subject = "AI Consultation Inquiry";
-                const body = "Hello Princeton AI Partners,\n\nI'm interested in learning more about your AI solutions.\n\nPlease tell us about your business, what you are looking to achieve, and a callback number with availability.\n\nThanks,";
-                const mailtoLink = `mailto:support@princetonaipartners.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.location.href = mailtoLink;
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const parentGroupIndex = formGroups.indexOf(radio.closest('.form-group'));
+                    revealNext(parentGroupIndex);
+                });
             });
         });
     </script>
