@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Playground - Princeton AI Partners</title>
+    <title>AI for Business Quiz! - Princeton AI Partners</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,10 +30,9 @@
             color: var(--primary-text-color); 
             line-height: 1.65; 
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Prevent horizontal scroll from squares */
+            overflow-x: hidden;
         }
         
-        /* --- Squares Background --- */
         #squares-background {
             position: fixed;
             top: 0;
@@ -49,6 +48,7 @@
             opacity: 0.1;
             animation: float 20s infinite linear;
             bottom: -150px;
+            transition: transform 0.3s ease-out;
         }
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); }
@@ -86,7 +86,6 @@
         .header-cta:hover { transform: scale(1.05); }
         #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; margin-top: 120px; }
         
-        /* Animated Page Hero Style */
         .page-hero {
             padding: 180px 0 100px;
             text-align: center;
@@ -104,22 +103,14 @@
             overflow: hidden;
             white-space: nowrap;
             width: 0;
-            animation: typing 2s steps(40, end) forwards;
-        }
-        .animated-title::before {
-            content: attr(data-text);
-            position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            opacity: 0;
-            animation: shine 3s infinite linear 2.5s, fadeInShine 0.1s 2.5s forwards;
+            animation: typing 1.5s steps(30, end) forwards;
         }
         .animated-title::after {
             content: '';
             position: absolute; right: 0; top: 0; height: 100%;
             width: 3px;
             background: var(--accent-color-start);
-            animation: blink 0.75s step-end 3 forwards;
+            animation: blink 0.75s step-end 2 forwards;
         }
         .page-hero p {
             font-size: 1.25rem;
@@ -129,16 +120,13 @@
         }
         @keyframes typing { from { width: 0; } to { width: 100%; } }
         @keyframes blink { 50% { background-color: transparent; } }
-        @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
-        @keyframes fadeInShine { to { opacity: 1; } }
         
-        /* Playground Styles */
         .playground-wrapper {
             max-width: 800px;
             margin: 80px auto;
             padding-bottom: 80px;
         }
-        .tool-card {
+        .solver-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -148,66 +136,71 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
             text-align: center;
         }
-        .tool-card .icon {
-            font-size: 2.5rem;
+        
+        .step-container {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.7s ease-in-out;
+        }
+        .step-container.active {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        .step-container.add-margin {
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .step-indicator {
+            font-size: 0.9rem;
+            font-weight: 600;
             color: var(--accent-color-start);
             margin-bottom: 1rem;
         }
-        .tool-card h2 {
+        .solver-card h2 {
             font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        .tool-card p {
-            color: var(--secondary-text-color);
             margin-bottom: 2rem;
-            font-size: 1.1rem;
         }
-        .input-group {
-            display: flex;
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
-            transition: all 0.3s ease;
+            margin-bottom: 2rem;
         }
-        .text-input {
-            flex-grow: 1;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
+        .options-grid.single-column {
+            grid-template-columns: 1fr;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .option-button {
+            background: var(--card-bg-color);
             border: 1px solid var(--border-color);
-            font-family: var(--font-family);
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        .text-input:focus {
-            outline: none;
-            border-color: var(--accent-color-start);
-            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
-        }
-        .gemini-button {
-            background: var(--accent-gradient);
-            color: #fff;
-            padding: 1rem 2rem;
+            padding: 1rem;
             border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
+            font-size: 1rem;
+            font-family: var(--font-family);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .gemini-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
-        }
-        .gemini-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: scale(1);
-            box-shadow: none;
-        }
-
-        .results-area {
-            margin-top: 3rem;
+            transition: all 0.3s ease;
             text-align: left;
         }
-        .idea-card {
+        .option-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: var(--accent-color-start);
+        }
+        .option-button.selected {
+            background: var(--accent-color-start);
+            color: white;
+            border-color: var(--accent-color-start);
+        }
+        .results-area {
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .solution-card {
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -220,38 +213,26 @@
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
-        .idea-card h3 {
+        .solution-card h3 {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--accent-color-start);
             display: flex;
             align-items: center;
         }
-        .idea-card h3 .icon {
+        .solution-card h3 .icon {
             margin-right: 0.75rem;
             font-size: 1.1rem;
         }
-        .loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 2rem;
+        .reset-button {
+            display: block;
+            margin: 2rem auto 0;
+            background: none;
+            border: none;
+            color: var(--secondary-text-color);
             font-weight: 500;
-            font-size: 1.1rem;
-        }
-        .loader .dot {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-color-start);
-            border-radius: 50%;
-            animation: pulse 1.4s infinite ease-in-out both;
-        }
-        .loader .dot:nth-child(1) { animation-delay: -0.32s; }
-        .loader .dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes pulse {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
+            cursor: pointer;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -265,7 +246,7 @@
                     <li><a href="solutions.html">Solutions</a></li>
                     <li><a href="clients.html">Who We Serve</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="playground.html">AI Playground</a></li>
+                    <li><a href="playground.html">AI for Business Quiz!</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
                 <a href="contact.html" class="header-cta">Get Started</a>
@@ -275,21 +256,45 @@
         <main>
             <section class="page-hero">
                 <div class="container">
-                    <h1 class="animated-title" data-text="AI Playground">AI Playground</h1>
-                    <p>Curious about what AI can do? Try it for yourself! This tool uses the Gemini API to give you a taste of the custom solutions we can build.</p>
+                    <h1 class="animated-title" data-text="AI for Business Quiz!">AI for Business Quiz!</h1>
+                    <p>Answer a few quick questions to discover the perfect AI solution for your business.</p>
                 </div>
             </section>
 
             <section class="playground-wrapper container">
-                <div class="tool-card">
-                    <div class="icon"><i class="fas fa-magic"></i></div>
-                    <h2>How can AI help your business?</h2>
-                    <p>Enter your business type below and our AI will generate three specific, creative ideas to help you grow.</p>
-                    <div class="input-group">
-                        <input type="text" id="business-type-input" class="text-input" placeholder="e.g., Coffee Shop, Law Firm, Auto Repair...">
-                        <button id="get-ideas-button" class="gemini-button">✨ Get AI Ideas</button>
+                <div class="solver-card" id="solver-card">
+                    <div id="step1-container" class="step-container active">
+                        <p class="step-indicator">STEP 1 OF 3</p>
+                        <h2>What kind of business do you run?</h2>
+                        <div class="options-grid">
+                            <button class="option-button" data-business="Service-Based (Salon, Auto Repair, etc.)">Service-Based (Salon, Auto Repair, etc.)</button>
+                            <button class="option-button" data-business="Food & Beverage (Restaurant, Cafe, etc.)">Food & Beverage (Restaurant, Cafe, etc.)</button>
+                            <button class="option-button" data-business="Retail (Boutique, Convenience Store, etc.)">Retail (Boutique, Convenience Store, etc.)</button>
+                            <button class="option-button" data-business="Professional (Law, Medical, etc.)">Professional (Law, Medical, etc.)</button>
+                        </div>
                     </div>
-                    <div id="ideas-result" class="results-area"></div>
+
+                    <div id="step2-container" class="step-container">
+                        <p class="step-indicator">STEP 2 OF 3</p>
+                        <h2 id="pain-point-title">What are your biggest challenges?</h2>
+                        <div class="options-grid" id="pain-points-grid"></div>
+                    </div>
+
+                    <div id="step3-container" class="step-container">
+                        <p class="step-indicator">STEP 3 OF 3</p>
+                        <h2>What is your primary goal right now?</h2>
+                        <div class="options-grid single-column" id="goals-grid">
+                            <button class="option-button" data-goal="Save Time">Save Time</button>
+                            <button class="option-button" data-goal="Increase Revenue">Increase Revenue</button>
+                            <button class="option-button" data-goal="Improve Customer Experience">Improve Customer Experience</button>
+                        </div>
+                    </div>
+
+                    <div id="step4-container" class="step-container">
+                        <h2 id="results-title">Your Recommended AI Solutions</h2>
+                        <div id="results-area" class="results-area"></div>
+                        <button id="reset-button" class="reset-button">Start Over</button>
+                    </div>
                 </div>
             </section>
         </main>
@@ -297,7 +302,7 @@
         <footer id="main-footer">
             <div class="container">
                 <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
-                <p>Princeton Meadows, New Jersey</p>
+                <p>Princeton, New Jersey</p>
             </div>
         </footer>
     </div>
@@ -310,7 +315,6 @@
                 else header.classList.remove('scrolled');
             });
             
-            // --- Squares Background ---
             const squaresContainer = document.getElementById('squares-background');
             const createSquare = () => {
                 const square = document.createElement('div');
@@ -326,96 +330,126 @@
                     square.remove();
                 }, 20000);
             };
-            setInterval(createSquare, 500);
+            for(let i = 0; i < 20; i++) {
+                createSquare();
+            }
 
-
-            // --- Gemini API Integration ---
-            const ideasButton = document.getElementById('get-ideas-button');
-            const businessTypeInput = document.getElementById('business-type-input');
-            const ideasResult = document.getElementById('ideas-result');
-            
-            const apiKey = ""; // This will be handled by the environment
-
-            ideasButton.addEventListener('click', async () => {
-                const businessType = businessTypeInput.value.trim();
-                if (!businessType) {
-                    alert('Please enter a business type.');
-                    return;
-                }
-
-                setLoading(true);
-
-                try {
-                    const prompt = `I run a ${businessType}. Give me three creative, specific, and actionable ideas for how I could use AI to improve my business. For each idea, provide a "title" and a short, one-paragraph "explanation". The tone should be exciting and inspiring for a small business owner.`;
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const squares = document.querySelectorAll('.square');
+                squares.forEach(square => {
+                    const rect = square.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
                     
-                    const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                    const payload = {
-                        contents: chatHistory,
-                        generationConfig: {
-                            responseMimeType: "application/json",
-                            responseSchema: {
-                                type: "ARRAY",
-                                items: {
-                                    type: "OBJECT",
-                                    properties: {
-                                        "title": { "type": "STRING" },
-                                        "explanation": { "type": "STRING" }
-                                    },
-                                    required: ["title", "explanation"]
-                                }
-                            }
-                        }
-                    };
-
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
+                    const deltaX = centerX - clientX;
+                    const deltaY = centerY - clientY;
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
                     
-                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-                        const ideas = JSON.parse(result.candidates[0].content.parts[0].text);
-                        displayIdeas(ideas);
+                    const maxDistance = 150;
+                    if (distance < maxDistance) {
+                        const pushForce = (maxDistance - distance) / maxDistance;
+                        const pushX = (deltaX / distance) * pushForce * 30;
+                        const pushY = (deltaY / distance) * pushForce * 30;
+                        square.style.transform = `translate(${pushX}px, ${pushY}px)`;
                     } else {
-                        throw new Error("Unexpected API response structure.");
+                        square.style.transform = 'translate(0, 0)';
                     }
-
-                } catch (error) {
-                    console.error("Error fetching AI ideas:", error);
-                    ideasResult.innerHTML = `<p style="color: red; text-align: center;">Sorry, something went wrong. Please try again.</p>`;
-                } finally {
-                    setLoading(false);
-                }
+                });
             });
 
-            function displayIdeas(ideas) {
-                ideasResult.innerHTML = '';
-                const icons = ['fa-rocket', 'fa-lightbulb', 'fa-chart-line'];
-                ideas.forEach((idea, index) => {
+            // --- Pain Point Solver Logic ---
+            const step1 = document.getElementById('step1-container');
+            const step2 = document.getElementById('step2-container');
+            const step3 = document.getElementById('step3-container');
+            const step4 = document.getElementById('step4-container');
+            const painPointTitle = document.getElementById('pain-point-title');
+            const painPointsGrid = document.getElementById('pain-points-grid');
+            const goalsGrid = document.getElementById('goals-grid');
+            const resultsTitle = document.getElementById('results-title');
+            const resultsArea = document.getElementById('results-area');
+            const resetButton = document.getElementById('reset-button');
+            
+            const painPointsData = {
+                'scheduling': { title: 'Scheduling & Appointments' },
+                'marketing': { title: 'Marketing & Social Media' },
+                'loyalty': { title: 'Customer Loyalty' },
+                'paperwork': { title: 'Paperwork & Admin Tasks' }
+            };
+
+            const solutionsData = {
+                'scheduling': { title: 'Intelligent Process Automation', text: 'Our AI can manage your calendar 24/7, book appointments automatically, and send reminders to eliminate no-shows, freeing you up to focus on your clients.', icon: 'fa-robot' },
+                'marketing': { title: 'Customized Marketing & Posting', text: 'We build AI that learns your brand voice to create and schedule engaging social media content, so you can maintain a vibrant online presence without the effort.', icon: 'fa-bullhorn' },
+                'loyalty': { title: 'Automated Check-in & Rewards', text: 'Turn first-time visitors into regulars with a seamless loyalty program. Our system tracks visits and sends personalized offers to keep your customers coming back.', icon: 'fa-gift' },
+                'paperwork': { title: 'Smart Document Processing', text: 'Let AI handle the paperwork. Our systems can read, sort, and process documents, invoices, and forms, saving you hours of manual work and reducing errors.', icon: 'fa-database' }
+            };
+
+            step1.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const businessType = button.dataset.business;
+                    painPointTitle.textContent = `For your ${businessType}, what are the biggest challenges?`;
+                    
+                    painPointsGrid.innerHTML = '';
+                    Object.keys(painPointsData).forEach(key => {
+                        const ppButton = document.createElement('button');
+                        ppButton.className = 'option-button';
+                        ppButton.dataset.painPoint = key;
+                        ppButton.textContent = painPointsData[key].title;
+                        ppButton.addEventListener('click', () => {
+                            ppButton.classList.toggle('selected');
+                            const selectedCount = painPointsGrid.querySelectorAll('.selected').length;
+                            if (selectedCount > 0) {
+                                step3.classList.add('active', 'add-margin');
+                            } else {
+                                step3.classList.remove('active', 'add-margin');
+                                step4.classList.remove('active', 'add-margin');
+                            }
+                        });
+                        painPointsGrid.appendChild(ppButton);
+                    });
+
+                    step1.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                    step2.classList.add('active', 'add-margin');
+                });
+            });
+
+            goalsGrid.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const goal = button.dataset.goal;
+                    resultsTitle.textContent = `To help you ${goal}, here are your recommended solutions:`;
+                    showResults();
+                    goalsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                    painPointsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                    step4.classList.add('active', 'add-margin');
+                });
+            });
+
+            function showResults() {
+                const selectedPainPoints = Array.from(painPointsGrid.querySelectorAll('.selected')).map(btn => btn.dataset.painPoint);
+                
+                resultsArea.innerHTML = '';
+                selectedPainPoints.forEach((key, index) => {
+                    const solution = solutionsData[key];
                     const card = document.createElement('div');
-                    card.className = 'idea-card';
+                    card.className = 'solution-card';
                     card.style.animationDelay = `${index * 0.15}s`;
-                    card.innerHTML = `<h3><i class="fas ${icons[index % icons.length]} icon"></i>${idea.title}</h3><p>${idea.explanation}</p>`;
-                    ideasResult.appendChild(card);
+                    card.innerHTML = `<h3><i class="fas ${solution.icon} icon"></i>${solution.title}</h3><p>${solution.text}</p>`;
+                    resultsArea.appendChild(card);
                 });
             }
 
-            function setLoading(isLoading) {
-                ideasButton.disabled = isLoading;
-                if (isLoading) {
-                    ideasResult.innerHTML = `<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-                } else {
-                   if(ideasResult.querySelector('.loader')) {
-                       ideasResult.innerHTML = '';
-                   }
-                }
-            }
+            resetButton.addEventListener('click', () => {
+                step2.classList.remove('active', 'add-margin');
+                step3.classList.remove('active', 'add-margin');
+                step4.classList.remove('active', 'add-margin');
+                
+                setTimeout(() => {
+                    step1.querySelectorAll('.option-button').forEach(btn => btn.disabled = false);
+                    goalsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = false);
+                    painPointsGrid.innerHTML = '';
+                    resultsArea.innerHTML = '';
+                }, 500); // Wait for collapse animation
+            });
         });
     </script>
 </body>
