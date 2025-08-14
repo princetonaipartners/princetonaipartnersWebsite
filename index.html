@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princeton AI Partners - Custom AI Solutions</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. Root Variables & Global Styles --- */
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --accent-color-end: #0060CE;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* --- Reactive Mouse Blur --- */
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- 2. Header & Navigation --- */
+        #main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease;
+        }
+
+        #main-header.scrolled {
+            background-color: rgba(248, 248, 246, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #main-header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        
+        /* NEW: Subtle Logo Animation */
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 1.25rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-text-color);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color-start);
+        }
+
+        .header-cta {
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- 3. Hero Section with Orb Background --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #orb-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Behind mouse blur */
+            filter: blur(80px);
+        }
+
+        .orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-color-start), transparent 70%);
+            opacity: 0.3;
+            animation: moveOrb 25s infinite alternate ease-in-out;
+        }
+        
+        .orb:nth-child(2) {
+             width: 300px;
+             height: 300px;
+             background: radial-gradient(circle, var(--accent-color-end), transparent 70%);
+             animation-duration: 20s;
+             animation-delay: -10s;
+        }
+
+        @keyframes moveOrb {
+            0% { transform: translate(10vw, 20vh) scale(1); }
+            25% { transform: translate(70vw, 40vh) scale(1.2); }
+            50% { transform: translate(40vw, 80vh) scale(0.9); }
+            75% { transform: translate(20vw, 10vh) scale(1.1); }
+            100% { transform: translate(10vw, 20vh) scale(1); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-content h1 .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInWord 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes fadeInWord {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--secondary-text-color);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            opacity: 0;
+            animation: fadeInWord 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.5s forwards;
+        }
+
+        .main-cta {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+            opacity: 0;
+            animation: fadeInWord 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.7s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 113, 227, 0.25);
+        }
+
+        /* --- 4. Content Sections & Animations --- */
+        .content-section {
+            padding: 120px 0;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--secondary-text-color);
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        /* --- 5. Services Section --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--card-bg-color);
+            padding: 2.5rem;
+            text-align: center;
+            border-radius: 24px;
+            border: 1px solid #E5E5E5;
+            transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), box-shadow 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card .icon {
+            font-size: 2.25rem;
+            color: var(--accent-color-start);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--secondary-text-color);
+            font-size: 1rem;
+        }
+        
+        .secondary-cta {
+            display: block;
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-color-start);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .secondary-cta:hover {
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        /* --- 6. Process Section --- */
+        #process {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            text-align: center;
+            position: relative;
+            gap: 2rem;
+        }
+        
+        .process-line {
+            position: absolute;
+            top: 45px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .content-section.is-visible .process-line {
+            transform: scaleX(1);
+        }
+        
+        .step {
+            width: 25%;
+            position: relative;
+            z-index: 2;
+            padding-top: 70px;
+        }
+
+        .step-content {
+            background-color: var(--card-bg-color);
+            padding: 2.5rem 1.5rem;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            border: 1px solid transparent;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 4px solid var(--bg-color);
+            transition: transform 0.3s ease;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+        
+        .step:hover .step-number {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--secondary-text-color);
+        }
+        
+        /* --- 7. Footer --- */
+        #main-footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--secondary-text-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- 8. Shine Effect --- */
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .shine-effect:hover::after {
+            left: 150%;
+        }
+        
+        /* --- 9. Responsive Design --- */
+        @media (max-width: 992px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 3rem;
+            }
+            .step {
+                width: 100%;
+                max-width: 350px;
+            }
+            .process-line {
+                left: 50%;
+                right: 50%;
+                top: 5%;
+                bottom: 5%;
+                width: 2px;
+                height: 90%;
+                transform-origin: top;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Mouse Blur Element -->
+    <div class="mouse-blur"></div>
+
+    <!-- Header -->
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <ul class="nav-links">
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Playground</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero Section -->
+        <section id="hero">
+            <div id="orb-canvas">
+                <div class="orb"></div>
+                <div class="orb"></div>
+            </div>
+            <div class="container hero-content">
+                <h1>
+                    <span class="word" style="animation-delay: 0.1s;">AI</span>
+                    <span class="word" style="animation-delay: 0.2s;">Solutions</span>
+                    <span class="word" style="animation-delay: 0.3s;">That</span>
+                    <span class="word" style="animation-delay: 0.4s;">Transform</span>
+                    <span class="word" style="animation-delay: 0.5s;">Small</span>
+                    <span class="word" style="animation-delay: 0.6s;">Business</span>
+                </h1>
+                <p class="subtitle">We build powerful, custom AI agents and automated workflows that integrate seamlessly to drive real growth for your business.</p>
+                <a href="contact.html" class="main-cta shine-effect">Start Your AI Journey</a>
+            </div>
+        </section>
+
+        <!-- Section 2: Services (High-Level Overview) -->
+        <section id="services" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Your Business, Reimagined.</h2>
+                <p class="section-subtitle animate-on-scroll" style="transition-delay: 0.1s;">We focus on core areas to deliver maximum impact, turning your unique challenges into your greatest strengths.</p>
+                <div class="services-grid">
+                    <div class="service-card animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="icon"><i class="fas fa-gift"></i></div>
+                        <h3>Check-in & Rewards</h3>
+                        <p>Turn casual visitors into loyal fans with automated loyalty programs that are effortless to manage.</p>
+                    </div>
+                    <div class="service-card animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="icon"><i class="fas fa-bullhorn"></i></div>
+                        <h3>Customized Marketing</h3>
+                        <p>Engage your audience with AI-powered social media posts and marketing campaigns that feel personal.</p>
+                    </div>
+                    <div class="service-card animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="icon"><i class="fas fa-robot"></i></div>
+                        <h3>Process Automation</h3>
+                        <p>Free your team to focus on what matters by automating repetitive tasks with precision and intelligence.</p>
+                    </div>
+                </div>
+                <a href="solutions.html" class="secondary-cta animate-on-scroll" style="transition-delay: 0.5s;">Explore All Our AI Solutions &rarr;</a>
+            </div>
+        </section>
+        
+        <!-- Section 3: Our Process -->
+        <section id="process" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Simple, Transparent Process</h2>
+                 <p class="section-subtitle animate-on-scroll" style="transition-delay: 0.1s;">We deliver tangible results through a clear, collaborative four-step journey.</p>
+                <div class="process-steps">
+                    <div class="process-line animate-on-scroll" style="transition-delay: 0.2s;"></div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.5s;">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Discovery</h3>
+                            <p>We learn about your business, challenges, and goals through in-depth consultation.</p>
+                        </div>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.6s;">
+                         <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Strategy</h3>
+                            <p>Our experts design a custom AI solution tailored to your specific needs and budget.</p>
+                        </div>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.7s;">
+                         <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Development</h3>
+                            <p>We build and test your AI solution with regular updates and your feedback.</p>
+                        </div>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.8s;">
+                         <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Deployment</h3>
+                            <p>Seamless integration with your existing systems and comprehensive training for your team.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
+            <p>Princeton Meadows, New Jersey</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Smoother Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // --- Reactive Mouse Blur ---
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
