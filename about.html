@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Princeton AI Partners</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Basic Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: var(--bg-color); 
+            color: var(--primary-text-color); 
+            line-height: 1.65; 
+            -webkit-font-smoothing: antialiased; 
+        }
+        
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+        
+        /* --- Particle Background --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0; /* Behind content */
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+        #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
+        #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 1.25rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary-text-color); font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-color-start); }
+        .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .header-cta:hover { transform: scale(1.05); }
+        #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; margin-top: 120px; background-color: var(--bg-color); }
+        
+        /* Animated Page Hero Style */
+        .page-hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .animated-title {
+            position: relative;
+            display: inline-block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 2s steps(40, end) forwards;
+        }
+        .animated-title::before {
+            content: attr(data-text);
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: shine 3s infinite linear 2.5s, fadeInShine 0.1s 2.5s forwards;
+        }
+        .animated-title::after {
+            content: '';
+            position: absolute; right: 0; top: 0; height: 100%;
+            width: 3px;
+            background: var(--accent-color-start);
+            animation: blink 0.75s step-end 3 forwards;
+        }
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink { 50% { background-color: transparent; } }
+        @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
+        @keyframes fadeInShine { to { opacity: 1; } }
+
+        main {
+            background-color: var(--bg-color);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 80px auto;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .about-content p {
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text-color);
+        }
+        .about-content strong {
+            color: var(--primary-text-color);
+            font-weight: 600;
+        }
+        .contact-info {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+        .contact-info h3 {
+            margin-bottom: 1rem;
+        }
+        .contact-info a {
+            color: var(--accent-color-start);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .shine-effect:hover::after {
+            left: 150%;
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-blur"></div>
+    <div id="particles-js"></div>
+
+    <div class="content-wrapper">
+        <header id="main-header">
+            <nav class="container">
+                <a href="index.html" class="logo">Princeton AI Partners</a>
+                <ul class="nav-links">
+                    <li><a href="solutions.html">Solutions</a></li>
+                    <li><a href="clients.html">Who We Serve</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="playground.html">AI Playground</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="page-hero">
+                <div class="container">
+                    <h1 class="animated-title" data-text="We're Champions for Small Business">We're Champions for Small Business</h1>
+                </div>
+            </section>
+
+            <section class="about-content container">
+                <h2>Our Story</h2>
+                <p>Princeton AI Partners was founded on a simple but powerful observation. After years of working in and with local businesses—from bustling restaurants to community-focused retail shops—our founder saw a recurring pattern: <strong>the incredible passion of small business owners was constantly being held back by a lack of resources.</strong></p>
+                <p>While large corporations had entire teams dedicated to technology and process optimization, small businesses were left to juggle everything themselves. They were fighting an unfair fight, armed with grit and determination but missing the advanced tools that could help them compete and thrive.</p>
+                <p>We started this company to change that. Our mission is to <strong>level the playing field</strong> by making the power of custom artificial intelligence accessible and affordable for everyone. We believe AI isn't just for tech giants; it's a tool that can automate tedious tasks, uncover hidden growth opportunities, and free up owners to do what they do best: serve their customers and build their communities.</p>
+                
+                <div class="contact-info">
+                    <h3>Have a question? Get in touch.</h3>
+                    <a href="mailto:support@princetonaipartners.com">support@princetonaipartners.com</a>
+                </div>
+            </section>
+        </main>
+
+        <footer id="main-footer">
+            <div class="container">
+                <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
+                <p>Princeton Meadows, New Jersey</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Header Scroll Effect
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Initialize Particles.js
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#6E6E73" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": false },
+                    "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "bubble" }, "onclick": { "enable": false }, "resize": true },
+                    "modes": { "bubble": { "distance": 150, "size": 4, "duration": 2, "opacity": 0.8, "speed": 3 } }
+                },
+                "retina_detect": true
+            });
+
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

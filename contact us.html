@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Princeton AI Partners</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Matter.js for physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Basic Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Important for canvas background */
+        }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--primary-text-color); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+        
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0; /* Above canvas, below header */
+            transition: transform 0.1s ease-out;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+        #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
+        #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 1.25rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary-text-color); font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-color-start); }
+        .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .header-cta:hover { transform: scale(1.05); }
+        
+        /* Ballpit Canvas */
+        #ballpit-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Contact Content */
+        .contact-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .contact-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 4rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            max-width: 700px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .contact-box h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .contact-box p {
+            font-size: 1.2rem;
+            color: var(--secondary-text-color);
+            margin-bottom: 2rem;
+        }
+        .contact-cta {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-cta:hover {
+            transform: scale(1.05);
+        }
+
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .shine-effect:hover::after {
+            left: 150%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ballpit-canvas"></canvas>
+    <div class="mouse-blur"></div>
+    
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <ul class="nav-links">
+                <li><a href="solutions.html">Solutions</a></li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Playground</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+        </nav>
+    </header>
+
+    <main class="contact-wrapper">
+        <div class="contact-box">
+            <h1>Let's Build Something Great</h1>
+            <p>We're passionate about helping small businesses succeed. If you're ready to see how AI can transform your operations, we're ready to talk.</p>
+            <a href="mailto:support@princetonaipartners.com" class="contact-cta">Schedule Your Free Consultation</a>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            header.classList.add('scrolled');
+
+            const canvas = document.getElementById('ballpit-canvas');
+            const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
+
+            const engine = Engine.create();
+            const world = engine.world;
+            
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+
+            const render = Render.create({
+                canvas: canvas,
+                engine: engine,
+                options: {
+                    width: width,
+                    height: height,
+                    wireframes: false,
+                    background: 'transparent'
+                }
+            });
+
+            const ground = Bodies.rectangle(width / 2, height + 50, width, 100, { isStatic: true });
+            const leftWall = Bodies.rectangle(-50, height / 2, 100, height, { isStatic: true });
+            const rightWall = Bodies.rectangle(width + 50, height / 2, 100, height, { isStatic: true });
+            World.add(world, [ground, leftWall, rightWall]);
+
+            const colors = ['#0A84FF', '#0060CE', '#6E6E73', '#1D1D1F'];
+            for (let i = 0; i < 150; i++) {
+                const radius = Math.random() * 20 + 10;
+                const ball = Bodies.circle(
+                    Math.random() * width,
+                    Math.random() * -height,
+                    radius,
+                    {
+                        restitution: 0.7,
+                        friction: 0.1,
+                        render: {
+                            fillStyle: colors[Math.floor(Math.random() * colors.length)]
+                        }
+                    }
+                );
+                World.add(world, ball);
+            }
+
+            const mouse = Mouse.create(render.canvas);
+            const mouseConstraint = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: { visible: false }
+                }
+            });
+            World.add(world, mouseConstraint);
+            render.mouse = mouse;
+
+            Runner.run(engine);
+            Render.run(render);
+
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                render.canvas.width = width;
+                render.canvas.height = height;
+                Matter.Body.setPosition(ground, { x: width / 2, y: height + 50 });
+                Matter.Body.setPosition(leftWall, { x: -50, y: height / 2 });
+                Matter.Body.setPosition(rightWall, { x: width + 50, y: height / 2 });
+            });
+
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
