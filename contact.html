@@ -154,19 +154,6 @@
             min-height: 120px;
             resize: vertical;
         }
-        .radio-group {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .radio-label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .radio-label input {
-            margin-right: 0.5rem;
-        }
         .submit-button {
             background: var(--accent-gradient);
             color: #fff;
@@ -228,13 +215,6 @@
                 <div class="form-group">
                     <label for="message">How can we help?</label>
                     <textarea id="message" name="message" class="form-textarea" placeholder="Tell us about your business, your goals, and a good time to reach you..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Communication Method</label>
-                    <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="communication_preference" value="Email" checked> Email</label>
-                        <label class="radio-label"><input type="radio" name="communication_preference" value="Phone"> Phone</label>
-                    </div>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="submit-button">Schedule Your Free Consultation</button>
@@ -369,7 +349,6 @@
             // --- Progressive Form Reveal ---
             const formGroups = Array.from(form.querySelectorAll('.form-group'));
             const inputs = Array.from(form.querySelectorAll('.form-input, .form-textarea'));
-            const radios = form.querySelectorAll('input[type="radio"]');
 
             const revealNext = (currentIndex) => {
                 if (currentIndex + 1 < formGroups.length) {
@@ -383,19 +362,11 @@
                         revealNext(index);
                     }
                 });
-                 // Handle optional phone field
                 if (input.id === 'phone') {
                     input.addEventListener('blur', () => {
                          revealNext(index);
                     });
                 }
-            });
-
-            radios.forEach(radio => {
-                radio.addEventListener('change', () => {
-                    const parentGroupIndex = formGroups.indexOf(radio.closest('.form-group'));
-                    revealNext(parentGroupIndex);
-                });
             });
         });
     </script>
