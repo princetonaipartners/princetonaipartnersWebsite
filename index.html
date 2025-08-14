@@ -46,7 +46,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* --- Reactive Mouse Blur --- */
         .mouse-blur {
             position: fixed;
             top: 0;
@@ -65,7 +64,7 @@
         .container {
             max-width: 1080px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1.5rem; /* Adjusted padding for mobile */
         }
 
         /* --- 2. Header & Navigation --- */
@@ -145,6 +144,76 @@
         .header-cta:hover {
             transform: scale(1.05);
         }
+        
+        /* --- Mobile Menu Styles --- */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1010;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-text-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1005;
+        }
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .mobile-nav li {
+            margin: 2rem 0;
+        }
+        .mobile-nav a {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .mobile-nav .header-cta {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
 
         /* --- 3. Hero Section with Orb Background --- */
         #hero {
@@ -164,7 +233,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2; /* Behind mouse blur */
+            z-index: -2;
             filter: blur(80px);
         }
 
@@ -454,8 +523,11 @@
         }
         
         @media (max-width: 768px) {
-            .nav-links {
+            .nav-links, .header-cta {
                 display: none;
+            }
+            .menu-toggle {
+                display: flex;
             }
             .hero-content h1 {
                 font-size: 3rem;
@@ -507,8 +579,24 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="solutions.html">Solutions</a></li>
+            <li><a href="clients.html">Who We Serve</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="playground.html">AI for Business Quiz!</a></li>
+            <li><a href="contact.html" class="header-cta">Get Started</a></li>
+        </ul>
+    </div>
 
     <main>
         <!-- Section 1: Hero Section -->
@@ -639,6 +727,15 @@
             window.addEventListener('mousemove', (e) => {
                 const { clientX, clientY } = e;
                 mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+            
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
             });
         });
     </script>

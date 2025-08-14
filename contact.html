@@ -35,7 +35,7 @@
             color: var(--primary-text-color); 
             line-height: 1.65; 
             -webkit-font-smoothing: antialiased;
-            overflow-y: auto; /* Allow scrolling */
+            overflow-y: auto;
         }
         
         .mouse-blur {
@@ -53,7 +53,7 @@
             transition: transform 0.1s ease-out;
         }
 
-        .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
         #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
         #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
         #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
@@ -77,6 +77,8 @@
         .nav-links a:hover { color: var(--accent-color-start); }
         .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
         .header-cta:hover { transform: scale(1.05); }
+        .menu-toggle { display: none; }
+        .mobile-nav { display: none; }
         
         /* Ballpit Canvas */
         #ballpit-canvas {
@@ -91,10 +93,10 @@
         /* Contact Content */
         .contact-wrapper {
             display: flex;
-            align-items: flex-start; /* MODIFIED */
+            align-items: flex-start;
             justify-content: center;
             min-height: 100vh;
-            padding: 150px 2rem 50px; /* MODIFIED */
+            padding: 150px 0 50px;
         }
         .contact-box {
             background-color: rgba(255, 255, 255, 0.9);
@@ -108,31 +110,11 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.08);
             text-align: center;
         }
-        
-        /* NEW: Shiny Title */
-        .shiny-title {
+        .contact-box h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
         }
-        .shiny-title::before {
-            content: "Let's Build Something Great";
-            position: absolute;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, var(--accent-color-start), var(--accent-color-end), var(--accent-color-start));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s infinite linear;
-            background-size: 200% 100%;
-        }
-        @keyframes shine {
-            from { background-position: 200% center; }
-            to { background-position: -200% center; }
-        }
-
         .contact-box p {
             font-size: 1.1rem;
             color: var(--secondary-text-color);
@@ -149,14 +131,6 @@
         .form-group {
             display: flex;
             flex-direction: column;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, margin-top 0.7s ease-in-out;
-        }
-        .form-group.active {
-            max-height: 1000px;
-            opacity: 1;
         }
         .form-group label {
             font-weight: 500;
@@ -200,6 +174,15 @@
             margin-top: 1.5rem;
             font-weight: 500;
         }
+
+        @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -217,16 +200,32 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <a href="contact.html" class="header-cta">Get Started</a>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
 
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="solutions.html">Solutions</a></li>
+            <li><a href="clients.html">Who We Serve</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="playground.html">AI for Business Quiz!</a></li>
+            <li><a href="contact.html" class="header-cta">Get Started</a></li>
+        </ul>
+    </div>
+
     <main class="contact-wrapper">
         <div class="contact-box">
-            <h1 class="shiny-title">Let's Build Something Great</h1>
+            <h1>Let's Build Something Great</h1>
             <p>Tell us a bit about your business, and we'll get back to you to schedule your free consultation.</p>
             
             <form id="contact-form" class="contact-form" action="https://formspree.io/f/mblkbkkn" method="POST">
-                <div class="form-group active">
+                <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" class="form-input" required>
                 </div>
@@ -238,9 +237,7 @@
                     <label for="message">How can we help?</label>
                     <textarea id="message" name="message" class="form-textarea" placeholder="Tell us about your business, your goals, and a good callback number..." required></textarea>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="submit-button">Schedule Your Free Consultation</button>
-                </div>
+                <button type="submit" class="submit-button">Schedule Your Free Consultation</button>
             </form>
             <p id="form-status"></p>
         </div>
@@ -261,6 +258,7 @@
             const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
 
             const engine = Engine.create();
+            engine.world.gravity.y = 0.5; // Slightly less gravity
             const world = engine.world;
             
             let width = window.innerWidth;
@@ -273,7 +271,9 @@
                     width: width,
                     height: height,
                     wireframes: false,
-                    background: 'transparent'
+                    background: 'transparent',
+                    pixelRatio: window.devicePixelRatio, // Better performance on mobile
+                    showAngleIndicator: false,
                 }
             });
 
@@ -283,7 +283,8 @@
             World.add(world, [ground, leftWall, rightWall]);
 
             const colors = ['#0A84FF', '#0060CE', '#6E6E73', '#1D1D1F'];
-            for (let i = 0; i < 150; i++) {
+            const numBalls = window.innerWidth < 768 ? 80 : 150; // Fewer balls on mobile
+            for (let i = 0; i < numBalls; i++) {
                 const radius = Math.random() * 20 + 10;
                 const ball = Bodies.circle(
                     Math.random() * width,
@@ -339,18 +340,9 @@
                     }
                 }).then(response => {
                     if (response.ok) {
-                        status.innerHTML = "Thank you for your submission - we will be in contact soon.";
+                        status.innerHTML = "Thanks for your submission!";
                         status.style.color = 'green';
                         form.reset();
-                        // Reset form to initial state
-                        const formGroups = form.querySelectorAll('.form-group');
-                        formGroups.forEach((group, index) => {
-                            if (index === 0) {
-                                group.classList.add('active');
-                            } else {
-                                group.classList.remove('active');
-                            }
-                        });
                     } else {
                         response.json().then(data => {
                             if (Object.hasOwn(data, 'errors')) {
@@ -367,24 +359,13 @@
                 });
             }
             form.addEventListener("submit", handleSubmit);
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
 
-            // --- Progressive Form Reveal ---
-            const formGroups = Array.from(form.querySelectorAll('.form-group'));
-            const inputs = Array.from(form.querySelectorAll('.form-input, .form-textarea'));
-
-            const revealNext = (currentIndex) => {
-                if (currentIndex + 1 < formGroups.length) {
-                    formGroups[currentIndex + 1].classList.add('active');
-                }
-            };
-
-            inputs.forEach((input, index) => {
-                input.addEventListener('input', () => {
-                    // Reveal next step if current input is not empty
-                    if (input.value.trim() !== '') {
-                        revealNext(index);
-                    }
-                });
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
             });
         });
     </script>
