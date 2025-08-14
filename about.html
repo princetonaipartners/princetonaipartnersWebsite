@@ -185,6 +185,15 @@
             }
             .animated-title {
                 font-size: 1.8rem;
+                white-space: normal;
+                width: auto;
+                animation: none;
+            }
+            .animated-title::after, .animated-title::before {
+                display: none;
+            }
+            .contact-info a {
+                font-size: 1rem;
             }
         }
     </style>
@@ -232,14 +241,13 @@
             </section>
 
             <section class="about-content container">
-                <h2>Our Story</h2>
-                <p>Princeton AI Partners was founded on a simple but powerful observation. After years of working in and with local businesses—from bustling restaurants to community-focused retail shops—we noticed a recurring pattern: <strong>the incredible passion of small business owners was constantly being held back by a lack of resources.</strong></p>
-                <p>While large corporations had entire teams dedicated to technology and process optimization, small businesses were left to juggle everything themselves. They were fighting an unfair fight, armed with grit and determination but missing the advanced tools that could help them compete and thrive.</p>
-                <p>We started this company to change that. Our mission is to <strong>level the playing field</strong> by making the power of custom artificial intelligence accessible and affordable for everyone. We believe AI isn't just for tech giants; it's a tool that can automate tedious tasks, uncover hidden growth opportunities, and free up owners to do what they do best: serve their customers and build their communities.</p>
+                <p>We believe the best businesses are the ones that make a community feel like home. The local coffee shop that knows your order, the salon where you catch up on neighborhood news—these places are run by passionate people, and that's something we've always admired.</p>
+                <p>As new technology like AI became popular, it was mostly used by big corporations. We saw a chance to bring those same powerful, time-saving tools to the local businesses we love, helping them grow and succeed in new ways.</p>
+                <p>That’s why Princeton AI Partners was started. Our mission is to <strong>level the playing field</strong> by building simple, affordable AI solutions that help small business owners <strong>save time</strong>, <strong>reach more customers</strong>, and <strong>focus on what they do best</strong>.</p>
                 
                 <div class="contact-info">
                     <h3>Have a question? Get in touch.</h3>
-                    <a href="mailto:support@princetonaipartners.com">support@princetonaipartners.com</a>
+                    <a href="contact.html">Contact Us</a>
                 </div>
             </section>
         </main>
@@ -268,10 +276,10 @@
 
             particlesJS('particles-js', {
                 "particles": {
-                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
                     "color": { "value": "#6E6E73" },
                     "shape": { "type": "circle" },
-                    "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                    "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.2, "sync": false } },
                     "size": { "value": 3, "random": true },
                     "line_linked": { "enable": false },
                     "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
@@ -279,7 +287,7 @@
                 "interactivity": {
                     "detect_on": "canvas",
                     "events": { "onhover": { "enable": true, "mode": "bubble" }, "onclick": { "enable": false }, "resize": true },
-                    "modes": { "bubble": { "distance": 150, "size": 4, "duration": 2, "opacity": 0.8, "speed": 3 } }
+                    "modes": { "bubble": { "distance": 150, "size": 4, "duration": 2, "opacity": 1, "speed": 3 } }
                 },
                 "retina_detect": true
             });
