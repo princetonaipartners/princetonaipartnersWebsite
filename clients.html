@@ -218,6 +218,12 @@
             }
             .animated-title {
                 font-size: 2.2rem;
+                white-space: normal; /* Allow wrapping */
+                width: auto; /* Let it take full width */
+                animation: none; /* Disable typing on mobile */
+            }
+            .animated-title::after, .animated-title::before {
+                display: none; /* Hide cursor and shine on mobile */
             }
         }
     </style>

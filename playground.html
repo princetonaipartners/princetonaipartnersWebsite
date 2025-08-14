@@ -246,9 +246,18 @@
             }
             .animated-title {
                 font-size: 2.5rem;
+                white-space: normal;
+                width: auto;
+                animation: none;
+            }
+            .animated-title::after {
+                display: none;
             }
             .options-grid {
                 grid-template-columns: 1fr;
+            }
+            .solver-card h2 {
+                font-size: 1.5rem;
             }
         }
     </style>
