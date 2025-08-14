@@ -86,8 +86,76 @@
         .nav-links a:hover { color: var(--accent-color-start); }
         .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
         .header-cta:hover { transform: scale(1.05); }
-        .menu-toggle { display: none; }
-        .mobile-nav { display: none; }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1010;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-text-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1005;
+        }
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .mobile-nav li {
+            margin: 2rem 0;
+        }
+        .mobile-nav a {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .mobile-nav .header-cta {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
         #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; margin-top: 120px; background-color: var(--bg-color); }
         
         .page-hero {
@@ -241,6 +309,7 @@
             </section>
 
             <section class="about-content container">
+                <h2>Our Story</h2>
                 <p>We believe the best businesses are the ones that make a community feel like home. The local coffee shop that knows your order, the salon where you catch up on neighborhood news—these places are run by passionate people, and that's something we've always admired.</p>
                 <p>As new technology like AI became popular, it was mostly used by big corporations. We saw a chance to bring those same powerful, time-saving tools to the local businesses we love, helping them grow and succeed in new ways.</p>
                 <p>That’s why Princeton AI Partners was started. Our mission is to <strong>level the playing field</strong> by building simple, affordable AI solutions that help small business owners <strong>save time</strong>, <strong>reach more customers</strong>, and <strong>focus on what they do best</strong>.</p>
