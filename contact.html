@@ -123,6 +123,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; /* Add cursor pointer for better UX */
         }
         .contact-cta:hover {
             transform: scale(1.05);
@@ -166,7 +167,8 @@
         <div class="contact-box">
             <h1>Let's Build Something Great</h1>
             <p>We're passionate about helping small businesses succeed. If you're ready to see how AI can transform your operations, we're ready to talk.</p>
-            <a href="mailto:support@princetonaipartners.com?subject=AI%20Consultation%20Inquiry&body=Hello%20Princeton%20AI%20Partners%2C%0A%0AI'm%20interested%20in%20learning%20more%20about%20your%20AI%20solutions.%0A%0APlease%20tell%20us%20about%20your%20business%2C%20what%20you%20are%20looking%20to%20achieve%2C%20and%20a%20callback%20number%20with%20availability.%0A%0AThanks%2C" class="contact-cta">Schedule Your Free Consultation</a>
+            <!-- REMOVED href, ADDED id -->
+            <a id="consultation-link" class="contact-cta">Schedule Your Free Consultation</a>
         </div>
     </div>
     
@@ -246,6 +248,15 @@
             window.addEventListener('mousemove', (e) => {
                 const { clientX, clientY } = e;
                 mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+
+            // --- NEW: JavaScript Click Handler for Mailto Link ---
+            const consultationBtn = document.getElementById('consultation-link');
+            consultationBtn.addEventListener('click', () => {
+                const subject = "AI Consultation Inquiry";
+                const body = "Hello Princeton AI Partners,\n\nI'm interested in learning more about your AI solutions.\n\nPlease tell us about your business, what you are looking to achieve, and a callback number with availability.\n\nThanks,";
+                const mailtoLink = `mailto:support@princetonaipartners.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
             });
         });
     </script>
