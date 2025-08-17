@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Marketing - Princeton AI Partners</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. Root Variables & Global Styles --- */
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --accent-color-end: #0060CE;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --success-color: #34C759;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .mouse-blur {
+            position: fixed; top: 0; left: 0; width: 250px; height: 250px;
+            background: var(--accent-color-start); border-radius: 50%;
+            filter: blur(120px); opacity: 0.2; pointer-events: none;
+            z-index: -1; transition: transform 0.1s ease-out;
+        }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- 2. Header & Navigation --- */
+        #main-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        #main-header.scrolled {
+            background-color: rgba(248, 248, 246, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        #main-header nav {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 68px;
+        }
+        .logo {
+            font-weight: 600; font-size: 1.1rem; color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .header-cta {
+            background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem;
+            border-radius: 980px; text-decoration: none; font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* --- 3. Hero Section --- */
+        #hero {
+            min-height: 100vh; display: flex; align-items: center; text-align: center;
+            padding-top: 68px; position: relative; overflow: hidden;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+        }
+        .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-content h1 {
+            font-size: 4rem; font-weight: 800; letter-spacing: -0.03em;
+            line-height: 1.1; margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: 1.3rem; color: var(--secondary-text-color);
+            max-width: 650px; margin: 0 auto 2.5rem;
+        }
+        .main-cta {
+            display: inline-block; background: var(--accent-gradient); color: #fff;
+            padding: 1rem 2.5rem; border-radius: 980px; text-decoration: none;
+            font-size: 1.1rem; font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+        }
+        .main-cta:hover { transform: scale(1.05); }
+
+        /* --- 4. General Section Styling --- */
+        .content-section { padding: 120px 0; }
+        .section-title {
+            text-align: center; font-size: 3rem; font-weight: 700;
+            letter-spacing: -0.03em; margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center; font-size: 1.25rem; color: var(--secondary-text-color);
+            max-width: 700px; margin: 0 auto 5rem;
+        }
+        .animate-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- 5. Interactive Content Generator --- */
+        #content-generator {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .generator-container {
+            display: flex; align-items: center; gap: 4rem;
+        }
+        .generator-controls { flex: 1; }
+        .control-group { margin-bottom: 1.5rem; }
+        .control-group label {
+            display: block; font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .control-group select {
+            width: 100%; padding: 0.75rem 1rem; border-radius: 8px;
+            border: 1px solid var(--border-color); font-family: var(--font-family);
+            font-size: 1rem; appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .generator-button {
+            display: block;
+            width: auto;
+            margin: 2.5rem auto 0;
+            background: none;
+            border: 2px solid var(--accent-color-start);
+            color: var(--accent-color-start);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 980px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .generator-button:hover {
+            background: var(--accent-color-start);
+            color: white;
+        }
+        .generator-output {
+            flex: 1.2; 
+            background: var(--card-bg-color); 
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        .initial-placeholder .icon {
+            font-size: 3rem;
+            color: var(--border-color);
+            margin-bottom: 1rem;
+        }
+        .initial-placeholder .text {
+            font-size: 1.1rem;
+            color: var(--secondary-text-color);
+            font-weight: 500;
+        }
+        .generated-content {
+            display: none; /* Hidden by default */
+        }
+        .logo-display {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .logo-display svg {
+            width: 100px;
+            height: 100px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .logo-display svg.active {
+            display: block;
+            opacity: 1;
+        }
+        .post-text { 
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        .post-text p { transition: opacity 0.5s ease; }
+        .post-hashtags {
+            margin-top: 1.5rem; font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .post-hashtags span {
+            background: var(--accent-gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+        /* SVG Animation Styles */
+        #coffee-steam path {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 20;
+            animation: steam-anim 2s infinite linear;
+        }
+        #coffee-steam path:nth-child(2) { animation-delay: 0.5s; }
+        #coffee-steam path:nth-child(3) { animation-delay: 1s; }
+        @keyframes steam-anim {
+            0% { stroke-dashoffset: 20; opacity: 1; }
+            50% { stroke-dashoffset: 10; opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0; }
+        }
+        #pizza-steam path {
+            stroke-dasharray: 15;
+            stroke-dashoffset: 15;
+            animation: steam-anim 1.8s infinite linear;
+        }
+        #pizza-steam path:nth-child(2) { animation-delay: 0.6s; }
+        #pizza-steam path:nth-child(3) { animation-delay: 1.2s; }
+        #scissors-blade {
+            animation: snip 2.5s infinite ease-in-out;
+            transform-origin: 25px 75px;
+        }
+        @keyframes snip {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-20deg); }
+        }
+
+        /* --- 6. Tiers & Benefits Sections (Shared Styles) --- */
+        .tiers-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+            align-items: stretch;
+        }
+        .tier-card {
+            background-color: var(--card-bg-color); border: 1px solid var(--border-color);
+            border-radius: 24px; padding: 2.5rem; display: flex; flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .tier-card:hover {
+            transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color-start);
+        }
+        .tier-header {
+            text-align: center; border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .tier-icon { font-size: 2rem; color: var(--accent-color-start); margin-bottom: 1rem; }
+        .tier-title { font-size: 1.8rem; font-weight: 600; }
+        .tier-tagline { font-size: 0.9rem; color: var(--secondary-text-color); margin-top: 0.25rem; }
+        .tier-features { list-style: none; flex-grow: 1; padding: 0; }
+        .tier-features li {
+            position: relative; padding-left: 28px; margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .tier-features li::before {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; left: 0; top: 4px; color: var(--success-color);
+        }
+        .feature-plus {
+            font-weight: 600; color: var(--primary-text-color);
+            display: block; margin-bottom: 1rem;
+        }
+        .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .benefit-item { display: flex; align-items: flex-start; gap: 1.5rem; }
+        .benefit-icon {
+            font-size: 2rem; color: var(--accent-color-start); background-color: #eaf5ff;
+            width: 60px; height: 60px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .benefit-content h3 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+        .benefit-content p { color: var(--secondary-text-color); }
+
+        /* --- 7. Final CTA Section --- */
+        #footer-cta {
+            background: var(--accent-gradient); color: white; text-align: center;
+        }
+        #footer-cta .section-title, #footer-cta .section-subtitle { color: white; }
+        .footer-cta-button {
+            display: inline-block; background: var(--card-bg-color); color: var(--accent-color-start);
+            padding: 1rem 2.5rem; border-radius: 980px; text-decoration: none;
+            font-size: 1.1rem; font-weight: 600; transition: transform 0.3s ease;
+        }
+        .footer-cta-button:hover { transform: scale(1.05); }
+        
+        /* --- 8. Responsive Design --- */
+        @media (max-width: 992px) {
+            .tiers-grid { grid-template-columns: 1fr; }
+            .generator-container { flex-direction: column; }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .section-title { font-size: 2.2rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-blur"></div>
+
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <a href="contact.html" class="header-cta">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Your Brand Voice, Amplified by AI</h1>
+                <p class="subtitle">We work with you to define your message, then use AI to automate its delivery and enhance its impact, keeping you connected with your customers.</p>
+                <a href="#content-generator" class="main-cta">See it in Action</a>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Content Generator -->
+        <section id="content-generator" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Generate a Post in Seconds</h2>
+                <p class="section-subtitle animate-on-scroll">This is how we turn your goals into great content. We define your strategy, then our AI gets to work. See a simplified version below.</p>
+                <div class="generator-container">
+                    <div class="generator-controls animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="control-group">
+                            <label for="business-type">What's your business type?</label>
+                            <select id="business-type">
+                                <option value="cafe">Cafe / Coffee Shop</option>
+                                <option value="restaurant">Restaurant / Bar</option>
+                                <option value="salon">Salon / Spa</option>
+                                <option value="auto_repair">Auto Repair Shop</option>
+                                <option value="retail">Retail Boutique</option>
+                                <option value="gym">Gym / Fitness Studio</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="post-goal">What's the goal of this post?</label>
+                            <select id="post-goal">
+                                <option value="promo">Promote a Special Offer</option>
+                                <option value="engagement">Community Engagement</option>
+                                <option value="product">Highlight a Product/Service</option>
+                            </select>
+                        </div>
+                        <button id="generate-btn" class="generator-button">Generate AI Content</button>
+                    </div>
+                    <div class="generator-output animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="initial-placeholder">
+                            <div class="icon"><i class="fas fa-magic-sparkles"></i></div>
+                            <p class="text">You can customize the content!</p>
+                        </div>
+                        <div class="generated-content">
+                            <div class="logo-display" id="logo-display">
+                                <!-- SVGs will be injected here by JavaScript -->
+                            </div>
+                            <div class="post-text">
+                                <p id="post-text-content"></p>
+                            </div>
+                            <div id="post-hashtags" class="post-hashtags">
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Benefits Grid -->
+        <section id="benefits" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Marketing That Works For You</h2>
+                <p class="section-subtitle animate-on-scroll">Our AI-powered solution delivers more than just posts—it delivers results.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="benefit-icon"><i class="fas fa-clock"></i></div>
+                        <div class="benefit-content">
+                            <h3>Save Countless Hours</h3>
+                            <p>Reclaim your time from the endless cycle of content creation, planning, and scheduling.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="benefit-icon"><i class="fas fa-bullhorn"></i></div>
+                        <div class="benefit-content">
+                            <h3>Maintain Brand Consistency</h3>
+                            <p>Our AI learns your unique voice and style, ensuring every post is perfectly on-brand.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                        <div class="benefit-content">
+                            <h3>Attract New Customers</h3>
+                            <p>Engage your local community with relevant, search-optimized content that drives foot traffic.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="benefit-content">
+                            <h3>Boost Engagement</h3>
+                            <p>Generate posts that spark conversations, build community, and keep your audience coming back.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 4: Tiers -->
+        <section id="tiers" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Plans to Fit Your Ambition</h2>
+                <p class="section-subtitle animate-on-scroll">Choose the level of automation that's right for your business goals.</p>
+                <div class="tiers-grid">
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-layer-group"></i></div>
+                            <h3 class="tier-title">Starter</h3>
+                            <p class="tier-tagline">Build Your Presence</p>
+                        </div>
+                        <ul class="tier-features">
+                            <li><strong>4 AI-Generated Posts</strong> per month</li>
+                            <li>Posting to <strong>All Platforms</strong> (Instagram, Facebook, etc.)</li>
+                            <li>Content Calendar & Approval</li>
+                            <li>Automated Scheduling</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-bolt-lightning"></i></div>
+                            <h3 class="tier-title">Growth</h3>
+                            <p class="tier-tagline">Expand Your Reach</p>
+                        </div>
+                        <ul class="tier-features">
+                            <li class="feature-plus">Everything in Starter, plus:</li>
+                            <li><strong>8 AI-Generated Posts</strong> per month</li>
+                            <li><strong>1 AI-Generated Blog Article</strong> or Email Newsletter per month</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-sitemap"></i></div>
+                            <h3 class="tier-title">Scale</h3>
+                            <p class="tier-tagline">End-to-End Customization</p>
+                        </div>
+                        <ul class="tier-features">
+                             <li class="feature-plus">A true partnership package:</li>
+                            <li><strong>Bespoke Content Strategy</strong> tailored to your growth goals</li>
+                            <li><strong>Custom Number of Posts</strong>, Blogs, and Newsletters</li>
+                            <li>Management of Ad Campaigns</li>
+                            <li><strong>Ongoing Strategic Support</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Final CTA -->
+        <section id="footer-cta" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Ready to Automate Your Marketing?</h2>
+                <p class="section-subtitle animate-on-scroll">Schedule a free, no-obligation demo to see how our AI can transform your online presence.</p>
+                <a href="contact.html" class="footer-cta-button animate-on-scroll" style="transition-delay: 0.2s;">Book a Free Demo</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Header & Mouse Glow Effects ---
+            const header = document.getElementById('main-header');
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+
+            // --- Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // --- Interactive Content Generator Logic ---
+            const generateBtn = document.getElementById('generate-btn');
+            const businessTypeSelect = document.getElementById('business-type');
+            const postTextEl = document.getElementById('post-text-content');
+            const postHashtagsEl = document.querySelector('#post-hashtags span');
+            const logoDisplay = document.getElementById('logo-display');
+            const initialPlaceholder = document.querySelector('.initial-placeholder');
+            const generatedContentContainer = document.querySelector('.generated-content');
+
+            const logos = {
+                cafe: `<svg viewBox="0 0 100 100" id="cafe-logo"><g id="coffee-steam" fill="none" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"><path d="M40 30 Q 45 20 50 30" /><path d="M50 30 Q 55 20 60 30" /><path d="M60 30 Q 65 20 70 30" /></g><path d="M20 40 H 80 Q 85 40 85 45 V 75 Q 85 80 80 80 H 20 Q 15 80 15 75 V 45 Q 15 40 20 40 Z" fill="#F8F8F6" stroke="#1D1D1F" stroke-width="2" /><path d="M80 50 H 85 Q 90 50 90 55 V 65 Q 90 70 85 70 H 80" fill="none" stroke="#1D1D1F" stroke-width="2" /></svg>`,
+                restaurant: `<svg viewBox="0 0 100 100" id="restaurant-logo"><g id="pizza-steam" fill="none" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"><path d="M40 25 Q 43 15 46 25" /><path d="M50 25 Q 53 15 56 25" /><path d="M60 25 Q 63 15 66 25" /></g><path d="M20 70 L 50 30 L 80 70 Q 50 90 20 70 Z" fill="#ffcc80" stroke="#1D1D1F" stroke-width="2"/><circle cx="40" cy="55" r="5" fill="#c0392b"/><circle cx="60" cy="55" r="5" fill="#c0392b"/><circle cx="50" cy="45" r="5" fill="#c0392b"/></svg>`,
+                salon: `<svg viewBox="0 0 100 100" id="salon-logo"><g transform="rotate(20 50 50)"><circle cx="35" cy="75" r="8" fill="none" stroke="#1D1D1F" stroke-width="2"/><circle cx="65" cy="75" r="8" fill="none" stroke="#1D1D1F" stroke-width="2"/><path id="scissors-blade" d="M25 75 L 70 20" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/><path d="M75 75 L 30 20" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/></g></svg>`,
+                auto_repair: `<svg viewBox="0 0 100 100" id="auto_repair-logo"><path d="M40 20 L 60 20 L 65 30 L 60 40 L 40 40 L 35 30 Z" fill="#EAEAEA" stroke="#1D1D1F" stroke-width="2"/><rect x="25" y="40" width="50" height="10" rx="2" fill="#6E6E73" stroke="#1D1D1F" stroke-width="2"/><path d="M30 50 L 30 70 Q 50 90 70 70 L 70 50" fill="none" stroke="#1D1D1F" stroke-width="2"/></svg>`,
+                retail: `<svg viewBox="0 0 100 100" id="retail-logo"><path d="M25 20 L 75 20 L 85 80 H 15 Z" fill="#F8F8F6" stroke="#1D1D1F" stroke-width="2"/><text x="50" y="55" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#1D1D1F">Princeton</text><text x="50" y="67" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#1D1D1F">AI Partners</text></svg>`,
+                gym: `<svg viewBox="0 0 100 100" id="gym-logo"><rect x="10" y="40" width="15" height="20" rx="2" fill="#1D1D1F"/><rect x="75" y="40" width="15" height="20" rx="2" fill="#1D1D1F"/><rect x="25" y="45" width="50" height="10" rx="5" fill="#6E6E73"/></svg>`
+            };
+            
+            Object.keys(logos).forEach(key => {
+                logoDisplay.innerHTML += logos[key];
+            });
+
+            const contentData = {
+                cafe: {
+                    promo: [ { text: "Mid-week slump? We've got the cure! ☕ Enjoy 2-for-1 on all espresso drinks today until 2 PM. Tag a friend who needs a coffee break!", hashtags: "#CoffeeSpecial #CafeLife #MidweekMotivation" }, { text: "Happy Hour is the best hour! From 3-5 PM, all pastries are 50% off with the purchase of any large drink. The perfect afternoon treat awaits!", hashtags: "#HappyHour #PastryLove #LocalCafe" } ],
+                    engagement: [ { text: "What's your go-to coffee order? A classic latte, a bold cold brew, or something adventurous? Let us know in the comments below! 👇", hashtags: "#CoffeeLovers #YourFavorite #Community" }, { text: "We're crafting our new seasonal menu! What flavors do you want to see this fall? Pumpkin, apple cinnamon, or something else entirely? 🍂", hashtags: "#SeasonalMenu #FallFlavors #GetCozy" } ],
+                    product: [ { text: "Freshly baked and ready for you! Our new almond croissants are the perfect pairing for your morning brew. 🥐 Come grab one before they're gone!", hashtags: "#Bakery #FreshlyBaked #TreatYourself" }, { text: "Meet our new single-origin roast from Ethiopia! With notes of blueberry and jasmine, it's a truly special cup. Available for a limited time.", hashtags: "#SingleOrigin #CoffeeTasting #SpecialtyCoffee" } ]
+                },
+                restaurant: {
+                    promo: [ { text: "Slice, slice, baby! 🍕 All pizzas are $15 tonight from 5 PM to close. Grab your friends and come on down!", hashtags: "#PizzaNight #RestaurantSpecial #EatLocal" }, { text: "Taco Tuesday is here! Get 3 of our signature tacos for just $10 all day long. 🌮 Which ones will you choose?", hashtags: "#TacoTuesday #FoodDeals #Yummy" } ],
+                    engagement: [ { text: "If you could only eat one of our dishes for the rest of your life, which one would it be? Let us know your absolute favorite in the comments!", hashtags: "#Foodie #FavoriteDish #RestaurantLove" }, { text: "We're thinking of adding a new cocktail to the menu. Should it be something spicy, sweet, or classic? Cast your vote!", hashtags: "#Cocktails #MenuBar #NewDrink" } ],
+                    product: [ { text: "Our chef's new special: Pan-Seared Scallops with a lemon-butter sauce. It's only here for a limited time, so don't miss out!", hashtags: "#ChefsSpecial #FineDining #Seafood" }, { text: "Introducing our weekend brunch! 🍳 Featuring classics like Eggs Benedict and some unique surprises. Saturdays & Sundays, 10 AM - 2 PM.", hashtags: "#Brunch #WeekendVibes #EatAndDrink" } ]
+                },
+                salon: {
+                    promo: [ { text: "Refresh your look for the new season! 💅 Book any color service this week and receive a complimentary deep conditioning treatment. DM us to book!", hashtags: "#HairGoals #SalonSpecial #NewLook" }, { text: "Treat yourself! This month, all 60-minute facials are 20% off. Your skin will thank you. ✨ Book your glow-up today.", hashtags: "#FacialSpecial #Skincare #SpaDay" } ],
+                    engagement: [ { text: "Self-care Sunday inspiration! What's your favorite way to unwind and recharge? A relaxing facial, a fresh manicure, or a brand new hairstyle?", hashtags: "#SelfCare #SpaDay #RelaxAndRecharge" }, { text: "Big hair change: yay or nay? Are you team 'long layers forever' or 'let's chop it all off'? Tell us your dream hairstyle!", hashtags: "#HairInspo #BigChop #SalonTalk" } ],
+                    product: [ { text: "Healthy hair starts here! ✨ Our new line of nourishing hair masks is now in stock. Ask your stylist which one is right for you at your next appointment.", hashtags: "#HealthyHair #HairCare #SalonProducts" }, { text: "Get that salon-fresh look at home. Our best-selling texturizing spray is back in stock! Perfect for creating effortless, beachy waves.", hashtags: "#HairProducts #Styling #BeachyWaves" } ]
+                },
+                auto_repair: {
+                    promo: [ { text: "Don't get stuck in the heat! ☀️ Get 15% off all A/C service and recharges this month. Book your appointment today and stay cool on the road.", hashtags: "#CarAC #AutoRepair #SummerSpecial" }, { text: "Time for a tune-up? Get a full synthetic oil change and tire rotation for a special package price. Keep your car running smoothly!", hashtags: "#OilChange #CarMaintenance #AutoService" } ],
+                    engagement: [ { text: "What's the one car maintenance task you always forget to do? Be honest! Let's help each other remember in the comments.", hashtags: "#CarTips #AutoCare #Mechanic" }, { text: "Dream car time! If you could have any car, what would it be? Classic, modern, truck, or sports car? 🚗", hashtags: "#DreamCar #CarLovers #AutoCommunity" } ],
+                    product: [ { text: "Are your brakes making noise? Don't wait! We offer free brake inspections to ensure your safety on the road. Stop by today!", hashtags: "#BrakeCheck #CarSafety #MechanicLife" }, { text: "New tires can transform your ride. We're now an authorized dealer for top brands. Ask us for a quote!", hashtags: "#NewTires #AutoShop #RideInStyle" } ]
+                },
+                retail: {
+                    promo: [ { text: "New arrivals have landed! ✨ Get 20% off our entire new collection, this weekend only. Perfect for updating your wardrobe!", hashtags: "#NewArrivals #BoutiqueFashion #ShopLocal" }, { text: "It's time for a flash sale! Today only, take an extra 30% off all sale items. Don't walk, run! 🏃‍♀️", hashtags: "#FlashSale #SaleOnSale #BoutiqueFinds" } ],
+                    engagement: [ { text: "Style challenge! How would you style this classic denim jacket? With a dress, jeans, or something totally unique? Show us your looks!", hashtags: "#StyleInspo #OOTD #FashionCommunity" }, { text: "We're curating our next collection. What trend are you most excited about for the upcoming season? Let us know what you want to see in the shop!", hashtags: "#FashionTrends #BuyerPicks #BoutiqueStyle" } ],
+                    product: [ { text: "The perfect everyday tote has arrived. 👜 Made with vegan leather and designed to carry all your essentials in style. Available in three classic colors!", hashtags: "#MustHave #AccessoryOfTheDay #ToteBag" }, { text: "Just in: these stunning, locally made ceramic mugs. The perfect gift for a friend (or for yourself!). Limited quantities available.", hashtags: "#Handmade #ShopLocal #GiftIdeas" } ]
+                },
+                gym: {
+                    promo: [ { text: "Bring a friend, get a month free! 💪 For the rest of this month, when your friend signs up for a membership, you'll get your next month on us. Tag your workout buddy!", hashtags: "#FitnessGoals #WorkoutBuddy #GymSpecial" }, { text: "Ready to commit? Sign up for a 1-year membership and get two months completely free. Invest in your health today!", hashtags: "#GymMembership #FitnessJourney #NewYearNewYou" } ],
+                    engagement: [ { text: "What's your favorite workout song right now? 🎧 We're updating our gym playlist and need your top tracks to get us all pumped up!", hashtags: "#WorkoutMusic #GymVibes #FitnessMotivation" }, { text: "Member spotlight! We're so proud of our community. Tag a fellow member who inspires you and tell us why! 👇", hashtags: "#GymCommunity #MemberLove #FitFam" } ],
+                    product: [ { text: "Ready to take your training to the next level? Our new High-Intensity Interval Training (HIIT) class launches next week. Sign up at the front desk!", hashtags: "#HIIT #GroupFitness #NewClass" }, { text: "Fuel your workout the right way. We're now stocking delicious, high-protein smoothies at the front desk. The perfect post-workout recovery!", hashtags: "#ProteinShake #PostWorkout #HealthyEating" } ]
+                }
+            };
+            
+            let lastGeneratedIndex = -1;
+
+            function updateActiveLogo() {
+                const selectedType = businessTypeSelect.value;
+                const allLogos = logoDisplay.querySelectorAll('svg');
+                allLogos.forEach(logo => {
+                    logo.classList.toggle('active', logo.id === `${selectedType}-logo`);
+                });
+            }
+
+            function generateContent() {
+                if (initialPlaceholder.style.display !== 'none') {
+                    initialPlaceholder.style.display = 'none';
+                    generatedContentContainer.style.display = 'block';
+                }
+
+                const businessType = businessTypeSelect.value;
+                const postGoal = document.getElementById('post-goal').value;
+                
+                const options = contentData[businessType][postGoal];
+                let randomIndex = Math.floor(Math.random() * options.length);
+
+                if (options.length > 1 && randomIndex === lastGeneratedIndex) {
+                    randomIndex = (randomIndex + 1) % options.length;
+                }
+                lastGeneratedIndex = randomIndex;
+                
+                const content = options[randomIndex];
+
+                postTextEl.style.opacity = 0;
+                
+                setTimeout(() => {
+                    postTextEl.textContent = content.text;
+                    postHashtagsEl.textContent = content.hashtags;
+                    postTextEl.style.opacity = 1;
+                }, 300);
+
+                updateActiveLogo();
+            }
+            
+            businessTypeSelect.addEventListener('change', generateContent);
+            generateBtn.addEventListener('click', generateContent);
+            
+        });
+    </script>
+</body>
+</html>
