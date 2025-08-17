@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Loyalty Platform - Princeton AI Partners</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. Root Variables & Global Styles (Matched to your existing site) --- */
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --accent-color-end: #0060CE;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --success-color: #34C759;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        
+        /* --- Background Mouse Glow --- */
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- 2. Header & Navigation (Placeholder for integration) --- */
+        #main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        #main-header.scrolled {
+            background-color: rgba(248, 248, 246, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        #main-header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 68px;
+        }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .header-cta {
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* --- 3. Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: 68px; /* Offset for fixed header */
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+        }
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: 1.3rem;
+            color: var(--secondary-text-color);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+        .main-cta {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+        }
+        .main-cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- 4. General Section Styling --- */
+        .content-section {
+            padding: 120px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--secondary-text-color);
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 5. "How It Works" Detailed Steps Section --- */
+        #how-it-works-detailed {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .detailed-steps-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            align-items: stretch;
+        }
+        .detailed-step-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .detailed-step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.07);
+        }
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 4px solid var(--card-bg-color);
+        }
+        .step-content {
+            flex-grow: 1;
+        }
+        .detailed-step-card .icon {
+            font-size: 3rem;
+            color: var(--accent-color-start);
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .detailed-step-card:hover .icon {
+            transform: scale(1.1);
+        }
+        .detailed-step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .detailed-step-card p {
+            color: var(--secondary-text-color);
+            font-size: 0.95rem;
+        }
+        .customizable-badge {
+            display: inline-block;
+            background-color: #eaf5ff;
+            color: var(--accent-color-end);
+            padding: 0.25rem 0.75rem;
+            border-radius: 980px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1.5rem;
+        }
+
+        /* --- Unique Step Interactions --- */
+        .detailed-step-card:hover .fa-clipboard-list { transform: scale(1.1) rotate(-5deg); }
+        
+        .fa-tablet-alt::after {
+            content: '';
+            position: absolute;
+            top: 12%; left: 15%;
+            width: 70%; height: 76%;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .detailed-step-card:hover .fa-tablet-alt::after { opacity: 0.3; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(10, 132, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(10, 132, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(10, 132, 255, 0); }
+        }
+        .detailed-step-card:hover .fa-database { animation: pulse 1.5s infinite; }
+        
+        .fa-comment-dots .bubble {
+            position: absolute;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        .detailed-step-card:hover .fa-comment-dots .bubble:nth-child(1) { animation: bubble-up 1.2s infinite 0s; }
+        .detailed-step-card:hover .fa-comment-dots .bubble:nth-child(2) { animation: bubble-up 1.2s infinite 0.3s; }
+
+        @keyframes bubble-up {
+            0% { transform: translate(-20px, 10px) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(-40px, -40px) scale(1); opacity: 0; }
+        }
+        
+        /* --- 6. Tiers Section --- */
+        #tiers {
+            position: relative;
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            overflow: hidden; /* Keep the glow contained */
+        }
+        
+        /* ENHANCED: Decorative background for tiers section with animation */
+        #tiers::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.05), transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(0, 96, 206, 0.05), transparent 30%);
+            z-index: 0;
+            background-size: 200% 200%;
+            animation: subtle-glow 20s infinite ease-in-out;
+        }
+        
+        @keyframes subtle-glow {
+            0% { background-position: 10% 20%, 90% 80%; }
+            50% { background-position: 90% 20%, 10% 80%; }
+            100% { background-position: 10% 20%, 90% 80%; }
+        }
+
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: stretch;
+            position: relative;
+            z-index: 1;
+        }
+        .tier-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .tier-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color-start);
+        }
+        .tier-header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .tier-icon {
+            font-size: 2rem;
+            color: var(--accent-color-start);
+            margin-bottom: 1rem;
+        }
+        .tier-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .tier-tagline {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+            margin-top: 0.25rem;
+        }
+        .tier-features {
+            list-style: none;
+            flex-grow: 1;
+            padding: 0;
+        }
+        .tier-features li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .tier-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--success-color);
+        }
+        .feature-plus {
+            font-weight: 600;
+            color: var(--primary-text-color);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* --- 7. Benefits Section --- */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        .benefit-icon {
+            font-size: 2rem;
+            color: var(--accent-color-start);
+            background-color: #eaf5ff;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .benefit-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+        .benefit-content p {
+            color: var(--secondary-text-color);
+        }
+
+        /* --- 8. Final CTA Section --- */
+        #footer-cta {
+            background: var(--accent-gradient);
+            color: white;
+            text-align: center;
+        }
+        #footer-cta .section-title, #footer-cta .section-subtitle {
+            color: white;
+        }
+        .footer-cta-button {
+            display: inline-block;
+            background: var(--card-bg-color);
+            color: var(--accent-color-start);
+            padding: 1rem 2.5rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        .footer-cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        /* --- 9. Responsive Design --- */
+        @media (max-width: 992px) {
+            .tiers-grid {
+                grid-template-columns: 1fr;
+            }
+             .detailed-steps-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .section-title { font-size: 2.2rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .detailed-steps-container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mouse Glow -->
+    <div class="mouse-blur"></div>
+
+    <!-- Header (This would be the same as your other pages) -->
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <a href="contact.html" class="header-cta">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section id="hero">
+            <canvas id="hero-canvas"></canvas>
+            <div class="hero-content">
+                <h1>Turn Casual Visitors into Loyal Fans, Automatically.</h1>
+                <p class="subtitle">Our AI-powered loyalty platform works 24/7 to increase customer retention, boost spending, and drive real growth for your business—all on autopilot.</p>
+                <a href="#benefits" class="main-cta">See The Benefits</a>
+            </div>
+        </section>
+
+        <!-- Section 2: "How It Works" Detailed Steps -->
+        <section id="how-it-works-detailed" class="content-section">
+            <div class="container">
+                 <h2 class="section-title animate-on-scroll">Our Collaborative 4-Step Process</h2>
+                 <p class="section-subtitle animate-on-scroll">We partner with you to build a powerful, continuous growth cycle that's perfectly tailored to your business and your customers.</p>
+                <div class="detailed-steps-container">
+                    <!-- Step 1 -->
+                    <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                            <h3>Discovery & Strategy</h3>
+                            <p>We learn your business, define your goals, and design the perfect reward structure and messaging to match your brand's unique voice.</p>
+                        </div>
+                        <div class="customizable-badge">Tailored For You</div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="icon"><i class="fas fa-tablet-alt"></i></div>
+                            <h3>Customer Check-in</h3>
+                            <p>A customer enters their phone number at your tablet or POS. You decide what info to collect—name, birthday, email—it's up to you.</p>
+                        </div>
+                        <div class="customizable-badge">Fully Customizable</div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="icon"><i class="fas fa-database"></i></div>
+                            <h3>Secure Data & Logging</h3>
+                            <p>We instantly create a secure profile for the customer, log their visit, and store it in a database that you have 24/7 access to.</p>
+                        </div>
+                        <div class="customizable-badge">You Own The Data</div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="icon">
+                                <i class="fas fa-comment-dots">
+                                    <span class="bubble" style="width: 10px; height: 10px;"></span>
+                                    <span class="bubble" style="width: 6px; height: 6px;"></span>
+                                </i>
+                            </div>
+                            <h3>Automated Messaging</h3>
+                            <p>The system immediately sends a welcome text or a progress update towards their next reward. The message is 100% yours to write.</p>
+                        </div>
+                        <div class="customizable-badge">Personalize Your Brand</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Benefits Grid -->
+        <section id="benefits" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">An Engine for Growth, For Any Business</h2>
+                <p class="section-subtitle animate-on-scroll">Whether you run a salon, a cafe, or a retail shop, our platform is designed to deliver tangible results.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                        <div class="benefit-content">
+                            <h3>Increase Foot Traffic</h3>
+                            <p>Drive new and repeat business with timely, automated promotions that bring customers through the door.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="benefit-icon"><i class="fas fa-sync-alt"></i></div>
+                        <div class="benefit-content">
+                            <h3>Boost Customer Retention</h3>
+                            <p>Turn one-time buyers into regulars by making them feel valued. Loyal customers spend 67% more than new ones.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="benefit-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="benefit-content">
+                            <h3>Gain Deeper Insights</h3>
+                            <p>Understand who your best customers are and what they buy with easy-to-read data dashboards.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="benefit-icon"><i class="fas fa-robot"></i></div>
+                        <div class="benefit-content">
+                            <h3>Effortless Marketing</h3>
+                            <p>Put your marketing on autopilot. Our AI acts as your 24/7 marketing assistant, even while you sleep.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.5s;">
+                        <div class="benefit-icon"><i class="fas fa-star"></i></div>
+                        <div class="benefit-content">
+                            <h3>Enhance Your Reputation</h3>
+                            <p>Automatically encourage your happiest customers to leave glowing Google reviews and boost your online rating.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="benefit-icon"><i class="fas fa-clock"></i></div>
+                        <div class="benefit-content">
+                            <h3>Save Valuable Time</h3>
+                            <p>Focus on running your business while our system works in the background to grow it for you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 4: Tiers -->
+        <section id="tiers" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Find Your Perfect Fit</h2>
+                <p class="section-subtitle animate-on-scroll">Three powerful tiers, all designed to help your business grow. No complex pricing, just clear value.</p>
+                <div class="tiers-grid">
+                    <!-- Tier 1: Basic -->
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-layer-group"></i></div>
+                            <h3 class="tier-title">Basic</h3>
+                            <p class="tier-tagline">Get Started with Loyalty</p>
+                        </div>
+                        <ul class="tier-features">
+                            <li><strong>Customer Data Collection:</strong> Securely gather contact info and visit history.</li>
+                            <li><strong>Data Visualization:</strong> See your growth with an easy-to-use dashboard.</li>
+                            <li><strong>Return Rewards:</strong> Automatically reward customers for repeat visits (e.g., "Your 5th coffee is free!").</li>
+                        </ul>
+                    </div>
+                    <!-- Tier 2: Pro -->
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-bolt-lightning"></i></div>
+                            <h3 class="tier-title">Pro</h3>
+                            <p class="tier-tagline">Automate Your Marketing</p>
+                        </div>
+                        <ul class="tier-features">
+                            <li class="feature-plus">Everything in Basic, plus:</li>
+                            <li><strong>Smart Holiday Coupons:</strong> Automatically send personalized offers for holidays like July 4th or Valentine's Day to drive traffic.</li>
+                        </ul>
+                    </div>
+                    <!-- Tier 3: Max -->
+                    <div class="tier-card animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="tier-header">
+                            <div class="tier-icon"><i class="fas fa-sitemap"></i></div>
+                            <h3 class="tier-title">Max</h3>
+                            <p class="tier-tagline">Maximize Your ROI</p>
+                        </div>
+                        <ul class="tier-features">
+                            <li class="feature-plus">Everything in Pro, plus:</li>
+                            <li><strong>Customized Smart Drops:</strong> Send targeted offers based on individual spending habits.</li>
+                            <li><strong>Google Review Reminders:</strong> Automatically ask your best customers to leave a 5-star review.</li>
+                            <li><strong>New Feature Updates:</strong> Get early access to all our latest platform improvements.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Final CTA -->
+        <section id="footer-cta" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Ready to See It in Action?</h2>
+                <p class="section-subtitle animate-on-scroll">Schedule a free, no-obligation demo to see how the Automated Loyalty Platform can transform your business.</p>
+                <a href="contact.html" class="footer-cta-button animate-on-scroll" style="transition-delay: 0.2s;">Book a Free Demo</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // --- Mouse Glow Effect ---
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+
+            // --- Intersection Observer for Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Hero Canvas Animation ---
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            let particles = [];
+            const particleCount = window.innerWidth < 768 ? 50 : 100;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = Math.random() * 0.6 - 0.3;
+                    this.vy = Math.random() * 0.6 - 0.3;
+                    this.radius = Math.random() * 2 + 1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(10, 132, 255, 0.5)';
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                for (const p of particles) {
+                    p.update();
+                    p.draw();
+                }
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                particles = [];
+                init();
+            });
+
+            init();
+            animate();
+        });
+    </script>
+</body>
+</html>
