@@ -290,12 +290,10 @@
         }
 
         /* --- 7. Final CTA Section --- */
-        /* UPDATED: Removed background and adjusted text colors */
         #footer-cta {
             text-align: center;
         }
         .footer-cta-button {
-            /* UPDATED: Swapped to gradient background for primary CTA look */
             display: inline-block; 
             background: var(--accent-gradient); 
             color: white;
@@ -313,11 +311,27 @@
         
         /* --- 8. Responsive Design --- */
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.8rem; }
+            .content-section { padding: 100px 0; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content .subtitle { font-size: 1.1rem; }
             .section-title { font-size: 2.2rem; }
-            .steps-diagram { flex-direction: column; gap: 3rem; }
+            .section-subtitle { font-size: 1.1rem; margin-bottom: 3rem; }
+            
+            #interactive-zone { padding: 100px 0; }
+            #how-it-works { padding-bottom: 100px; }
+            .steps-diagram { flex-direction: column; gap: 4rem; }
             .connector { display: none; }
-            .interactive-card { width: 100%; height: auto; }
+            
+            .interactive-card { 
+                width: 100%; 
+                height: auto; 
+                padding: 2rem;
+                padding-bottom: 2.5rem;
+            }
+            .card-title { font-size: 1.5rem; }
+            .card-description { min-height: 80px; }
+
+            .use-case-card { padding: 2rem; }
         }
     </style>
 </head>
