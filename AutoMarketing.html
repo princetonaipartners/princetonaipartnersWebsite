@@ -110,16 +110,20 @@
         }
         .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
-        /* --- 5. Interactive Content Generator --- */
-        #content-generator {
+        /* --- 5. Content Strategy Visualizer --- */
+        #strategy-visualizer {
             background-color: var(--card-bg-color);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
-        .generator-container {
-            display: flex; align-items: center; gap: 4rem;
+        .visualizer-container {
+            display: flex;
+            gap: 4rem;
+            align-items: flex-start;
         }
-        .generator-controls { flex: 1; }
+        .visualizer-controls {
+            flex: 0 0 280px;
+        }
         .control-group { margin-bottom: 1.5rem; }
         .control-group label {
             display: block; font-weight: 600; margin-bottom: 0.5rem;
@@ -133,114 +137,60 @@
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
         }
-        .generator-button {
-            display: block;
-            width: auto;
-            margin: 2.5rem auto 0;
-            background: none;
-            border: 2px solid var(--accent-color-start);
-            color: var(--accent-color-start);
-            font-size: 1.2rem;
-            font-weight: 600;
-            padding: 0.75rem 2rem;
-            border-radius: 980px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .generator-button:hover {
-            background: var(--accent-color-start);
-            color: white;
-        }
-        .generator-output {
-            flex: 1.2; 
-            background: var(--card-bg-color); 
+        .visualizer-display {
+            flex: 1;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-            min-height: 350px;
+        }
+        .week-timeline {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .day-container {
+            flex: 1;
             text-align: center;
         }
-        .initial-placeholder .icon {
-            font-size: 3rem;
-            color: var(--border-color);
+        .day-label {
+            font-weight: 600;
             margin-bottom: 1rem;
-        }
-        .initial-placeholder .text {
-            font-size: 1.1rem;
             color: var(--secondary-text-color);
-            font-weight: 500;
         }
-        .generated-content {
-            display: none; /* Hidden by default */
+        .post-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            min-height: 180px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .logo-display {
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: var(--accent-color-start);
         }
-        .logo-display svg {
-            width: 100px;
-            height: 100px;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .post-card .icon {
+            font-size: 1.8rem;
+            color: var(--accent-color-start);
+            margin-bottom: 0.75rem;
+            transition: transform 0.3s ease;
         }
-        .logo-display svg.active {
-            display: block;
-            opacity: 1;
+        .post-card:hover .icon {
+            transform: scale(1.15);
         }
-        .post-text { 
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-        .post-text p { transition: opacity 0.5s ease; }
-        .post-hashtags {
-            margin-top: 1.5rem; font-weight: 500;
+        .post-card .type {
+            font-weight: 600;
             font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
-        .post-hashtags span {
-            background: var(--accent-gradient);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-        /* SVG Animation Styles */
-        #coffee-steam path {
-            stroke-dasharray: 20;
-            stroke-dashoffset: 20;
-            animation: steam-anim 2s infinite linear;
-        }
-        #coffee-steam path:nth-child(2) { animation-delay: 0.5s; }
-        #coffee-steam path:nth-child(3) { animation-delay: 1s; }
-        @keyframes steam-anim {
-            0% { stroke-dashoffset: 20; opacity: 1; }
-            50% { stroke-dashoffset: 10; opacity: 1; }
-            100% { stroke-dashoffset: 0; opacity: 0; }
-        }
-        #pizza-steam path {
-            stroke-dasharray: 15;
-            stroke-dashoffset: 15;
-            animation: steam-anim 1.8s infinite linear;
-        }
-        #pizza-steam path:nth-child(2) { animation-delay: 0.6s; }
-        #pizza-steam path:nth-child(3) { animation-delay: 1.2s; }
-        #scissors-blade {
-            animation: snip 2.5s infinite ease-in-out;
-            transform-origin: 25px 75px;
-        }
-        @keyframes snip {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-20deg); }
+        .post-card .topic {
+            font-size: 0.85rem;
+            color: var(--secondary-text-color);
+            line-height: 1.4;
         }
 
         /* --- 6. Tiers & Benefits Sections (Shared Styles) --- */
@@ -302,12 +252,14 @@
         /* --- 8. Responsive Design --- */
         @media (max-width: 992px) {
             .tiers-grid { grid-template-columns: 1fr; }
-            .generator-container { flex-direction: column; }
+            .visualizer-container { flex-direction: column; align-items: stretch; }
+            .visualizer-controls { flex: 0 0 auto; }
         }
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.8rem; }
             .section-title { font-size: 2.2rem; }
             .benefits-grid { grid-template-columns: 1fr; }
+            .week-timeline { flex-direction: column; gap: 1.5rem; }
         }
     </style>
 </head>
@@ -327,19 +279,19 @@
             <div class="hero-content">
                 <h1>Your Brand Voice, Amplified by AI</h1>
                 <p class="subtitle">We work with you to define your message, then use AI to automate its delivery and enhance its impact, keeping you connected with your customers.</p>
-                <a href="#content-generator" class="main-cta">See it in Action</a>
+                <a href="#strategy-visualizer" class="main-cta">See The Strategy</a>
             </div>
         </section>
 
-        <!-- Section 2: Interactive Content Generator -->
-        <section id="content-generator" class="content-section">
+        <!-- Section 2: Interactive Content Strategy Visualizer -->
+        <section id="strategy-visualizer" class="content-section">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">Generate a Post in Seconds</h2>
-                <p class="section-subtitle animate-on-scroll">This is how we turn your goals into great content. We define your strategy, then our AI gets to work. See a simplified version below.</p>
-                <div class="generator-container">
-                    <div class="generator-controls animate-on-scroll" style="transition-delay: 0.2s;">
+                <h2 class="section-title animate-on-scroll">Visualize Your Content Strategy</h2>
+                <p class="section-subtitle animate-on-scroll">Our service is more than just posts—it's a planned content calendar designed to achieve your goals. Select your business type to see a sample week of AI-powered content.</p>
+                <div class="visualizer-container">
+                    <div class="visualizer-controls animate-on-scroll" style="transition-delay: 0.2s;">
                         <div class="control-group">
-                            <label for="business-type">What's your business type?</label>
+                            <label for="business-type">Select Your Business Type</label>
                             <select id="business-type">
                                 <option value="cafe">Cafe / Coffee Shop</option>
                                 <option value="restaurant">Restaurant / Bar</option>
@@ -349,31 +301,10 @@
                                 <option value="gym">Gym / Fitness Studio</option>
                             </select>
                         </div>
-                        <div class="control-group">
-                            <label for="post-goal">What's the goal of this post?</label>
-                            <select id="post-goal">
-                                <option value="promo">Promote a Special Offer</option>
-                                <option value="engagement">Community Engagement</option>
-                                <option value="product">Highlight a Product/Service</option>
-                            </select>
-                        </div>
-                        <button id="generate-btn" class="generator-button">Generate AI Content</button>
                     </div>
-                    <div class="generator-output animate-on-scroll" style="transition-delay: 0.4s;">
-                        <div class="initial-placeholder">
-                            <div class="icon"><i class="fas fa-magic-sparkles"></i></div>
-                            <p class="text">You can customize the content!</p>
-                        </div>
-                        <div class="generated-content">
-                            <div class="logo-display" id="logo-display">
-                                <!-- SVGs will be injected here by JavaScript -->
-                            </div>
-                            <div class="post-text">
-                                <p id="post-text-content"></p>
-                            </div>
-                            <div id="post-hashtags" class="post-hashtags">
-                                <span></span>
-                            </div>
+                    <div class="visualizer-display animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="week-timeline" id="week-timeline">
+                            <!-- Day cards will be injected here by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -457,9 +388,9 @@
                         </div>
                         <ul class="tier-features">
                              <li class="feature-plus">A true partnership package:</li>
-                            <li><strong>Bespoke Content Strategy</strong> tailored to your growth goals</li>
+                            <li><strong>Custom Content Strategy</strong> tailored to your growth goals</li>
                             <li><strong>Custom Number of Posts</strong>, Blogs, and Newsletters</li>
-                            <li>Management of Ad Campaigns</li>
+                            <li><strong>AI-Powered Ad Campaigns</strong></li>
                             <li><strong>Ongoing Strategic Support</strong></li>
                         </ul>
                     </div>
@@ -502,104 +433,80 @@
             }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
             document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-            // --- Interactive Content Generator Logic ---
-            const generateBtn = document.getElementById('generate-btn');
+            // --- Interactive Strategy Visualizer Logic ---
             const businessTypeSelect = document.getElementById('business-type');
-            const postTextEl = document.getElementById('post-text-content');
-            const postHashtagsEl = document.querySelector('#post-hashtags span');
-            const logoDisplay = document.getElementById('logo-display');
-            const initialPlaceholder = document.querySelector('.initial-placeholder');
-            const generatedContentContainer = document.querySelector('.generated-content');
+            const timelineContainer = document.getElementById('week-timeline');
 
-            const logos = {
-                cafe: `<svg viewBox="0 0 100 100" id="cafe-logo"><g id="coffee-steam" fill="none" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"><path d="M40 30 Q 45 20 50 30" /><path d="M50 30 Q 55 20 60 30" /><path d="M60 30 Q 65 20 70 30" /></g><path d="M20 40 H 80 Q 85 40 85 45 V 75 Q 85 80 80 80 H 20 Q 15 80 15 75 V 45 Q 15 40 20 40 Z" fill="#F8F8F6" stroke="#1D1D1F" stroke-width="2" /><path d="M80 50 H 85 Q 90 50 90 55 V 65 Q 90 70 85 70 H 80" fill="none" stroke="#1D1D1F" stroke-width="2" /></svg>`,
-                restaurant: `<svg viewBox="0 0 100 100" id="restaurant-logo"><g id="pizza-steam" fill="none" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"><path d="M40 25 Q 43 15 46 25" /><path d="M50 25 Q 53 15 56 25" /><path d="M60 25 Q 63 15 66 25" /></g><path d="M20 70 L 50 30 L 80 70 Q 50 90 20 70 Z" fill="#ffcc80" stroke="#1D1D1F" stroke-width="2"/><circle cx="40" cy="55" r="5" fill="#c0392b"/><circle cx="60" cy="55" r="5" fill="#c0392b"/><circle cx="50" cy="45" r="5" fill="#c0392b"/></svg>`,
-                salon: `<svg viewBox="0 0 100 100" id="salon-logo"><g transform="rotate(20 50 50)"><circle cx="35" cy="75" r="8" fill="none" stroke="#1D1D1F" stroke-width="2"/><circle cx="65" cy="75" r="8" fill="none" stroke="#1D1D1F" stroke-width="2"/><path id="scissors-blade" d="M25 75 L 70 20" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/><path d="M75 75 L 30 20" stroke="#1D1D1F" stroke-width="2" stroke-linecap="round"/></g></svg>`,
-                auto_repair: `<svg viewBox="0 0 100 100" id="auto_repair-logo"><path d="M40 20 L 60 20 L 65 30 L 60 40 L 40 40 L 35 30 Z" fill="#EAEAEA" stroke="#1D1D1F" stroke-width="2"/><rect x="25" y="40" width="50" height="10" rx="2" fill="#6E6E73" stroke="#1D1D1F" stroke-width="2"/><path d="M30 50 L 30 70 Q 50 90 70 70 L 70 50" fill="none" stroke="#1D1D1F" stroke-width="2"/></svg>`,
-                retail: `<svg viewBox="0 0 100 100" id="retail-logo"><path d="M25 20 L 75 20 L 85 80 H 15 Z" fill="#F8F8F6" stroke="#1D1D1F" stroke-width="2"/><text x="50" y="55" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#1D1D1F">Princeton</text><text x="50" y="67" font-family="Inter, sans-serif" font-size="9" font-weight="600" text-anchor="middle" fill="#1D1D1F">AI Partners</text></svg>`,
-                gym: `<svg viewBox="0 0 100 100" id="gym-logo"><rect x="10" y="40" width="15" height="20" rx="2" fill="#1D1D1F"/><rect x="75" y="40" width="15" height="20" rx="2" fill="#1D1D1F"/><rect x="25" y="45" width="50" height="10" rx="5" fill="#6E6E73"/></svg>`
+            const strategyData = {
+                cafe: [
+                    { day: 'Mon', type: 'Engagement', topic: 'Meet the Barista Monday!', icon: 'fa-mug-hot' },
+                    { day: 'Tue', type: 'Product', topic: 'New Single-Origin Roast', icon: 'fa-leaf' },
+                    { day: 'Wed', type: 'Promotion', topic: '2-for-1 Espresso Drinks', icon: 'fa-tags' },
+                    { day: 'Thu', type: 'Behind the Scenes', topic: 'Morning Pastry Baking', icon: 'fa-camera' },
+                    { day: 'Fri', type: 'Community', topic: 'Weekend Vibes & Latte Art', icon: 'fa-users' }
+                ],
+                restaurant: [
+                    { day: 'Mon', type: 'Special', topic: 'Margarita Monday Deals', icon: 'fa-martini-glass-citrus' },
+                    { day: 'Tue', type: 'Promotion', topic: 'Taco Tuesday Feature', icon: 'fa-pepper-hot' },
+                    { day: 'Wed', type: 'Behind the Scenes', topic: 'Chef Prepping Fresh Ingredients', icon: 'fa-utensils' },
+                    { day: 'Thu', type: 'Engagement', topic: 'Vote on Our Next Cocktail!', icon: 'fa-cocktail' },
+                    { day: 'Fri', type: 'Community', topic: 'Friday Night at the Bar', icon: 'fa-users' }
+                ],
+                salon: [
+                    { day: 'Mon', type: 'Tip Tuesday', topic: 'Hair Care Tip of the Week', icon: 'fa-lightbulb' },
+                    { day: 'Wed', type: 'Promotion', topic: 'Mid-Week Mani/Pedi Special', icon: 'fa-tags' },
+                    { day: 'Fri', type: 'Transformation', topic: 'Stunning Before & After', icon: 'fa-wand-magic-sparkles' },
+                    { day: 'Sat', type: 'Product', topic: 'Spotlight on Our Favorite Serum', icon: 'fa-bottle-droplet' },
+                    { day: 'Sun', type: 'Engagement', topic: 'Self-Care Sunday Inspiration', icon: 'fa-spa' }
+                ],
+                auto_repair: [
+                    { day: 'Mon', type: 'Tip', topic: 'Check Your Tire Pressure', icon: 'fa-car-burst' },
+                    { day: 'Tue', type: 'Promotion', topic: 'Oil Change Tuesday Discount', icon: 'fa-tags' },
+                    { day: 'Wed', type: 'Behind the Scenes', topic: 'A Look Inside the Garage', icon: 'fa-wrench' },
+                    { day: 'Thu', type: 'Educational', topic: 'What That Dashboard Light Means', icon: 'fa-lightbulb' },
+                    { day: 'Fri', type: 'Safety', topic: 'Get Ready for Weekend Road Trips', icon: 'fa-road' }
+                ],
+                retail: [
+                    { day: 'Mon', type: 'New Arrivals', topic: 'Just In: The Perfect Fall Sweater', icon: 'fa-tshirt' },
+                    { day: 'Wed', type: 'Style Tip', topic: 'How to Style a Classic Blazer', icon: 'fa-lightbulb' },
+                    { day: 'Thu', type: 'Promotion', topic: 'Flash Sale on Accessories', icon: 'fa-tags' },
+                    { day: 'Fri', type: 'Community', topic: 'Show Us Your #OOTD', icon: 'fa-camera-retro' },
+                    { day: 'Sat', type: 'Behind the Scenes', topic: 'Unboxing New Inventory', icon: 'fa-box-open' }
+                ],
+                gym: [
+                    { day: 'Mon', type: 'Motivation', topic: 'Monday Motivation Quote', icon: 'fa-fist-raised' },
+                    { day: 'Tue', type: 'Workout Tip', topic: 'Proper Squat Form', icon: 'fa-dumbbell' },
+                    { day: 'Wed', type: 'Promotion', topic: 'Bring a Friend for Free', icon: 'fa-tags' },
+                    { day: 'Thu', type: 'Class Spotlight', topic: 'Join Our HIIT Class!', icon: 'fa-fire' },
+                    { day: 'Fri', type: 'Member Spotlight', topic: 'Celebrating a Member\'s Progress', icon: 'fa-star' }
+                ]
             };
-            
-            Object.keys(logos).forEach(key => {
-                logoDisplay.innerHTML += logos[key];
-            });
 
-            const contentData = {
-                cafe: {
-                    promo: [ { text: "Mid-week slump? We've got the cure! ☕ Enjoy 2-for-1 on all espresso drinks today until 2 PM. Tag a friend who needs a coffee break!", hashtags: "#CoffeeSpecial #CafeLife #MidweekMotivation" }, { text: "Happy Hour is the best hour! From 3-5 PM, all pastries are 50% off with the purchase of any large drink. The perfect afternoon treat awaits!", hashtags: "#HappyHour #PastryLove #LocalCafe" } ],
-                    engagement: [ { text: "What's your go-to coffee order? A classic latte, a bold cold brew, or something adventurous? Let us know in the comments below! 👇", hashtags: "#CoffeeLovers #YourFavorite #Community" }, { text: "We're crafting our new seasonal menu! What flavors do you want to see this fall? Pumpkin, apple cinnamon, or something else entirely? 🍂", hashtags: "#SeasonalMenu #FallFlavors #GetCozy" } ],
-                    product: [ { text: "Freshly baked and ready for you! Our new almond croissants are the perfect pairing for your morning brew. 🥐 Come grab one before they're gone!", hashtags: "#Bakery #FreshlyBaked #TreatYourself" }, { text: "Meet our new single-origin roast from Ethiopia! With notes of blueberry and jasmine, it's a truly special cup. Available for a limited time.", hashtags: "#SingleOrigin #CoffeeTasting #SpecialtyCoffee" } ]
-                },
-                restaurant: {
-                    promo: [ { text: "Slice, slice, baby! 🍕 All pizzas are $15 tonight from 5 PM to close. Grab your friends and come on down!", hashtags: "#PizzaNight #RestaurantSpecial #EatLocal" }, { text: "Taco Tuesday is here! Get 3 of our signature tacos for just $10 all day long. 🌮 Which ones will you choose?", hashtags: "#TacoTuesday #FoodDeals #Yummy" } ],
-                    engagement: [ { text: "If you could only eat one of our dishes for the rest of your life, which one would it be? Let us know your absolute favorite in the comments!", hashtags: "#Foodie #FavoriteDish #RestaurantLove" }, { text: "We're thinking of adding a new cocktail to the menu. Should it be something spicy, sweet, or classic? Cast your vote!", hashtags: "#Cocktails #MenuBar #NewDrink" } ],
-                    product: [ { text: "Our chef's new special: Pan-Seared Scallops with a lemon-butter sauce. It's only here for a limited time, so don't miss out!", hashtags: "#ChefsSpecial #FineDining #Seafood" }, { text: "Introducing our weekend brunch! 🍳 Featuring classics like Eggs Benedict and some unique surprises. Saturdays & Sundays, 10 AM - 2 PM.", hashtags: "#Brunch #WeekendVibes #EatAndDrink" } ]
-                },
-                salon: {
-                    promo: [ { text: "Refresh your look for the new season! 💅 Book any color service this week and receive a complimentary deep conditioning treatment. DM us to book!", hashtags: "#HairGoals #SalonSpecial #NewLook" }, { text: "Treat yourself! This month, all 60-minute facials are 20% off. Your skin will thank you. ✨ Book your glow-up today.", hashtags: "#FacialSpecial #Skincare #SpaDay" } ],
-                    engagement: [ { text: "Self-care Sunday inspiration! What's your favorite way to unwind and recharge? A relaxing facial, a fresh manicure, or a brand new hairstyle?", hashtags: "#SelfCare #SpaDay #RelaxAndRecharge" }, { text: "Big hair change: yay or nay? Are you team 'long layers forever' or 'let's chop it all off'? Tell us your dream hairstyle!", hashtags: "#HairInspo #BigChop #SalonTalk" } ],
-                    product: [ { text: "Healthy hair starts here! ✨ Our new line of nourishing hair masks is now in stock. Ask your stylist which one is right for you at your next appointment.", hashtags: "#HealthyHair #HairCare #SalonProducts" }, { text: "Get that salon-fresh look at home. Our best-selling texturizing spray is back in stock! Perfect for creating effortless, beachy waves.", hashtags: "#HairProducts #Styling #BeachyWaves" } ]
-                },
-                auto_repair: {
-                    promo: [ { text: "Don't get stuck in the heat! ☀️ Get 15% off all A/C service and recharges this month. Book your appointment today and stay cool on the road.", hashtags: "#CarAC #AutoRepair #SummerSpecial" }, { text: "Time for a tune-up? Get a full synthetic oil change and tire rotation for a special package price. Keep your car running smoothly!", hashtags: "#OilChange #CarMaintenance #AutoService" } ],
-                    engagement: [ { text: "What's the one car maintenance task you always forget to do? Be honest! Let's help each other remember in the comments.", hashtags: "#CarTips #AutoCare #Mechanic" }, { text: "Dream car time! If you could have any car, what would it be? Classic, modern, truck, or sports car? 🚗", hashtags: "#DreamCar #CarLovers #AutoCommunity" } ],
-                    product: [ { text: "Are your brakes making noise? Don't wait! We offer free brake inspections to ensure your safety on the road. Stop by today!", hashtags: "#BrakeCheck #CarSafety #MechanicLife" }, { text: "New tires can transform your ride. We're now an authorized dealer for top brands. Ask us for a quote!", hashtags: "#NewTires #AutoShop #RideInStyle" } ]
-                },
-                retail: {
-                    promo: [ { text: "New arrivals have landed! ✨ Get 20% off our entire new collection, this weekend only. Perfect for updating your wardrobe!", hashtags: "#NewArrivals #BoutiqueFashion #ShopLocal" }, { text: "It's time for a flash sale! Today only, take an extra 30% off all sale items. Don't walk, run! 🏃‍♀️", hashtags: "#FlashSale #SaleOnSale #BoutiqueFinds" } ],
-                    engagement: [ { text: "Style challenge! How would you style this classic denim jacket? With a dress, jeans, or something totally unique? Show us your looks!", hashtags: "#StyleInspo #OOTD #FashionCommunity" }, { text: "We're curating our next collection. What trend are you most excited about for the upcoming season? Let us know what you want to see in the shop!", hashtags: "#FashionTrends #BuyerPicks #BoutiqueStyle" } ],
-                    product: [ { text: "The perfect everyday tote has arrived. 👜 Made with vegan leather and designed to carry all your essentials in style. Available in three classic colors!", hashtags: "#MustHave #AccessoryOfTheDay #ToteBag" }, { text: "Just in: these stunning, locally made ceramic mugs. The perfect gift for a friend (or for yourself!). Limited quantities available.", hashtags: "#Handmade #ShopLocal #GiftIdeas" } ]
-                },
-                gym: {
-                    promo: [ { text: "Bring a friend, get a month free! 💪 For the rest of this month, when your friend signs up for a membership, you'll get your next month on us. Tag your workout buddy!", hashtags: "#FitnessGoals #WorkoutBuddy #GymSpecial" }, { text: "Ready to commit? Sign up for a 1-year membership and get two months completely free. Invest in your health today!", hashtags: "#GymMembership #FitnessJourney #NewYearNewYou" } ],
-                    engagement: [ { text: "What's your favorite workout song right now? 🎧 We're updating our gym playlist and need your top tracks to get us all pumped up!", hashtags: "#WorkoutMusic #GymVibes #FitnessMotivation" }, { text: "Member spotlight! We're so proud of our community. Tag a fellow member who inspires you and tell us why! 👇", hashtags: "#GymCommunity #MemberLove #FitFam" } ],
-                    product: [ { text: "Ready to take your training to the next level? Our new High-Intensity Interval Training (HIIT) class launches next week. Sign up at the front desk!", hashtags: "#HIIT #GroupFitness #NewClass" }, { text: "Fuel your workout the right way. We're now stocking delicious, high-protein smoothies at the front desk. The perfect post-workout recovery!", hashtags: "#ProteinShake #PostWorkout #HealthyEating" } ]
-                }
-            };
-            
-            let lastGeneratedIndex = -1;
+            function populateTimeline() {
+                const businessType = businessTypeSelect.value;
+                const weekData = strategyData[businessType];
+                timelineContainer.innerHTML = ''; // Clear existing cards
 
-            function updateActiveLogo() {
-                const selectedType = businessTypeSelect.value;
-                const allLogos = logoDisplay.querySelectorAll('svg');
-                allLogos.forEach(logo => {
-                    logo.classList.toggle('active', logo.id === `${selectedType}-logo`);
+                weekData.forEach(item => {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'day-container';
+
+                    dayDiv.innerHTML = `
+                        <div class="day-label">${item.day}</div>
+                        <div class="post-card">
+                            <div class="icon"><i class="fas ${item.icon}"></i></div>
+                            <div class="type">${item.type}</div>
+                            <div class="topic">${item.topic}</div>
+                        </div>
+                    `;
+                    timelineContainer.appendChild(dayDiv);
                 });
             }
 
-            function generateContent() {
-                if (initialPlaceholder.style.display !== 'none') {
-                    initialPlaceholder.style.display = 'none';
-                    generatedContentContainer.style.display = 'block';
-                }
+            businessTypeSelect.addEventListener('change', populateTimeline);
 
-                const businessType = businessTypeSelect.value;
-                const postGoal = document.getElementById('post-goal').value;
-                
-                const options = contentData[businessType][postGoal];
-                let randomIndex = Math.floor(Math.random() * options.length);
-
-                if (options.length > 1 && randomIndex === lastGeneratedIndex) {
-                    randomIndex = (randomIndex + 1) % options.length;
-                }
-                lastGeneratedIndex = randomIndex;
-                
-                const content = options[randomIndex];
-
-                postTextEl.style.opacity = 0;
-                
-                setTimeout(() => {
-                    postTextEl.textContent = content.text;
-                    postHashtagsEl.textContent = content.hashtags;
-                    postTextEl.style.opacity = 1;
-                }, 300);
-
-                updateActiveLogo();
-            }
-            
-            businessTypeSelect.addEventListener('change', generateContent);
-            generateBtn.addEventListener('click', generateContent);
-            
+            // Initial population
+            populateTimeline();
         });
     </script>
 </body>
