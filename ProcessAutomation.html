@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Process Automation - Princeton AI Partners</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. Root Variables & Global Styles --- */
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --accent-color-end: #0060CE;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --success-color: #34C759;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .mouse-blur {
+            position: fixed; top: 0; left: 0; width: 250px; height: 250px;
+            background: var(--accent-color-start); border-radius: 50%;
+            filter: blur(120px); opacity: 0.2; pointer-events: none;
+            z-index: -1; transition: transform 0.1s ease-out;
+        }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- 2. Header & Navigation --- */
+        #main-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        #main-header.scrolled {
+            background-color: rgba(248, 248, 246, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        #main-header nav {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 68px;
+        }
+        .logo {
+            font-weight: 600; font-size: 1.1rem; color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .header-cta {
+            background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem;
+            border-radius: 980px; text-decoration: none; font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* --- 3. Hero Section --- */
+        #hero {
+            min-height: 100vh; display: flex; align-items: center; text-align: center;
+            padding-top: 68px; position: relative; overflow: hidden;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+        }
+        .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-content h1 {
+            font-size: 4rem; font-weight: 800; letter-spacing: -0.03em;
+            line-height: 1.1; margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: 1.3rem; color: var(--secondary-text-color);
+            max-width: 650px; margin: 0 auto 2.5rem;
+        }
+        .main-cta {
+            display: inline-block; background: var(--accent-gradient); color: #fff;
+            padding: 1rem 2.5rem; border-radius: 980px; text-decoration: none;
+            font-size: 1.1rem; font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+        }
+        .main-cta:hover { transform: scale(1.05); }
+
+        /* --- 4. General Section Styling --- */
+        .content-section { padding: 120px 0; }
+        .section-title {
+            text-align: center; font-size: 3rem; font-weight: 700;
+            letter-spacing: -0.03em; margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center; font-size: 1.25rem; color: var(--secondary-text-color);
+            max-width: 700px; margin: 0 auto 5rem;
+        }
+        .animate-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- 5. Interactive ROI Calculator --- */
+        #roi-calculator {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .calculator-container {
+            display: flex; align-items: stretch; gap: 4rem;
+        }
+        .calculator-tasks { flex: 1.2; }
+        .task-list h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .task-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-color); border: 1px solid var(--border-color);
+            padding: 1rem; border-radius: 12px; margin-bottom: 1rem;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .task-item:hover {
+            transform: scale(1.03);
+            border-color: var(--accent-color-start);
+        }
+        .task-item.selected {
+            background: #eaf5ff;
+            border-color: var(--accent-color-start);
+        }
+        .task-item-label { display: flex; align-items: center; gap: 1rem; }
+        .task-item-label .icon { font-size: 1.5rem; color: var(--accent-color-start); }
+        .task-item-label .text { font-weight: 500; }
+        .task-item .time { color: var(--secondary-text-color); }
+
+        .calculator-results {
+            flex: 1; 
+            border-radius: 24px; 
+            padding: 3rem; 
+            text-align: center;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #001c38, #003d7a);
+            color: white;
+        }
+        .gears-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .gears-bg .fa-cog {
+            position: absolute;
+            color: white;
+            animation: spin 20s linear infinite;
+        }
+        .gears-bg .gear1 { font-size: 150px; top: -50px; left: -50px; animation-duration: 25s; }
+        .gears-bg .gear2 { font-size: 100px; bottom: -30px; right: -40px; animation-direction: reverse; animation-duration: 18s; }
+        .gears-bg .gear3 { font-size: 60px; top: 40%; right: 20px; animation-duration: 15s; }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .results-content { position: relative; z-index: 1; }
+        .results-box h4 {
+            font-size: 1.2rem; opacity: 0.8; margin-bottom: 0.5rem;
+        }
+        .results-box .hours-saved {
+            font-size: 5rem; font-weight: 800; line-height: 1;
+            margin-bottom: 1rem;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .results-box .per-week { opacity: 0.8; }
+        .annual-savings { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.3); }
+        .annual-savings p { font-size: 1.2rem; }
+        .annual-savings span { font-weight: 700; }
+
+        /* --- 6. Custom Process Section --- */
+        #custom-process {
+            background: linear-gradient(180deg, #eaf5ff 0%, var(--bg-color) 70%);
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+        .process-line {
+            position: absolute;
+            top: 25px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background-color: #cce4ff;
+            z-index: 1;
+        }
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 auto 1.5rem;
+            border: 4px solid #eaf5ff;
+        }
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .step p {
+            color: var(--secondary-text-color);
+            font-size: 0.95rem;
+        }
+
+        /* --- 7. Benefits & CTA --- */
+        .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .benefit-item { display: flex; align-items: flex-start; gap: 1.5rem; }
+        .benefit-icon {
+            font-size: 2rem; color: var(--accent-color-start); background-color: #eaf5ff;
+            width: 60px; height: 60px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .benefit-content h3 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+        .benefit-content p { color: var(--secondary-text-color); }
+
+        #footer-cta {
+            background: var(--accent-gradient); color: white; text-align: center;
+        }
+        #footer-cta .section-title, #footer-cta .section-subtitle { color: white; }
+        .footer-cta-button {
+            display: inline-block; background: var(--card-bg-color); color: var(--accent-color-start);
+            padding: 1rem 2.5rem; border-radius: 980px; text-decoration: none;
+            font-size: 1.1rem; font-weight: 600; transition: transform 0.3s ease;
+        }
+        .footer-cta-button:hover { transform: scale(1.05); }
+        
+        /* --- 8. Responsive Design --- */
+        @media (max-width: 992px) {
+            .calculator-container { flex-direction: column; }
+            .process-steps { grid-template-columns: 1fr 1fr; gap: 3rem 2rem; }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .section-title { font-size: 2.2rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .task-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .process-line { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-blur"></div>
+
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <a href="contact.html" class="header-cta">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Reclaim Your Time. Supercharge Your Business.</h1>
+                <p class="subtitle">Stop losing valuable hours to repetitive tasks. Our intelligent AI agents handle the busywork, freeing you and your team to focus on what truly matters—serving your customers.</p>
+                <a href="#roi-calculator" class="main-cta">Calculate Your Time Savings</a>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive ROI Calculator -->
+        <section id="roi-calculator" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Find Your Automation Opportunity</h2>
+                <p class="section-subtitle animate-on-scroll">We build custom AI agents for any routine business process. Select a task below to see how we can help you save time, reduce errors, and improve efficiency.</p>
+                <div class="calculator-container">
+                    <div class="calculator-tasks animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="task-list">
+                            <h3>Select tasks to automate:</h3>
+                            <div class="task-item" data-hours="3.5">
+                                <div class="task-item-label">
+                                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                                    <div class="text">Scheduling Appointments</div>
+                                </div>
+                                <div class="time">~3.5 hrs/week</div>
+                            </div>
+                            <div class="task-item" data-hours="2.5">
+                                <div class="task-item-label">
+                                    <div class="icon"><i class="fas fa-question-circle"></i></div>
+                                    <div class="text">Answering Common Questions</div>
+                                </div>
+                                <div class="time">~2.5 hrs/week</div>
+                            </div>
+                            <div class="task-item" data-hours="2">
+                                <div class="task-item-label">
+                                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                                    <div class="text">Sending Reminders & Follow-ups</div>
+                                </div>
+                                <div class="time">~2 hrs/week</div>
+                            </div>
+                            <div class="task-item" data-hours="3">
+                                <div class="task-item-label">
+                                    <div class="icon"><i class="fas fa-file-invoice"></i></div>
+                                    <div class="text">Processing Paperwork / Invoices</div>
+                                </div>
+                                <div class="time">~3 hrs/week</div>
+                            </div>
+                             <div class="task-item" data-hours="4">
+                                <div class="task-item-label">
+                                    <div class="icon"><i class="fas fa-keyboard"></i></div>
+                                    <div class="text">Data Entry & Excel Work</div>
+                                </div>
+                                <div class="time">~4 hrs/week</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calculator-results animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="gears-bg">
+                            <i class="fas fa-cog gear1"></i>
+                            <i class="fas fa-cog gear2"></i>
+                            <i class="fas fa-cog gear3"></i>
+                        </div>
+                        <div class="results-content">
+                            <div class="results-box">
+                                <h4>Total Time Saved</h4>
+                                <div class="hours-saved" id="hours-saved">0</div>
+                                <div class="per-week">Hours Per Week</div>
+                            </div>
+                            <div class="annual-savings">
+                                <p>That's <span id="annual-hours">0</span> hours per year to reinvest in your business!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Custom Process Section -->
+        <section id="custom-process" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">A Clear Path to Efficiency</h2>
+                <p class="section-subtitle animate-on-scroll">We deliver tangible results through a clear, collaborative four-step journey to build your custom automation solution.</p>
+                <div class="process-steps">
+                    <div class="process-line animate-on-scroll"></div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="step-number">1</div>
+                        <h3>Discovery</h3>
+                        <p>We analyze your workflows to pinpoint the most impactful automation opportunities.</p>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="step-number">2</div>
+                        <h3>Strategy</h3>
+                        <p>We design a custom AI agent and automation plan tailored to solve your specific challenges.</p>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="step-number">3</div>
+                        <h3>Development</h3>
+                        <p>We build and test your AI agent, incorporating your feedback to ensure a perfect fit.</p>
+                    </div>
+                    <div class="step animate-on-scroll" style="transition-delay: 0.8s;">
+                        <div class="step-number">4</div>
+                        <h3>Deployment</h3>
+                        <p>We handle the seamless integration and provide comprehensive training for your team.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Benefits Grid -->
+        <section id="benefits" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Your 24/7 Digital Workforce</h2>
+                <p class="section-subtitle animate-on-scroll">Our AI agents do more than just save time—they create new opportunities for efficiency and growth.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="benefit-icon"><i class="fas fa-robot"></i></div>
+                        <div class="benefit-content">
+                            <h3>Increase Efficiency</h3>
+                            <p>Automate workflows to get more done with the same resources, reducing operational bottlenecks.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="benefit-content">
+                            <h3>Reduce Human Error</h3>
+                            <p>Eliminate costly mistakes from manual data entry and repetitive tasks, ensuring accuracy every time.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+                        <div class="benefit-content">
+                            <h3>Improve Customer Experience</h3>
+                            <p>Provide instant answers and book appointments 24/7, capturing leads you might otherwise miss.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="benefit-icon"><i class="fas fa-users-cog"></i></div>
+                        <div class="benefit-content">
+                            <h3>Empower Your Team</h3>
+                            <p>Free your valuable staff from tedious work so they can focus on high-impact, customer-facing roles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 5: Final CTA -->
+        <section id="footer-cta" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Ready to Reclaim Your Time?</h2>
+                <p class="section-subtitle animate-on-scroll">Schedule a free consultation and let's discover how much time and money automation can save your business.</p>
+                <a href="contact.html" class="footer-cta-button animate-on-scroll" style="transition-delay: 0.2s;">Book a Free Consultation</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Header & Mouse Glow Effects ---
+            const header = document.getElementById('main-header');
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+
+            // --- Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // --- ROI Calculator Logic ---
+            const taskItems = document.querySelectorAll('.task-item');
+            const hoursSavedEl = document.getElementById('hours-saved');
+            const annualHoursEl = document.getElementById('annual-hours');
+            let totalHours = 0;
+
+            taskItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('selected');
+                    const hours = parseFloat(item.dataset.hours);
+                    if (item.classList.contains('selected')) {
+                        totalHours += hours;
+                    } else {
+                        totalHours -= hours;
+                    }
+                    updateCalculator();
+                });
+            });
+
+            function updateCalculator() {
+                const currentHours = parseFloat(hoursSavedEl.textContent);
+                const newHours = parseFloat(totalHours.toFixed(1));
+                
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / 500, 1);
+                    const animatedValue = progress * (newHours - currentHours) + currentHours;
+                    hoursSavedEl.textContent = animatedValue.toFixed(1);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        hoursSavedEl.textContent = newHours;
+                    }
+                };
+                window.requestAnimationFrame(step);
+
+                hoursSavedEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    hoursSavedEl.style.transform = 'scale(1)';
+                }, 250);
+
+                annualHoursEl.textContent = (newHours * 52).toFixed(0);
+            }
+        });
+    </script>
+</body>
+</html>
