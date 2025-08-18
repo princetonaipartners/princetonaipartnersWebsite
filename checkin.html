@@ -57,10 +57,10 @@
             background: var(--accent-color-start);
             border-radius: 50%;
             filter: blur(120px);
-            opacity: 0.2;
+            opacity: 0; /* Initially hidden */
             pointer-events: none;
             z-index: -1;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.1s ease-out, opacity 0.5s ease-in-out; /* Added opacity transition */
         }
 
         .container {
@@ -96,6 +96,79 @@
             color: var(--primary-text-color);
             text-decoration: none;
         }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links li {
+            margin: 0 1.25rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-text-color);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a:hover {
+            color: var(--accent-color-start);
+        }
+        .nav-item-dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 0.5rem;
+            list-style: none;
+            width: max-content;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 1001;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--primary-text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+            color: var(--accent-color-start);
+        }
+        .dropdown-menu .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-color-start);
+        }
+        .nav-links .nav-item-dropdown > a .fa-chevron-down {
+            font-size: 0.6rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .nav-item-dropdown:hover > a .fa-chevron-down {
+            transform: rotate(180deg);
+        }
         .header-cta {
             background: var(--accent-gradient);
             color: #fff;
@@ -104,6 +177,12 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
+        }
+        .menu-toggle {
+            display: none;
+        }
+        .mobile-nav {
+            display: none;
         }
         
         /* --- 3. Hero Section --- */
@@ -115,14 +194,13 @@
             padding-top: 68px; /* Offset for fixed header */
             position: relative;
             overflow: hidden;
-            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
         }
-        #hero-canvas {
+        #particles-js {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
             z-index: 0;
         }
         .hero-content {
@@ -313,7 +391,6 @@
             overflow: hidden; /* Keep the glow contained */
         }
         
-        /* ENHANCED: Decorative background for tiers section with animation */
         #tiers::before {
             content: '';
             position: absolute;
@@ -471,6 +548,12 @@
             }
         }
         @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
             .hero-content h1 { font-size: 2.8rem; }
             .section-title { font-size: 2.2rem; }
             .benefits-grid { grid-template-columns: 1fr; }
@@ -489,14 +572,54 @@
     <header id="main-header">
         <nav class="container">
             <a href="index.html" class="logo">Princeton AI Partners</a>
+            <ul class="nav-links">
+                <li class="nav-item-dropdown">
+                    <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="checkin.html"><span class="icon"><i class="fas fa-gift"></i></span>Automated Loyalty</a></li>
+                        <li><a href="AutoPosting.html"><span class="icon"><i class="fas fa-bullhorn"></i></span>AI-Powered Marketing</a></li>
+                        <li><a href="ProcessAutomation.html"><span class="icon"><i class="fas fa-robot"></i></span>Process Automation</a></li>
+                        <li><a href="websitemanagement.html"><span class="icon"><i class="fas fa-desktop"></i></span>Website Management</a></li>
+                        <li><a href="RAG.html"><span class="icon"><i class="fas fa-database"></i></span>Smart Document Processing</a></li>
+                    </ul>
+                </li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Quiz</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
             <a href="contact.html" class="header-cta">Get Started</a>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="solutions.html">Solutions</a>
+                <ul class="sub-menu">
+                    <li><a href="checkin.html">Automated Loyalty</a></li>
+                    <li><a href="AutoPosting.html">AI-Powered Marketing</a></li>
+                    <li><a href="ProcessAutomation.html">Process Automation</a></li>
+                    <li><a href="websitemanagement.html">Website Management</a></li>
+                    <li><a href="RAG.html">Smart Document Processing</a></li>
+                </ul>
+            </li>
+            <li><a href="clients.html">Who We Serve</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="playground.html">AI Quiz</a></li>
+            <li><a href="contact.html" class="header-cta">Get Started</a></li>
+        </ul>
+    </div>
 
     <main>
         <!-- Section 1: Hero -->
         <section id="hero">
-            <canvas id="hero-canvas"></canvas>
+            <div id="particles-js"></div>
             <div class="hero-content">
                 <h1>Turn Casual Visitors into Loyal Fans, Automatically.</h1>
                 <p class="subtitle">Our AI-powered loyalty platform works 24/7 to increase customer retention, boost spending, and drive real growth for your business—all on autopilot.</p>
@@ -673,6 +796,9 @@
         </section>
 
     </main>
+    
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -686,12 +812,22 @@
                 }
             });
             
-            // --- Mouse Glow Effect ---
+            // --- Mouse Glow Effect with Scroll Logic ---
             const mouseBlur = document.querySelector('.mouse-blur');
-            window.addEventListener('mousemove', (e) => {
-                const { clientX, clientY } = e;
-                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
-            });
+            if (mouseBlur) {
+                window.addEventListener('scroll', () => {
+                    // Show the blur effect only after scrolling past the hero section
+                    if (window.scrollY > window.innerHeight * 0.5) {
+                        mouseBlur.style.opacity = '0.2';
+                    } else {
+                        mouseBlur.style.opacity = '0';
+                    }
+                });
+                window.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+                });
+            }
 
             // --- Intersection Observer for Scroll Animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -710,60 +846,24 @@
                 observer.observe(el);
             });
 
-            // --- Hero Canvas Animation ---
-            const canvas = document.getElementById('hero-canvas');
-            const ctx = canvas.getContext('2d');
-            let width = canvas.width = window.innerWidth;
-            let height = canvas.height = window.innerHeight;
-            let particles = [];
-            const particleCount = window.innerWidth < 768 ? 50 : 100;
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = Math.random() * 0.6 - 0.3;
-                    this.vy = Math.random() * 0.6 - 0.3;
-                    this.radius = Math.random() * 2 + 1;
-                }
-                update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    if (this.x < 0 || this.x > width) this.vx *= -1;
-                    if (this.y < 0 || this.y > height) this.vy *= -1;
-                }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(10, 132, 255, 0.5)';
-                    ctx.fill();
-                }
+            // --- Particles.js Hero Background ---
+            if (document.getElementById('particles-js')) {
+                particlesJS('particles-js', {
+                    "particles": { "number": { "value": 100, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#0A84FF" }, "shape": { "type": "circle" }, "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.2, "sync": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": false }, "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false } },
+                    "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "bubble" }, "onclick": { "enable": false }, "resize": true }, "modes": { "bubble": { "distance": 150, "size": 4, "duration": 2, "opacity": 1, "speed": 3 } } },
+                    "retina_detect": true
+                });
             }
 
-            function init() {
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+            if(menuToggle && mobileNav) {
+                menuToggle.addEventListener('click', () => {
+                    mobileNav.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
             }
-
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                for (const p of particles) {
-                    p.update();
-                    p.draw();
-                }
-                requestAnimationFrame(animate);
-            }
-
-            window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-                particles = [];
-                init();
-            });
-
-            init();
-            animate();
         });
     </script>
 </body>
