@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madden 26 Elite Competitive Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #ff6b35 0%, #f72b1c 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .meta-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .meta-summary h2 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .key-point {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 43, 28, 0.1) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            background: linear-gradient(90deg, #ff6b35 0%, transparent 100%);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-icon {
+            font-size: 2em;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+            border-color: #ff6b35;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #f72b1c);
+        }
+        
+        .card-title {
+            color: #ff6b35;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge.elite {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+        }
+        
+        .badge.meta {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #333;
+        }
+        
+        .formation-list, .play-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .formation-list li, .play-list li {
+            background: rgba(255, 255, 255, 0.03);
+            margin: 8px 0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 3px solid #ff6b35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .highlight {
+            color: #ffd700;
+            font-weight: 700;
+        }
+        
+        .pro-tip {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .pro-tip-header {
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .mechanics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .mechanic-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .mechanic-card:hover {
+            border-color: #ff6b35;
+            transform: scale(1.05);
+        }
+        
+        .mechanic-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .mechanic-name {
+            color: #ff6b35;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .patch-notes {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .patch-date {
+            color: #ff6b35;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .footer-text {
+            color: #ff6b35;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Madden 25 Elite Competitive Guide</h1>
+            <div class="subtitle">Dominate Online H2H | Current-Gen PS5 | January 2025 Meta</div>
+        </div>
+
+        <!-- Meta Summary -->
+        <div class="meta-summary">
+            <h2>🎯 CURRENT META AT A GLANCE</h2>
+            <div class="key-points">
+                <div class="key-point">
+                    <strong>🏆 #1 Offensive Playbook:</strong><br>
+                    Indianapolis Colts (Gun Bunch Offset)
+                </div>
+                <div class="key-point">
+                    <strong>🛡️ #1 Defensive Playbook:</strong><br>
+                    Kansas City Chiefs
+                </div>
+                <div class="key-point">
+                    <strong>🔥 Hottest Formation:</strong><br>
+                    Gun Bunch Variants
+                </div>
+                <div class="key-point">
+                    <strong>⚡ Game-Changer:</strong><br>
+                    Custom Stems Mechanic
+                </div>
+            </div>
+        </div>
+
+        <!-- Offensive Playbooks Section -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">📋</span>
+                <h2 class="section-title">Elite Offensive Playbooks</h2>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">
+                        Indianapolis Colts
+                        <span class="badge elite">META KING</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Gun Bunch Offset <span class="badge">EXCLUSIVE</span></li>
+                        <li>Double Post Play <span class="highlight">No Hot Routes Needed</span></li>
+                        <li>Gun Bunch Str Nasty</li>
+                        <li>Speed Dig, PA Read, Mesh Post</li>
+                    </ul>
+                    <div class="pro-tip" style="margin-top: 15px;">
+                        <strong>Pro Tip:</strong> 1M+ database searches - this is THE playbook
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Detroit Lions
+                        <span class="badge meta">HIDDEN GEM</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Gun Doubles <span class="highlight">Unique</span></li>
+                        <li>Gun Bunch X Nasty</li>
+                        <li>Gun Trips TE Flex</li>
+                        <li>Gun Empty Bunch Open</li>
+                    </ul>
+                    <div class="pro-tip" style="margin-top: 15px;">
+                        <strong>Secret:</strong> Madden School's first eBook choice
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Green Bay Packers
+                        <span class="badge">TOURNAMENT</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>10+ Meta Formations</li>
+                        <li>Ultimate Versatility</li>
+                        <li>Pro Player Favorite</li>
+                        <li>Complete Formation Set</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Miami Dolphins
+                        <span class="badge">MOTION</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Orbit Cheat Motion</li>
+                        <li>Auto-Motion Concepts</li>
+                        <li>McDaniel System</li>
+                        <li>Speed-Based Attack</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Seattle Seahawks
+                        <span class="badge">REVAMPED</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Gun Normal Flex Snug <span class="badge">EXCLUSIVE</span></li>
+                        <li>Alabama College System</li>
+                        <li>Completely New for '25</li>
+                        <li>Unique Formations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Defensive Playbooks Section -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🛡️</span>
+                <h2 class="section-title">Elite Defensive Playbooks</h2>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">
+                        Kansas City Chiefs
+                        <span class="badge elite">#1 COMPETITIVE</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>4-3 Even 6-1 <span class="highlight">Elite</span></li>
+                        <li>Big Nickel Over G</li>
+                        <li>Nickel 3-3</li>
+                        <li>Dime 3-2</li>
+                    </ul>
+                    <div class="pro-tip" style="margin-top: 15px;">
+                        <strong>Strategy:</strong> Bend-don't-break philosophy
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Multiple D
+                        <span class="badge meta">VERSATILITY</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>3-4, 4-3, Nickel, Dime</li>
+                        <li>DB Fire, Mid Blitz</li>
+                        <li>Double A-Gap</li>
+                        <li>Complete Package</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Cleveland Browns
+                        <span class="badge">PRESSURE</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Aggressive Blitz Packages</li>
+                        <li>High-Risk, High-Reward</li>
+                        <li>Elite Pass Rush</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        Baltimore Ravens
+                        <span class="badge">3-4 MASTER</span>
+                    </div>
+                    <ul class="formation-list">
+                        <li>Best 3-4 Schemes</li>
+                        <li>Zone Blitz Concepts</li>
+                        <li>Versatile Coverage</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Formations & Plays -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🎮</span>
+                <h2 class="section-title">Meta Formations & Money Plays</h2>
+            </div>
+            
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-title">🔥 Offensive Formations Tier List</div>
+                    <ul class="play-list">
+                        <li><strong>S-TIER:</strong> Gun Bunch Offset <span class="badge elite">BEST</span></li>
+                        <li><strong>S-TIER:</strong> Gun Bunch Str Nasty</li>
+                        <li><strong>A-TIER:</strong> Gun Tight (Bucs Post)</li>
+                        <li><strong>A-TIER:</strong> Gun Trips TE</li>
+                        <li><strong>A-TIER:</strong> Singleback Bunch X Nasty</li>
+                        <li><strong>B-TIER:</strong> Gun Y Off Trio Wk (RPO)</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">💰 Money Plays</div>
+                    <ul class="play-list">
+                        <li>Mesh Post <span class="highlight">Blitz Beater</span></li>
+                        <li>PA Slot Corner <span class="highlight">First Space</span></li>
+                        <li>Double Post <span class="badge">No Setup</span></li>
+                        <li>PA Corner</li>
+                        <li>Speed Dig</li>
+                        <li>RPO Alert Bubble</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game-Changing Mechanics -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">⚡</span>
+                <h2 class="section-title">Game-Changing Mechanics</h2>
+            </div>
+            
+            <div class="mechanics-grid">
+                <div class="mechanic-card">
+                    <div class="mechanic-icon">🎯</div>
+                    <div class="mechanic-name">Custom Stems</div>
+                    <div>Hold LB/L1 + Left Stick for infinite route depth adjustment</div>
+                </div>
+                
+                <div class="mechanic-card">
+                    <div class="mechanic-icon">🔄</div>
+                    <div class="mechanic-name">Switch Stick</div>
+                    <div>Flick right stick to switch defenders mid-play (zone only)</div>
+                </div>
+                
+                <div class="mechanic-card">
+                    <div class="mechanic-icon">💥</div>
+                    <div class="mechanic-name">BOOM Tech</div>
+                    <div>Physics-based tackling on PS5/Series X</div>
+                </div>
+                
+                <div class="mechanic-card">
+                    <div class="mechanic-icon">🏃</div>
+                    <div class="mechanic-name">Precision Spin</div>
+                    <div>RT/R2 + Circle/B + Left Stick = Meta move</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Strategies -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🧠</span>
+                <h2 class="section-title">Elite Strategies & Adjustments</h2>
+            </div>
+            
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-title">🎯 Offensive Adjustments</div>
+                    <ul class="play-list">
+                        <li><strong>Formation Audibles:</strong> 4 per formation</li>
+                        <li><strong>Max Protect:</strong> Default blocking</li>
+                        <li><strong>Custom Stems:</strong> Better than smart routes</li>
+                        <li><strong>RPO Reads:</strong> Count the box pre-snap</li>
+                        <li><strong>Manual Spec Catch:</strong> L1/LB high risk/reward</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">🛡️ Defensive Adjustments</div>
+                    <ul class="play-list">
+                        <li><strong>Hybrid Coverage:</strong> Mix man/zone</li>
+                        <li><strong>Zone Depths:</strong> 10-30 yard adjustable</li>
+                        <li><strong>User Safety at LB:</strong> Optimal control</li>
+                        <li><strong>Cover 4 Box:</strong> Anti-bunch</li>
+                        <li><strong>Shade Underneath:</strong> Triangle/Y + Down</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patch Updates -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🔧</span>
+                <h2 class="section-title">Latest Patch Impact</h2>
+            </div>
+            
+            <div class="patch-notes">
+                <div class="patch-date">📅 January 8, 2025 Update - Major Meta Shifts</div>
+                <div class="two-column">
+                    <div>
+                        <h3 style="color: #ff6b35; margin-bottom: 10px;">Nerfs</h3>
+                        <ul style="list-style: none;">
+                            <li>❌ High throw accuracy reduced</li>
+                            <li>❌ Pass speeds decreased</li>
+                            <li>❌ Conservative carriers can't dive</li>
+                            <li>❌ Custom Stems speed boost patched</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: #00ff88; margin-bottom: 10px;">Buffs</h3>
+                        <ul style="list-style: none;">
+                            <li>✅ AI defenders intercept more</li>
+                            <li>✅ Cover 4 improved vs bunch</li>
+                            <li>✅ 800+ new plays added</li>
+                            <li>✅ Catch knockouts increased</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cheese & Counters -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">🧀</span>
+                <h2 class="section-title">Current Cheese & How to Stop It</h2>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">RPO Alert Bubble</div>
+                    <strong style="color: #ff6b35;">The Cheese:</strong> Trips formation bubble screens<br>
+                    <strong style="color: #00ff88;">The Counter:</strong> Man up intermediate defenders with inside alignment
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">Mesh Post Spam</div>
+                    <strong style="color: #ff6b35;">The Cheese:</strong> Crossing routes creating picks<br>
+                    <strong style="color: #00ff88;">The Counter:</strong> Shade underneath (Triangle/Y + Down)
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">Nickel 2-4 Mug Blitz</div>
+                    <strong style="color: #ff6b35;">The Cheese:</strong> Unblocked rushers<br>
+                    <strong style="color: #00ff88;">The Counter:</strong> Max protect + quick slants
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-icon">📝</span>
+                <h2 class="section-title">Quick Reference Guide</h2>
+            </div>
+            
+            <div class="pro-tip">
+                <div class="pro-tip-header">
+                    🏆 Path to Elite Status
+                </div>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Master 2-3 formations deeply</strong> (Gun Bunch variants priority)</li>
+                    <li><strong>Learn Custom Stems</strong> on all route types</li>
+                    <li><strong>Practice Switch Stick</strong> for defensive control</li>
+                    <li><strong>Study hybrid coverage</strong> concepts</li>
+                    <li><strong>Perfect your audible game</strong> with formation changes</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-text">
+                🎮 DOMINATE THE COMPETITION 🎮<br>
+                <span style="font-size: 0.9em; opacity: 0.8;">Remember: Adaptation > Cheese | Master the Meta | Stay Updated on Patches</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
