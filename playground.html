@@ -61,7 +61,168 @@
         }
 
         .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+        #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
+        #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 1.25rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary-text-color); font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; }
+        .nav-links a:hover { color: var(--accent-color-start); }
         
+        /* Dropdown Styles */
+        .nav-item-dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 0.5rem;
+            list-style: none;
+            width: max-content;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 1001;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--primary-text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+            color: var(--accent-color-start);
+        }
+        .dropdown-menu .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-color-start);
+        }
+        .nav-links .nav-item-dropdown > a .fa-chevron-down {
+            font-size: 0.6rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .nav-item-dropdown:hover > a .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .header-cta:hover { transform: scale(1.05); }
+        
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1010;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-text-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1005;
+        }
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .mobile-nav li {
+            margin: 1.5rem 0;
+        }
+        .mobile-nav a {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .mobile-nav .sub-menu {
+            list-style: none;
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+        .mobile-nav .sub-menu li {
+            margin: 1rem 0;
+        }
+        .mobile-nav .sub-menu a {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary-text-color);
+        }
+        .mobile-nav .header-cta {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
         #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; margin-top: 120px; }
         
         .page-hero {
@@ -187,12 +348,6 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-        .solution-card:hover {
-            border-color: var(--accent-color-start);
         }
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
@@ -208,9 +363,6 @@
             margin-right: 0.75rem;
             font-size: 1.1rem;
         }
-        .solution-card p {
-             color: var(--secondary-text-color);
-        }
         .reset-button {
             display: block;
             margin: 2rem auto 0;
@@ -223,6 +375,12 @@
         }
 
         @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
             .animated-title {
                 font-size: 2.5rem;
                 white-space: normal;
@@ -244,7 +402,52 @@
 <body>
     <div id="squares-background"></div>
     <div class="content-wrapper">
-        <div id="header-placeholder"></div>
+        <header id="main-header">
+            <nav class="container">
+                <a href="index.html" class="logo">Princeton AI Partners</a>
+                <ul class="nav-links">
+                    <li class="nav-item-dropdown">
+                        <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="checkin.html"><span class="icon"><i class="fas fa-gift"></i></span>Automated Loyalty</a></li>
+                            <li><a href="AutoPosting.html"><span class="icon"><i class="fas fa-bullhorn"></i></span>AI-Powered Marketing</a></li>
+                            <li><a href="ProcessAutomation.html"><span class="icon"><i class="fas fa-robot"></i></span>Process Automation</a></li>
+                            <li><a href="websitemanagement.html"><span class="icon"><i class="fas fa-desktop"></i></span>Website Management</a></li>
+                            <li><a href="RAG.html"><span class="icon"><i class="fas fa-database"></i></span>Smart Document Processing</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="clients.html">Who We Serve</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="playground.html">AI Quiz</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="header-cta">Get Started</a>
+                <button class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </header>
+
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="solutions.html">Solutions</a>
+                    <ul class="sub-menu">
+                        <li><a href="checkin.html">Automated Loyalty</a></li>
+                        <li><a href="AutoPosting.html">AI-Powered Marketing</a></li>
+                        <li><a href="ProcessAutomation.html">Process Automation</a></li>
+                        <li><a href="websitemanagement.html">Website Management</a></li>
+                        <li><a href="RAG.html">Smart Document Processing</a></li>
+                    </ul>
+                </li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Quiz</a></li>
+                <li><a href="contact.html" class="header-cta">Get Started</a></li>
+            </ul>
+        </div>
 
         <main>
             <section class="page-hero">
@@ -260,16 +463,16 @@
                         <p class="step-indicator">STEP 1 OF 3</p>
                         <h2>What kind of business do you run?</h2>
                         <div class="options-grid">
-                            <button class="option-button" data-business="service">Service-Based (Salon, Auto Repair, etc.)</button>
-                            <button class="option-button" data-business="food">Food & Beverage (Restaurant, Cafe, etc.)</button>
-                            <button class="option-button" data-business="retail">Retail (Boutique, Convenience Store, etc.)</button>
-                            <button class="option-button" data-business="professional">Professional (Law, Medical, etc.)</button>
+                            <button class="option-button" data-business="Service-Based (Salon, Auto Repair, etc.)">Service-Based (Salon, Auto Repair, etc.)</button>
+                            <button class="option-button" data-business="Food & Beverage (Restaurant, Cafe, etc.)">Food & Beverage (Restaurant, Cafe, etc.)</button>
+                            <button class="option-button" data-business="Retail (Boutique, Convenience Store, etc.)">Retail (Boutique, Convenience Store, etc.)</button>
+                            <button class="option-button" data-business="Professional (Law, Medical, etc.)">Professional (Law, Medical, etc.)</button>
                         </div>
                     </div>
 
                     <div id="step2-container" class="step-container">
                         <p class="step-indicator">STEP 2 OF 3</p>
-                        <h2 id="pain-point-title">What are your biggest challenges? (Select up to 3)</h2>
+                        <h2 id="pain-point-title">What are your biggest challenges?</h2>
                         <div class="options-grid" id="pain-points-grid"></div>
                     </div>
 
@@ -277,9 +480,9 @@
                         <p class="step-indicator">STEP 3 OF 3</p>
                         <h2>What is your primary goal right now?</h2>
                         <div class="options-grid single-column" id="goals-grid">
-                            <button class="option-button" data-goal="save-time">Save Time</button>
-                            <button class="option-button" data-goal="increase-revenue">Increase Revenue</button>
-                            <button class="option-button" data-goal="improve-experience">Improve Customer Experience</button>
+                            <button class="option-button" data-goal="Save Time">Save Time</button>
+                            <button class="option-button" data-goal="Increase Revenue">Increase Revenue</button>
+                            <button class="option-button" data-goal="Improve Customer Experience">Improve Customer Experience</button>
                         </div>
                     </div>
 
@@ -299,14 +502,15 @@
             </div>
         </footer>
     </div>
-
-    <!-- This new script tag loads the header and its logic -->
-    <script src="js/main.js"></script>
     
-    <!-- This script tag now only contains logic specific to the playground.html page -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Background animation logic ---
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            });
+            
             const squaresContainer = document.getElementById('squares-background');
             const createSquare = () => {
                 const square = document.createElement('div');
@@ -326,172 +530,129 @@
                 createSquare();
             }
 
-            // --- "Smarter" Quiz Logic ---
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const squares = document.querySelectorAll('.square');
+                squares.forEach(square => {
+                    const rect = square.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    const deltaX = centerX - clientX;
+                    const deltaY = centerY - clientY;
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    
+                    const maxDistance = 150;
+                    if (distance < maxDistance) {
+                        const pushForce = (maxDistance - distance) / maxDistance;
+                        const pushX = (deltaX / distance) * pushForce * 30;
+                        const pushY = (deltaY / distance) * pushForce * 30;
+                        square.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                    } else {
+                        square.style.transform = 'translate(0, 0)';
+                    }
+                });
+            });
+
+            // --- Pain Point Solver Logic ---
             const step1 = document.getElementById('step1-container');
             const step2 = document.getElementById('step2-container');
             const step3 = document.getElementById('step3-container');
             const step4 = document.getElementById('step4-container');
+            const painPointTitle = document.getElementById('pain-point-title');
             const painPointsGrid = document.getElementById('pain-points-grid');
             const goalsGrid = document.getElementById('goals-grid');
             const resultsTitle = document.getElementById('results-title');
             const resultsArea = document.getElementById('results-area');
             const resetButton = document.getElementById('reset-button');
-
-            let userSelections = {};
-
-            const solutions = {
-                loyalty: { title: "Automated Loyalty", text: "Turn first-time visitors into regulars with a seamless, visit-based loyalty program.", icon: "fa-gift", href: "checkin.html" },
-                points: { title: "Points-Based Rewards", text: "Encourage higher spending by rewarding customers with points for every dollar they spend.", icon: "fa-star", href: "PointsBasedLoyalty.html" },
-                marketing: { title: "AI-Powered Marketing", text: "Maintain a vibrant online presence by letting AI create and schedule engaging social media content.", icon: "fa-bullhorn", href: "AutoPosting.html" },
-                automation: { title: "Process Automation", text: "Save time by automating repetitive tasks like scheduling, answering FAQs, and sending reminders.", icon: "fa-robot", href: "ProcessAutomation.html" },
-                website: { title: "Website Management", text: "Get a modern, professional website that works for you with AI-powered features like chatbots.", icon: "fa-desktop", href: "websitemanagement.html" },
-                rag: { title: "Smart Document Processing", text: "Create an internal 'expert brain' for your business that can instantly answer questions from your private documents.", icon: "fa-database", href: "RAG.html" }
-            };
-
-            const painPoints = {
-                'no-repeat-customers': { title: 'Not enough repeat customers', solutions: ['loyalty', 'points'] },
-                'slow-times': { title: 'Too many slow days/hours', solutions: ['marketing', 'loyalty'] },
-                'too-much-admin': { title: 'Spending too much time on admin tasks', solutions: ['automation', 'rag'] },
-                'cant-find-info': { title: 'Team can\'t find information quickly', solutions: ['rag'] },
-                'outdated-website': { title: 'My website is outdated or ineffective', solutions: ['website'] },
-                'no-social-media': { title: 'No time for social media', solutions: ['marketing'] }
-            };
-
-            const goals = {
-                'save-time': { solutions: ['automation', 'rag', 'marketing'] },
-                'increase-revenue': { solutions: ['loyalty', 'points', 'marketing', 'website'] },
-                'improve-experience': { solutions: ['loyalty', 'points', 'website'] }
-            };
             
-            // --- Step 1: Business Type ---
+            const painPointsData = {
+                'scheduling': { title: 'Scheduling & Appointments' },
+                'marketing': { title: 'Marketing & Social Media' },
+                'loyalty': { title: 'Customer Loyalty' },
+                'paperwork': { title: 'Paperwork & Admin Tasks' }
+            };
+
+            const solutionsData = {
+                'scheduling': { title: 'Intelligent Process Automation', text: 'Our AI can manage your calendar 24/7, book appointments automatically, and send reminders to eliminate no-shows, freeing you up to focus on your clients.', icon: 'fa-robot' },
+                'marketing': { title: 'Customized Marketing & Posting', text: 'We build AI that learns your brand voice to create and schedule engaging social media content, so you can maintain a vibrant online presence without the effort.', icon: 'fa-bullhorn' },
+                'loyalty': { title: 'Automated Check-in & Rewards', text: 'Turn first-time visitors into regulars with a seamless loyalty program. Our system tracks visits and sends personalized offers to keep your customers coming back.', icon: 'fa-gift' },
+                'paperwork': { title: 'Smart Document Processing', text: 'Let AI handle the paperwork. Our systems can read, sort, and process documents, invoices, and forms, saving you hours of manual work and reducing errors.', icon: 'fa-database' }
+            };
+
             step1.querySelectorAll('.option-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    userSelections.business = button.dataset.business;
-                    step1.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
-                    button.classList.add('selected');
+                    const businessType = button.dataset.business;
+                    painPointTitle.textContent = `For your ${businessType}, what are the biggest challenges?`;
                     
-                    // Populate and show step 2
-                    populatePainPoints();
+                    painPointsGrid.innerHTML = '';
+                    Object.keys(painPointsData).forEach(key => {
+                        const ppButton = document.createElement('button');
+                        ppButton.className = 'option-button';
+                        ppButton.dataset.painPoint = key;
+                        ppButton.textContent = painPointsData[key].title;
+                        ppButton.addEventListener('click', () => {
+                            ppButton.classList.toggle('selected');
+                            const selectedCount = painPointsGrid.querySelectorAll('.selected').length;
+                            if (selectedCount > 0) {
+                                step3.classList.add('active', 'add-margin');
+                            } else {
+                                step3.classList.remove('active', 'add-margin');
+                                step4.classList.remove('active', 'add-margin');
+                            }
+                        });
+                        painPointsGrid.appendChild(ppButton);
+                    });
+
+                    step1.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
                     step2.classList.add('active', 'add-margin');
                 });
             });
 
-            // --- Step 2: Pain Points ---
-            function populatePainPoints() {
-                painPointsGrid.innerHTML = '';
-                Object.keys(painPoints).forEach(key => {
-                    const ppButton = document.createElement('button');
-                    ppButton.className = 'option-button';
-                    ppButton.dataset.painPoint = key;
-                    ppButton.textContent = painPoints[key].title;
-                    ppButton.addEventListener('click', () => {
-                        const selectedCount = painPointsGrid.querySelectorAll('.selected').length;
-                        if (ppButton.classList.contains('selected')) {
-                            ppButton.classList.remove('selected');
-                        } else if (selectedCount < 3) {
-                            ppButton.classList.add('selected');
-                        }
-                        
-                        const newSelectedCount = painPointsGrid.querySelectorAll('.selected').length;
-                        if (newSelectedCount > 0) {
-                            step3.classList.add('active', 'add-margin');
-                        } else {
-                            step3.classList.remove('active', 'add-margin');
-                        }
-                    });
-                    painPointsGrid.appendChild(ppButton);
-                });
-            }
-
-            // --- Step 3: Goals ---
             goalsGrid.querySelectorAll('.option-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    userSelections.goal = button.dataset.goal;
-                    userSelections.painPoints = Array.from(painPointsGrid.querySelectorAll('.selected')).map(btn => btn.dataset.painPoint);
-                    
-                    goalsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
-                    button.classList.add('selected');
-                    painPointsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
-                    
+                    const goal = button.dataset.goal;
+                    resultsTitle.textContent = `To help you ${goal}, here are your recommended solutions:`;
                     showResults();
+                    goalsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
+                    painPointsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
                     step4.classList.add('active', 'add-margin');
                 });
             });
 
-            // --- Step 4: Results ---
             function showResults() {
-                const scores = {};
-                Object.keys(solutions).forEach(key => scores[key] = 0);
-
-                // Score based on pain points
-                userSelections.painPoints.forEach(ppKey => {
-                    painPoints[ppKey].solutions.forEach(solKey => {
-                        scores[solKey] += 1;
-                    });
-                });
-
-                // Score based on primary goal (higher weight)
-                goals[userSelections.goal].solutions.forEach(solKey => {
-                    scores[solKey] += 2;
-                });
-
-                // Bonus points based on business type
-                if (userSelections.business === 'food' || userSelections.business === 'retail') {
-                    scores['loyalty'] += 1;
-                    scores['points'] += 1;
-                }
-                if (userSelections.business === 'service') {
-                    scores['automation'] += 1;
-                }
-                if (userSelections.business === 'professional') {
-                    scores['rag'] += 1;
-                }
-
-                const sortedSolutions = Object.keys(scores)
-                    .filter(key => scores[key] > 0)
-                    .sort((a, b) => scores[b] - scores[a]);
-
+                const selectedPainPoints = Array.from(painPointsGrid.querySelectorAll('.selected')).map(btn => btn.dataset.painPoint);
+                
                 resultsArea.innerHTML = '';
-                const topSolutions = sortedSolutions.slice(0, 3);
-
-                if (topSolutions.length === 0) {
-                     resultsArea.innerHTML = "<p>Based on your selections, a custom consultation would be best to find the perfect fit. Contact us to learn more!</p>";
-                } else {
-                    topSolutions.forEach((key, index) => {
-                        const solution = solutions[key];
-                        const card = document.createElement('a');
-                        card.href = solution.href;
-                        card.className = 'solution-card';
-                        card.style.animationDelay = `${index * 0.15}s`;
-                        card.innerHTML = `
-                            <h3><i class="fas ${solution.icon} icon"></i>${solution.title}</h3>
-                            <p>${solution.text}</p>`;
-                        resultsArea.appendChild(card);
-                    });
-                }
+                selectedPainPoints.forEach((key, index) => {
+                    const solution = solutionsData[key];
+                    const card = document.createElement('div');
+                    card.className = 'solution-card';
+                    card.style.animationDelay = `${index * 0.15}s`;
+                    card.innerHTML = `<h3><i class="fas ${solution.icon} icon"></i>${solution.title}</h3><p>${solution.text}</p>`;
+                    resultsArea.appendChild(card);
+                });
             }
 
-            // --- Reset Logic ---
             resetButton.addEventListener('click', () => {
-                // Hide steps
                 step2.classList.remove('active', 'add-margin');
                 step3.classList.remove('active', 'add-margin');
                 step4.classList.remove('active', 'add-margin');
                 
-                // After animations, reset the state
                 setTimeout(() => {
-                    userSelections = {};
-                    step1.querySelectorAll('.option-button').forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('selected');
-                    });
-                    goalsGrid.querySelectorAll('.option-button').forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('selected');
-                    });
+                    step1.querySelectorAll('.option-button').forEach(btn => btn.disabled = false);
+                    goalsGrid.querySelectorAll('.option-button').forEach(btn => btn.disabled = false);
                     painPointsGrid.innerHTML = '';
                     resultsArea.innerHTML = '';
-                }, 700); 
+                }, 500); // Wait for collapse animation
+            });
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
             });
         });
     </script>
