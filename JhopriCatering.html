@@ -11,12 +11,15 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <!-- Babel to compile JSX in the browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Day.js for date manipulation -->
+    <script src="https://unpkg.com/dayjs@1.11.9/dayjs.min.js"></script>
+
 </head>
 <body class="bg-gray-100">
     <div id="root"></div>
 
     <script type="text/babel">
-      const { useState, useEffect, useCallback } = React;
+      const { useState, useEffect, useCallback, useMemo } = React;
 
       // --- ⚙️ CONFIGURATION ---
       const AIRTABLE_CONFIG = {
@@ -49,42 +52,156 @@
       const TrashIcon = () => (<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clipRule="evenodd" /></svg>);
       const AlertIcon = () => (<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>);
       const HomeIcon = () => (<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>);
+      const DetailsIcon = () => (<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>);
 
       // --- REUSABLE UI COMPONENTS ---
       const LoadingSpinner = () => (<div className="flex justify-center items-center h-screen"><div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div></div>);
-      const Modal = ({ message, onClose }) => {
-        if (!message) return null;
-        return (<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"><div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm m-4"><div className="flex items-center mb-4"><AlertIcon /><h3 className="ml-3 text-lg font-medium text-gray-900">Error</h3></div><p className="text-sm text-gray-600 mb-4">{message}</p><div className="flex justify-end"><Button onClick={onClose} variant="primary">Close</Button></div></div></div>);
-      };
-      const Button = ({ onClick, children, variant = 'primary', type = 'button' }) => {
-        const baseClasses = "px-4 py-2 rounded-lg font-semibold shadow-sm transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center gap-2";
-        const variants = { primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500", secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400" };
-        return (<button type={type} onClick={onClick} className={`${baseClasses} ${variants[variant]}`}>{children}</button>);
-      };
-      const Header = ({ onNavigate }) => (
-        <header className="bg-white shadow-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center py-4">
-                    <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-2 text-xl font-bold text-gray-800 hover:text-blue-600 transition">
-                        <HomeIcon />
-                        <span>Jhopri Catering OS</span>
-                    </button>
+      const Modal = ({ title, message, onClose, children }) => {
+        if (!message && !children) return null;
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md m-4">
+                    <div className="flex items-center mb-4"><h3 className="text-lg font-medium text-gray-900">{title || 'Details'}</h3></div>
+                    {message && <div className="flex items-center"><AlertIcon /><p className="ml-3 text-sm text-gray-600 mb-4">{message}</p></div>}
+                    {children}
+                    <div className="flex justify-end mt-6"><Button onClick={onClose} variant="primary">Close</Button></div>
                 </div>
             </div>
-        </header>
+        );
+      };
+
+      const Button = ({ onClick, children, variant = 'primary', type = 'button', className = '' }) => {
+        const baseClasses = "px-4 py-2 rounded-lg font-semibold shadow-sm transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center justify-center gap-2";
+        const variants = { primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500", secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400", tertiary: "text-blue-600 hover:text-blue-900" };
+        return (<button type={type} onClick={onClick} className={`${baseClasses} ${variants[variant]} ${className}`}>{children}</button>);
+      };
+      
+      const Header = ({ onNavigate }) => {
+        const [time, setTime] = useState(new Date());
+        useEffect(() => {
+            const timer = setInterval(() => setTime(new Date()), 1000);
+            return () => clearInterval(timer);
+        }, []);
+
+        return (
+            <header className="bg-white shadow-md sticky top-0 z-40">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center py-4">
+                        <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-2 text-xl font-bold text-gray-800 hover:text-blue-600 transition">
+                            <HomeIcon />
+                            <span>Jhopri Catering OS</span>
+                        </button>
+                        <div className="text-right text-xs text-gray-500">
+                            <div>{time.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                            <div>{time.toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        );
+      };
+
+      // --- DASHBOARD-SPECIFIC COMPONENTS ---
+      const StatCard = ({ title, value, note }) => (
+        <div className="bg-white p-6 rounded-xl shadow-lg">
+            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <p className="text-2xl font-bold text-gray-800">{value}</p>
+            <p className="text-xs text-gray-400">{note}</p>
+        </div>
       );
 
+      const DashboardMetrics = ({ orders }) => {
+        const metrics = useMemo(() => {
+            const confirmedOrders = orders.filter(o => o.fields.Status === 'Confirmed');
+            const now = dayjs();
+
+            const upcomingEvents = confirmedOrders.filter(o => dayjs(o.fields.Event_Date).isAfter(now)).length;
+            const monthlyRevenue = confirmedOrders
+                .filter(o => dayjs(o.fields.Event_Date).isSame(now, 'month'))
+                .reduce((sum, o) => sum + (o.fields.Final_Quote || 0), 0);
+            const activeOrdersCount = orders.filter(o => o.fields.Status === 'Quoted' || o.fields.Status === 'Confirmed').length;
+
+            return { upcomingEvents, monthlyRevenue, activeOrdersCount };
+        }, [orders]);
+
+        return (
+            <div className="mb-6">
+                <h2 className="text-xl font-semibold text-gray-700 mb-4">At a Glance</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <StatCard 
+                        title="Upcoming Events" 
+                        value={metrics.upcomingEvents}
+                        note="Confirmed future events"
+                    />
+                    <StatCard 
+                        title="Active Orders" 
+                        value={metrics.activeOrdersCount}
+                        note="Status is Quoted or Confirmed"
+                    />
+                    <StatCard 
+                        title="This Month's Revenue" 
+                        value={`$${metrics.monthlyRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`}
+                        note={`From confirmed orders in ${dayjs().format('MMMM')}`}
+                    />
+                </div>
+            </div>
+        );
+      };
+
       // --- PAGE COMPONENTS ---
-      const DashboardPage = ({ orders, customers, onNavigate, onRefresh }) => {
-        const getCustomerName = (customerId) => {
+      const DashboardPage = ({ orders, customers, onNavigate, onRefresh, onSelectOrder }) => {
+        const [filters, setFilters] = useState({ searchTerm: '', status: 'All' });
+
+        const getCustomerName = useCallback((customerId) => {
           if (!customerId || !customers.length) return 'N/A';
           const customer = customers.find(c => c.id === customerId[0]);
           return customer?.fields.Name || 'Unknown Customer';
+        }, [customers]);
+
+        const filteredOrders = useMemo(() => {
+            return orders.filter(order => {
+                const customerNameMatch = filters.searchTerm === '' || getCustomerName(order.fields.Customer).toLowerCase().includes(filters.searchTerm.toLowerCase());
+                const statusMatch = filters.status === 'All' || order.fields.Status === filters.status;
+                return customerNameMatch && statusMatch;
+            });
+        }, [orders, filters, getCustomerName]);
+        
+        const handleFilterChange = (e) => {
+            const { name, value } = e.target;
+            setFilters(prev => ({ ...prev, [name]: value }));
         };
+
         return (
           <div className="p-4 sm:p-6 lg:p-8">
+            <DashboardMetrics orders={orders} />
+
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg mb-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                    <input 
+                        type="text"
+                        name="searchTerm"
+                        placeholder="Search by customer name..."
+                        value={filters.searchTerm}
+                        onChange={handleFilterChange}
+                        className="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                    />
+                    <select 
+                        name="status"
+                        value={filters.status}
+                        onChange={handleFilterChange}
+                        className="p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="All">All Statuses</option>
+                        <option>Quoted</option>
+                        <option>Confirmed</option>
+                        <option>Completed</option>
+                        <option>Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
             <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Orders Dashboard</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">All Orders</h1>
               <div className="flex space-x-2 w-full sm:w-auto">
                 <Button onClick={onRefresh} variant="secondary" className="w-1/2 sm:w-auto">Refresh</Button>
                 <Button onClick={() => onNavigate('newOrder')} className="w-1/2 sm:w-auto"><PlusIcon /> New Order</Button>
@@ -92,30 +209,35 @@
             </header>
             <main className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
               <div className="overflow-x-auto">
-                {orders.length > 0 ? (
+                {filteredOrders.length > 0 ? (
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quote Date</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Final Quote</th>
                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {orders.map(order => (
+                      {filteredOrders.map(order => (
                         <tr key={order.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{getCustomerName(order.fields.Customer)}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.fields.Event_Date}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dayjs(order.createdTime).format('YYYY-MM-DD')}</td>
                           <td className="px-6 py-4 whitespace-nowrap"><span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.fields.Status === 'Confirmed' ? 'bg-green-100 text-green-800' : order.fields.Status === 'Completed' ? 'bg-blue-100 text-blue-800' : order.fields.Status === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>{order.fields.Status || 'Quoted'}</span></td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.fields.Final_Quote?.toFixed(2) || '0.00'}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('editOrder', order); }} className="text-blue-600 hover:text-blue-900">Edit</a></td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center gap-2">
+                            <button onClick={() => onSelectOrder(order)} className="p-2 text-gray-500 hover:text-blue-600 rounded-full hover:bg-gray-100 transition"><DetailsIcon /></button>
+                            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('editOrder', order); }} className="text-blue-600 hover:text-blue-900">Edit</a>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                ) : (<div className="text-center py-12"><h3 className="text-lg font-medium text-gray-900">No orders yet</h3><p className="mt-1 text-sm text-gray-500">Click "New Order" to get started.</p></div>)}
+                ) : (<div className="text-center py-12"><h3 className="text-lg font-medium text-gray-900">No matching orders found</h3><p className="mt-1 text-sm text-gray-500">Try adjusting your filters or search term.</p></div>)}
               </div>
             </main>
           </div>
@@ -155,7 +277,7 @@
         return (
             <div className="p-4 sm:p-6 lg:p-8">
                 <header className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{existingOrder ? `Edit Order #${existingOrder.fields.OrderID}` : 'Create New Order'}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">{existingOrder ? `Edit Order #${existingOrder?.fields?.OrderID || ''}` : 'Create New Order'}</h1>
                     <Button onClick={onCancel} variant="secondary">Cancel</Button>
                 </header>
                 <main className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
@@ -179,10 +301,30 @@
         );
       };
 
+      const OrderDetailsModal = ({ order, customer, menu, onClose }) => {
+          if (!order) return null;
+          const orderItems = order.fields.Order_Items ? JSON.parse(order.fields.Order_Items) : [];
+          const finalQuote = order.fields.Final_Quote || 0;
+          const amountPaid = order.fields.Amount_Paid || 0;
+          const amountDue = finalQuote - amountPaid;
+          const getItemName = (itemId) => menu.find(m => m.id === itemId)?.fields?.Name || 'Unknown Item';
+          return (
+              <Modal title={`Order Details #${order.fields.OrderID || ''}`} onClose={onClose}>
+                  <div className="space-y-4 text-sm">
+                      <div className="p-3 bg-gray-50 rounded-lg"><h4 className="font-semibold text-gray-800 mb-2">Customer Information</h4><p><strong>Name:</strong> {customer?.fields?.Name || 'N/A'}</p><p><strong>Phone:</strong> {customer?.fields?.Phone || 'N/A'}</p><p><strong>Email:</strong> {customer?.fields?.Email || 'N/A'}</p></div>
+                      <div className="p-3 bg-gray-50 rounded-lg"><h4 className="font-semibold text-gray-800 mb-2">Order Items</h4><ul className="list-disc list-inside space-y-1">{orderItems.map((item, index) => (<li key={index}>{item.quantity} x {item.size} - <strong>{getItemName(item.id)}</strong></li>))}</ul></div>
+                      <div className="p-3 bg-blue-50 rounded-lg"><h4 className="font-semibold text-gray-800 mb-2">Financial Summary</h4><div className="grid grid-cols-2 gap-x-4"><p><strong>Final Quote:</strong></p><p className="text-right">${finalQuote.toFixed(2)}</p><p><strong>Amount Paid:</strong></p><p className="text-right">${amountPaid.toFixed(2)}</p><hr className="col-span-2 my-1"/><p className="font-bold">Amount Due:</p><p className="text-right font-bold">${amountDue.toFixed(2)}</p></div></div>
+                      {order.fields.Notes && (<div className="p-3 bg-gray-50 rounded-lg"><h4 className="font-semibold text-gray-800 mb-2">Notes</h4><p className="whitespace-pre-wrap">{order.fields.Notes}</p></div>)}
+                  </div>
+              </Modal>
+          );
+      };
+
       // --- MAIN APP ---
       function App() {
         const [page, setPage] = useState('dashboard');
         const [editingOrder, setEditingOrder] = useState(null);
+        const [viewingOrder, setViewingOrder] = useState(null);
         const [orders, setOrders] = useState([]);
         const [customers, setCustomers] = useState([]);
         const [menu, setMenu] = useState([]);
@@ -221,13 +363,16 @@
           switch (page) {
             case 'newOrder': return <OrderFormPage menu={menu} customers={customers} onSave={handleSaveOrder} onCancel={() => setPage('dashboard')} setModalMessage={setModalMessage} />;
             case 'editOrder': return <OrderFormPage menu={menu} customers={customers} existingOrder={editingOrder} onSave={handleSaveOrder} onCancel={() => setPage('dashboard')} setModalMessage={setModalMessage} />;
-            default: return <DashboardPage orders={orders} customers={customers} onNavigate={handleNavigate} onRefresh={fetchData} />;
+            default: return <DashboardPage orders={orders} customers={customers} onNavigate={handleNavigate} onRefresh={fetchData} onSelectOrder={setViewingOrder} />;
           }
         };
+        
+        const selectedCustomer = viewingOrder ? customers.find(c => c.id === viewingOrder.fields.Customer?.[0]) : null;
 
         return (
           <div className="font-sans">
-            <Modal message={modalMessage} onClose={() => setModalMessage('')} />
+            <Modal title="Error" message={modalMessage} onClose={() => setModalMessage('')} />
+            <OrderDetailsModal order={viewingOrder} customer={selectedCustomer} menu={menu} onClose={() => setViewingOrder(null)} />
             <Header onNavigate={handleNavigate} />
             <div className="max-w-7xl mx-auto">
                 {isLoading && orders.length > 0 && (<div className="fixed top-20 right-4 bg-blue-500 text-white text-sm py-1 px-3 rounded-full shadow-lg z-50 animate-pulse">Syncing...</div>)}
