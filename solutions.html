@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our AI Solutions - Princeton AI Partners</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Basic Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--primary-text-color); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+        
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+        #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
+        #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 1.25rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary-text-color); font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; }
+        .nav-links a:hover { color: var(--accent-color-start); }
+        
+        /* Dropdown Styles */
+        .nav-item-dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 0.5rem;
+            list-style: none;
+            width: max-content;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 1001;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--primary-text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+            color: var(--accent-color-start);
+        }
+        .dropdown-menu .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-color-start);
+        }
+        .nav-links .nav-item-dropdown > a .fa-chevron-down {
+            font-size: 0.6rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .nav-item-dropdown:hover > a .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden;}
+        .header-cta:hover { transform: scale(1.05); }
+        
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1010;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-text-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1005;
+        }
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .mobile-nav li {
+            margin: 1.5rem 0;
+        }
+        .mobile-nav a {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .mobile-nav .sub-menu {
+            list-style: none;
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+        .mobile-nav .sub-menu li {
+            margin: 1rem 0;
+        }
+        .mobile-nav .sub-menu a {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary-text-color);
+        }
+        .mobile-nav .header-cta {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; }
+        
+        /* Animated Page Hero Style */
+        .page-hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .animated-title {
+            position: relative;
+            display: inline-block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 2s steps(40, end) forwards;
+        }
+        .animated-title::before {
+            content: attr(data-text);
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: shine 3s infinite linear 2.5s, fadeInShine 0.1s 2.5s forwards;
+        }
+        .animated-title::after {
+            content: '';
+            position: absolute; right: 0; top: 0; height: 100%;
+            width: 3px;
+            background: var(--accent-color-start);
+            animation: blink 0.75s step-end 3 forwards;
+        }
+        .page-hero p {
+            font-size: 1.25rem;
+            color: var(--secondary-text-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink { 50% { background-color: transparent; } }
+        @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
+        @keyframes fadeInShine { to { opacity: 1; } }
+
+        /* Interactive Tab Layout */
+        .solutions-layout {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+            padding: 80px 0 120px;
+        }
+        .solutions-tabs {
+            flex: 0 0 300px;
+            list-style: none;
+        }
+        .tab-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .tab-link:hover {
+            background-color: #e9e9e7;
+        }
+        .tab-link.active {
+            background-color: var(--card-bg-color);
+            color: var(--accent-color-start);
+            border-color: var(--border-color);
+            font-weight: 600;
+        }
+        .tab-link .icon {
+            font-size: 1.25rem;
+            width: 30px;
+            text-align: center;
+        }
+        .solutions-content {
+            flex: 1;
+        }
+        .tab-pane {
+            display: none;
+            background-color: var(--card-bg-color);
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+        }
+        .tab-pane.active {
+            display: block;
+            animation: contentFadeIn 0.5s ease forwards;
+        }
+        @keyframes contentFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-pane h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .tab-pane p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        .tab-pane ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .tab-pane ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 0.75rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInListItem 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+        .tab-pane.active ul li:nth-child(1) { animation-delay: 0.2s; }
+        .tab-pane.active ul li:nth-child(2) { animation-delay: 0.3s; }
+        .tab-pane.active ul li:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes fadeInListItem {
+             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-pane ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: var(--accent-color-start);
+        }
+        .rag-explainer {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            animation: fadeInListItem 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.5s forwards;
+        }
+        
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .shine-effect:hover::after {
+            left: 150%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .animated-title {
+                font-size: 2.5rem;
+            }
+            .solutions-layout { 
+                flex-direction: column; 
+                padding-top: 40px;
+            }
+            .solutions-tabs { 
+                flex: 0 0 auto; 
+                width: 100%; 
+                display: flex; 
+                overflow-x: auto; 
+                padding-bottom: 1rem;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .solutions-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            .tab-link { 
+                flex-shrink: 0; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-blur"></div>
+
+    <header id="main-header">
+        <nav class="container">
+            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <ul class="nav-links">
+                <li class="nav-item-dropdown">
+                    <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="checkin.html"><span class="icon"><i class="fas fa-gift"></i></span>Automated Loyalty</a></li>
+                        <li><a href="AutoPosting.html"><span class="icon"><i class="fas fa-bullhorn"></i></span>AI-Powered Marketing</a></li>
+                        <li><a href="ProcessAutomation.html"><span class="icon"><i class="fas fa-robot"></i></span>Process Automation</a></li>
+                        <li><a href="websitemanagement.html"><span class="icon"><i class="fas fa-desktop"></i></span>Website Management</a></li>
+                        <li><a href="RAG.html"><span class="icon"><i class="fas fa-database"></i></span>Smart Document Processing</a></li>
+                        <li><a href="PhoneAgent.html"><span class="icon"><i class="fas fa-phone"></i></span>AI Phone Receptionist</a></li>
+                    </ul>
+                </li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Quiz</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="header-cta shine-effect">Get Started</a>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="solutions.html">Solutions</a>
+                <ul class="sub-menu">
+                    <li><a href="checkin.html">Automated Loyalty</a></li>
+                    <li><a href="AutoPosting.html">AI-Powered Marketing</a></li>
+                    <li><a href="ProcessAutomation.html">Process Automation</a></li>
+                    <li><a href="websitemanagement.html">Website Management</a></li>
+                    <li><a href="RAG.html">Smart Document Processing</a></li>
+                    <li><a href="PhoneAgent.html">AI Phone Receptionist</a></li>
+                </ul>
+            </li>
+            <li><a href="clients.html">Who We Serve</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="playground.html">AI Quiz</a></li>
+            <li><a href="contact.html" class="header-cta">Get Started</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="animated-title" data-text="Our AI Solutions">Our AI Solutions</h1>
+                <p>From back-office efficiency to frontline customer engagement, our custom-built AI is designed to solve your most pressing business challenges.</p>
+            </div>
+        </section>
+
+        <section class="solutions-layout container">
+            <ul class="solutions-tabs">
+                <li><a class="tab-link active" data-tab="rewards"><i class="fas fa-gift icon"></i> Check-in & Rewards</a></li>
+                <li><a class="tab-link" data-tab="marketing"><i class="fas fa-bullhorn icon"></i> Customized Marketing</a></li>
+                <li><a class="tab-link" data-tab="automation"><i class="fas fa-robot icon"></i> Process Automation</a></li>
+                <li><a class="tab-link" data-tab="website"><i class="fas fa-desktop icon"></i> Website Management</a></li>
+                <li><a class="tab-link" data-tab="rag"><i class="fas fa-database icon"></i> Smart Document Processing</a></li>
+            </ul>
+            <div class="solutions-content">
+                <div class="tab-pane active" id="rewards">
+                    <h3>Automated Check-in & Rewards Workflows</h3>
+                    <p>Foster deep customer loyalty and dramatically increase repeat business. We build seamless automated systems that manage customer check-ins, track visit frequency, and deliver personalized rewards and offers. This creates an engaging experience that makes your best customers feel valued and keeps them coming back for more.</p>
+                    <ul>
+                        <li>Drives repeat visits and increases customer lifetime value.</li>
+                        <li>Gathers valuable data on customer behavior and preferences.</li>
+                        <li>Operates automatically in the background, requiring no staff effort.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="marketing">
+                    <h3>Customized Marketing & Posting</h3>
+                    <p>Maintain a vibrant online presence without lifting a finger. Our AI can generate and post high-quality, relevant content for your social media channels, create engaging blog articles to boost your SEO, and send personalized marketing messages to the right customers at the right time.</p>
+                    <ul>
+                        <li>Ensures a consistent and professional brand voice online.</li>
+                        <li>Attracts new customers through engaging, search-optimized content.</li>
+                        <li>Saves countless hours of creative work and planning each week.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="automation">
+                    <h3>Intelligent Process Automation</h3>
+                    <p>Stop losing valuable time and money to repetitive, manual tasks. Our AI agents can handle everything from scheduling appointments and answering common questions to managing inventory and processing paperwork, allowing your team to focus on high-value work.</p>
+                    <ul>
+                        <li>Captures leads and books appointments around the clock.</li>
+                        <li>Reduces costly errors from manual data entry.</li>
+                        <li>Frees up your staff to focus on serving customers.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="website">
+                    <h3>AI-Powered Website Management</h3>
+                    <p>Your website should be your hardest-working employee. We build and manage dynamic websites that do more than just sit there. Our AI can personalize content for visitors, provide instant chat support, and even update product listings or galleries automatically, ensuring your site is always working to win you more business.</p>
+                    <ul>
+                        <li>Provides a modern, professional online presence.</li>
+                        <li>Engages visitors with interactive, AI-driven features.</li>
+                        <li>Automates content updates to keep your site fresh and relevant.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="rag">
+                    <h3>Smart Document Processing (RAG)</h3>
+                    <p>Imagine an employee who has instantly memorized every document, manual, and past project in your company's history. Our Retrieval-Augmented Generation (RAG) agents act as a super-intelligent internal search engine, providing instant, accurate answers to complex staff questions by drawing directly from your own private data.</p>
+                    <ul>
+                        <li>Eliminates time wasted searching for information.</li>
+                        <li>Ensures consistent and accurate answers for training and operations.</li>
+                        <li>Keeps your proprietary data secure and private.</li>
+                    </ul>
+                    <div class="rag-explainer">
+                        <strong>What is RAG?</strong> Retrieval-Augmented Generation allows an AI to "look up" information in your private documents before answering a question. This prevents the AI from making things up and ensures its answers are factual and highly relevant to your specific business.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
+            <p>Princeton, New Jersey</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            });
+
+            const tabs = document.querySelectorAll('.tab-link');
+            const panes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetPaneId = tab.getAttribute('data-tab');
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(targetPaneId).classList.add('active');
+                });
+            });
+
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

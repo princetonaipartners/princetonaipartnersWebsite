@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Princeton AI Partners</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #F8F8F6;
+            --primary-text-color: #1D1D1F;
+            --secondary-text-color: #6E6E73;
+            --accent-gradient: linear-gradient(45deg, #0A84FF, #0060CE);
+            --accent-color-start: #0A84FF;
+            --border-color: #d2d2d7;
+            --card-bg-color: #FFFFFF;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        /* Basic Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: var(--bg-color); 
+            color: var(--primary-text-color); 
+            line-height: 1.65; 
+            -webkit-font-smoothing: antialiased; 
+        }
+        
+        .mouse-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            background: var(--accent-color-start);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+        #main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.4s ease; }
+        #main-header.scrolled { background-color: rgba(248, 248, 246, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        #main-header nav { display: flex; justify-content: space-between; align-items: center; height: 68px; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-text-color);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        .logo:hover {
+            animation: logoGlow 2s infinite alternate ease-in-out;
+        }
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
+            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+        }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin: 0 1.25rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary-text-color); font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; display: flex; align-items: center; }
+        .nav-links a:hover { color: var(--accent-color-start); }
+        
+        /* Dropdown Styles */
+        .nav-item-dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 0.5rem;
+            list-style: none;
+            width: max-content;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 1001;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--primary-text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+            color: var(--accent-color-start);
+        }
+        .dropdown-menu .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-color-start);
+        }
+        .nav-links .nav-item-dropdown > a .fa-chevron-down {
+            font-size: 0.6rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .nav-item-dropdown:hover > a .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .header-cta { background: var(--accent-gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 980px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .header-cta:hover { transform: scale(1.05); }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1010;
+        }
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-text-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1005;
+        }
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .mobile-nav li {
+            margin: 1.5rem 0;
+        }
+        .mobile-nav a {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-decoration: none;
+        }
+        .mobile-nav .sub-menu {
+            list-style: none;
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+        .mobile-nav .sub-menu li {
+            margin: 1rem 0;
+        }
+        .mobile-nav .sub-menu a {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary-text-color);
+        }
+        .mobile-nav .header-cta {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            margin-top: 2rem;
+        }
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        #main-footer { padding: 3rem 0; text-align: center; color: var(--secondary-text-color); font-size: 0.9rem; border-top: 1px solid #e5e5e5; margin-top: 120px; background-color: var(--bg-color); }
+        
+        .page-hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .animated-title {
+            position: relative;
+            display: inline-block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 2s steps(40, end) forwards;
+        }
+        .animated-title::before {
+            content: attr(data-text);
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: shine 3s infinite linear 2.5s, fadeInShine 0.1s 2.5s forwards;
+        }
+        .animated-title::after {
+            content: '';
+            position: absolute; right: 0; top: 0; height: 100%;
+            width: 3px;
+            background: var(--accent-color-start);
+            animation: blink 0.75s step-end 3 forwards;
+        }
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink { 50% { background-color: transparent; } }
+        @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
+        @keyframes fadeInShine { to { opacity: 1; } }
+
+        main {
+            background-color: var(--bg-color);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 80px auto;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .about-content p {
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text-color);
+        }
+        .about-content strong {
+            color: var(--primary-text-color);
+            font-weight: 600;
+        }
+
+        .contact-info {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+        .contact-info h3 {
+            margin-bottom: 1rem;
+        }
+        .contact-info a {
+            color: var(--accent-color-start);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .animated-title {
+                font-size: 1.8rem;
+                white-space: normal;
+                width: auto;
+                animation: none;
+            }
+            .animated-title::after, .animated-title::before {
+                display: none;
+            }
+            .contact-info a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-blur"></div>
+    <div id="particles-js"></div>
+
+    <div class="content-wrapper">
+        <header id="main-header">
+            <nav class="container">
+                <a href="index.html" class="logo">Princeton AI Partners</a>
+                <ul class="nav-links">
+                    <li class="nav-item-dropdown">
+                        <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="checkin.html"><span class="icon"><i class="fas fa-gift"></i></span>Automated Loyalty</a></li>
+                            <li><a href="AutoPosting.html"><span class="icon"><i class="fas fa-bullhorn"></i></span>AI-Powered Marketing</a></li>
+                            <li><a href="ProcessAutomation.html"><span class="icon"><i class="fas fa-robot"></i></span>Process Automation</a></li>
+                            <li><a href="websitemanagement.html"><span class="icon"><i class="fas fa-desktop"></i></span>Website Management</a></li>
+                            <li><a href="RAG.html"><span class="icon"><i class="fas fa-database"></i></span>Smart Document Processing</a></li>
+                            <li><a href="PhoneAgent.html"><span class="icon"><i class="fas fa-phone"></i></span>AI Phone Receptionist</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="clients.html">Who We Serve</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="playground.html">AI Quiz</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="contact.html" class="header-cta">Get Started</a>
+                <button class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </header>
+
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="solutions.html">Solutions</a>
+                    <ul class="sub-menu">
+                        <li><a href="checkin.html">Automated Loyalty</a></li>
+                        <li><a href="AutoPosting.html">AI-Powered Marketing</a></li>
+                        <li><a href="ProcessAutomation.html">Process Automation</a></li>
+                        <li><a href="websitemanagement.html">Website Management</a></li>
+                        <li><a href="RAG.html">Smart Document Processing</a></li>
+                        <li><a href="PhoneAgent.html">AI Phone Receptionist</a></li>
+                    </ul>
+                </li>
+                <li><a href="clients.html">Who We Serve</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="playground.html">AI Quiz</a></li>
+                <li><a href="contact.html" class="header-cta">Get Started</a></li>
+            </ul>
+        </div>
+
+        <main>
+            <section class="page-hero">
+                <div class="container">
+                    <h1 class="animated-title" data-text="We're Champions for Small Business">We're Champions for Small Business</h1>
+                </div>
+            </section>
+
+            <section class="about-content container">
+                <h2>Our Story</h2>
+                <p>We believe the best businesses are the ones that make a community feel like home. The local coffee shop that knows your order, the salon where you catch up on neighborhood news—these places are run by passionate people, and that's something we've always admired.</p>
+                <p>As new technology like AI became popular, it was mostly used by big corporations. We saw a chance to bring those same powerful, time-saving tools to the local businesses we love, helping them grow and succeed in new ways.</p>
+                <p>That’s why Princeton AI Partners was started. Our mission is to <strong>level the playing field</strong> by building simple, affordable AI solutions that help small business owners <strong>save time</strong>, <strong>reach more customers</strong>, and <strong>focus on what they do best</strong>.</p>
+                
+                <div class="contact-info">
+                    <h3>Have a question? Get in touch.</h3>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+            </section>
+        </main>
+
+        <footer id="main-footer">
+            <div class="container">
+                <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
+                <p>Princeton, New Jersey</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": "#6E6E73" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.2, "sync": false } },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": false },
+                    "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "bubble" }, "onclick": { "enable": false }, "resize": true },
+                    "modes": { "bubble": { "distance": 150, "size": 4, "duration": 2, "opacity": 1, "speed": 3 } }
+                },
+                "retina_detect": true
+            });
+
+            const mouseBlur = document.querySelector('.mouse-blur');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
+            });
+            
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
