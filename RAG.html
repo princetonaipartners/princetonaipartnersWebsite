@@ -13,6 +13,14 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/PrincetonAI_Solo_Blue.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/PrincetonAI_Solo_Blue.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/PrincetonAI_Solo_Blue_Large.png">
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <style>
         /* --- 1. Root Variables & Global Styles --- */
         :root {
@@ -54,8 +62,35 @@
             height: 68px;
         }
         .logo {
-            font-weight: 600; font-size: 1.1rem; color: var(--primary-text-color);
+            display: flex;
+            align-items: center;
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+
+        .logo:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        /* Footer logo styles */
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.75rem;
+            display: block;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            opacity: 1;
         }
         .nav-links {
             display: flex;
@@ -471,6 +506,9 @@
             .menu-toggle {
                 display: flex;
             }
+            .logo-img {
+                height: 32px;
+            }
             .content-section { padding: 100px 0; }
             .hero-content h1 { font-size: 2.5rem; }
             .hero-content .subtitle { font-size: 1.1rem; }
@@ -498,7 +536,7 @@
 <body>
     <header id="main-header">
         <nav class="container">
-            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <a href="index.html" class="logo"><img src="assets/images/PrincetonAI_Blue1.png" alt="Princeton AI Partners" class="logo-img"></a>
             <ul class="nav-links">
                 <li class="nav-item-dropdown">
                     <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
@@ -770,6 +808,43 @@
                     mobileNav.classList.toggle('active');
                     menuToggle.classList.toggle('active');
                 });
+            }
+
+            // --- Logo Animations with GSAP ---
+
+            // Header logo magnetic hover effect
+            const headerLogo = document.querySelector('.logo');
+            const logoImg = document.querySelector('.logo-img');
+
+            if (headerLogo && logoImg) {
+                headerLogo.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = headerLogo.getBoundingClientRect();
+                    const x = e.clientX - (left + width / 2);
+                    const y = e.clientY - (top + height / 2);
+
+                    gsap.to(logoImg, {
+                        x: x * 0.15,
+                        y: y * 0.15,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        scale: 1.08
+                    });
+                });
+
+                headerLogo.addEventListener('mouseleave', () => {
+                    gsap.to(logoImg, {
+                        x: 0,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.3)'
+                    });
+                });
+            }
+
+            // Accessibility: Respect prefers-reduced-motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                gsap.globalTimeline.clear();
             }
         });
     </script>

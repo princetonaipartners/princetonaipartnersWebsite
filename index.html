@@ -13,6 +13,14 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/PrincetonAI_Solo_Blue.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/PrincetonAI_Solo_Blue.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/PrincetonAI_Solo_Blue_Large.png">
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <style>
         /* --- 1. Root Variables & Global Styles --- */
         :root {
@@ -92,19 +100,45 @@
         }
 
         .logo {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--primary-text-color);
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            transition: color 0.4s ease;
+            transition: all 0.3s ease;
         }
-        
-        .logo:hover {
-            animation: logoGlow 2s infinite alternate ease-in-out;
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+            will-change: transform;
         }
-        @keyframes logoGlow {
-            from { text-shadow: 0 0 2px rgba(10, 132, 255, 0.5); }
-            to { text-shadow: 0 0 8px rgba(10, 132, 255, 0.8); }
+
+        .logo:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        /* Hero logo styles */
+        .hero-logo {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 2rem;
+            display: block;
+            opacity: 0;
+            filter: drop-shadow(0 10px 30px rgba(10, 132, 255, 0.3));
+        }
+
+        /* Footer logo styles */
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.75rem;
+            display: block;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            opacity: 1;
         }
 
         .nav-links {
@@ -600,6 +634,13 @@
             .menu-toggle {
                 display: flex;
             }
+            .logo-img {
+                height: 32px;
+            }
+            .hero-logo {
+                width: 80px;
+                height: 80px;
+            }
             .hero-content h1 {
                 font-size: 3rem;
             }
@@ -641,7 +682,9 @@
     <!-- Header -->
     <header id="main-header">
         <nav class="container">
-            <a href="index.html" class="logo">Princeton AI Partners</a>
+            <a href="index.html" class="logo">
+                <img src="assets/images/PrincetonAI_Blue1.png" alt="Princeton AI Partners" class="logo-img">
+            </a>
             <ul class="nav-links">
                 <li class="nav-item-dropdown">
                     <a href="solutions.html">Solutions <i class="fas fa-chevron-down"></i></a>
@@ -696,6 +739,7 @@
                 <div class="orb"></div>
             </div>
             <div class="container hero-content">
+                <img src="assets/images/PrincetonAI_Solo_Blue_Large.png" alt="Princeton AI Partners" class="hero-logo" id="heroLogo">
                 <h1>
                     <span class="word" style="animation-delay: 0.1s;">AI</span>
                     <span class="word" style="animation-delay: 0.2s;">Solutions</span>
@@ -778,6 +822,7 @@
 
     <footer id="main-footer">
         <div class="container">
+            <img src="assets/images/PrincetonAI_Solo_Blue.png" alt="Princeton AI Partners" class="footer-logo">
             <p>&copy; 2025 Princeton AI Partners. All rights reserved.</p>
             <p>Princeton, New Jersey</p>
         </div>
@@ -827,6 +872,75 @@
                 mobileNav.classList.toggle('active');
                 menuToggle.classList.toggle('active');
             });
+
+            // --- Logo Animations with GSAP ---
+
+            // Header logo magnetic hover effect
+            const headerLogo = document.querySelector('.logo');
+            const logoImg = document.querySelector('.logo-img');
+
+            if (headerLogo && logoImg) {
+                headerLogo.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = headerLogo.getBoundingClientRect();
+                    const x = e.clientX - (left + width / 2);
+                    const y = e.clientY - (top + height / 2);
+
+                    gsap.to(logoImg, {
+                        x: x * 0.15,
+                        y: y * 0.15,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        scale: 1.08
+                    });
+                });
+
+                headerLogo.addEventListener('mouseleave', () => {
+                    gsap.to(logoImg, {
+                        x: 0,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.3)'
+                    });
+                });
+            }
+
+            // Hero logo entrance animation
+            const heroLogo = document.getElementById('heroLogo');
+            if (heroLogo) {
+                gsap.fromTo(heroLogo,
+                    {
+                        autoAlpha: 0,
+                        y: -30,
+                        scale: 0.8
+                    },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 1.2,
+                        delay: 0.2,
+                        ease: 'power3.out'
+                    }
+                );
+
+                // Gentle continuous float
+                gsap.to(heroLogo, {
+                    y: -10,
+                    duration: 2.5,
+                    ease: 'sine.inOut',
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+
+            // Accessibility: Respect prefers-reduced-motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                gsap.globalTimeline.clear();
+                if (heroLogo) {
+                    gsap.set(heroLogo, { autoAlpha: 1, y: 0, scale: 1 });
+                }
+            }
         });
     </script>
 </body>
