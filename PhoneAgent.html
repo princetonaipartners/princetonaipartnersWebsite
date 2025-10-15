@@ -313,9 +313,15 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            align-items: center;
+            align-items: start;
             position: relative;
             z-index: 1;
+        }
+        .hero-phone-section {
+            display: flex;
+            gap: 2rem;
+            align-items: start;
+            justify-content: center;
         }
         .hero-content h1 {
             font-size: 4rem;
@@ -430,13 +436,20 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(0, 96, 206, 0.1));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             color: white;
             margin-bottom: 0.5rem;
+            padding: 12px;
+            border: 2px solid rgba(10, 132, 255, 0.2);
+        }
+        .caller-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         .caller-name {
             font-weight: 600;
@@ -457,21 +470,22 @@
             flex-direction: column;
             gap: 0.75rem;
         }
-        /* Custom scrollbar styling */
+        /* Disable manual scrolling on mobile - animation only */
+        @media (max-width: 768px) {
+            .chat-messages {
+                pointer-events: none;
+                touch-action: none;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+        }
+        /* Hide scrollbar completely */
         .chat-messages::-webkit-scrollbar {
-            width: 4px;
+            display: none;
         }
-        .chat-messages::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.02);
-            border-radius: 10px;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--accent-color-start), var(--accent-color-end));
-            border-radius: 10px;
-            transition: opacity 0.3s ease;
-        }
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            opacity: 0.8;
+        .chat-messages {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
         .message {
             padding: 0.75rem 1rem;
@@ -655,6 +669,238 @@
             }
         }
 
+        /* --- Scenario Controls --- */
+        .scenario-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .scenario-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            text-align: center;
+        }
+        .scenario-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            width: 180px;
+        }
+        /* Desktop: Buttons next to phone */
+        @media (min-width: 992px) {
+            .scenario-controls {
+                margin-top: 0;
+            }
+            .scenario-buttons {
+                width: 180px;
+            }
+        }
+        /* Tablet/Mobile: Buttons below phone */
+        @media (max-width: 991px) {
+            .scenario-controls {
+                margin-top: 2rem;
+                width: 100%;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .scenario-title {
+                font-size: 1rem;
+            }
+            .scenario-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            .scenario-title {
+                font-size: 0.9rem;
+            }
+        }
+        .scenario-btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: var(--card-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-text-color);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 52px;
+            text-align: left;
+        }
+        /* Desktop: Horizontal layout */
+        @media (min-width: 992px) {
+            .scenario-btn {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 1rem 1.25rem;
+                min-height: 52px;
+            }
+        }
+        /* Tablet/Mobile: Vertical/compact layout */
+        @media (max-width: 991px) {
+            .scenario-btn {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 1rem 0.75rem;
+                min-height: 80px;
+                text-align: center;
+            }
+        }
+        .scenario-btn i {
+            font-size: 1.5rem;
+            color: var(--secondary-text-color);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        /* Desktop: Smaller icon */
+        @media (min-width: 992px) {
+            .scenario-btn i {
+                font-size: 1.25rem;
+            }
+        }
+        .scenario-btn:hover {
+            border-color: var(--accent-color-start);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(10, 132, 255, 0.15);
+        }
+        .scenario-btn:hover i {
+            color: var(--accent-color-start);
+            transform: scale(1.1);
+        }
+        .scenario-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: var(--accent-color-start);
+        }
+        .scenario-btn.active i {
+            color: white;
+        }
+        .scenario-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* --- Comparison Table --- */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+        /* Scroll indicator shadow on mobile */
+        @media (max-width: 768px) {
+            .comparison-table-wrapper::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 40px;
+                background: linear-gradient(to left, rgba(0,0,0,0.1), transparent);
+                pointer-events: none;
+                border-radius: 0 16px 16px 0;
+            }
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg-color);
+            font-size: 0.95rem;
+        }
+        .comparison-table thead {
+            background: linear-gradient(135deg, #0A2540 0%, #1A3A5F 100%);
+            color: white;
+        }
+        .comparison-table th {
+            padding: 1.25rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .comparison-table th i {
+            margin-right: 0.5rem;
+        }
+        .comparison-table .highlight-col {
+            background: var(--accent-gradient);
+            color: white;
+            position: relative;
+        }
+        .comparison-table thead .highlight-col {
+            box-shadow: 0 0 30px rgba(10, 132, 255, 0.4);
+        }
+        .recommended-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+            opacity: 0.95;
+            animation: subtlePulse 3s ease-in-out infinite;
+        }
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.95; }
+            50% { opacity: 1; }
+        }
+        .comparison-table tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+        }
+        .comparison-table tbody tr:hover {
+            background-color: rgba(10, 132, 255, 0.03);
+        }
+        .comparison-table tbody tr:hover .highlight-col {
+            background: rgba(10, 132, 255, 0.15);
+            box-shadow: inset 0 0 25px rgba(10, 132, 255, 0.1);
+        }
+        .comparison-table td {
+            padding: 1rem;
+        }
+        .comparison-table .feature-name {
+            font-weight: 600;
+            color: var(--primary-text-color);
+        }
+        .comparison-table tbody .highlight-col {
+            background: rgba(10, 132, 255, 0.08);
+            font-weight: 700;
+            color: var(--primary-text-color);
+            border-left: 3px solid var(--accent-color-start);
+            border-right: 3px solid var(--accent-color-start);
+            box-shadow: inset 0 0 20px rgba(10, 132, 255, 0.05);
+        }
+        .comparison-table i.fa-check-circle {
+            color: var(--success-color);
+            margin-right: 0.5rem;
+        }
+        .comparison-table .highlight-col i.fa-check-circle {
+            color: var(--accent-color-start);
+            filter: drop-shadow(0 0 3px rgba(10, 132, 255, 0.5));
+        }
+        .comparison-table i.fa-times-circle {
+            color: #FF3B30;
+            margin-right: 0.5rem;
+        }
+        .comparison-table i.fa-minus-circle {
+            color: #FF9500;
+            margin-right: 0.5rem;
+        }
+        .comparison-table i.fa-clock,
+        .comparison-table i.fa-hourglass-half {
+            color: var(--secondary-text-color);
+            margin-right: 0.5rem;
+        }
+
         /* --- Skeleton Loading States --- */
         .skeleton {
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -785,60 +1031,172 @@
             margin-top: 1.5rem;
         }
 
-        /* --- 7. Benefits Section --- */
-        .benefits-grid {
+        /* --- 6.5. Failure Handling Section --- */
+        .failure-scenario {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
         }
-        .benefit-card {
+        .failure-visual {
+            position: sticky;
+            top: 100px;
+        }
+        .failure-phone {
             background: var(--card-bg-color);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        border-color 0.3s ease;
-            will-change: transform;
-            position: relative;
-            overflow: hidden;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .benefit-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.05), transparent);
-            transition: left 0.5s ease;
-        }
-        .benefit-card:hover::before {
-            left: 100%;
-        }
-        .benefit-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(10, 132, 255, 0.15);
-            border-color: var(--accent-color-start);
-        }
-        .benefit-card:hover .benefit-icon {
-            transform: scale(1.15) rotate(5deg);
-        }
-        .benefit-icon {
-            font-size: 3rem;
-            color: var(--accent-color-start);
+        .failure-message {
+            background: #E8F0FE;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
             margin-bottom: 1.5rem;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
-            display: inline-block;
+            border-left: 4px solid var(--accent-color-start);
         }
-        .benefit-card h3 {
+        .failure-message p {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--primary-text-color);
+            line-height: 1.6;
+            margin: 0;
+        }
+        .failure-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-color-start);
+            padding: 1rem;
+            background: rgba(10, 132, 255, 0.05);
+            border-radius: 12px;
+        }
+        .failure-status i {
+            font-size: 1.25rem;
+            animation: phoneRing 1.5s infinite;
+        }
+        @keyframes phoneRing {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(-15deg); }
+            20%, 40% { transform: rotate(15deg); }
+            50% { transform: rotate(0deg); }
+        }
+        .failure-details h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--primary-text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .failure-details h3 i {
+            color: var(--accent-color-start);
+        }
+        .failure-details > p {
+            font-size: 1.1rem;
+            color: var(--secondary-text-color);
+            margin-bottom: 2rem;
+        }
+        .failure-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .failure-step {
+            display: flex;
+            gap: 1.25rem;
+            align-items: start;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .step-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-text-color);
+        }
+        .step-content p {
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .failure-guarantee {
+            background: var(--card-bg-color);
+            border: 2px solid var(--accent-color-start);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+        .failure-guarantee i {
+            color: var(--success-color);
             font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+        .failure-guarantee strong {
+            color: var(--primary-text-color);
+            margin-right: 0.5rem;
+        }
+
+        /* --- 7. FAQ Section --- */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .faq-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.3s ease,
+                        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .faq-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color-start);
+            box-shadow: 0 12px 24px rgba(10, 132, 255, 0.1);
+        }
+        .faq-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(0, 96, 206, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 1rem;
         }
-        .benefit-card p {
+        .faq-icon i {
+            font-size: 1.5rem;
+            color: var(--accent-color-start);
+        }
+        .faq-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-text-color);
+        }
+        .faq-item p {
             color: var(--secondary-text-color);
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         /* --- 8. Use Cases Section --- */
@@ -881,6 +1239,29 @@
         .use-case-card p {
             color: var(--secondary-text-color);
             font-size: 0.95rem;
+        }
+        .use-case-example {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .use-case-example strong {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-color-start);
+            margin-bottom: 0.5rem;
+        }
+        .example-text {
+            font-size: 0.85rem;
+            color: var(--primary-text-color);
+            font-style: italic;
+            line-height: 1.5;
+            background: rgba(10, 132, 255, 0.05);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color-start);
         }
 
         /* --- 9. Final CTA --- */
@@ -936,24 +1317,39 @@
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
+            .hero-phone-section {
+                flex-direction: column;
+                align-items: center;
+            }
             .hero-content h1 {
                 font-size: 3.2rem;
             }
             .steps-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .benefits-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
             .use-cases-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .failure-scenario {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .failure-visual {
+                position: relative;
+                top: 0;
             }
             .phone-simulator {
                 width: 100%;
                 max-width: 450px;
                 min-width: 320px;
                 height: auto;
+            }
+            .scenario-buttons {
+                grid-template-columns: repeat(2, 1fr);
             }
             .phone-screen {
                 height: 580px;
@@ -1006,13 +1402,24 @@
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
-            .benefits-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
             .use-cases-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            .comparison-table {
+                font-size: 0.85rem;
+                min-width: 600px;
+            }
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            .comparison-table-wrapper {
+                scroll-behavior: smooth;
             }
             .phone-simulator {
                 width: 100%;
@@ -1021,6 +1428,23 @@
                 height: auto;
                 padding: 15px;
                 border-radius: 30px;
+            }
+            .scenario-btn {
+                font-size: 0.75rem;
+                padding: 0.75rem 0.5rem;
+                min-height: 70px;
+            }
+            .scenario-btn i {
+                font-size: 1.25rem;
+            }
+            .failure-phone {
+                padding: 1.5rem;
+            }
+            .failure-message {
+                padding: 1rem;
+            }
+            .failure-message p {
+                font-size: 0.9rem;
             }
             .phone-screen {
                 height: 520px;
@@ -1033,6 +1457,7 @@
                 width: 60px;
                 height: 60px;
                 font-size: 1.5rem;
+                padding: 10px;
             }
             /* Ensure proper touch targets on mobile - 44px minimum */
             .action-button, .start-call-btn {
@@ -1157,37 +1582,63 @@
                     <div class="hero-content">
                         <h1>Never Miss a Call. Never Miss an Opportunity.</h1>
                         <p class="subtitle">Our AI phone receptionist answers every call 24/7, schedules appointments, answers FAQs, and routes urgent calls—so you can focus on serving customers, not juggling phone lines.</p>
-                        <a href="#benefits" class="main-cta">See The Benefits</a>
+                        <a href="#comparison" class="main-cta">See How It Compares</a>
                     </div>
 
-                    <!-- Interactive Phone Simulator -->
-                    <div class="phone-simulator">
-                        <div class="phone-screen">
-                            <div id="call-interface">
-                                <div class="phone-header">
-                                    <div class="caller-info">
-                                        <div class="caller-avatar">
-                                            <i class="fas fa-building"></i>
+                    <!-- Phone + Scenario Controls Section -->
+                    <div class="hero-phone-section">
+                        <!-- Interactive Phone Simulator -->
+                        <div class="phone-simulator">
+                            <div class="phone-screen">
+                                <div id="call-interface">
+                                    <div class="phone-header">
+                                        <div class="caller-info">
+                                            <div class="caller-avatar">
+                                                <img src="assets/images/PrincetonAI_Solo_Blue.png" alt="Princeton AI Partners">
+                                            </div>
+                                            <div class="caller-name">Princeton AI Partners</div>
+                                            <div class="call-status" id="call-status">Ready to demonstrate</div>
                                         </div>
-                                        <div class="caller-name">Your Business</div>
-                                        <div class="call-status" id="call-status">Ready to demonstrate</div>
                                     </div>
-                                </div>
 
-                                <!-- Empty chat container populated by JavaScript -->
-                                <div class="chat-messages" id="chat-messages">
-                                    <!-- Messages added dynamically -->
-                                </div>
+                                    <!-- Empty chat container populated by JavaScript -->
+                                    <div class="chat-messages" id="chat-messages">
+                                        <!-- Messages added dynamically -->
+                                    </div>
 
-                                <!-- Typing indicator shows/hides dynamically -->
-                                <div class="typing-indicator" id="typing-indicator">
-                                    <div class="typing-dot"></div>
-                                    <div class="typing-dot"></div>
-                                    <div class="typing-dot"></div>
-                                </div>
+                                    <!-- Typing indicator shows/hides dynamically -->
+                                    <div class="typing-indicator" id="typing-indicator">
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                    </div>
 
-                                <!-- Hidden actions area (not used in auto-demo) -->
-                                <div class="phone-actions" id="phone-actions"></div>
+                                    <!-- Hidden actions area (not used in auto-demo) -->
+                                    <div class="phone-actions" id="phone-actions"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Scenario Buttons -->
+                        <div class="scenario-controls">
+                            <p class="scenario-title">Try Different Scenarios:</p>
+                            <div class="scenario-buttons">
+                                <button class="scenario-btn active" data-scenario="appointment">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Book Appointment</span>
+                                </button>
+                                <button class="scenario-btn" data-scenario="faq">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Ask Question</span>
+                                </button>
+                                <button class="scenario-btn" data-scenario="emergency">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Emergency Call</span>
+                                </button>
+                                <button class="scenario-btn" data-scenario="afterhours">
+                                    <i class="fas fa-moon"></i>
+                                    <span>After Hours</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1237,47 +1688,200 @@
             </div>
         </section>
 
-        <!-- Section 4: Benefits -->
-        <section id="benefits" class="content-section">
+        <!-- Section 3: What If AI Gets Stuck -->
+        <section id="failure-handling" class="content-section" style="background: linear-gradient(135deg, rgba(10, 132, 255, 0.05), rgba(0, 96, 206, 0.05));">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">Why Businesses Love AI Phone Support</h2>
-                <p class="section-subtitle animate-on-scroll">From cost savings to customer delight, the benefits are immediate and measurable.</p>
+                <h2 class="section-title animate-on-scroll">What If The AI Gets Stuck?</h2>
+                <p class="section-subtitle animate-on-scroll">We've thought about this. Here's exactly what happens when the AI encounters something it can't handle.</p>
 
-                <div class="benefits-grid">
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.1s;">
-                        <div class="benefit-icon"><i class="fas fa-moon"></i></div>
-                        <h3>24/7 Availability</h3>
-                        <p>Never miss a lead. Your AI receptionist works around the clock, capturing leads and scheduling appointments even when you're closed or asleep.</p>
+                <div class="failure-scenario animate-on-scroll">
+                    <div class="failure-visual">
+                        <div class="failure-phone">
+                            <div class="failure-message ai-message">
+                                <p>"I want to make sure I understand you correctly. Let me connect you with someone who can help right away."</p>
+                            </div>
+                            <div class="failure-status">
+                                <i class="fas fa-phone-volume"></i> Transferring with full context...
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.2s;">
-                        <div class="benefit-icon"><i class="fas fa-bolt"></i></div>
-                        <h3>Zero Wait Times</h3>
-                        <p>No more endless ringing or hold music. Every caller gets an immediate, professional greeting and instant answers to common questions.</p>
+                    <div class="failure-details">
+                        <h3><i class="fas fa-shield-alt"></i> Graceful Failure, Not Awkward Silence</h3>
+                        <p>Our AI is trained to recognize when it's out of its depth. When that happens:</p>
+
+                        <div class="failure-steps">
+                            <div class="failure-step">
+                                <div class="step-num">1</div>
+                                <div class="step-content">
+                                    <h4>Immediate Detection</h4>
+                                    <p>AI recognizes confusion, repeated questions, or frustrated tone and flags the call immediately.</p>
+                                </div>
+                            </div>
+
+                            <div class="failure-step">
+                                <div class="step-num">2</div>
+                                <div class="step-content">
+                                    <h4>Professional Handoff</h4>
+                                    <p>Politely tells the caller: "Let me connect you with someone who can help" — no awkward admissions of AI limitations.</p>
+                                </div>
+                            </div>
+
+                            <div class="failure-step">
+                                <div class="step-num">3</div>
+                                <div class="step-content">
+                                    <h4>Context Transfer</h4>
+                                    <p>You get the full conversation summary, caller info, and reason for transfer—so you're never starting from scratch.</p>
+                                </div>
+                            </div>
+
+                            <div class="failure-step">
+                                <div class="step-num">4</div>
+                                <div class="step-content">
+                                    <h4>Continuous Learning</h4>
+                                    <p>Every transferred call becomes a training opportunity. We review, improve the AI's knowledge, and it gets smarter.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="failure-guarantee">
+                            <i class="fas fa-check-double"></i>
+                            <strong>The Bottom Line:</strong> The AI never pretends to know something it doesn't. It's better to transfer gracefully than to give wrong information.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3.5: Comparison Chart -->
+        <section id="comparison" class="content-section" style="background-color: var(--bg-color);">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">How Does This Compare?</h2>
+                <p class="section-subtitle animate-on-scroll">See how our AI receptionist stacks up against your current options.</p>
+
+                <div class="comparison-table-wrapper animate-on-scroll">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th class="highlight-col">
+                                    <div class="recommended-badge">⭐ Recommended</div>
+                                    <div><i class="fas fa-robot"></i> AI Receptionist</div>
+                                </th>
+                                <th><i class="fas fa-user"></i> Human Receptionist</th>
+                                <th><i class="fas fa-headset"></i> Answering Service</th>
+                                <th><i class="fas fa-voicemail"></i> Voicemail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="feature-name">Availability</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> 24/7/365</td>
+                                <td><i class="fas fa-clock"></i> Business hours</td>
+                                <td><i class="fas fa-check-circle"></i> 24/7</td>
+                                <td><i class="fas fa-check-circle"></i> 24/7</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Answer Time</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Instant</td>
+                                <td><i class="fas fa-minus-circle"></i> If available</td>
+                                <td><i class="fas fa-hourglass-half"></i> 30-60 seconds</td>
+                                <td><i class="fas fa-times-circle"></i> No answer</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Book Appointments</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Automatic</td>
+                                <td><i class="fas fa-check-circle"></i> Yes</td>
+                                <td><i class="fas fa-times-circle"></i> Takes message</td>
+                                <td><i class="fas fa-times-circle"></i> No</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Handle Multiple Calls</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Unlimited</td>
+                                <td><i class="fas fa-times-circle"></i> One at a time</td>
+                                <td><i class="fas fa-times-circle"></i> One at a time</td>
+                                <td><i class="fas fa-check-circle"></i> Unlimited</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">After Hours</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Full service</td>
+                                <td><i class="fas fa-times-circle"></i> Voicemail</td>
+                                <td><i class="fas fa-minus-circle"></i> Basic message</td>
+                                <td><i class="fas fa-minus-circle"></i> Basic message</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Consistency</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Always perfect</td>
+                                <td><i class="fas fa-minus-circle"></i> Varies</td>
+                                <td><i class="fas fa-minus-circle"></i> Varies</td>
+                                <td><i class="fas fa-check-circle"></i> Consistent</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Customizable</td>
+                                <td class="highlight-col"><i class="fas fa-check-circle"></i> Fully</td>
+                                <td><i class="fas fa-check-circle"></i> With training</td>
+                                <td><i class="fas fa-minus-circle"></i> Limited</td>
+                                <td><i class="fas fa-minus-circle"></i> Basic greeting</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: FAQ / Technical Transparency -->
+        <section id="faq" class="content-section" style="background-color: var(--card-bg-color); border-top: 1px solid var(--border-color);">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Your Questions, Answered</h2>
+                <p class="section-subtitle animate-on-scroll">Everything you need to know about our AI phone receptionist.</p>
+
+                <div class="faq-grid">
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="faq-icon"><i class="fas fa-plug"></i></div>
+                        <h3>What if I already have a phone system?</h3>
+                        <p>No problem! We integrate with your existing phone number and system. We simply forward calls to our AI, or we can provide a new number that forwards to you when needed. No hardware changes required.</p>
                     </div>
 
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.3s;">
-                        <div class="benefit-icon"><i class="fas fa-calendar-check"></i></div>
-                        <h3>Auto-Book Appointments</h3>
-                        <p>The AI checks your real-time calendar, finds available slots, and books appointments on the spot—reducing back-and-forth and no-shows.</p>
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="faq-icon"><i class="fas fa-clock"></i></div>
+                        <h3>How long does setup take?</h3>
+                        <p>End-to-end setup is completed in <strong>under one week</strong>. We'll schedule a kickoff call to understand your business, train the AI on your information, and have you live within days.</p>
                     </div>
 
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.4s;">
-                        <div class="benefit-icon"><i class="fas fa-piggy-bank"></i></div>
-                        <h3>Massive Cost Savings</h3>
-                        <p>Get enterprise-level phone support for a fraction of the cost of hiring a full-time receptionist or answering service.</p>
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="faq-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>Which calendar systems work?</h3>
+                        <p>We integrate with all major systems: Google Calendar, Outlook, Calendly, Acuity Scheduling, and more. If you have a custom system, we can build a custom integration.</p>
                     </div>
 
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.5s;">
-                        <div class="benefit-icon"><i class="fas fa-brain"></i></div>
-                        <h3>Smart Call Routing</h3>
-                        <p>The AI determines caller intent, handles simple requests, and only transfers high-priority calls to you—saving your time for what matters.</p>
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="faq-icon"><i class="fas fa-eye"></i></div>
+                        <h3>Can I review the calls?</h3>
+                        <p>Absolutely! You get access to a dashboard with full call transcripts, audio recordings, and analytics. See exactly what was said, how it was handled, and track performance over time.</p>
                     </div>
 
-                    <div class="benefit-card animate-on-scroll" style="transition-delay: 0.6s;">
-                        <div class="benefit-icon"><i class="fas fa-globe"></i></div>
-                        <h3>Multilingual Support</h3>
-                        <p>Serve Spanish-speaking customers, Mandarin speakers, or any language—breaking down barriers and expanding your market.</p>
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.5s;">
+                        <div class="faq-icon"><i class="fas fa-hand-paper"></i></div>
+                        <h3>What if the AI gets confused?</h3>
+                        <p>The AI is trained to recognize when it doesn't understand. It will politely say "Let me connect you with someone who can help" and transfer the call to you with full context of the conversation.</p>
+                    </div>
+
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="faq-icon"><i class="fas fa-sliders-h"></i></div>
+                        <h3>Is it customizable?</h3>
+                        <p><strong>Completely customizable.</strong> Choose the voice personality, greeting scripts, call routing rules, which questions it answers, when to transfer calls, and much more. It's built for YOUR business.</p>
+                    </div>
+
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.7s;">
+                        <div class="faq-icon"><i class="fas fa-database"></i></div>
+                        <h3>Do I own my data?</h3>
+                        <p>Yes, 100%. All call transcripts, recordings, and customer data belong to you. Export everything anytime. Your data, your control.</p>
+                    </div>
+
+                    <div class="faq-item animate-on-scroll" style="transition-delay: 0.8s;">
+                        <div class="faq-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>What about cancellation?</h3>
+                        <p>No long-term contracts. Cancel anytime with 30 days notice. We also offer a <strong>30-day money-back guarantee</strong>—if you're not satisfied, we'll refund your first month, no questions asked.</p>
                     </div>
                 </div>
             </div>
@@ -1294,36 +1898,60 @@
                         <div class="use-case-icon"><i class="fas fa-user-md"></i></div>
                         <h3>Medical & Dental</h3>
                         <p>Handle appointment scheduling, insurance questions, and emergency triage 24/7 without overwhelming your staff.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"I need to schedule a cleaning" → AI checks availability, books appointment, asks about insurance, sends confirmation text.</p>
+                        </div>
                     </div>
 
                     <div class="use-case-card animate-on-scroll" style="transition-delay: 0.2s;">
                         <div class="use-case-icon"><i class="fas fa-utensils"></i></div>
                         <h3>Restaurants</h3>
                         <p>Take reservations, answer menu questions, and provide directions—even during your busiest dinner rush.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"Table for 4 tonight at 7pm. Any gluten-free options?" → AI books table, confirms dietary accommodations, sends reservation details.</p>
+                        </div>
                     </div>
 
                     <div class="use-case-card animate-on-scroll" style="transition-delay: 0.3s;">
                         <div class="use-case-icon"><i class="fas fa-cut"></i></div>
                         <h3>Salons & Spas</h3>
                         <p>Book haircuts, answer service questions, send appointment reminders, and dramatically reduce no-shows.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"I need a haircut with Sarah this week" → AI finds Sarah's availability, books preferred time slot, sends reminder the day before.</p>
+                        </div>
                     </div>
 
                     <div class="use-case-card animate-on-scroll" style="transition-delay: 0.4s;">
                         <div class="use-case-icon"><i class="fas fa-tools"></i></div>
                         <h3>Home Services</h3>
                         <p>Capture emergency calls after hours, provide quotes for common jobs, and schedule service visits automatically.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"My water heater is leaking!" → AI recognizes emergency, provides immediate guidance, transfers to on-call technician with full context.</p>
+                        </div>
                     </div>
 
                     <div class="use-case-card animate-on-scroll" style="transition-delay: 0.5s;">
                         <div class="use-case-icon"><i class="fas fa-balance-scale"></i></div>
                         <h3>Law Firms</h3>
                         <p>Screen potential clients, schedule consultations, answer general legal questions, and maintain a professional image.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"I need help with a contract dispute" → AI qualifies lead, gathers case basics, books consultation, sends intake forms.</p>
+                        </div>
                     </div>
 
                     <div class="use-case-card animate-on-scroll" style="transition-delay: 0.6s;">
                         <div class="use-case-icon"><i class="fas fa-shopping-bag"></i></div>
                         <h3>Retail Shops</h3>
                         <p>Answer product availability questions, provide store hours, handle special order inquiries, and boost sales.</p>
+                        <div class="use-case-example">
+                            <strong>Example:</strong>
+                            <p class="example-text">"Do you have the Nike Air Max in size 10?" → AI checks inventory, holds item, provides store hours and location.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1408,31 +2036,56 @@
 
         // --- Animated Conversation Demo ---
 
-        // Conversation messages array with timestamps
-        const conversationMessages = [
-            { type: 'ai', text: 'Thank you for calling! How can I help you today?', delay: 2000 },
-            { type: 'user', text: 'Hi! I\'d like to book an appointment.', delay: 2500 },
-            { type: 'ai', text: 'Great! I can help with that. Let me check our available times...', delay: 3000 },
-            { type: 'ai', text: 'I have openings tomorrow at 2pm, 3pm, or Thursday at 10am. Which works best for you?', delay: 2500 },
-            { type: 'user', text: 'Tomorrow at 2pm would be perfect!', delay: 2000 },
-            { type: 'ai', text: 'Perfect! I\'ve booked you for tomorrow at 2pm. You\'ll receive a confirmation text shortly.', delay: 2500 },
-            { type: 'ai', text: 'Is there anything else I can help you with today?', delay: 2000 },
-            { type: 'user', text: 'No, that\'s all. Thank you!', delay: 2000 },
-            { type: 'ai', text: 'You\'re welcome! See you tomorrow at 2pm. Have a great day!', delay: 2500 }
-        ];
+        // Multiple conversation scenarios
+        const conversationScenarios = {
+            appointment: [
+                { type: 'ai', text: 'Thank you for calling! How can I help you today?', delay: 1800 },
+                { type: 'user', text: 'Hi! I\'d like to book an appointment.', delay: 2000 },
+                { type: 'ai', text: 'Great! Let me check our available times...', delay: 2500 },
+                { type: 'ai', text: 'I have openings tomorrow at 2pm, 3pm, or Thursday at 10am. Which works best?', delay: 2200 },
+                { type: 'user', text: 'Tomorrow at 2pm would be perfect!', delay: 1800 },
+                { type: 'ai', text: 'Perfect! I\'ve booked you for tomorrow at 2pm. You\'ll receive a confirmation text shortly.', delay: 2500 }
+            ],
+            faq: [
+                { type: 'ai', text: 'Thank you for calling! How can I help you today?', delay: 1800 },
+                { type: 'user', text: 'What are your business hours?', delay: 2000 },
+                { type: 'ai', text: 'We\'re open Monday through Friday, 9 AM to 6 PM, and Saturdays 10 AM to 4 PM.', delay: 2500 },
+                { type: 'user', text: 'Do you take walk-ins?', delay: 1800 },
+                { type: 'ai', text: 'Yes! Walk-ins are welcome, but we recommend booking ahead to minimize wait time. Would you like to schedule now?', delay: 2500 }
+            ],
+            emergency: [
+                { type: 'ai', text: 'Thank you for calling! How can I help you today?', delay: 1800 },
+                { type: 'user', text: 'I have an emergency! I need help right away!', delay: 1500 },
+                { type: 'ai', text: 'I understand this is urgent. Connecting you with someone immediately...', delay: 2000 },
+                { type: 'ai', text: 'Transferring to emergency line now. Stay on the line.', delay: 1800 },
+                { type: 'user', text: 'Thank you!', delay: 1200 }
+            ],
+            afterhours: [
+                { type: 'ai', text: 'Thank you for calling! I see you\'re calling outside our regular hours.', delay: 2000 },
+                { type: 'user', text: 'Yes, I need an appointment this week.', delay: 1800 },
+                { type: 'ai', text: 'No problem! I can book you right now. Let me check availability...', delay: 2500 },
+                { type: 'ai', text: 'I have Wednesday at 3pm, Thursday at 11am, or Friday at 2pm. Which works?', delay: 2200 },
+                { type: 'user', text: 'Friday at 2pm works great!', delay: 1800 },
+                { type: 'ai', text: 'Excellent! Booked for Friday at 2pm. You\'ll get a confirmation text shortly. See you Friday!', delay: 2500 }
+            ]
+        };
 
+        let currentScenario = 'appointment';
+        let conversationMessages = conversationScenarios[currentScenario];
         let currentMessageIndex = 0;
-        let conversationTimeout;
+        let conversationTimeout = null;
+        let typingTimeout = null;
         let isConversationRunning = false;
 
         // Show typing indicator
         function showTypingIndicator() {
             const typingIndicator = document.getElementById('typing-indicator');
+            const chatMessages = document.getElementById('chat-messages');
             typingIndicator.classList.add('show');
 
-            // Scroll typing indicator into view
+            // Scroll chat container to bottom (not the page)
             setTimeout(() => {
-                typingIndicator.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
         }
 
@@ -1459,37 +2112,41 @@
                 messageDiv.classList.add('show');
             }, 50);
 
-            // Scroll message into view smoothly
+            // Scroll chat container to bottom (not the page)
             setTimeout(() => {
-                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 100);
         }
 
         // Process next message in conversation
         function processNextMessage() {
-            if (!isConversationRunning) return;
+            if (!isConversationRunning) {
+                return;
+            }
 
             if (currentMessageIndex >= conversationMessages.length) {
                 // Conversation complete - restart after delay
-                setTimeout(restartConversation, 3000);
+                conversationTimeout = setTimeout(restartConversation, 2500);
                 return;
             }
 
             const message = conversationMessages[currentMessageIndex];
 
-            // Show typing indicator for AI messages (1-2 seconds)
+            // Show typing indicator for AI messages
             if (message.type === 'ai') {
                 showTypingIndicator();
 
                 // Show message after typing duration
-                setTimeout(() => {
+                typingTimeout = setTimeout(() => {
+                    if (!isConversationRunning) return;
+
                     hideTypingIndicator();
                     addMessage(message.type, message.text);
 
                     // Move to next message after delay
                     currentMessageIndex++;
                     conversationTimeout = setTimeout(processNextMessage, message.delay);
-                }, 1500); // Typing indicator duration
+                }, 1200); // Typing indicator duration
 
             } else {
                 // User messages appear immediately
@@ -1503,6 +2160,9 @@
 
         // Start conversation
         function startConversation() {
+            // Stop any existing conversation first
+            stopConversation();
+
             const chatMessages = document.getElementById('chat-messages');
             const callStatus = document.getElementById('call-status');
             const phoneActions = document.getElementById('phone-actions');
@@ -1517,7 +2177,7 @@
             phoneActions.classList.remove('show');
 
             // Start processing messages
-            setTimeout(processNextMessage, 1000);
+            conversationTimeout = setTimeout(processNextMessage, 800);
         }
 
         // Restart conversation seamlessly
@@ -1542,15 +2202,47 @@
         // Stop conversation
         function stopConversation() {
             isConversationRunning = false;
+
+            // Clear ALL timeouts
             if (conversationTimeout) {
                 clearTimeout(conversationTimeout);
+                conversationTimeout = null;
             }
+            if (typingTimeout) {
+                clearTimeout(typingTimeout);
+                typingTimeout = null;
+            }
+
             hideTypingIndicator();
+        }
+
+        // Switch to different scenario
+        function switchScenario(scenarioName) {
+            stopConversation();
+            currentScenario = scenarioName;
+            conversationMessages = conversationScenarios[currentScenario];
+
+            // Update button states
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-scenario="${scenarioName}"]`).classList.add('active');
+
+            // Start new conversation
+            setTimeout(startConversation, 500);
         }
 
         // Auto-start conversation when page loads
         window.addEventListener('load', () => {
-            setTimeout(startConversation, 2000);
+            setTimeout(startConversation, 500);
+
+            // Add event listeners to scenario buttons
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const scenario = btn.getAttribute('data-scenario');
+                    switchScenario(scenario);
+                });
+            });
         });
 
         // --- Mobile Menu Toggle ---
