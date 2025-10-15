@@ -40,7 +40,7 @@
 - Supporting sections (3-7 typically)
 - Social proof / credibility
 - Final CTA
-- Footer
+- Footer (with all site links for SEO)
 
 **2.2 Content Hierarchy**
 - What's the most important message?
@@ -51,6 +51,14 @@
 - Entry points (where do users come from?)
 - Journey through page (scrolling, clicking)
 - Exit points (where do we want them to go?)
+
+**2.4 SEO & AI Optimization** (See SEO-FRAMEWORK.md)
+- Meta tags (title, description, Open Graph)
+- Structured data (Schema.org)
+- Footer with all site links
+- Internal linking strategy
+- Keyword placement (H1, first paragraph)
+- Image optimization (alt text, compression)
 
 ---
 
@@ -184,6 +192,10 @@
 - [ ] Sections mapped
 - [ ] Content hierarchy defined
 - [ ] User flow planned
+- [ ] SEO strategy defined (see SEO-FRAMEWORK.md)
+- [ ] Footer with all site links added
+- [ ] Meta tags planned
+- [ ] Structured data planned
 
 ### Phase 3: Design System ✅
 - [ ] Color palette chosen
@@ -248,6 +260,10 @@ See DEVELOPMENT-LOG.md for examples of this framework in action:
 - PhoneAgent.html (October 14, 2025)
 - checkin.html (October 15, 2025)
 - solutions.html (October 15, 2025)
+
+## 🔗 Related Frameworks
+
+- **SEO-FRAMEWORK.md** - Comprehensive SEO & AI crawler optimization guide
 
 ---
 
