@@ -345,6 +345,589 @@
             transform: scale(1.05);
         }
 
+        /* --- Production Badge & CTA Group --- */
+        .production-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            color: var(--success-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: 980px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+        .badge-dot {
+            font-size: 0.6rem;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .badge-subtitle {
+            color: var(--secondary-text-color);
+            font-weight: 400;
+            font-size: 0.8rem;
+        }
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .secondary-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--primary-text-color);
+            padding: 0.95rem 2.25rem;
+            border-radius: 980px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .secondary-cta:hover {
+            border-color: var(--accent-color-start);
+            color: var(--accent-color-start);
+            transform: scale(1.05);
+        }
+
+        /* --- Live Demo Section --- */
+        #live-demo {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .demo-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .demo-header {
+            text-align: center;
+        }
+        .demo-header h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .demo-header p {
+            color: var(--secondary-text-color);
+            font-size: 1rem;
+        }
+        .browser-mockup {
+            background-color: #2D2D2D;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .browser-mockup:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+        .browser-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background-color: #3A3A3A;
+            border-bottom: 1px solid #505050;
+        }
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .browser-dot:nth-child(1) { background-color: #FF5F56; }
+        .browser-dot:nth-child(2) { background-color: #FFBD2E; }
+        .browser-dot:nth-child(3) { background-color: #27C93F; }
+        .browser-content {
+            background-color: white;
+            height: 500px;
+            overflow: hidden;
+        }
+        .browser-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .demo-features {
+            list-style: none;
+            padding: 0;
+        }
+        .demo-features li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--secondary-text-color);
+        }
+        .demo-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-color-start);
+        }
+
+        /* --- Customer Journey Timeline --- */
+        .customer-journey {
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.03), rgba(0, 96, 206, 0.03));
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .customer-journey::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.08) 0%, transparent 70%);
+            animation: subtle-rotate 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes subtle-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline.fade-out {
+            opacity: 0;
+        }
+
+        /* Vertical Timeline Line */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom,
+                var(--accent-color-start) 0%,
+                var(--accent-color-end) 100%);
+            transform: translateX(-50%);
+            z-index: 0;
+            transform-origin: top center;
+        }
+
+        /* Journey Stage */
+        .journey-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            z-index: 1;
+            perspective: 1000px;
+        }
+
+        .journey-stage:nth-child(even) .stage-content {
+            grid-column: 1;
+            text-align: right;
+        }
+        .journey-stage:nth-child(even) .stage-icon {
+            grid-column: 2;
+        }
+        .journey-stage:nth-child(odd) .stage-content {
+            grid-column: 3;
+            text-align: left;
+        }
+        .journey-stage:nth-child(odd) .stage-icon {
+            grid-column: 2;
+        }
+
+        /* Stage Icon */
+        .stage-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            border: 5px solid var(--bg-color);
+            box-shadow: 0 5px 15px rgba(10, 132, 255, 0.3);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .journey-stage:hover .stage-icon {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(10, 132, 255, 0.5);
+        }
+
+        /* Stage Content */
+        .stage-content {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Option 1: Scale + Float - Smooth zoom and lift */
+        .journey-stage:hover .stage-content {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(10, 132, 255, 0.2);
+        }
+
+        /* Ensure content stays above pseudo-elements */
+        .stage-content > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-label {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 980px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .stage-content h4 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-text-color);
+        }
+
+        .stage-content > p {
+            color: var(--secondary-text-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Stage Details */
+        .stage-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-item i {
+            color: var(--accent-color-start);
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .detail-item span {
+            color: var(--secondary-text-color);
+            line-height: 1.5;
+        }
+
+        /* Business Type Selector */
+        .business-type-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .type-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary-text-color);
+        }
+
+        .type-btn i {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .type-btn:hover {
+            border-color: var(--accent-color-start);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(10, 132, 255, 0.15);
+        }
+
+        .type-btn.active {
+            background: var(--accent-gradient);
+            border-color: var(--accent-color-start);
+            color: white;
+            box-shadow: 0 5px 20px rgba(10, 132, 255, 0.3);
+        }
+
+        .type-btn.active i {
+            color: white;
+        }
+
+        /* --- VS Comparison Section --- */
+        .vs-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+            padding: 2rem 0;
+        }
+
+        .comparison-side {
+            background: var(--card-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-side::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .comparison-side:hover::before {
+            opacity: 1;
+        }
+
+        .comparison-side:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .chains-side {
+            opacity: 0.75;
+            border-color: #e0e0e0;
+        }
+
+        .chains-side:hover {
+            opacity: 0.85;
+            border-color: #d0d0d0;
+        }
+
+        .your-side {
+            border-color: var(--accent-color-start);
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.02), rgba(0, 96, 206, 0.02));
+            box-shadow: 0 8px 20px rgba(10, 132, 255, 0.1);
+        }
+
+        .your-side:hover {
+            border-color: var(--accent-color-end);
+            box-shadow: 0 25px 50px rgba(10, 132, 255, 0.2);
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.05), rgba(0, 96, 206, 0.05));
+        }
+
+        .comparison-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chains-side .comparison-icon {
+            background: linear-gradient(45deg, #888, #666);
+        }
+
+        .comparison-side:hover .comparison-icon {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 10px 30px rgba(10, 132, 255, 0.4);
+        }
+
+        .comparison-side h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-text-color);
+        }
+
+        .comparison-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .comparison-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            font-size: 1rem;
+            color: var(--primary-text-color);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-side:hover .comparison-list li {
+            transform: translateX(5px);
+        }
+
+        .comparison-list .list-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .chains-side .comparison-list li {
+            color: var(--secondary-text-color);
+        }
+
+        .vs-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .vs-text {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(10, 132, 255, 0.3);
+            animation: pulse-vs 3s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vs-text::before,
+        .vs-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, var(--border-color), transparent);
+        }
+
+        .vs-text::before {
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .vs-text::after {
+            left: 100%;
+            margin-left: 10px;
+            background: linear-gradient(to left, var(--border-color), transparent);
+        }
+
+        @keyframes pulse-vs {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(10, 132, 255, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(10, 132, 255, 0.5);
+            }
+        }
+
+        /* Stagger animation for list items */
+        .comparison-list li {
+            opacity: 0;
+            animation: slideInList 0.5s ease forwards;
+        }
+
+        .comparison-list li:nth-child(1) { animation-delay: 0.1s; }
+        .comparison-list li:nth-child(2) { animation-delay: 0.2s; }
+        .comparison-list li:nth-child(3) { animation-delay: 0.3s; }
+        .comparison-list li:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideInList {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         /* --- 4. General Section Styling --- */
         .content-section {
             padding: 120px 0;
@@ -649,9 +1232,23 @@
             .tiers-grid {
                 grid-template-columns: 1fr;
             }
-             .detailed-steps-container {
+            .detailed-steps-container {
                 grid-template-columns: 1fr 1fr;
                 gap: 2rem;
+            }
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            /* VS Comparison - Tablet */
+            .vs-comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .vs-divider {
+                transform: rotate(90deg);
+                min-height: 80px;
+                margin: 1rem 0;
             }
         }
         @media (max-width: 768px) {
@@ -671,6 +1268,87 @@
             .detailed-steps-container {
                 grid-template-columns: 1fr;
                 gap: 4rem;
+            }
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            .browser-content {
+                height: 400px;
+            }
+            /* Customer Journey Timeline - Mobile */
+            .customer-journey {
+                padding: 2rem 1.5rem;
+            }
+            .timeline {
+                padding: 1rem 0;
+            }
+            .timeline-line {
+                left: 30px;
+            }
+            .journey-stage {
+                grid-template-columns: auto 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+            .journey-stage:nth-child(even) .stage-content,
+            .journey-stage:nth-child(odd) .stage-content {
+                grid-column: 2;
+                text-align: left;
+            }
+            .journey-stage:nth-child(even) .stage-icon,
+            .journey-stage:nth-child(odd) .stage-icon {
+                grid-column: 1;
+            }
+            .stage-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            .stage-content h4 {
+                font-size: 1.2rem;
+            }
+            .stage-content > p {
+                font-size: 0.9rem;
+            }
+            .production-badge {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .main-cta, .secondary-cta {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            /* VS Comparison - Mobile */
+            .comparison-side {
+                padding: 2rem 1.5rem;
+            }
+            .comparison-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
+            }
+            .comparison-side h3 {
+                font-size: 1.5rem;
+            }
+            .comparison-list {
+                max-width: 100%;
+            }
+            .comparison-list li {
+                font-size: 0.95rem;
+            }
+            .vs-text {
+                width: 70px;
+                height: 70px;
+                font-size: 1.25rem;
+            }
+            .vs-text::before,
+            .vs-text::after {
+                display: none;
             }
         }
     </style>
@@ -736,17 +1414,118 @@
         <section id="hero">
             <div id="particles-js"></div>
             <div class="hero-content">
-                <h1>Turn Casual Visitors into Loyal Fans, Automatically.</h1>
-                <p class="subtitle">Our AI-powered loyalty platform works 24/7 to increase customer retention, boost spending, and drive real growth for your business—all on autopilot.</p>
-                <a href="#benefits" class="main-cta">See The Benefits</a>
+                <h1>Points, Loyalty, and Marketing—Customized For Your Small Business.</h1>
+                <p class="subtitle">Your customers don't need an app. Just their phone number. Collect data, track visits, send targeted offers, and bring customers back—all without the million-dollar price tag.</p>
+
+                <!-- Dual CTAs -->
+                <div class="cta-group">
+                    <a href="#live-demo" class="main-cta">See The Live System</a>
+                    <a href="demo_cashier.html" target="_blank" class="secondary-cta">
+                        <i class="fas fa-external-link-alt"></i> Try Interactive Demo
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- Section 2: "How It Works" Detailed Steps -->
+        <!-- Section 2: Live Production Demo -->
+        <section id="live-demo" class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">See The Actual Production System</h2>
+                <p class="section-subtitle animate-on-scroll">These aren't mockups or concepts. These are the exact interfaces used in production to enroll customers and manage loyalty programs. <strong>Try them yourself</strong>—fully interactive, zero risk.</p>
+
+                <div class="demo-grid">
+                    <!-- Customer Enrollment Panel -->
+                    <div class="demo-panel animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="demo-header">
+                            <h3>Customer Enrollment</h3>
+                            <p>The interface customers use to join the program</p>
+                        </div>
+                        <div class="browser-mockup">
+                            <div class="browser-header">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-content">
+                                <iframe src="demo_signup.html" title="Customer Enrollment Interface"></iframe>
+                            </div>
+                        </div>
+                        <ul class="demo-features">
+                            <li>Quick phone number entry</li>
+                            <li>Instant account creation</li>
+                            <li>SMS confirmation sent automatically</li>
+                            <li>Points credited immediately</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cashier Interface Panel -->
+                    <div class="demo-panel animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="demo-header">
+                            <h3>Cashier Interface</h3>
+                            <p>The system staff use to look up customers and apply rewards</p>
+                        </div>
+                        <div class="browser-mockup">
+                            <div class="browser-header">
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                                <div class="browser-dot"></div>
+                            </div>
+                            <div class="browser-content">
+                                <iframe src="demo_cashier.html" title="Cashier Interface"></iframe>
+                            </div>
+                        </div>
+                        <ul class="demo-features">
+                            <li>Fast customer lookup by phone (try any number!)</li>
+                            <li>Real-time points balance display</li>
+                            <li>One-click reward redemption</li>
+                            <li>Visit history tracking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Customer Journey Timeline -->
+                <div class="customer-journey animate-on-scroll" style="transition-delay: 0.3s;">
+                    <h3 style="text-align: center; font-size: 2rem; margin-bottom: 0.5rem; font-weight: 700;">One System, Complete Growth</h3>
+                    <p style="text-align: center; color: var(--secondary-text-color); margin-bottom: 2rem; max-width: 650px; margin-left: auto; margin-right: auto;">
+                        See how a single customer transforms from first-timer to loyal advocate—all automated.
+                    </p>
+
+                    <!-- Business Type Selector -->
+                    <div class="business-type-selector">
+                        <button class="type-btn active" data-type="cafe">
+                            <i class="fas fa-coffee"></i>
+                            <span>Coffee Shop</span>
+                        </button>
+                        <button class="type-btn" data-type="deli">
+                            <i class="fas fa-store"></i>
+                            <span>Convenience Store</span>
+                        </button>
+                        <button class="type-btn" data-type="restaurant">
+                            <i class="fas fa-utensils"></i>
+                            <span>Restaurant</span>
+                        </button>
+                        <button class="type-btn" data-type="salon">
+                            <i class="fas fa-cut"></i>
+                            <span>Barber / Salon</span>
+                        </button>
+                    </div>
+
+                    <div class="timeline" id="journeyTimeline">
+                        <!-- Timeline will be generated by JavaScript -->
+                    </div>
+
+                    <p style="text-align: center; margin-top: 3rem; color: var(--secondary-text-color); font-size: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                        <strong>Zero manual work.</strong> The system tracks visits, sends messages, unlocks rewards, and targets offers—all automatically.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: "How It Works" Detailed Steps -->
         <section id="how-it-works-detailed" class="content-section">
             <div class="container">
-                 <h2 class="section-title animate-on-scroll">Our Collaborative 4-Step Process</h2>
-                 <p class="section-subtitle animate-on-scroll">We partner with you to build a powerful, continuous growth cycle that's perfectly tailored to your business and your customers.</p>
+                 <h2 class="section-title animate-on-scroll">How It Works For Your Business</h2>
+                 <p class="section-subtitle animate-on-scroll">This is the exact process we use with every client—proven, repeatable, and tailored to your unique business needs.</p>
                 <div class="detailed-steps-container">
                     <!-- Step 1 -->
                     <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.1s;">
@@ -754,7 +1533,7 @@
                         <div class="step-content">
                             <div class="icon"><i class="fas fa-clipboard-list"></i></div>
                             <h3>Discovery & Strategy</h3>
-                            <p>We learn your business, define your goals, and design the perfect reward structure and messaging to match your brand's unique voice.</p>
+                            <p>We design a custom points-per-visit or points-per-dollar system with rewards that fit your business model. We craft your brand voice and SMS messaging to match your unique style.</p>
                         </div>
                         <div class="customizable-badge">Tailored For You</div>
                     </div>
@@ -765,18 +1544,18 @@
                         <div class="step-content">
                             <div class="icon"><i class="fas fa-tablet-alt"></i></div>
                             <h3>Customer Check-in</h3>
-                            <p>A customer enters their phone number at your tablet or POS. You decide what info to collect—name, birthday, email—it's up to you.</p>
+                            <p>When a customer makes a purchase, your staff use the cashier interface to look them up or enroll them in seconds—just a phone number, and they're in the system.</p>
                         </div>
                         <div class="customizable-badge">Fully Customizable</div>
                     </div>
-                    
+
                     <!-- Step 3 -->
                     <div class="detailed-step-card animate-on-scroll" style="transition-delay: 0.3s;">
                         <div class="step-number">3</div>
                         <div class="step-content">
                             <div class="icon"><i class="fas fa-database"></i></div>
                             <h3>Secure Data & Logging</h3>
-                            <p>We instantly create a secure profile for the customer, log their visit, and store it in a database that you have 24/7 access to.</p>
+                            <p>Every customer interaction is logged in real-time to your secure database (Airtable or your preferred platform), giving you instant visibility into who's visiting, when, and how often.</p>
                         </div>
                         <div class="customizable-badge">You Own The Data</div>
                     </div>
@@ -792,7 +1571,7 @@
                                 </i>
                             </div>
                             <h3>Automated Messaging</h3>
-                            <p>The system immediately sends a welcome text or a progress update towards their next reward. The message is 100% yours to write.</p>
+                            <p>Your customers receive instant SMS confirmations with their points balance and progress toward rewards—all automatically triggered by the system with your custom branding.</p>
                         </div>
                         <div class="customizable-badge">Personalize Your Brand</div>
                     </div>
@@ -800,63 +1579,94 @@
             </div>
         </section>
 
-        <!-- Section 3: Benefits Grid -->
-        <section id="benefits" class="content-section">
+        <!-- Merged Section: Why Choose Us -->
+        <section id="compete" class="content-section" style="background-color: var(--card-bg-color); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">An Engine for Growth, For Any Business</h2>
-                <p class="section-subtitle animate-on-scroll">Whether you run a salon, a cafe, or a retail shop, our platform is designed to deliver tangible results.</p>
-                <div class="benefits-grid">
+                <h2 class="section-title animate-on-scroll">Level The Playing Field</h2>
+                <p class="section-subtitle animate-on-scroll" style="max-width: 550px;">The chains have apps. Now you do too—without the price tag.</p>
+
+                <!-- VS Comparison -->
+                <div class="vs-comparison-grid">
+                    <!-- Chains Side -->
+                    <div class="comparison-side chains-side animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="comparison-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>Big Chains</h3>
+                        <ul class="comparison-list">
+                            <li><span class="list-icon">📱</span> Expensive custom apps</li>
+                            <li><span class="list-icon">💰</span> Million-dollar budgets</li>
+                            <li><span class="list-icon">🔒</span> Loyalty locked in</li>
+                            <li><span class="list-icon">📊</span> Unlimited resources</li>
+                        </ul>
+                    </div>
+
+                    <!-- VS -->
+                    <div class="vs-divider animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="vs-text">VS</div>
+                    </div>
+
+                    <!-- You Side -->
+                    <div class="comparison-side your-side animate-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="comparison-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Your Business</h3>
+                        <ul class="comparison-list">
+                            <li><span class="list-icon">✅</span> No app needed</li>
+                            <li><span class="list-icon">✅</span> Starting at $50/month</li>
+                            <li><span class="list-icon">✅</span> Direct SMS connection</li>
+                            <li><span class="list-icon">✅</span> You own the data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Key Benefits Grid -->
+                <h3 class="animate-on-scroll" style="text-align: center; font-size: 1.75rem; font-weight: 600; margin-bottom: 3rem;">
+                    What This Means For Your Business
+                </h3>
+                <div class="benefits-grid" style="margin-bottom: 2rem;">
                     <div class="benefit-item animate-on-scroll" style="transition-delay: 0.1s;">
-                        <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                        <div class="benefit-icon"><i class="fas fa-database"></i></div>
                         <div class="benefit-content">
-                            <h3>Increase Foot Traffic</h3>
-                            <p>Drive new and repeat business with timely, automated promotions that bring customers through the door.</p>
+                            <h3>You Own Your Data</h3>
+                            <p>Unlike other platforms, we don't lock you in. Export your customer list, visit history, and spending data anytime—it's yours.</p>
                         </div>
                     </div>
                     <div class="benefit-item animate-on-scroll" style="transition-delay: 0.2s;">
-                        <div class="benefit-icon"><i class="fas fa-sync-alt"></i></div>
+                        <div class="benefit-icon"><i class="fas fa-bullseye"></i></div>
                         <div class="benefit-content">
-                            <h3>Boost Customer Retention</h3>
-                            <p>Turn one-time buyers into regulars by making them feel valued. Loyal customers spend 67% more than new ones.</p>
+                            <h3>Target Your Best Customers</h3>
+                            <p>Send VIP-only offers to your top 10% spenders. Birthday rewards. "We miss you" texts. Personalized like a local shop, powerful like a chain.</p>
                         </div>
                     </div>
                     <div class="benefit-item animate-on-scroll" style="transition-delay: 0.3s;">
-                        <div class="benefit-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="benefit-icon"><i class="fas fa-bolt"></i></div>
                         <div class="benefit-content">
-                            <h3>Gain Deeper Insights</h3>
-                            <p>Understand who your best customers are and what they buy with easy-to-read data dashboards.</p>
+                            <h3>Move Inventory Fast</h3>
+                            <p>Got products expiring tonight? Send a flash deal to nearby customers in 60 seconds. SMS gets 98% open rates—way better than email.</p>
                         </div>
                     </div>
                     <div class="benefit-item animate-on-scroll" style="transition-delay: 0.4s;">
-                        <div class="benefit-icon"><i class="fas fa-robot"></i></div>
+                        <div class="benefit-icon"><i class="fas fa-dollar-sign"></i></div>
                         <div class="benefit-content">
-                            <h3>Effortless Marketing</h3>
-                            <p>Put your marketing on autopilot. Our AI acts as your 24/7 marketing assistant, even while you sleep.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.5s;">
-                        <div class="benefit-icon"><i class="fas fa-star"></i></div>
-                        <div class="benefit-content">
-                            <h3>Enhance Your Reputation</h3>
-                            <p>Automatically encourage your happiest customers to leave glowing Google reviews and boost your online rating.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-item animate-on-scroll" style="transition-delay: 0.6s;">
-                        <div class="benefit-icon"><i class="fas fa-clock"></i></div>
-                        <div class="benefit-content">
-                            <h3>Save Valuable Time</h3>
-                            <p>Focus on running your business while our system works in the background to grow it for you.</p>
+                            <h3>No Hidden Fees</h3>
+                            <p>No per-transaction fees. No data lock-in charges. Starting at $50/month, with custom pricing for your volume.</p>
                         </div>
                     </div>
                 </div>
+
+                <p class="animate-on-scroll" style="text-align: center; margin-top: 2rem; color: var(--secondary-text-color); max-width: 700px; margin-left: auto; margin-right: auto; font-size: 1.05rem;">
+                    The big chains spent millions to build what you're about to get for $50/month. <strong>Same power. Better control. No app required.</strong>
+                </p>
             </div>
         </section>
         
         <!-- Section 4: Tiers -->
         <section id="tiers" class="content-section">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">Find Your Perfect Fit</h2>
-                <p class="section-subtitle animate-on-scroll">Three powerful tiers, all designed to help your business grow. No complex pricing, just clear value.</p>
+                <h2 class="section-title animate-on-scroll">Simple Pricing, Built For You</h2>
+                <p class="section-subtitle animate-on-scroll">Starting at just $50/month—less than one day of revenue for most businesses. Choose your tier, or we'll create custom pricing that works for your volume.</p>
                 <div class="tiers-grid">
                     <!-- Tier 1: Basic -->
                     <div class="tier-card animate-on-scroll" style="transition-delay: 0.2s;">
@@ -864,11 +1674,13 @@
                             <div class="tier-icon"><i class="fas fa-layer-group"></i></div>
                             <h3 class="tier-title">Basic</h3>
                             <p class="tier-tagline">Get Started with Loyalty</p>
+                            <p style="font-size: 0.9rem; color: var(--secondary-text-color); margin-top: 0.5rem;">Starting at $50/month</p>
                         </div>
                         <ul class="tier-features">
                             <li><strong>Customer Data Collection:</strong> Securely gather contact info and visit history.</li>
                             <li><strong>Data Visualization:</strong> See your growth with an easy-to-use dashboard.</li>
                             <li><strong>Return Rewards:</strong> Automatically reward customers for repeat visits (e.g., "Your 5th coffee is free!").</li>
+                            <li><strong>Data Export:</strong> Download your customer list anytime—you own it.</li>
                         </ul>
                     </div>
                     <!-- Tier 2: Pro -->
@@ -1013,6 +1825,380 @@
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 gsap.globalTimeline.clear();
             }
+
+            // --- Business Type Timeline Switcher ---
+            const timelineData = {
+                cafe: {
+                    stages: [
+                        {
+                            icon: 'fa-door-open',
+                            label: 'Day 1',
+                            title: 'Sarah\'s First Visit',
+                            description: 'Sarah orders coffee. Your cashier enters her phone number. She\'s instantly enrolled—no app download, no signup form.',
+                            details: [
+                                { icon: 'fa-check-circle', text: '10 points earned' },
+                                { icon: 'fa-sms', text: '"Welcome! You have 10 points. 4 more visits = free coffee!"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-gift',
+                            label: 'Day 5',
+                            title: 'Fifth Visit Reward',
+                            description: 'Sarah unlocks her free coffee reward. Your system sends an instant SMS and she tags you on Instagram.',
+                            details: [
+                                { icon: 'fa-trophy', text: 'Free coffee unlocked' },
+                                { icon: 'fa-heart', text: 'Instagram story: "Best coffee shop in town!"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-birthday-cake',
+                            label: 'Week 3',
+                            title: 'Automated Birthday Surprise',
+                            description: 'Your system remembers Sarah\'s birthday and sends a personalized offer. She brings three friends to celebrate.',
+                            details: [
+                                { icon: 'fa-percentage', text: '"Happy Birthday Sarah! 20% off today only."' },
+                                { icon: 'fa-users', text: '+3 new customers from referral' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-crown',
+                            label: 'Month 2',
+                            title: 'VIP Customer Status',
+                            description: 'Sarah\'s now a regular. Your AI identifies her as top 10% and sends exclusive flash deals. She visits 3x per week.',
+                            details: [
+                                { icon: 'fa-bolt', text: 'VIP-only offers: 15-minute flash sales' },
+                                { icon: 'fa-chart-line', text: 'Lifetime value: $487 (and growing)' }
+                            ]
+                        }
+                    ]
+                },
+                deli: {
+                    stages: [
+                        {
+                            icon: 'fa-door-open',
+                            label: 'Day 1',
+                            title: 'Marcus\'s First Purchase',
+                            description: 'Marcus grabs lunch. Your cashier scans his phone number at checkout. Instant enrollment—he gets a welcome SMS while walking out.',
+                            details: [
+                                { icon: 'fa-check-circle', text: '15 points earned' },
+                                { icon: 'fa-sms', text: '"Thanks for visiting! 85 more points = free sandwich!"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-coffee',
+                            label: 'Week 1',
+                            title: 'Morning Regular',
+                            description: 'Marcus comes in 3x this week for coffee. Your system recognizes the pattern and sends a targeted morning offer.',
+                            details: [
+                                { icon: 'fa-clock', text: 'Pattern detected: Morning customer' },
+                                { icon: 'fa-percentage', text: '"Coffee lover? 15% off tomorrow 7-10am"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-shopping-basket',
+                            label: 'Week 2',
+                            title: 'Flash Deal Success',
+                            description: 'You have pastries expiring tonight. Send Marcus a flash deal at 5pm. He comes in within 30 minutes.',
+                            details: [
+                                { icon: 'fa-bolt', text: 'Flash deal SMS sent at 5:03pm' },
+                                { icon: 'fa-check-double', text: 'Purchase made at 5:28pm—saved inventory!' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-star',
+                            label: 'Month 1',
+                            title: 'Reward Redeemed & Reviewed',
+                            description: 'Marcus hits 100 points and redeems his free sandwich. System automatically asks for a review—he leaves 5 stars.',
+                            details: [
+                                { icon: 'fa-gift', text: 'Free sandwich redeemed' },
+                                { icon: 'fa-google', text: '5-star Google review posted' }
+                            ]
+                        }
+                    ]
+                },
+                restaurant: {
+                    stages: [
+                        {
+                            icon: 'fa-door-open',
+                            label: 'Day 1',
+                            title: 'The Chen Family Dines',
+                            description: 'The Chens finish dinner. Server asks for their phone number. They\'re enrolled instantly and get 50 points for tonight\'s $120 meal.',
+                            details: [
+                                { icon: 'fa-check-circle', text: '50 points earned ($1 = 1 point)' },
+                                { icon: 'fa-sms', text: '"Thanks for dining with us! 200 more points = $20 off"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-calendar-check',
+                            label: 'Week 2',
+                            title: 'Anniversary Reminder',
+                            description: 'Your system notes their anniversary date from conversation logs. Sends a personalized offer 2 weeks before.',
+                            details: [
+                                { icon: 'fa-heart', text: '"Anniversary coming up? Reserve now, get free dessert"' },
+                                { icon: 'fa-utensils', text: 'Reservation made for party of 4' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-users',
+                            label: 'Month 1',
+                            title: 'Table for 8',
+                            description: 'The Chens book a larger table for a celebration. Bill is $320—they earn 320 points and unlock VIP status.',
+                            details: [
+                                { icon: 'fa-trophy', text: '320 points earned—VIP unlocked!' },
+                                { icon: 'fa-crown', text: 'Added to "Top Spenders" segment' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-repeat',
+                            label: 'Month 2',
+                            title: 'Slow Tuesday Boost',
+                            description: 'You send VIPs a "quiet night" discount on Tuesdays. The Chens come in—they love being treated special.',
+                            details: [
+                                { icon: 'fa-percentage', text: '"VIP exclusive: 20% off Tuesdays this month"' },
+                                { icon: 'fa-chart-line', text: 'Lifetime value: $892 across 4 visits' }
+                            ]
+                        }
+                    ]
+                },
+                salon: {
+                    stages: [
+                        {
+                            icon: 'fa-door-open',
+                            label: 'Day 1',
+                            title: 'Jessica\'s Haircut',
+                            description: 'Jessica checks out after her haircut. Receptionist enrolls her with just her phone number. She gets points immediately.',
+                            details: [
+                                { icon: 'fa-check-circle', text: '1 service completed' },
+                                { icon: 'fa-sms', text: '"3 more visits = free deep conditioning treatment!"' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-calendar-alt',
+                            label: 'Week 5',
+                            title: 'Re-booking Reminder',
+                            description: 'It\'s been 5 weeks since Jessica\'s cut. Your system sends a gentle "ready for a trim?" reminder with easy booking link.',
+                            details: [
+                                { icon: 'fa-clock', text: 'Auto-reminder sent at 5-week mark' },
+                                { icon: 'fa-calendar-check', text: 'Appointment booked within 2 hours' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-gift',
+                            label: 'Visit 4',
+                            title: 'Reward Unlocked',
+                            description: 'Jessica completes her 4th visit and unlocks her free treatment. She books a color service for next month.',
+                            details: [
+                                { icon: 'fa-star', text: 'Free treatment redeemed' },
+                                { icon: 'fa-palette', text: 'Upsell: Color service booked ($150)' }
+                            ]
+                        },
+                        {
+                            icon: 'fa-heart',
+                            label: 'Month 4',
+                            title: 'Referral Champion',
+                            description: 'Jessica refers 2 friends using your "refer-a-friend" link. She gets 50% off her next visit. Friends become regulars too.',
+                            details: [
+                                { icon: 'fa-users', text: '2 referrals = 2 new regular clients' },
+                                { icon: 'fa-chart-line', text: 'Jessica\'s lifetime value: $680 + 2 referrals' }
+                            ]
+                        }
+                    ]
+                }
+            };
+
+            function renderTimeline(businessType) {
+                const timeline = document.getElementById('journeyTimeline');
+                const data = timelineData[businessType];
+                const stages = timeline.querySelectorAll('.journey-stage');
+                const timelineLine = timeline.querySelector('.timeline-line');
+
+                // STEP 1: Animate OUT existing stages with stagger (if any exist)
+                if (stages.length > 0) {
+                    gsap.to(timelineLine, {
+                        scaleY: 0,
+                        duration: 0.3,
+                        ease: 'power2.in'
+                    });
+
+                    gsap.to(stages, {
+                        opacity: 0,
+                        scale: 0.8,
+                        x: (index) => index % 2 === 0 ? -100 : 100,
+                        duration: 0.4,
+                        stagger: 0.08,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            buildNewTimeline();
+                        }
+                    });
+                } else {
+                    buildNewTimeline();
+                }
+
+                function buildNewTimeline() {
+                    // STEP 2: Clear and rebuild HTML
+                    timeline.innerHTML = '<div class="timeline-line" style="transform: scaleY(0);"></div>';
+
+                    data.stages.forEach((stage, index) => {
+                        const stageDiv = document.createElement('div');
+                        stageDiv.className = 'journey-stage';
+                        stageDiv.setAttribute('data-stage', index + 1);
+
+                        // Set initial state for animation
+                        stageDiv.style.opacity = '0';
+
+                        const detailsHTML = stage.details.map(detail => `
+                            <div class="detail-item" style="opacity: 0; transform: translateX(-10px);">
+                                <i class="fas ${detail.icon}"></i>
+                                <span>${detail.text}</span>
+                            </div>
+                        `).join('');
+
+                        stageDiv.innerHTML = `
+                            <div class="stage-icon" style="transform: scale(0) rotate(-180deg); opacity: 0;">
+                                <i class="fas ${stage.icon}"></i>
+                            </div>
+                            <div class="stage-content" style="opacity: 0;">
+                                <div class="stage-label" style="opacity: 0; transform: scale(0.5);">${stage.label}</div>
+                                <h4 style="opacity: 0; transform: translateY(10px);">${stage.title}</h4>
+                                <p style="opacity: 0; transform: translateY(10px);">${stage.description}</p>
+                                <div class="stage-details">
+                                    ${detailsHTML}
+                                </div>
+                            </div>
+                        `;
+
+                        timeline.appendChild(stageDiv);
+                    });
+
+                    // STEP 3: Animate IN the new timeline
+                    const newLine = timeline.querySelector('.timeline-line');
+                    const newStages = timeline.querySelectorAll('.journey-stage');
+
+                    // Animate timeline line drawing from top to bottom
+                    gsap.to(newLine, {
+                        scaleY: 1,
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        delay: 0.1
+                    });
+
+                    // Animate stages in with zigzag pattern
+                    newStages.forEach((stage, index) => {
+                        const isEven = index % 2 === 0;
+                        const direction = isEven ? -80 : 80;
+                        const delay = 0.3 + (index * 0.15);
+
+                        // Stage container
+                        gsap.fromTo(stage,
+                            { opacity: 0, x: direction },
+                            {
+                                opacity: 1,
+                                x: 0,
+                                duration: 0.6,
+                                delay: delay,
+                                ease: 'back.out(1.2)'
+                            }
+                        );
+
+                        // Stage icon - bounce in with rotation
+                        const icon = stage.querySelector('.stage-icon');
+                        gsap.to(icon, {
+                            scale: 1,
+                            rotate: 0,
+                            opacity: 1,
+                            duration: 0.5,
+                            delay: delay + 0.1,
+                            ease: 'back.out(2)'
+                        });
+
+                        // Stage content
+                        const content = stage.querySelector('.stage-content');
+                        gsap.to(content, {
+                            opacity: 1,
+                            duration: 0.4,
+                            delay: delay + 0.2,
+                            ease: 'power2.out'
+                        });
+
+                        // Label badge
+                        const label = stage.querySelector('.stage-label');
+                        gsap.to(label, {
+                            scale: 1,
+                            opacity: 1,
+                            duration: 0.3,
+                            delay: delay + 0.25,
+                            ease: 'back.out(1.5)'
+                        });
+
+                        // Title and description
+                        const title = stage.querySelector('h4');
+                        const desc = stage.querySelector('p');
+                        gsap.to([title, desc], {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.4,
+                            delay: delay + 0.3,
+                            stagger: 0.08,
+                            ease: 'power2.out'
+                        });
+
+                        // Detail items - stagger animation
+                        const details = stage.querySelectorAll('.detail-item');
+                        gsap.to(details, {
+                            opacity: 1,
+                            x: 0,
+                            duration: 0.3,
+                            delay: delay + 0.5,
+                            stagger: 0.1,
+                            ease: 'power2.out'
+                        });
+                    });
+
+                    // Add interactive effects after animations complete
+                    setTimeout(() => {
+                        addInteractiveEffects();
+                    }, 1500);
+                }
+            }
+
+            // Interactive Effects: GlareHover only (no magnet)
+            function addInteractiveEffects() {
+                const stageCards = document.querySelectorAll('.stage-content');
+
+                stageCards.forEach(card => {
+                    // Mouse move handler for glare effect only
+                    function handleMouseMove(e) {
+                        const rect = card.getBoundingClientRect();
+
+                        // Update glare position (CSS custom properties)
+                        const mouseXPercent = ((e.clientX - rect.left) / rect.width) * 100;
+                        const mouseYPercent = ((e.clientY - rect.top) / rect.height) * 100;
+                        card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
+                        card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
+                    }
+
+                    // Add mouse move listener for glare effect
+                    card.addEventListener('mousemove', handleMouseMove);
+                });
+            }
+
+            // Business Type Button Click Handlers
+            const typeButtons = document.querySelectorAll('.type-btn');
+            typeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    typeButtons.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    // Render the selected timeline
+                    const businessType = btn.getAttribute('data-type');
+                    renderTimeline(businessType);
+                });
+            });
+
+            // Initialize with cafe timeline
+            renderTimeline('cafe');
         });
     </script>
 </body>
