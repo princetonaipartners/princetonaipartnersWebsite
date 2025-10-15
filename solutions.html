@@ -39,12 +39,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
-            height: 250px;
-            background: var(--accent-color-start);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent-color-start), rgba(10, 132, 255, 0.4));
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.2;
+            filter: blur(100px);
+            opacity: 0.35;
             pointer-events: none;
             z-index: -1;
             transition: transform 0.1s ease-out;
@@ -280,106 +280,169 @@
         @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
         @keyframes fadeInShine { to { opacity: 1; } }
 
-        /* Interactive Tab Layout */
-        .solutions-layout {
+        /* Parallax Marquee Container */
+        .solutions-marquee-wrapper {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-color) 0%, var(--card-bg-color) 100%);
+        }
+
+        .solutions-marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, transparent 0%, var(--bg-color) 80%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .solutions-marquee {
+            padding: 60px 0 60px;
+            overflow: hidden;
             display: flex;
-            gap: 3rem;
-            align-items: flex-start;
-            padding: 80px 0 120px;
+            gap: 2rem;
+            justify-content: center;
+            position: relative;
         }
-        .solutions-tabs {
-            flex: 0 0 300px;
-            list-style: none;
+
+        .marquee-column {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            overflow: hidden;
+            position: relative;
         }
-        .tab-link {
+
+        .marquee-track {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        /* Different speeds for parallax effect */
+        .marquee-column:nth-child(1) .marquee-track {
+            animation: scrollUp 40s linear infinite;
+        }
+
+        .marquee-column:nth-child(2) .marquee-track {
+            animation: scrollUp 30s linear infinite;
+        }
+
+        /* Pause on hover */
+        .marquee-column:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollUp {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        /* Minimal Card Design */
+        .solution-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem 1.75rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .solution-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(10, 132, 255, 0.15);
+            border-color: rgba(10, 132, 255, 0.3);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-gradient);
+            border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border: 1px solid transparent;
+            justify-content: center;
+            font-size: 2.25rem;
+            color: white;
+            margin-bottom: 1.25rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 20px rgba(10, 132, 255, 0.25);
         }
-        .tab-link:hover {
-            background-color: #e9e9e7;
+
+        .solution-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
         }
-        .tab-link.active {
-            background-color: var(--card-bg-color);
-            color: var(--accent-color-start);
-            border-color: var(--border-color);
-            font-weight: 600;
-        }
-        .tab-link .icon {
-            font-size: 1.25rem;
-            width: 30px;
-            text-align: center;
-        }
-        .solutions-content {
-            flex: 1;
-        }
-        .tab-pane {
-            display: none;
-            background-color: var(--card-bg-color);
-            padding: 3rem;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-        }
-        .tab-pane.active {
-            display: block;
-            animation: contentFadeIn 0.5s ease forwards;
-        }
-        @keyframes contentFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .tab-pane h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .tab-pane p {
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-        .tab-pane ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .tab-pane ul li {
-            position: relative;
-            padding-left: 25px;
+
+        .card-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
             margin-bottom: 0.75rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInListItem 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
-        }
-        .tab-pane.active ul li:nth-child(1) { animation-delay: 0.2s; }
-        .tab-pane.active ul li:nth-child(2) { animation-delay: 0.3s; }
-        .tab-pane.active ul li:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes fadeInListItem {
-             to { opacity: 1; transform: translateY(0); }
+            color: var(--primary-text-color);
+            line-height: 1.3;
         }
 
-        .tab-pane ul li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 4px;
-            color: var(--accent-color-start);
-        }
-        .rag-explainer {
+        .card-tagline {
             font-size: 0.9rem;
             color: var(--secondary-text-color);
-            background-color: var(--bg-color);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1.5rem;
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            animation: fadeInListItem 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) 0.5s forwards;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-arrow {
+            margin-top: auto;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(0, 96, 206, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color-start);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover .card-arrow {
+            background: var(--accent-gradient);
+            color: white;
+            transform: translateX(4px);
         }
         
         .shine-effect::after {
@@ -397,6 +460,13 @@
             left: 150%;
         }
 
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .solutions-marquee {
+                gap: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links, .header-cta {
                 display: none;
@@ -410,24 +480,48 @@
             .animated-title {
                 font-size: 2.5rem;
             }
-            .solutions-layout { 
-                flex-direction: column; 
-                padding-top: 40px;
+
+            /* Single column on mobile - natural scrolling */
+            .solutions-marquee {
+                padding: 40px 0 40px;
+                flex-direction: column;
+                gap: 2rem;
             }
-            .solutions-tabs { 
-                flex: 0 0 auto; 
-                width: 100%; 
-                display: flex; 
-                overflow-x: auto; 
-                padding-bottom: 1rem;
-                -ms-overflow-style: none;
-                scrollbar-width: none;
+
+            .solutions-marquee-wrapper::after {
+                height: 120px;
             }
-            .solutions-tabs::-webkit-scrollbar {
+
+            .marquee-column {
+                max-width: 100%;
+            }
+
+            /* Disable auto-scroll on mobile, show all cards */
+            .marquee-column:nth-child(2) {
                 display: none;
             }
-            .tab-link { 
-                flex-shrink: 0; 
+
+            .marquee-track {
+                animation: none !important;
+            }
+
+            .solution-card {
+                padding: 2rem 1.5rem;
+                min-height: 260px;
+            }
+
+            .card-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+
+            .card-header h3 {
+                font-size: 1.3rem;
+            }
+
+            .card-tagline {
+                font-size: 0.875rem;
             }
         }
     </style>
@@ -492,63 +586,179 @@
             </div>
         </section>
 
-        <section class="solutions-layout container">
-            <ul class="solutions-tabs">
-                <li><a class="tab-link active" data-tab="rewards"><i class="fas fa-gift icon"></i> Check-in & Rewards</a></li>
-                <li><a class="tab-link" data-tab="marketing"><i class="fas fa-bullhorn icon"></i> Customized Marketing</a></li>
-                <li><a class="tab-link" data-tab="automation"><i class="fas fa-robot icon"></i> Process Automation</a></li>
-                <li><a class="tab-link" data-tab="website"><i class="fas fa-desktop icon"></i> Website Management</a></li>
-                <li><a class="tab-link" data-tab="rag"><i class="fas fa-database icon"></i> Smart Document Processing</a></li>
-            </ul>
-            <div class="solutions-content">
-                <div class="tab-pane active" id="rewards">
-                    <h3>Automated Check-in & Rewards Workflows</h3>
-                    <p>Foster deep customer loyalty and dramatically increase repeat business. We build seamless automated systems that manage customer check-ins, track visit frequency, and deliver personalized rewards and offers. This creates an engaging experience that makes your best customers feel valued and keeps them coming back for more.</p>
-                    <ul>
-                        <li>Drives repeat visits and increases customer lifetime value.</li>
-                        <li>Gathers valuable data on customer behavior and preferences.</li>
-                        <li>Operates automatically in the background, requiring no staff effort.</li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="marketing">
-                    <h3>Customized Marketing & Posting</h3>
-                    <p>Maintain a vibrant online presence without lifting a finger. Our AI can generate and post high-quality, relevant content for your social media channels, create engaging blog articles to boost your SEO, and send personalized marketing messages to the right customers at the right time.</p>
-                    <ul>
-                        <li>Ensures a consistent and professional brand voice online.</li>
-                        <li>Attracts new customers through engaging, search-optimized content.</li>
-                        <li>Saves countless hours of creative work and planning each week.</li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="automation">
-                    <h3>Intelligent Process Automation</h3>
-                    <p>Stop losing valuable time and money to repetitive, manual tasks. Our AI agents can handle everything from scheduling appointments and answering common questions to managing inventory and processing paperwork, allowing your team to focus on high-value work.</p>
-                    <ul>
-                        <li>Captures leads and books appointments around the clock.</li>
-                        <li>Reduces costly errors from manual data entry.</li>
-                        <li>Frees up your staff to focus on serving customers.</li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="website">
-                    <h3>AI-Powered Website Management</h3>
-                    <p>Your website should be your hardest-working employee. We build and manage dynamic websites that do more than just sit there. Our AI can personalize content for visitors, provide instant chat support, and even update product listings or galleries automatically, ensuring your site is always working to win you more business.</p>
-                    <ul>
-                        <li>Provides a modern, professional online presence.</li>
-                        <li>Engages visitors with interactive, AI-driven features.</li>
-                        <li>Automates content updates to keep your site fresh and relevant.</li>
-                    </ul>
-                </div>
-                <div class="tab-pane" id="rag">
-                    <h3>Smart Document Processing (RAG)</h3>
-                    <p>Imagine an employee who has instantly memorized every document, manual, and past project in your company's history. Our Retrieval-Augmented Generation (RAG) agents act as a super-intelligent internal search engine, providing instant, accurate answers to complex staff questions by drawing directly from your own private data.</p>
-                    <ul>
-                        <li>Eliminates time wasted searching for information.</li>
-                        <li>Ensures consistent and accurate answers for training and operations.</li>
-                        <li>Keeps your proprietary data secure and private.</li>
-                    </ul>
-                    <div class="rag-explainer">
-                        <strong>What is RAG?</strong> Retrieval-Augmented Generation allows an AI to "look up" information in your private documents before answering a question. This prevents the AI from making things up and ensures its answers are factual and highly relevant to your specific business.
+        <section class="solutions-marquee-wrapper">
+            <div class="solutions-marquee container">
+
+                <!-- Left Column (slower) -->
+                <div class="marquee-column">
+                    <div class="marquee-track">
+                        <!-- First set of cards -->
+                        <a href="checkin.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Automated Loyalty</h3>
+                            </div>
+                            <p class="card-tagline">Drive repeat visits with points, rewards, and personalized offers—no app needed.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="AutoPosting.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>AI-Powered Marketing</h3>
+                            </div>
+                            <p class="card-tagline">Automated social media posts, blog content, and campaigns that match your brand voice.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="websitemanagement.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Website Management</h3>
+                            </div>
+                            <p class="card-tagline">Dynamic AI-powered websites with chat support, personalized content, and auto-updates.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <!-- Duplicate set for seamless loop -->
+                        <a href="checkin.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Automated Loyalty</h3>
+                            </div>
+                            <p class="card-tagline">Drive repeat visits with points, rewards, and personalized offers—no app needed.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="AutoPosting.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>AI-Powered Marketing</h3>
+                            </div>
+                            <p class="card-tagline">Automated social media posts, blog content, and campaigns that match your brand voice.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="websitemanagement.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Website Management</h3>
+                            </div>
+                            <p class="card-tagline">Dynamic AI-powered websites with chat support, personalized content, and auto-updates.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
                     </div>
                 </div>
+
+                <!-- Right Column (faster) -->
+                <div class="marquee-column">
+                    <div class="marquee-track">
+                        <!-- First set of cards -->
+                        <a href="PhoneAgent.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>AI Phone Receptionist</h3>
+                            </div>
+                            <p class="card-tagline">24/7 AI answering service that books appointments, answers FAQs, and never misses a call.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="ProcessAutomation.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Process Automation</h3>
+                            </div>
+                            <p class="card-tagline">Automate repetitive tasks—scheduling, data entry, inventory management, and paperwork.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="RAG.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Smart Document Processing</h3>
+                            </div>
+                            <p class="card-tagline">AI that reads your docs and answers questions instantly—like a super-intelligent search engine.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <!-- Duplicate set for seamless loop -->
+                        <a href="PhoneAgent.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>AI Phone Receptionist</h3>
+                            </div>
+                            <p class="card-tagline">24/7 AI answering service that books appointments, answers FAQs, and never misses a call.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="ProcessAutomation.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Process Automation</h3>
+                            </div>
+                            <p class="card-tagline">Automate repetitive tasks—scheduling, data entry, inventory management, and paperwork.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="RAG.html" class="solution-card">
+                            <div class="card-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="card-header">
+                                <h3>Smart Document Processing</h3>
+                            </div>
+                            <p class="card-tagline">AI that reads your docs and answers questions instantly—like a super-intelligent search engine.</p>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
