@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STIMI | The Free-to-Play Sportsbook for Real Fans</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Root Variables */
+        :root {
+            --bg-dark: #0a0b1e;
+            --bg-darker: #06070f;
+            --text-white: #ffffff;
+            --text-gray: #9ca3af;
+            --cyan: #00d9ff;
+            --pink: #ff00e5;
+            --purple: #a855f7;
+            --gradient-primary: linear-gradient(135deg, #00d9ff 0%, #a855f7 50%, #ff00e5 100%);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Interactive cursor orbs */
+        .cursor-orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .cursor-orb.orb-1 {
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.6), transparent);
+        }
+
+        .cursor-orb.orb-2 {
+            background: radial-gradient(circle, rgba(255, 0, 229, 0.5), transparent);
+        }
+
+        /* Smooth link hover animations */
+        a {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Particle container */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: particleFade 1.5s ease-out forwards;
+        }
+
+        @keyframes particleFade {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-100px);
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 11, 30, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text-white);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            padding: 0.65rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-signup {
+            padding: 0.65rem 1.75rem;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.15), transparent);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 0, 229, 0.12), transparent);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 30px) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            color: var(--cyan);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1.25rem 4rem;
+            background: var(--gradient-primary);
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.2rem;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .hero-cta:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.8),
+                        0 0 60px rgba(255, 0, 229, 0.4);
+            animation: neonPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                box-shadow: 0 20px 60px rgba(0, 217, 255, 0.8),
+                           0 0 40px rgba(255, 0, 229, 0.4),
+                           0 0 20px rgba(0, 217, 255, 0.6);
+            }
+            50% {
+                box-shadow: 0 20px 60px rgba(0, 217, 255, 1),
+                           0 0 60px rgba(255, 0, 229, 0.6),
+                           0 0 40px rgba(0, 217, 255, 1);
+            }
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .trust-badge::before {
+            content: '✓';
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 217, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            font-weight: 800;
+        }
+
+        /* Sports Lines Section */
+        .sports-section {
+            padding: 8rem 2rem;
+            position: relative;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--cyan);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            font-style: italic;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+
+        .phone-mockup-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .phone-mockup {
+            position: relative;
+            width: 320px;
+            height: 650px;
+            background: #1a1b2e;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8),
+                        0 0 0 2px rgba(255, 255, 255, 0.1),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            animation: phoneFloat 6s ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 50px 120px rgba(0, 217, 255, 0.5),
+                        0 0 0 2px rgba(0, 217, 255, 0.3),
+                        0 0 80px rgba(0, 217, 255, 0.3),
+                        inset 0 0 0 1px rgba(0, 217, 255, 0.2);
+            animation-play-state: paused;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0d0e1c 0%, #0a0b1e 100%);
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #1a1b2e;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+
+        .phone-header {
+            padding: 3rem 1.5rem 1rem;
+            background: linear-gradient(180deg, rgba(0, 217, 255, 0.1) 0%, transparent 100%);
+        }
+
+        .phone-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .phone-logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .phone-balance {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .balance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .coin-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+        }
+
+        .phone-tabs {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: var(--gradient-primary);
+        }
+
+        .phone-content {
+            padding: 1.5rem;
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 217, 255, 0.3);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .game-league {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cyan);
+        }
+
+        .game-time {
+            font-size: 0.7rem;
+            color: var(--text-gray);
+        }
+
+        .game-teams {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .team-odds {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .odd-btn {
+            padding: 0.35rem 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-white);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .odd-btn:hover {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            animation: flipNumber 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.4);
+        }
+
+        @keyframes flipNumber {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+
+        /* Floating Icons */
+        .floating-icons {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .floating-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(2) {
+            animation-delay: -1s;
+        }
+
+        .floating-icon:nth-child(3) {
+            animation-delay: -2s;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Props Section */
+        .props-section {
+            padding: 4rem 2rem 8rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(168, 85, 247, 0.05) 100%);
+        }
+
+        .props-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .prop-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .prop-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent 30%,
+                rgba(0, 217, 255, 0.1) 50%,
+                transparent 70%);
+            transform: rotate(0deg);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        .prop-card:hover::after {
+            opacity: 1;
+            transform: rotate(180deg);
+        }
+
+        .prop-card:hover {
+            transform: translateY(-12px) rotateX(2deg) scale(1.02);
+            border-color: rgba(0, 217, 255, 0.6);
+            box-shadow: 0 30px 80px rgba(0, 217, 255, 0.4),
+                        0 0 40px rgba(255, 0, 229, 0.2),
+                        inset 0 0 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .prop-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .prop-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prop-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.35rem 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .prop-content {
+            padding: 1.5rem;
+        }
+
+        .prop-question {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .prop-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .prop-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .prop-option:hover {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--cyan);
+            transform: scale(1.05);
+        }
+
+        .prop-option.yes:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+
+        .prop-option.no:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        .option-label {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .option-odds {
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            color: var(--cyan);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-white);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .phone-mockup-container {
+                gap: 2rem;
+            }
+
+            .floating-icons {
+                display: none;
+            }
+
+            .props-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+
+            .btn-login, .btn-signup {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                STIMI
+            </a>
+            <div class="nav-buttons">
+                <a href="#" class="btn-login">Log In</a>
+                <a href="#" class="btn-signup">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Always Free to Play</div>
+            <h1>
+                THE<br>
+                <span class="gradient-text">FREE-TO-PLAY</span><br>
+                <span class="gradient-text">SPORTSBOOK</span><br>
+                FOR REAL FANS
+            </h1>
+            <p class="hero-subtitle">
+                Stimi makes sports bigger than the scoreboard, with daily credits to play for free!
+            </p>
+            <a href="#" class="hero-cta">Play</a>
+            <div class="trust-badges">
+                <div class="trust-badge">100% Legal</div>
+                <div class="trust-badge">No Risk</div>
+                <div class="trust-badge">Real Prizes</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sports Lines Section -->
+    <section class="sports-section">
+        <div class="section-label">Powered by Real Sports Data</div>
+        <h2 class="section-title">EXPLORE OUR FULL SPORTS LINES...</h2>
+        <p class="section-subtitle">
+            From league-to-small matchups — from top-pick, all-star pros, fantasy props to the mix, too.
+        </p>
+
+        <div class="phone-mockup-container">
+            <div class="floating-icons">
+                <div class="floating-icon">🏈</div>
+                <div class="floating-icon">🏀</div>
+                <div class="floating-icon">⚾</div>
+            </div>
+
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="phone-notch"></div>
+
+                    <div class="phone-header">
+                        <div class="phone-nav">
+                            <div class="phone-logo">STIMI</div>
+                            <div class="phone-balance">
+                                <div class="balance-item">
+                                    <div class="coin-icon"></div>
+                                    <span>$125.50</span>
+                                </div>
+                                <div class="balance-item">
+                                    <div class="coin-icon"></div>
+                                    <span>850</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-tabs">
+                            <div class="tab active">Sports</div>
+                            <div class="tab">Props</div>
+                            <div class="tab">Live</div>
+                        </div>
+                    </div>
+
+                    <div class="phone-content">
+                        <!-- NFL Game -->
+                        <div class="game-card">
+                            <div class="game-header">
+                                <div class="game-league">🏈 NFL</div>
+                                <div class="game-time">Today 8:15 PM</div>
+                            </div>
+                            <div class="game-teams">
+                                <div class="team-row">
+                                    <div class="team-name">Kansas City Chiefs</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">-6.5</div>
+                                        <div class="odd-btn">-280</div>
+                                    </div>
+                                </div>
+                                <div class="team-row">
+                                    <div class="team-name">Buffalo Bills</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">+6.5</div>
+                                        <div class="odd-btn">+220</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NBA Game -->
+                        <div class="game-card">
+                            <div class="game-header">
+                                <div class="game-league">🏀 NBA</div>
+                                <div class="game-time">Today 7:30 PM</div>
+                            </div>
+                            <div class="game-teams">
+                                <div class="team-row">
+                                    <div class="team-name">LA Lakers</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">-4.5</div>
+                                        <div class="odd-btn">-180</div>
+                                    </div>
+                                </div>
+                                <div class="team-row">
+                                    <div class="team-name">Boston Celtics</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">+4.5</div>
+                                        <div class="odd-btn">+155</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NHL Game -->
+                        <div class="game-card">
+                            <div class="game-header">
+                                <div class="game-league">🏒 NHL</div>
+                                <div class="game-time">Today 10:00 PM</div>
+                            </div>
+                            <div class="game-teams">
+                                <div class="team-row">
+                                    <div class="team-name">NY Rangers</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">-1.5</div>
+                                        <div class="odd-btn">-130</div>
+                                    </div>
+                                </div>
+                                <div class="team-row">
+                                    <div class="team-name">Boston Bruins</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">+1.5</div>
+                                        <div class="odd-btn">+110</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MLB Game -->
+                        <div class="game-card">
+                            <div class="game-header">
+                                <div class="game-league">⚾ MLB</div>
+                                <div class="game-time">Today 7:05 PM</div>
+                            </div>
+                            <div class="game-teams">
+                                <div class="team-row">
+                                    <div class="team-name">NY Yankees</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">-1.5</div>
+                                        <div class="odd-btn">-145</div>
+                                    </div>
+                                </div>
+                                <div class="team-row">
+                                    <div class="team-name">Boston Red Sox</div>
+                                    <div class="team-odds">
+                                        <div class="odd-btn">+1.5</div>
+                                        <div class="odd-btn">+125</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="floating-icons">
+                <div class="floating-icon">🏒</div>
+                <div class="floating-icon">⚽</div>
+                <div class="floating-icon">🎾</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Props Section -->
+    <section class="props-section">
+        <div class="section-label">Beyond the Scoreboard</div>
+        <h2 class="section-title">...AND MORE</h2>
+        <p class="section-subtitle">
+            Stimi goes beyond the game — headlines, pop culture, and viral moments, putting you in the middle of the now.
+        </p>
+
+        <div class="props-grid">
+            <!-- Prop 1: Sports -->
+            <div class="prop-card">
+                <div class="prop-image">
+                    <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?q=80&w=800&auto=format&fit=crop" alt="NFL Player">
+                    <div class="prop-badge">NFL</div>
+                </div>
+                <div class="prop-content">
+                    <div class="prop-question">
+                        Will Josh Allen throw 3+ TDs tonight?
+                    </div>
+                    <div class="prop-options">
+                        <div class="prop-option yes">
+                            <div class="option-label">YES</div>
+                            <div class="option-odds">+150</div>
+                        </div>
+                        <div class="prop-option no">
+                            <div class="option-label">NO</div>
+                            <div class="option-odds">-180</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prop 2: NBA -->
+            <div class="prop-card">
+                <div class="prop-image">
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=800&auto=format&fit=crop" alt="NBA Court">
+                    <div class="prop-badge">NBA</div>
+                </div>
+                <div class="prop-content">
+                    <div class="prop-question">
+                        LeBron James to score 30+ points tonight?
+                    </div>
+                    <div class="prop-options">
+                        <div class="prop-option yes">
+                            <div class="option-label">YES</div>
+                            <div class="option-odds">+120</div>
+                        </div>
+                        <div class="prop-option no">
+                            <div class="option-label">NO</div>
+                            <div class="option-odds">-145</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prop 3: Pop Culture -->
+            <div class="prop-card">
+                <div class="prop-image">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop" alt="Hollywood">
+                    <div class="prop-badge">POP CULTURE</div>
+                </div>
+                <div class="prop-content">
+                    <div class="prop-question">
+                        Will a new Marvel movie be announced this month?
+                    </div>
+                    <div class="prop-options">
+                        <div class="prop-option yes">
+                            <div class="option-label">YES</div>
+                            <div class="option-odds">+200</div>
+                        </div>
+                        <div class="prop-option no">
+                            <div class="option-label">NO</div>
+                            <div class="option-odds">-250</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Company</h4>
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Sweepstakes Rules</a>
+                    <a href="#">Responsible Gaming</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <div class="footer-links">
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Download</h4>
+                <div class="footer-links">
+                    <a href="#">iOS App</a>
+                    <a href="#">Android App</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-legal">
+                © 2025 PropX Incorporated (dba Stimi). All rights reserved.
+            </div>
+            <div class="social-links">
+                <a href="#">𝕏</a>
+                <a href="#">📷</a>
+                <a href="#">▶</a>
+                <a href="#">📘</a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Create particle container
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'particles';
+    document.body.appendChild(particleContainer);
+
+    // Create cursor orbs
+    const orb1 = document.createElement('div');
+    orb1.className = 'cursor-orb orb-1';
+    document.body.appendChild(orb1);
+
+    const orb2 = document.createElement('div');
+    orb2.className = 'cursor-orb orb-2';
+    document.body.appendChild(orb2);
+
+    // Mouse position tracking with smooth interpolation
+    let mouseX = 0, mouseY = 0;
+    let orb1X = 0, orb1Y = 0;
+    let orb2X = 0, orb2Y = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // Smooth orb following with lerp
+    function animateOrbs() {
+        // Orb 1 follows directly but smoothly
+        orb1X += (mouseX - orb1X) * 0.15;
+        orb1Y += (mouseY - orb1Y) * 0.15;
+
+        // Orb 2 follows with more lag
+        orb2X += (mouseX - orb2X) * 0.08;
+        orb2Y += (mouseY - orb2Y) * 0.08;
+
+        orb1.style.transform = `translate(${orb1X - 200}px, ${orb1Y - 200}px)`;
+        orb2.style.transform = `translate(${orb2X - 200}px, ${orb2Y - 200}px)`;
+
+        requestAnimationFrame(animateOrbs);
+    }
+    animateOrbs();
+
+    // Particle burst on prop card hover
+    const propCards = document.querySelectorAll('.prop-card');
+    propCards.forEach(card => {
+        card.addEventListener('mouseenter', (e) => {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Create 8 particles
+            for (let i = 0; i < 8; i++) {
+                createParticle(centerX, centerY, i);
+            }
+        });
+
+        // Advanced 3D tilt effect
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 20;
+            const rotateY = -(x - centerX) / 20;
+
+            card.style.transform = `translateY(-12px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+
+    function createParticle(x, y, index) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const angle = (index / 8) * Math.PI * 2;
+        const velocity = 50 + Math.random() * 30;
+        const offsetX = Math.cos(angle) * velocity;
+        const offsetY = Math.sin(angle) * velocity;
+
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.background = index % 2 === 0 ? 'var(--cyan)' : 'var(--pink)';
+
+        particleContainer.appendChild(particle);
+
+        // Animate particle
+        setTimeout(() => {
+            particle.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0)`;
+        }, 10);
+
+        // Remove after animation
+        setTimeout(() => {
+            particle.remove();
+        }, 1500);
+    }
+
+    // Magnetic effect on CTA buttons
+    const ctaButtons = document.querySelectorAll('.hero-cta, .btn-signup');
+    ctaButtons.forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            const distance = Math.sqrt(x * x + y * y);
+            const maxDistance = 100;
+
+            if (distance < maxDistance) {
+                const strength = (maxDistance - distance) / maxDistance;
+                const moveX = x * strength * 0.3;
+                const moveY = y * strength * 0.3;
+
+                button.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+            }
+        });
+
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+        });
+    });
+
+    // Parallax effect on hero floating orbs
+    let scrollY = 0;
+    window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
+    });
+
+    function animateParallax() {
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            const heroOffset = hero.offsetTop;
+            const parallaxStrength = (scrollY - heroOffset) * 0.3;
+
+            const heroOrbs = hero.querySelectorAll('.hero::before, .hero::after');
+            hero.style.setProperty('--parallax-offset', `${parallaxStrength}px`);
+        }
+
+        requestAnimationFrame(animateParallax);
+    }
+    animateParallax();
+
+    // Glowing effect on phone mockup based on scroll position
+    const phoneMockup = document.querySelector('.phone-mockup');
+    if (phoneMockup) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add random pulse to phone glow
+                    setInterval(() => {
+                        phoneMockup.style.filter = `drop-shadow(0 0 ${20 + Math.random() * 10}px rgba(0, 217, 255, 0.6))`;
+                    }, 2000);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(phoneMockup);
+    }
+
+    // Ripple effect on odd buttons
+    const oddButtons = document.querySelectorAll('.odd-btn');
+    oddButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s ease-out';
+            ripple.style.pointerEvents = 'none';
+
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Add ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Floating sport icons with mouse repel effect
+    const floatingIcons = document.querySelectorAll('.floating-icon');
+    floatingIcons.forEach(icon => {
+        let iconX = 0, iconY = 0;
+
+        function updateIconPosition() {
+            const rect = icon.getBoundingClientRect();
+            const iconCenterX = rect.left + rect.width / 2;
+            const iconCenterY = rect.top + rect.height / 2;
+
+            const dx = mouseX - iconCenterX;
+            const dy = mouseY - iconCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const repelRadius = 150;
+            if (distance < repelRadius && distance > 0) {
+                const force = (repelRadius - distance) / repelRadius;
+                iconX = -dx * force * 0.5;
+                iconY = -dy * force * 0.5;
+            } else {
+                iconX *= 0.9;
+                iconY *= 0.9;
+            }
+
+            icon.style.transform = `translate(${iconX}px, ${iconY}px)`;
+            requestAnimationFrame(updateIconPosition);
+        }
+
+        updateIconPosition();
+    });
+});
+</script>
+
+</body>
+</html>

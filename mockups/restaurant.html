@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Laurent | Contemporary French Dining</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --black: #1A1A1A;
+            --white: #FFFFFF;
+            --cream: #F9F7F4;
+            --gray: #6E6E73;
+            --gold: #C9A86A;
+            --border: #E5E5EA;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--black);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Candlelight flicker effect */
+        .candlelight {
+            position: fixed;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at var(--candle-x, 50%) var(--candle-y, 50%),
+                rgba(201, 168, 106, 0.1) 0%,
+                transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            mix-blend-mode: screen;
+            animation: flicker 3s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+            25%, 75% { opacity: 0.4; }
+        }
+
+        /* Wine glass shimmer animation */
+        @keyframes wineShimmer {
+            0% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 0 rgba(201, 168, 106, 0));
+            }
+            50% {
+                transform: scale(1.15) rotate(-5deg);
+                filter: drop-shadow(0 0 20px rgba(201, 168, 106, 0.8));
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 8px rgba(201, 168, 106, 0.4));
+            }
+        }
+
+        .wine-icon-animated {
+            animation: wineShimmer 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* Signature animation */
+        .chef-signature {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signature-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--gold);
+            transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Smooth link hover animations */
+        a {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2.5rem; }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-bottom: none;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        header .logo,
+        header .nav-links a {
+            color: var(--white);
+            transition: color 0.4s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        header .reserve-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: 1px solid var(--white);
+            backdrop-filter: blur(10px);
+        }
+        header.scrolled .logo,
+        header.scrolled .nav-links a {
+            color: var(--black);
+            text-shadow: none;
+        }
+        header.scrolled .reserve-btn {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover { opacity: 0.6; }
+        .reserve-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        .reserve-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* When in iframe, hide header and remove hero padding */
+        .in-iframe header {
+            display: none;
+        }
+        .in-iframe .hero {
+            padding-top: 0 !important;
+        }
+        .in-iframe body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(26,26,26,0.3), rgba(26,26,26,0.3));
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            z-index: 2;
+        }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.95;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .btn-white {
+            background: var(--white);
+            color: var(--black);
+            padding: 1.1rem 2.5rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-white:hover {
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            padding: 1.1rem 2.5rem;
+            border: 1px solid var(--white);
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 0;
+            background: var(--cream);
+        }
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .about-text {
+            max-width: 550px;
+        }
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .about h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+        .about p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        .chef-signature {
+            margin-top: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--gold);
+        }
+        .about-image {
+            width: 100%;
+            height: 600px;
+            background: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2074&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Menu Section */
+        .menu {
+            padding: 8rem 0;
+        }
+        .menu-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .menu h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .menu-category h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .menu-item {
+            margin-bottom: 2.5rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+        .menu-item h4 {
+            font-size: 1.15rem;
+            font-weight: 500;
+            flex: 1;
+        }
+        .menu-price {
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-left: 1rem;
+        }
+        .menu-item p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 5rem 0;
+            background: var(--cream);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        .gallery-item {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Experience Section */
+        .experience {
+            padding: 8rem 0;
+        }
+        .experience-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .experience-image {
+            width: 100%;
+            height: 600px;
+            background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .experience h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+        }
+        .experience-features {
+            list-style: none;
+        }
+        .experience-features li {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .experience-features li:last-child {
+            border-bottom: none;
+        }
+        .experience-features i {
+            font-size: 2rem;
+            color: var(--gold);
+            width: 48px;
+            height: 48px;
+            background: rgba(201, 168, 106, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .experience-features li:hover i {
+            background: var(--gold);
+            color: var(--white);
+            transform: scale(1.1) rotate(5deg);
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+        .feature-text p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Reservations CTA */
+        .reservations-cta {
+            padding: 8rem 0;
+            background: var(--black);
+            color: var(--white);
+            text-align: center;
+        }
+        .reservations-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+        }
+        .reservations-cta p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+        }
+        .hours {
+            display: inline-block;
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+        .hours p {
+            font-size: 1rem;
+            margin: 0.75rem 0;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--cream);
+            padding: 5rem 0 3rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .footer-content h4 {
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-content a {
+            display: block;
+            color: var(--gray);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .footer-content a:hover {
+            color: var(--black);
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            h2 { font-size: 2.5rem !important; }
+            .about-content,
+            .menu-grid,
+            .experience-content,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .nav-links { display: none; }
+            .container { padding: 0 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Maison Laurent</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#reservations" class="reserve-btn">RESERVE TABLE</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="../assets/Videos/Resteraunt_Video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Maison Laurent</h1>
+                    <p class="hero-subtitle">Contemporary French Cuisine</p>
+                    <div class="hero-buttons">
+                        <a href="#reservations" class="btn-white">Book a Table</a>
+                        <a href="#menu" class="btn-outline">View Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="section-label">OUR STORY</div>
+                    <h2>Where Tradition Meets Innovation</h2>
+                    <p>At Maison Laurent, we celebrate the rich heritage of French gastronomy while embracing contemporary culinary techniques. Each dish is thoughtfully crafted using the finest seasonal ingredients sourced from local farms and artisan producers.</p>
+                    <p>Chef Laurent Beaumont brings over 20 years of Michelin-starred experience to create an unforgettable dining journey that honors tradition while pushing creative boundaries.</p>
+                    <div class="chef-signature">Chef Laurent Beaumont</div>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="menu-header">
+                <div class="section-label">SEASONAL MENU</div>
+                <h2>Chef's Selection</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-category">
+                    <h3>Starters</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Foie Gras Terrine</h4>
+                            <span class="menu-price">$32</span>
+                        </div>
+                        <p>Fig compote, brioche toast, sea salt</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Oysters on the Half Shell</h4>
+                            <span class="menu-price">$28</span>
+                        </div>
+                        <p>Champagne mignonette, lemon</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>French Onion Soup</h4>
+                            <span class="menu-price">$18</span>
+                        </div>
+                        <p>Gruyère, thyme, sourdough crouton</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Escargots de Bourgogne</h4>
+                            <span class="menu-price">$24</span>
+                        </div>
+                        <p>Garlic-herb butter, puff pastry</p>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>Main Courses</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Coq au Vin</h4>
+                            <span class="menu-price">$42</span>
+                        </div>
+                        <p>Braised chicken, pearl onions, bacon, red wine</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Beef Bourguignon</h4>
+                            <span class="menu-price">$58</span>
+                        </div>
+                        <p>Braised beef, mushrooms, potato purée</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Dover Sole Meunière</h4>
+                            <span class="menu-price">$62</span>
+                        </div>
+                        <p>Brown butter, lemon, capers, haricots verts</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Duck Confit</h4>
+                            <span class="menu-price">$48</span>
+                        </div>
+                        <p>Crispy leg, frisée salad, cherry gastrique</p>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>Desserts</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Crème Brûlée</h4>
+                            <span class="menu-price">$14</span>
+                        </div>
+                        <p>Vanilla bean, caramelized sugar</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Tarte Tatin</h4>
+                            <span class="menu-price">$16</span>
+                        </div>
+                        <p>Caramelized apple, vanilla ice cream</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Chocolate Soufflé</h4>
+                            <span class="menu-price">$18</span>
+                        </div>
+                        <p>Dark chocolate, crème anglaise (20 min)</p>
+                    </div>
+                </div>
+
+                <div class="menu-category">
+                    <h3>Wine Pairing</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>3-Course Pairing</h4>
+                            <span class="menu-price">$65</span>
+                        </div>
+                        <p>Curated wines selected by our sommelier</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>5-Course Pairing</h4>
+                            <span class="menu-price">$95</span>
+                        </div>
+                        <p>Premium selections from French vineyards</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4>Chef's Tasting Menu</h4>
+                            <span class="menu-price">$135</span>
+                        </div>
+                        <p>7 courses with wine pairing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2074&auto=format&fit=crop" alt="Dish 1" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop" alt="Dish 2" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2074&auto=format&fit=crop" alt="Dish 3" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <section class="experience">
+        <div class="container">
+            <div class="experience-content">
+                <div class="experience-image"></div>
+                <div>
+                    <div class="section-label">THE EXPERIENCE</div>
+                    <h2>Unforgettable Moments</h2>
+                    <ul class="experience-features">
+                        <li>
+                            <i class="fas fa-wine-glass-alt"></i>
+                            <div class="feature-text">
+                                <h4>Award-Winning Wine List</h4>
+                                <p>Over 300 selections from premier French vineyards</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-utensils"></i>
+                            <div class="feature-text">
+                                <h4>Private Chef's Table</h4>
+                                <p>Intimate dining experience in our exclusive kitchen</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-users"></i>
+                            <div class="feature-text">
+                                <h4>Private Events</h4>
+                                <p>Customizable menus for special celebrations</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-concierge-bell"></i>
+                            <div class="feature-text">
+                                <h4>White-Glove Service</h4>
+                                <p>Attentive staff dedicated to your experience</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservations" class="reservations-cta">
+        <div class="container">
+            <h2>Reserve Your Table</h2>
+            <p>Join us for an extraordinary culinary journey</p>
+            <div class="hours">
+                <p><strong>Dinner Service</strong></p>
+                <p>Tuesday - Saturday: 5:30 PM - 10:00 PM</p>
+                <p>Sunday - Monday: Closed</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="#" class="btn-white">BOOK ONLINE</a>
+                <a href="tel:5551234567" class="btn-outline">CALL (555) 123-4567</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">Maison Laurent</div>
+                    <p style="color: var(--gray); margin-top: 1rem;">Contemporary French cuisine in the heart of the city.</p>
+                </div>
+                <div>
+                    <h4>Navigate</h4>
+                    <a href="#about">About</a>
+                    <a href="#menu">Menu</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#reservations">Reservations</a>
+                </div>
+                <div>
+                    <h4>Visit Us</h4>
+                    <p style="color: var(--gray); font-size: 0.95rem;">456 Gastronomy Avenue<br>Culinary District<br>City, ST 10001</p>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p style="color: var(--gray); font-size: 0.95rem;">Phone: (555) 123-4567<br>Email: info@maisonlaurent.com<br><br>Dinner Only<br>Tue-Sat 5:30-10pm</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Maison Laurent. All rights reserved. | Dress Code: Business Casual</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+// Detect if page is in iframe and hide header
+if (window.self !== window.top) {
+    document.documentElement.classList.add('in-iframe');
+    document.body.classList.add('in-iframe');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Header scroll effect
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Candlelight effect
+    const candlelight = document.createElement('div');
+    candlelight.className = 'candlelight';
+    document.body.appendChild(candlelight);
+
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        candlelight.style.setProperty('--candle-x', x + '%');
+        candlelight.style.setProperty('--candle-y', y + '%');
+    });
+
+    // Show candlelight on darker sections
+    const observerCandle = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.target.classList.contains('reservations-cta')) {
+                candlelight.style.opacity = '1';
+            } else if (!document.querySelector('.reservations-cta').getBoundingClientRect().top < window.innerHeight) {
+                candlelight.style.opacity = '0';
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const darkSection = document.querySelector('.reservations-cta');
+    if (darkSection) {
+        observerCandle.observe(darkSection);
+    }
+
+    // Stagger animation for menu items
+    const menuItems = document.querySelectorAll('.menu-item');
+    const observerMenu = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 60);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    menuItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        observerMenu.observe(item);
+    });
+
+    // Wine glass shimmer animation
+    const wineIcons = document.querySelectorAll('.fa-wine-glass-alt');
+    wineIcons.forEach(icon => {
+        const observerWine = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        icon.classList.add('wine-icon-animated');
+                    }, 300);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observerWine.observe(icon.parentElement);
+    });
+
+    // Chef signature handwriting animation
+    const signature = document.querySelector('.chef-signature');
+    if (signature) {
+        const line = document.createElement('div');
+        line.className = 'signature-line';
+        signature.appendChild(line);
+
+        const observerSig = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate signature letter by letter
+                    const text = signature.textContent;
+                    signature.textContent = '';
+                    let index = 0;
+
+                    const interval = setInterval(() => {
+                        if (index < text.length) {
+                            signature.textContent += text[index];
+                            index++;
+                        } else {
+                            clearInterval(interval);
+                            line.style.width = '100%';
+                        }
+                    }, 100);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observerSig.observe(signature);
+    }
+
+    // Gallery magnetic effect with enhanced cursor
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('mousemove', (e) => {
+            const rect = item.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const moveX = (x - centerX) / 15;
+            const moveY = (y - centerY) / 15;
+
+            const img = item.querySelector('img');
+            img.style.transform = `scale(1.15) translate(${moveX}px, ${moveY}px)`;
+        });
+
+        item.addEventListener('mouseenter', () => {
+            // Enhanced cursor size on gallery
+            item.style.cursor = 'zoom-in';
+        });
+
+        item.addEventListener('mouseleave', () => {
+            const img = item.querySelector('img');
+            img.style.transform = '';
+            item.style.cursor = '';
+        });
+
+        // Click to expand
+        item.addEventListener('click', () => {
+            item.classList.toggle('expanded');
+            const img = item.querySelector('img');
+            if (item.classList.contains('expanded')) {
+                img.style.transform = 'scale(2)';
+                img.style.zIndex = '1000';
+                item.style.cursor = 'zoom-out';
+            } else {
+                img.style.transform = '';
+                img.style.zIndex = '';
+                item.style.cursor = 'zoom-in';
+            }
+        });
+    });
+
+    // Stagger animation for experience features
+    const experienceFeatures = document.querySelectorAll('.experience-features li');
+    const observerExp = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }, index * 150);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    experienceFeatures.forEach(feature => {
+        feature.style.opacity = '0';
+        feature.style.transform = 'translateX(-30px)';
+        feature.style.transition = 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        observerExp.observe(feature);
+    });
+
+    // Button hover effects with golden glow
+    const buttons = document.querySelectorAll('.btn-white, .btn-outline, .reserve-btn');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            // Add golden glow effect
+            this.style.boxShadow = '0 0 20px rgba(201, 168, 106, 0.5), 0 0 40px rgba(201, 168, 106, 0.3)';
+            this.style.cursor = 'pointer';
+        });
+
+        button.addEventListener('mouseleave', function() {
+            this.style.boxShadow = '';
+        });
+
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(201, 168, 106, 0.5)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s ease-out';
+            ripple.style.pointerEvents = 'none';
+
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Add ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Parallax on hero video
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroVideo = document.querySelector('.hero-video');
+        if (heroVideo && scrolled < window.innerHeight) {
+            heroVideo.style.transform = `translateY(${scrolled * 0.5}px) scale(1.1)`;
+        }
+    });
+
+    // Smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Hover effect on about and experience images with glow
+    const images = document.querySelectorAll('.about-image, .experience-image');
+    images.forEach(img => {
+        img.addEventListener('mousemove', (e) => {
+            const rect = img.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const moveX = (x - rect.width / 2) / 25;
+            const moveY = (y - rect.height / 2) / 25;
+
+            img.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+            img.style.transition = 'transform 0.2s ease';
+            img.style.boxShadow = '0 10px 40px rgba(201, 168, 106, 0.3)';
+            img.style.cursor = 'pointer';
+        });
+
+        img.addEventListener('mouseleave', () => {
+            img.style.transform = '';
+            img.style.boxShadow = '';
+        });
+    });
+
+    // Menu items hover glow
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(10px)';
+            this.style.borderLeft = '3px solid var(--gold)';
+            this.style.paddingLeft = '15px';
+            this.style.cursor = 'pointer';
+        });
+
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.borderLeft = '';
+            this.style.paddingLeft = '';
+        });
+    });
+});
+</script>
+</body>
+</html>
