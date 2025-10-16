@@ -272,6 +272,8 @@
             text-align: center;
             background: linear-gradient(180deg, var(--card-bg-color) 0%, var(--bg-color) 100%);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
         }
         .animated-title {
             position: relative;
@@ -308,11 +310,231 @@
             color: var(--secondary-text-color);
             max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
+
+        .page-hero .animated-title {
+            z-index: 2;
+        }
+
+        /* Hero Mouse Glow */
+        .hero-mouse-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.2), rgba(10, 132, 255, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: left 0.15s ease, top 0.15s ease, opacity 0.3s ease;
+            z-index: 1;
+            filter: blur(60px);
+            opacity: 0;
+        }
+
         @keyframes typing { from { width: 0; } to { width: 100%; } }
         @keyframes blink { 50% { background-color: transparent; } }
         @keyframes shine { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
         @keyframes fadeInShine { to { opacity: 1; } }
+
+        /* Differentiators Section */
+        .differentiators-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg-color) 0%, var(--card-bg-color) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Mouse Glow Effect */
+        .mouse-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.2), rgba(10, 132, 255, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: left 0.15s ease, top 0.15s ease, opacity 0.3s ease;
+            z-index: 1;
+            filter: blur(60px);
+            opacity: 0;
+        }
+
+        /* Floating background orbs for subtle depth */
+        .differentiators-section::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.05), transparent 70%);
+            border-radius: 50%;
+            animation: floatOrb1 15s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .differentiators-section::after {
+            content: '';
+            position: absolute;
+            bottom: 15%;
+            left: 5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 96, 206, 0.04), transparent 70%);
+            border-radius: 50%;
+            animation: floatOrb2 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -30px); }
+        }
+
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-40px, 40px); }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--secondary-text-color);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .comparison-card {
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2;
+        }
+
+        .comparison-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(45deg, #34C759, #30D158);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .comparison-card.princeton-way::before {
+            background: linear-gradient(45deg, #34C759, #30D158);
+        }
+
+        .comparison-card.traditional-way::before {
+            background: linear-gradient(45deg, #FF3B30, #FF6B6B);
+        }
+
+        .comparison-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(10, 132, 255, 0.2);
+            border-color: rgba(10, 132, 255, 0.3);
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #34C759, #30D158);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(52, 199, 89, 0.4);
+        }
+
+        .card-badge.traditional {
+            background: linear-gradient(45deg, #FF3B30, #FF6B6B);
+            box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+        }
+
+        .comparison-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .comparison-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding: 1.25rem;
+            background: rgba(248, 248, 246, 0.5);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            transform: translateX(8px);
+            background: rgba(52, 199, 89, 0.1);
+        }
+
+        .comparison-item.negative:hover {
+            transform: translateX(0);
+            background: rgba(255, 59, 48, 0.1);
+        }
+
+        .comparison-item i {
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .comparison-item .fa-check-circle {
+            color: #34C759;
+        }
+
+        .comparison-item .fa-times-circle {
+            color: #FF3B30;
+        }
+
+        .comparison-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-text-color);
+        }
+
+        .comparison-item p {
+            font-size: 0.95rem;
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+        }
 
         /* Parallax Marquee Container */
         .solutions-marquee-wrapper {
@@ -496,10 +718,99 @@
             left: 150%;
         }
 
+        /* Solutions Wrapper - Add padding to create clear separation */
+        .solutions-marquee-wrapper {
+            padding-bottom: 60px;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3.5rem;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(10, 132, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 4rem;
+            z-index: 2;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.08), transparent);
+            border-radius: 50%;
+        }
+
+        .cta-box h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            color: var(--primary-text-color);
+        }
+
+        .cta-box p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+            color: var(--secondary-text-color);
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 8px 20px rgba(10, 132, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(10, 132, 255, 0.4);
+        }
+
+        .cta-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover i {
+            transform: translateX(5px);
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .solutions-marquee {
                 gap: 1.5rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
             }
         }
 
@@ -515,6 +826,43 @@
             }
             .animated-title {
                 font-size: 2.5rem;
+            }
+
+            .differentiators-section {
+                padding: 60px 0;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-header p {
+                font-size: 1rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .comparison-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .comparison-items {
+                gap: 1.25rem;
+            }
+
+            .comparison-item {
+                padding: 1rem;
+            }
+
+            .comparison-item h4 {
+                font-size: 1rem;
+            }
+
+            .comparison-item p {
+                font-size: 0.875rem;
             }
 
             /* Single column on mobile - natural scrolling */
@@ -561,6 +909,23 @@
             .card-tagline {
                 font-size: 0.875rem;
             }
+
+            .cta-box {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .cta-box h3 {
+                font-size: 1.6rem;
+            }
+
+            .cta-box p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -578,6 +943,7 @@
                         <li><a href="AutoPosting.html"><span class="icon"><i class="fas fa-bullhorn"></i></span>AI-Powered Marketing</a></li>
                         <li><a href="ProcessAutomation.html"><span class="icon"><i class="fas fa-robot"></i></span>Process Automation</a></li>
                         <li><a href="websitemanagement.html"><span class="icon"><i class="fas fa-desktop"></i></span>Website Management</a></li>
+                        <li><a href="ai-seo.html"><span class="icon"><i class="fas fa-search"></i></span>AI-Driven SEO</a></li>
                         <li><a href="RAG.html"><span class="icon"><i class="fas fa-database"></i></span>Smart Document Processing</a></li>
                         <li><a href="PhoneAgent.html"><span class="icon"><i class="fas fa-phone"></i></span>AI Phone Receptionist</a></li>
                     </ul>
@@ -605,6 +971,7 @@
                     <li><a href="AutoPosting.html">AI-Powered Marketing</a></li>
                     <li><a href="ProcessAutomation.html">Process Automation</a></li>
                     <li><a href="websitemanagement.html">Website Management</a></li>
+                    <li><a href="ai-seo.html">AI-Driven SEO</a></li>
                     <li><a href="RAG.html">Smart Document Processing</a></li>
                     <li><a href="PhoneAgent.html">AI Phone Receptionist</a></li>
                 </ul>
@@ -618,13 +985,21 @@
 
     <main>
         <section class="page-hero">
+            <div class="hero-mouse-glow"></div>
             <div class="container">
-                <h1 class="animated-title" data-text="Our AI Solutions">Our AI Solutions</h1>
-                <p>From back-office efficiency to frontline customer engagement, our custom-built AI is designed to solve your most pressing business challenges.</p>
+                <h1 class="animated-title" data-text="What Makes Us Different">What Makes Us Different</h1>
+                <p>We don't just sell AI tools. We become your technology partner, building custom solutions that actually work for your business—not the other way around.</p>
             </div>
         </section>
 
+        <!-- Our Solutions Grid -->
         <section class="solutions-marquee-wrapper">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our AI-Powered Solutions</h2>
+                    <p>Custom-built tools that integrate seamlessly with your existing workflows</p>
+                </div>
+            </div>
             <div class="solutions-marquee container">
 
                 <!-- Left Column (slower) -->
@@ -799,6 +1174,122 @@
 
             </div>
         </section>
+
+        <!-- Differentiators Section -->
+        <section class="differentiators-section">
+            <div class="mouse-glow"></div>
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Businesses Choose Princeton AI</h2>
+                    <p>Most AI companies force you into their box. We build around yours.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card princeton-way">
+                        <div class="card-badge">The Princeton AI Way</div>
+                        <div class="comparison-items">
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Custom-Built for You</h4>
+                                    <p>Every solution tailored to your exact workflows, not generic templates</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>White-Glove Service</h4>
+                                    <p>Direct access to our engineers, not ticket systems or overseas support</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Pay for Results</h4>
+                                    <p>ROI-based pricing - if you don't save money, you don't pay the full amount</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Built in Days, Not Months</h4>
+                                    <p>Most clients go live within 2 weeks, not 6-12 months</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>You Own Everything</h4>
+                                    <p>Full ownership of your code, data, and infrastructure—no vendor lock-in</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Human-First AI</h4>
+                                    <p>AI that empowers your team, not replaces them—we train your staff to use it</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-card traditional-way">
+                        <div class="card-badge traditional">Traditional AI Companies</div>
+                        <div class="comparison-items">
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>One-Size-Fits-All Templates</h4>
+                                    <p>You adapt your business to their software, not the other way around</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>Ticket-Based Support Hell</h4>
+                                    <p>Wait 3-5 business days for canned responses from Level 1 support</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>Expensive Monthly Subscriptions</h4>
+                                    <p>$500-$5,000/month whether it works for you or not</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>Endless Implementation Delays</h4>
+                                    <p>"Enterprise" solutions take 6-18 months just to get running</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>Vendor Lock-In Forever</h4>
+                                    <p>Your data lives in their cloud, migrate and you lose everything</p>
+                                </div>
+                            </div>
+                            <div class="comparison-item negative">
+                                <i class="fas fa-times-circle"></i>
+                                <div>
+                                    <h4>AI That Replaces People</h4>
+                                    <p>Black-box automation that leaves your team confused and frustrated</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-box">
+                    <h3>Ready to Transform Your Business?</h3>
+                    <p>Book a free 30-minute consultation to discuss your biggest business challenge. No sales pitch—just a genuine conversation about what AI can do for you.</p>
+                    <a href="contact.html" class="cta-button">Schedule Free Consultation <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer id="main-footer">
@@ -832,11 +1323,45 @@
                 });
             });
 
-            const mouseBlur = document.querySelector('.mouse-blur');
-            window.addEventListener('mousemove', (e) => {
-                const { clientX, clientY } = e;
-                mouseBlur.style.transform = `translate(${clientX - mouseBlur.offsetWidth / 2}px, ${clientY - mouseBlur.offsetHeight / 2}px)`;
-            });
+            // Mouse glow effect for hero section
+            const heroMouseGlow = document.querySelector('.hero-mouse-glow');
+            const heroSection = document.querySelector('.page-hero');
+
+            if (heroMouseGlow && heroSection) {
+                heroSection.addEventListener('mousemove', (e) => {
+                    const rect = heroSection.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    heroMouseGlow.style.left = x + 'px';
+                    heroMouseGlow.style.top = y + 'px';
+                    heroMouseGlow.style.opacity = '1';
+                });
+
+                heroSection.addEventListener('mouseleave', () => {
+                    heroMouseGlow.style.opacity = '0';
+                });
+            }
+
+            // Mouse glow effect for differentiators section
+            const mouseGlow = document.querySelector('.mouse-glow');
+            const differentiatorsSection = document.querySelector('.differentiators-section');
+
+            if (mouseGlow && differentiatorsSection) {
+                differentiatorsSection.addEventListener('mousemove', (e) => {
+                    const rect = differentiatorsSection.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    mouseGlow.style.left = x + 'px';
+                    mouseGlow.style.top = y + 'px';
+                    mouseGlow.style.opacity = '1';
+                });
+
+                differentiatorsSection.addEventListener('mouseleave', () => {
+                    mouseGlow.style.opacity = '0';
+                });
+            }
             
             const menuToggle = document.querySelector('.menu-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
