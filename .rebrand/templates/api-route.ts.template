@@ -1,0 +1,243 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * API Route: /api/endpoint
+ *
+ * Description of what this API does
+ */
+
+// Request/Response types
+interface RequestBody {
+  name: string;
+  email: string;
+}
+
+interface SuccessResponse {
+  success: true;
+  data: ResponseData;
+}
+
+interface ErrorResponse {
+  success: false;
+  error: string;
+}
+
+interface ResponseData {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
+/**
+ * GET handler
+ *
+ * Retrieves a resource by ID
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+  try {
+    // Extract ID from params
+    const { id } = params;
+
+    // Fetch data
+    const data = await fetchData(id);
+
+    if (!data) {
+      return NextResponse.json(
+        { success: false, error: 'Resource not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          createdAt: data.createdAt.toISOString(),
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('GET /api/endpoint error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST handler
+ *
+ * Creates a new resource
+ */
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+  try {
+    // Parse request body
+    const body = (await request.json()) as RequestBody;
+
+    // Validate required fields
+    if (!body.name || !body.email) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Missing required fields: name, email',
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(body.email)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Create resource
+    const data = await createData(body);
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          createdAt: data.createdAt.toISOString(),
+        },
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('POST /api/endpoint error:', error);
+
+    // Handle specific errors
+    if (error instanceof ValidationError) {
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PUT handler
+ *
+ * Updates an existing resource
+ */
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse<SuccessResponse | ErrorResponse>> {
+  try {
+    const { id } = params;
+    const body = (await request.json()) as Partial<RequestBody>;
+
+    // Update resource
+    const data = await updateData(id, body);
+
+    if (!data) {
+      return NextResponse.json(
+        { success: false, error: 'Resource not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          createdAt: data.createdAt.toISOString(),
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('PUT /api/endpoint error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE handler
+ *
+ * Deletes a resource
+ */
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse<{ success: true } | ErrorResponse>> {
+  try {
+    const { id } = params;
+
+    const deleted = await deleteData(id);
+
+    if (!deleted) {
+      return NextResponse.json(
+        { success: false, error: 'Resource not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error) {
+    console.error('DELETE /api/endpoint error:', error);
+    return NextResponse.json(
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// Helper functions (implement these based on your data source)
+async function fetchData(id: string) {
+  // Implementation
+  throw new Error('Not implemented');
+}
+
+async function createData(data: RequestBody) {
+  // Implementation
+  throw new Error('Not implemented');
+}
+
+async function updateData(id: string, data: Partial<RequestBody>) {
+  // Implementation
+  throw new Error('Not implemented');
+}
+
+async function deleteData(id: string): Promise<boolean> {
+  // Implementation
+  throw new Error('Not implemented');
+}
+
+// Custom error class
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}

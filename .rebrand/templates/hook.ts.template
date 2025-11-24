@@ -1,0 +1,57 @@
+import { useState, useEffect, useCallback } from 'react';
+
+/**
+ * useHookName - Brief description of what this hook does
+ *
+ * @param param - Description of parameter
+ * @returns - Description of return value
+ *
+ * @example
+ * ```tsx
+ * const { value, setValue, reset } = useHookName(initialValue);
+ * ```
+ */
+export function useHookName<T>(initialValue: T) {
+  const [value, setValue] = useState<T>(initialValue);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  // Example effect
+  useEffect(() => {
+    // Cleanup function
+    return () => {
+      // Cleanup code
+    };
+  }, [value]);
+
+  // Example callback
+  const reset = useCallback(() => {
+    setValue(initialValue);
+    setError(null);
+  }, [initialValue]);
+
+  // Example async function
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/endpoint');
+      const data = await response.json();
+      setValue(data);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return {
+    value,
+    setValue,
+    loading,
+    error,
+    reset,
+    fetchData,
+  };
+}

@@ -1,0 +1,78 @@
+import React from 'react';
+import { cn } from '@/lib/utils';
+
+/**
+ * ComponentName - Brief description of what this component does
+ *
+ * @example
+ * ```tsx
+ * <ComponentName variant="primary" size="md">
+ *   Content here
+ * </ComponentName>
+ * ```
+ */
+interface ComponentNameProps {
+  /**
+   * The variant style to apply
+   * @default "default"
+   */
+  variant?: 'default' | 'primary' | 'secondary';
+
+  /**
+   * The size of the component
+   * @default "md"
+   */
+  size?: 'sm' | 'md' | 'lg';
+
+  /**
+   * Child elements to render
+   */
+  children: React.ReactNode;
+
+  /**
+   * Optional additional CSS classes
+   */
+  className?: string;
+}
+
+export const ComponentName = React.forwardRef<
+  HTMLDivElement,
+  ComponentNameProps
+>(
+  (
+    { variant = 'default', size = 'md', children, className, ...props },
+    ref
+  ) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          // Base styles
+          'relative',
+
+          // Variant styles
+          {
+            default: 'bg-white text-text-primary',
+            primary: 'bg-brand-primary text-white',
+            secondary: 'bg-brand-light text-brand-dark',
+          }[variant],
+
+          // Size styles
+          {
+            sm: 'p-4 text-sm',
+            md: 'p-6 text-base',
+            lg: 'p-8 text-lg',
+          }[size],
+
+          // Custom classes
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+ComponentName.displayName = 'ComponentName';

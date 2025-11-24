@@ -1,0 +1,73 @@
+{
+  "agents": {
+    "component-builder": {
+      "path": ".agents/component-builder",
+      "description": "Build React components following Princeton AI patterns",
+      "triggers": [
+        "create a component",
+        "build a component",
+        "make a component",
+        "generate component",
+        "new component",
+        "add a component",
+        "create button",
+        "create card",
+        "build hero",
+        "make a new"
+      ],
+      "proactive": true,
+      "autoLaunch": true
+    },
+    "testing": {
+      "path": ".agents/testing",
+      "description": "Generate comprehensive test suites with Playwright, accessibility, and visual regression",
+      "triggers": [
+        "write tests",
+        "create tests",
+        "test this",
+        "add tests",
+        "generate tests",
+        "test the",
+        "check accessibility",
+        "run tests"
+      ],
+      "proactive": true,
+      "autoLaunch": true
+    },
+    "code-review": {
+      "path": ".agents/code-review",
+      "description": "Pre-commit code review with automated quality checks",
+      "triggers": [
+        "review my code",
+        "check my code",
+        "code review",
+        "review changes",
+        "check changes",
+        "before commit",
+        "ready to commit"
+      ],
+      "proactive": true,
+      "autoLaunch": true
+    },
+    "deployment": {
+      "path": ".agents/deployment",
+      "description": "Pre-deployment verification and production readiness checks",
+      "triggers": [
+        "ready to deploy",
+        "check deployment",
+        "deploy check",
+        "production ready",
+        "can we deploy",
+        "before deployment",
+        "deployment readiness"
+      ],
+      "proactive": true,
+      "autoLaunch": true
+    }
+  },
+  "settings": {
+    "autoLaunchEnabled": true,
+    "askBeforeLaunch": false,
+    "parallelAgents": true
+  }
+}

@@ -1,0 +1,54 @@
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+
+/**
+ * ComponentName - Brief description
+ *
+ * @example
+ * ```tsx
+ * <ComponentName onAction={handleAction} />
+ * ```
+ */
+interface ComponentNameProps {
+  /**
+   * Callback when action is triggered
+   */
+  onAction?: () => void;
+
+  /**
+   * Optional additional CSS classes
+   */
+  className?: string;
+}
+
+export function ComponentName({ onAction, className }: ComponentNameProps) {
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClick = () => {
+    setIsActive(!isActive);
+    onAction?.();
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={cn('p-6', className)}
+    >
+      <button
+        onClick={handleClick}
+        className={cn(
+          'px-6 py-3 rounded-full transition-all',
+          isActive
+            ? 'bg-brand-primary text-white'
+            : 'bg-brand-light text-brand-dark'
+        )}
+      >
+        {isActive ? 'Active' : 'Inactive'}
+      </button>
+    </motion.div>
+  );
+}

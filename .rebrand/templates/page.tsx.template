@@ -1,0 +1,83 @@
+import type { Metadata } from 'next';
+
+// Metadata for SEO
+export const metadata: Metadata = {
+  title: 'Page Title | Princeton AI Partners',
+  description:
+    'Page description for SEO. Keep it concise and compelling (150-160 chars).',
+  openGraph: {
+    title: 'Page Title',
+    description: 'Page description for social sharing.',
+    images: ['/og-image.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Page Title',
+    description: 'Page description for Twitter.',
+    images: ['/og-image.jpg'],
+  },
+};
+
+// Page component (Server Component by default)
+export default async function PageName() {
+  // Fetch data on server if needed
+  // const data = await getData();
+
+  return (
+    <main className="min-h-screen">
+      {/* Hero Section */}
+      <section className="py-32 bg-gradient-to-br from-brand-light to-white">
+        <div className="container mx-auto px-4">
+          <h1 className="text-hero font-bold mb-6 max-w-4xl">
+            Page Headline Goes Here
+          </h1>
+          <p className="text-lg text-text-secondary max-w-2xl">
+            Compelling description that explains what this page is about and why
+            it matters to the user.
+          </p>
+
+          {/* CTA */}
+          <div className="mt-8 flex gap-4">
+            <button className="px-8 py-3 rounded-full bg-gradient-to-r from-brand-primary to-brand-secondary text-white font-semibold hover:shadow-brand-lg transition-all">
+              Primary Action
+            </button>
+            <button className="px-8 py-3 rounded-full border-2 border-brand-primary text-brand-primary font-semibold hover:bg-brand-light transition-all">
+              Secondary Action
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Content Section */}
+      <section className="py-24 bg-background-primary">
+        <div className="container mx-auto px-4">
+          <h2 className="text-h2 font-semibold mb-12 text-center">
+            Section Headline
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Cards or content */}
+            <div className="rounded-3xl bg-white p-8 shadow-sm">
+              <h3 className="text-h3 font-semibold mb-4">Card Title</h3>
+              <p className="text-text-secondary">Card description...</p>
+            </div>
+            {/* More cards */}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-32 bg-gradient-to-r from-brand-primary to-brand-secondary text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-h1 font-bold mb-6">Ready to Get Started?</h2>
+          <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
+            Compelling call-to-action description.
+          </p>
+          <button className="px-8 py-3 rounded-full bg-white text-brand-primary font-semibold hover:scale-105 transition-transform">
+            Contact Us
+          </button>
+        </div>
+      </section>
+    </main>
+  );
+}

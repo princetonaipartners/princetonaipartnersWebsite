@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background-primary text-text-primary font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Dark mode overrides */
+  .dark body {
+    @apply bg-dark-bg-primary text-dark-text-primary;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    @apply text-dark-text-primary;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Accordion animations */
+  @keyframes accordion-down {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+
+  /* Wave animations */
+  @keyframes wave {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-wave {
+    animation: wave 8s ease-in-out infinite;
+  }
+
+  .animate-wave-slow {
+    animation: wave 12s ease-in-out infinite;
+  }
+
+  /* Animation delay utilities */
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+  .delay-700 {
+    animation-delay: 700ms;
+  }
+
+  /* Gradient fade mask */
+  .fade-top-lg {
+    mask-image: linear-gradient(to bottom,
+      transparent,
+      rgba(0, 0, 0, 1) 8rem
+    );
+  }
+}
+
+/* ============================================
+   3D FLIP THEME TRANSITION
+   ============================================ */
+
+/* Enable smooth transitions on theme change */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-duration: 400ms;
+}
+
+/* Disable transitions for specific elements during page load */
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
+}
+
+/* View Transition API - Directional Wipe Effect (Modern Browsers) */
+@supports (view-transition-name: none) {
+  /* Customize the default cross-fade */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Old state slides out to the left */
+  ::view-transition-old(root) {
+    animation-name: slide-out-left;
+  }
+
+  /* New state slides in from the right */
+  ::view-transition-new(root) {
+    animation-name: slide-in-right;
+  }
+
+  @keyframes slide-out-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-30%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(30%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+/* Fallback for browsers without View Transition API */
+@supports not (view-transition-name: none) {
+  html {
+    transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body {
+    transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
