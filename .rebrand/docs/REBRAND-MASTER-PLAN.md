@@ -1,25 +1,36 @@
-# MISSION: Build Princeton AI Partners - Premium Custom Tech Consultancy (Playful Tech Aesthetic)
+# MISSION: Build Princeton AI Partners - Your Automated CTO with Live Support
 
 > **Created**: 2025-10-30
+> **Updated**: 2025-01-23 (Vision 2.0)
 > **Status**: Phase 0 - Documentation & Preparation
-> **Timeline**: 3+ weeks (quality over speed)
+> **Timeline**: 8 weeks to launch
 > **Approach**: Methodical, well-documented, thoroughly tested
 
 ---
 
-## 🎯 PROJECT VISION
+## 🎯 PROJECT VISION 2.0
 
-Transform Princeton-ai.com into a **world-class tech consultancy platform** that screams "we build anything, and we do it fast." We're not another AI consultancy using no-code tools - we're full-stack engineers who build custom products end-to-end: RAG agents, phone AI systems, web scraping infrastructure, N8n workflows, process automation, and bespoke technical solutions.
+Transform Princeton-ai.com into **the platform for creative builders who need technical execution**. We're your automated CTO with live support - building production-ready MVPs and custom software for founders, entrepreneurs, and businesses.
 
-**Brand Personality**: Friendly but supremely confident. Playful but technically rigorous. Approachable but elite. Think: Anthropic meets Puzzle Labs meets your most talented developer friend who just happens to be a design genius.
+**Primary Positioning**: Your Automated CTO with Live Support
+**Secondary**: We build custom software, fast.
+
+**What We Build**:
+- 🚀 **Production-Ready MVPs** (flagship offering with transparent quote calculator)
+- 🤖 **AI Systems** (RAG agents, phone AI, custom models)
+- 🌐 **Web Applications** (full-stack, mobile, dashboards)
+- ⚙️ **Automation** (process workflows, integrations, scraping)
+- 🛠️ **Bespoke Software** (enterprise-grade custom solutions)
+
+**Brand Personality**: Transparent, confident, accessible. We demystify tech for non-technical founders while proving we're elite engineers. Think: Anthropic's professionalism + Vercel's modern UX + your trusted technical co-founder.
 
 **Core Differentiators**:
-- ⚡ **Speed**: We ship in weeks, not months
-- 🎨 **100% Custom**: Zero templates, every solution is bespoke
-- 🧠 **Technical Depth**: We build from scratch, not with no-code tools
-- 🔄 **Full Stack**: Strategy → Design → Code → Deploy → Support
+- 💰 **Transparent Pricing**: Interactive quote calculator, no hidden fees
+- ⚡ **Speed**: Production-ready MVPs in 2-8 weeks
+- 🎯 **Flexibility**: Your stack, your way (we adapt to you)
+- 🔄 **Ongoing Support**: CTO Suite for continuous growth ($2,500/month)
 
-**The Goal**: Every visitor should think "holy shit, if they built THIS, imagine what they can build for me."
+**The Goal**: Every visitor should either (1) get an instant transparent quote for their MVP, or (2) understand the breadth of what we can build. Convert lookers into callers, callers into clients.
 
 ---
 
