@@ -28,24 +28,27 @@ Open [http://localhost:3000](http://localhost:3000) to see the site.
 ```
 new-site/
 ├── app/                    # Next.js App Router
-│   ├── (marketing)/        # Marketing pages route group
 │   ├── layout.tsx          # Root layout
 │   ├── page.tsx            # Homepage
 │   └── globals.css         # Global styles
 ├── components/             # React components
-│   ├── ui/                 # shadcn/ui components
-│   ├── layout/             # Layout components
-│   ├── sections/           # Page sections
+│   ├── ui/                 # UI components (aurora, bento, typewriter, etc.)
+│   ├── layout/             # Header, Footer
 │   ├── animations/         # Animation wrappers
-│   ├── 3d/                 # React Three Fiber
-│   └── shared/             # Reusable components
+│   ├── icons/              # Icon system
+│   └── providers/          # Theme provider
 ├── lib/                    # Utilities
 │   ├── utils.ts            # cn() helper
-│   ├── animations.ts       # Framer Motion variants
-│   └── constants.ts        # Site constants
-├── types/                  # TypeScript types
-├── content/                # Content data
-└── public/                 # Static assets
+│   ├── constants.ts        # Site constants
+│   ├── icon-map.ts         # Icon mappings
+│   └── hooks/              # Custom hooks
+├── .rebrand/               # 📚 Vision & Planning Docs
+│   ├── docs/               # Vision 2.0, master plan, design system
+│   ├── VISION-SUMMARY.md   # Quick reference
+│   └── templates/          # Code templates
+├── _archive/               # Old/unused files (preserved)
+├── public/                 # Static assets
+└── types/                  # TypeScript types
 ```
 
 ## 🎨 Tech Stack
