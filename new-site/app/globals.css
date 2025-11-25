@@ -23,9 +23,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Dark mode overrides */
+  /* Dark mode overrides - transparent body to allow PageBackground to show through */
   .dark body {
-    @apply bg-dark-bg-primary text-dark-text-primary;
+    @apply bg-transparent text-dark-text-primary;
   }
 
   h1, h2, h3, h4, h5, h6 {

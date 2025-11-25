@@ -9,10 +9,11 @@ import { Logo } from "@/components/ui/Logo";
 interface Platform {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   color: string;
   darkColor: string;
-  position: { x: number; y: number }; // percentage positions for paths
+  glowColor: string;
+  position: { x: number; y: number };
 }
 
 const platforms: Platform[] = [
@@ -22,7 +23,8 @@ const platforms: Platform[] = [
     icon: SiTelegram,
     color: "#0088cc",
     darkColor: "#3BA5E8",
-    position: { x: 12.5, y: 85 }, // Bottom position - flipped layout
+    glowColor: "rgba(0, 136, 204, 0.6)",
+    position: { x: 12.5, y: 82 },
   },
   {
     id: "whatsapp",
@@ -30,7 +32,8 @@ const platforms: Platform[] = [
     icon: SiWhatsapp,
     color: "#25D366",
     darkColor: "#4ADE80",
-    position: { x: 37.5, y: 85 }, // Bottom position - flipped layout
+    glowColor: "rgba(37, 211, 102, 0.6)",
+    position: { x: 37.5, y: 82 },
   },
   {
     id: "discord",
@@ -38,7 +41,8 @@ const platforms: Platform[] = [
     icon: SiDiscord,
     color: "#5865F2",
     darkColor: "#818CF8",
-    position: { x: 62.5, y: 85 }, // Bottom position - flipped layout
+    glowColor: "rgba(88, 101, 242, 0.6)",
+    position: { x: 62.5, y: 82 },
   },
   {
     id: "slack",
@@ -46,7 +50,8 @@ const platforms: Platform[] = [
     icon: SiSlack,
     color: "#E01E5A",
     darkColor: "#F472B6",
-    position: { x: 87.5, y: 85 }, // Bottom position - flipped layout
+    glowColor: "rgba(224, 30, 90, 0.6)",
+    position: { x: 87.5, y: 82 },
   },
 ];
 
@@ -55,43 +60,96 @@ interface Particle {
   platformId: string;
   progress: number;
   direction: "inbound" | "outbound";
+  size: number;
+}
+
+// Ping effect component
+function PingEffect({ platform, isActive }: { platform: Platform; isActive: boolean }) {
+  if (!isActive) return null;
+
+  return (
+    <motion.div
+      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: 48,
+            height: 48,
+            border: `2px solid ${platform.color}`,
+          }}
+          initial={{ scale: 1, opacity: 0.8 }}
+          animate={{ scale: 2.5, opacity: 0 }}
+          transition={{
+            duration: 1,
+            delay: i * 0.2,
+            ease: "easeOut",
+          }}
+        />
+      ))}
+    </motion.div>
+  );
 }
 
 export function CustomBotsBackground() {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [activeResponses, setActiveResponses] = useState<Set<string>>(new Set());
+  const [activeLines, setActiveLines] = useState<Set<string>>(new Set());
+  const [pingEffects, setPingEffects] = useState<Set<string>>(new Set());
 
-  // Initialize particles
+  // Initialize particles with staggered timing
   useEffect(() => {
     const initialParticles: Particle[] = [];
     platforms.forEach((platform, index) => {
-      // Inbound particle (message to bot)
       initialParticles.push({
-        id: `in-${platform.id}`,
+        id: `particle-${platform.id}`,
         platformId: platform.id,
-        progress: index * 25, // Stagger start positions
-        direction: "inbound",
-      });
-      // Outbound particle (response from bot)
-      initialParticles.push({
-        id: `out-${platform.id}`,
-        platformId: platform.id,
-        progress: (index * 25 + 50) % 100, // Offset from inbound
-        direction: "outbound",
+        progress: index * 20,
+        direction: index % 2 === 0 ? "inbound" : "outbound",
+        size: 1,
       });
     });
     setParticles(initialParticles);
   }, []);
 
-  // Animate particles (slowed down by 50% + additional 20%)
+  // Animate particles with enhanced effects
   useEffect(() => {
     const interval = setInterval(() => {
       setParticles((prev) =>
         prev.map((particle) => {
-          const newProgress = (particle.progress + 0.625) % 100; // Further reduced from 0.75 (20% slower)
+          const newProgress = (particle.progress + 0.8) % 100;
 
-          // Trigger response indicator when outbound particle reaches platform
-          if (particle.direction === "outbound" && newProgress < 2 && particle.progress >= 98) {
+          // Calculate size pulse based on position
+          const distanceFromCenter = Math.abs(50 - newProgress);
+          const sizePulse = 1 + (1 - distanceFromCenter / 50) * 0.5;
+
+          // Activate line glow when particle is traveling
+          if (newProgress > 10 && newProgress < 90) {
+            setActiveLines((prev) => new Set(prev).add(particle.platformId));
+          } else {
+            setActiveLines((prev) => {
+              const next = new Set(prev);
+              next.delete(particle.platformId);
+              return next;
+            });
+          }
+
+          // Trigger ping and response when particle reaches destination
+          if (particle.direction === "outbound" && newProgress < 3 && particle.progress >= 97) {
+            setPingEffects((prev) => new Set(prev).add(particle.platformId));
+            setTimeout(() => {
+              setPingEffects((prev) => {
+                const next = new Set(prev);
+                next.delete(particle.platformId);
+                return next;
+              });
+            }, 1000);
+
             setActiveResponses((prev) => new Set(prev).add(particle.platformId));
             setTimeout(() => {
               setActiveResponses((prev) => {
@@ -99,219 +157,271 @@ export function CustomBotsBackground() {
                 next.delete(particle.platformId);
                 return next;
               });
-            }, 1440); // Increased from 1200ms (20% slower)
+            }, 1500);
           }
 
-          return { ...particle, progress: newProgress };
+          return { ...particle, progress: newProgress, size: sizePulse };
         })
       );
-    }, 48); // Increased from 40ms (20% slower)
+    }, 50);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Calculate particle position along path
+  // Calculate particle position along path with easing
   const getParticlePosition = (particle: Particle) => {
     const platform = platforms.find((p) => p.id === particle.platformId);
-    if (!platform) return { x: 50, y: 50 };
+    if (!platform) return { x: 50, y: 42 };
 
     const centerX = 50;
-    const centerY = 50;
+    const centerY = 42;
     const platformX = platform.position.x;
     const platformY = platform.position.y;
 
     let progress = particle.progress / 100;
 
     if (particle.direction === "outbound") {
-      // Reverse direction for outbound
       progress = 1 - progress;
     }
 
-    const x = platformX + (centerX - platformX) * progress;
-    const y = platformY + (centerY - platformY) * progress;
+    // Apply easing for more natural movement
+    const easedProgress = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    const x = platformX + (centerX - platformX) * easedProgress;
+    const y = platformY + (centerY - platformY) * easedProgress;
 
     return { x, y };
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden" style={{ contain: 'layout style paint' }}>
+      {/* Top gradient fade for header safe zone */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white dark:from-dark-bg-card to-transparent pointer-events-none z-20" />
+
       {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/20 dark:from-blue-950/20 dark:via-transparent dark:to-purple-950/10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-transparent to-purple-50/30 dark:from-blue-950/30 dark:via-transparent dark:to-purple-950/20" />
 
       {/* SVG Paths and Particles Container */}
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
-          {/* Gradients for each platform */}
+          {/* Animated gradients for each platform */}
           {platforms.map((platform) => (
-            <linearGradient key={platform.id} id={`gradient-${platform.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={platform.color} stopOpacity="0.3" />
-              <stop offset="50%" stopColor={platform.color} stopOpacity="0.6" />
-              <stop offset="100%" stopColor={platform.color} stopOpacity="0.3" />
-            </linearGradient>
+            <React.Fragment key={platform.id}>
+              {/* Base gradient */}
+              <linearGradient id={`gradient-${platform.id}`} x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor={platform.color} stopOpacity="0.2" />
+                <stop offset="50%" stopColor={platform.color} stopOpacity="0.5" />
+                <stop offset="100%" stopColor={platform.color} stopOpacity="0.2" />
+              </linearGradient>
+              {/* Active/glowing gradient */}
+              <linearGradient id={`gradient-active-${platform.id}`} x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor={platform.color} stopOpacity="0.4" />
+                <stop offset="50%" stopColor={platform.color} stopOpacity="0.9" />
+                <stop offset="100%" stopColor={platform.color} stopOpacity="0.4" />
+              </linearGradient>
+            </React.Fragment>
           ))}
 
-          {/* Glow filter */}
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+          {/* Glow filter for active lines */}
+          <filter id="lineGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="0.8" result="blur" />
             <feMerge>
-              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
 
-        {/* Connection Lines */}
-        {platforms.map((platform) => (
-          <line
-            key={`line-${platform.id}`}
-            x1={`${platform.position.x}%`}
-            y1={`${platform.position.y}%`}
-            x2="50%"
-            y2="50%"
-            stroke={`url(#gradient-${platform.id})`}
-            strokeWidth="0.5"
-            filter="url(#glow)"
-            className="opacity-40 dark:opacity-60"
-          />
-        ))}
+        {/* Connection Lines with animated glow */}
+        {platforms.map((platform) => {
+          const isActive = activeLines.has(platform.id);
+          return (
+            <g key={`line-${platform.id}`}>
+              {/* Background line (always visible) */}
+              <line
+                x1={`${platform.position.x}%`}
+                y1={`${platform.position.y}%`}
+                x2="50%"
+                y2="42%"
+                stroke={`url(#gradient-${platform.id})`}
+                strokeWidth="0.6"
+                className="opacity-40 dark:opacity-50"
+              />
+              {/* Active line (when particle is traveling) */}
+              <line
+                x1={`${platform.position.x}%`}
+                y1={`${platform.position.y}%`}
+                x2="50%"
+                y2="42%"
+                stroke={`url(#gradient-active-${platform.id})`}
+                strokeWidth={isActive ? "1.2" : "0.6"}
+                filter={isActive ? "url(#lineGlow)" : undefined}
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  transition: "opacity 0.3s ease, stroke-width 0.3s ease",
+                }}
+              />
+            </g>
+          );
+        })}
       </svg>
 
       {/* Platform Icons - Bottom Row */}
-      <div className="absolute top-[85%] left-0 right-0 flex justify-center items-center gap-[8%] px-[5%]">
+      <div className="absolute top-[82%] left-0 right-0 flex justify-center items-center gap-[6%] px-[8%]">
         {platforms.map((platform, index) => {
           const Icon = platform.icon;
+          const isActive = activeLines.has(platform.id);
+          const hasPing = pingEffects.has(platform.id);
+
           return (
             <motion.div
               key={platform.id}
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
               className="relative"
             >
-              {/* Platform Icon */}
+              {/* Ping Effect */}
+              <AnimatePresence>
+                {hasPing && <PingEffect platform={platform} isActive={hasPing} />}
+              </AnimatePresence>
+
+              {/* Platform Icon - Larger */}
               <motion.div
-                className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg"
+                className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50"
                 whileHover={{ scale: 1.1 }}
                 animate={{
-                  boxShadow: [
-                    `0 0 20px ${platform.color}40`,
-                    `0 0 30px ${platform.color}60`,
-                    `0 0 20px ${platform.color}40`,
-                  ],
+                  boxShadow: isActive
+                    ? `0 0 30px ${platform.glowColor}`
+                    : `0 4px 20px rgba(0,0,0,0.1)`,
+                  borderColor: isActive ? platform.color : undefined,
                 }}
-                transition={{ duration: 3.6, repeat: Infinity }} // Slowed by 20%: 3s → 3.6s
+                transition={{ duration: 0.3 }}
               >
-                <Icon className="w-6 h-6" style={{ color: platform.color }} />
+                <Icon className="w-7 h-7" style={{ color: platform.color }} />
               </motion.div>
 
               {/* Response Indicator */}
               <AnimatePresence>
                 {activeResponses.has(platform.id) && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.5, y: -10 }}
+                    initial={{ opacity: 0, scale: 0.5, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.5, y: 10 }}
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-green-500/90 dark:bg-green-400/90 text-white text-xs px-2 py-1 rounded-full shadow-lg"
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="absolute -top-8 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-green-500 text-white text-xs px-2.5 py-1 rounded-full shadow-lg whitespace-nowrap"
                   >
-                    <Check className="w-3 h-3" />
-                    <span className="font-medium">Sent</span>
+                    <Check className="w-3 h-3" strokeWidth={3} />
+                    <span className="font-semibold">Sent!</span>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Pulse ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full border-2"
-                style={{
-                  willChange: "transform, opacity",
-                  transform: "translateZ(0)"
-                }}
-                initial={{ scale: 1, opacity: 0.6 }}
+              {/* Platform name label */}
+              <motion.span
+                className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap"
                 animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.6, 0, 0.6],
-                  borderColor: platform.color,
+                  color: isActive ? platform.color : undefined,
                 }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: "linear", delay: index * 0.6 }}
-              />
+              >
+                {platform.name}
+              </motion.span>
             </motion.div>
           );
         })}
       </div>
 
-      {/* Center Bot Logo */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      {/* Center Bot Logo - positioned at 42% to match line endpoints */}
+      <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2">
         <motion.div
           className="relative z-10"
           animate={{
-            scale: [1, 1.08, 1],
+            scale: [1, 1.05, 1],
           }}
           transition={{
-            duration: 4.8, // Slowed by 20%: 4s → 4.8s
+            duration: 4,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         >
           {/* Glow effect behind logo */}
           <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-br from-brand-primary/30 to-brand-secondary/30 dark:from-dark-brand-primary/40 dark:to-brand-secondary/40 blur-2xl"
+            className="absolute -inset-4 rounded-full bg-gradient-to-br from-brand-primary/20 to-brand-secondary/20 dark:from-dark-brand-primary/30 dark:to-brand-secondary/30 blur-xl"
             animate={{
-              opacity: [0.5, 0.8, 0.5],
-              scale: [1, 1.2, 1],
+              opacity: [0.4, 0.7, 0.4],
+              scale: [1, 1.15, 1],
             }}
             transition={{
-              duration: 4.8, // Slowed by 20%: 4s → 4.8s
+              duration: 3,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
 
-          {/* Logo */}
-          <div className="relative bg-white dark:bg-gray-900 rounded-full p-3 shadow-2xl">
+          {/* Logo container */}
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl p-3.5 shadow-xl border border-slate-200/50 dark:border-slate-700/50">
             <Logo variant="icon" size="xl" />
           </div>
 
-          {/* Pulse ring - reduced from 3 to 1 for performance */}
+          {/* Subtle pulse ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-brand-primary dark:border-dark-brand-primary"
+            className="absolute inset-0 rounded-2xl border-2 border-brand-primary/50 dark:border-dark-brand-primary/50"
             style={{
               willChange: "transform, opacity",
               transform: "translateZ(0)"
             }}
-            animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
-            transition={{ duration: 3.6, repeat: Infinity, ease: "linear" }}
+            animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeOut" }}
           />
         </motion.div>
       </div>
 
-      {/* Animated Particles */}
+      {/* Animated Particles - Enhanced with glow and size pulsing */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          {/* Particle glow filters */}
+          {platforms.map((platform) => (
+            <filter key={`particleGlow-${platform.id}`} id={`particleGlow-${platform.id}`} x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="0.6" result="blur" />
+              <feFlood floodColor={platform.color} floodOpacity="0.8" />
+              <feComposite in2="blur" operator="in" />
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          ))}
+        </defs>
         {particles.map((particle) => {
           const position = getParticlePosition(particle);
           const platform = platforms.find((p) => p.id === particle.platformId);
           if (!platform) return null;
 
+          const baseSize = 1.2;
+          const size = baseSize * particle.size;
+
           return (
-            <motion.circle
-              key={particle.id}
-              cx={`${position.x}%`}
-              cy={`${position.y}%`}
-              r="0.8"
-              fill={platform.color}
-              className="drop-shadow-lg"
-              animate={{
-                opacity: [0.4, 1, 0.4],
-                r: [0.6, 1, 0.6],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              style={{
-                filter: `drop-shadow(0 0 4px ${platform.color})`,
-              }}
-            />
+            <g key={particle.id}>
+              {/* Glow behind particle */}
+              <circle
+                cx={`${position.x}%`}
+                cy={`${position.y}%`}
+                r={size * 2}
+                fill={platform.color}
+                opacity="0.3"
+                style={{ willChange: 'cx, cy' }}
+              />
+              {/* Main particle */}
+              <circle
+                cx={`${position.x}%`}
+                cy={`${position.y}%`}
+                r={size}
+                fill={platform.color}
+                filter={`url(#particleGlow-${platform.id})`}
+                style={{ willChange: 'cx, cy' }}
+              />
+            </g>
           );
         })}
       </svg>

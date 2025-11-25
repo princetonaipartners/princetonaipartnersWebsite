@@ -10,8 +10,7 @@ import { AuroraBackground } from '@/components/ui/aurora-background';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import { Typewriter } from '@/components/ui/typewriter';
 import { BentoCard, BentoGrid } from '@/components/ui/bento-grid';
-import { CTASection } from '@/components/ui/cta-section';
-import { Boxes } from '@/components/ui/background-boxes';
+import { PremiumBackground } from '@/components/ui/premium-background';
 import { AIAgentsBackground } from '@/components/ui/service-backgrounds/AIAgentsBackground';
 import { AIPhoneBackground } from '@/components/ui/service-backgrounds/AIPhoneBackground';
 import { CustomBotsBackground } from '@/components/ui/service-backgrounds/CustomBotsBackground';
@@ -19,6 +18,7 @@ import { ProcessAutomationBackground } from '@/components/ui/service-backgrounds
 import { WebDevelopmentBackground } from '@/components/ui/service-backgrounds/WebDevelopmentBackground';
 import { WebScrapingBackground } from '@/components/ui/service-backgrounds/WebScrapingBackground';
 import { BespokeSoftwareBackground } from '@/components/ui/service-backgrounds/BespokeSoftwareBackground';
+import { RevealCTA } from '@/components/ui/reveal-cta';
 
 const services = [
   // Row 1 & 2: Featured hero cards
@@ -76,10 +76,10 @@ const services = [
     background: <ProcessAutomationBackground />,
     href: '/solutions/process-automation',
     cta: 'Learn More',
-    className: 'lg:col-span-1 lg:row-span-1', // Standard
+    className: 'lg:col-span-2 lg:row-span-1', // Wide
   },
 
-  // Row 5: Additional service
+  // Row 5: Standard card
   {
     name: 'Web Scraping',
     icon: 'globe' as IconName,
@@ -94,8 +94,11 @@ const services = [
 export default function Home() {
   return (
     <>
-      {/* Hero Section */}
-      <AuroraBackground className="min-h-[90vh]">
+      {/* Global Premium Background */}
+      <PremiumBackground />
+
+      {/* Hero Section - Extended to cover more of page */}
+      <AuroraBackground className="min-h-[110vh]">
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-24 text-center z-20">
             <FadeInSection>
@@ -150,8 +153,11 @@ export default function Home() {
         </section>
       </AuroraBackground>
 
+      {/* Gradient transition from Hero to Services */}
+      <div className="h-24 bg-gradient-to-b from-transparent to-transparent -mt-24 relative z-10" />
+
       {/* Bento Grid Services Section */}
-      <section className="py-24 bg-white dark:bg-dark-bg-secondary transition-colors">
+      <section className="relative z-10 py-24 bg-transparent -mt-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <FadeInSection>
             <div className="text-center mb-16">
@@ -183,24 +189,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative w-full overflow-hidden bg-slate-900 dark:bg-zinc-900 flex flex-col items-center justify-center">
-        {/* Radial gradient mask for fade effect */}
-        <div className="absolute inset-0 w-full h-full bg-slate-900 dark:bg-zinc-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-
-        {/* Animated background boxes */}
-        <Boxes />
-
-        <CTASection
-          badge={{ text: "Let's Build" }}
-          title="Ready to Build Something Great?"
-          description="Let's discuss your project and see how we can help you ship faster."
-          action={{
-            text: "Schedule a Free Consultation",
-            href: "/contact",
-          }}
-        />
-      </section>
+      {/* CTA Section - Dramatic Reveal */}
+      <RevealCTA />
     </>
   );
 }

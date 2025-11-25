@@ -15,6 +15,13 @@ export type IconName =
   // UI Icons
   | 'menu'
   | 'close'
+  | 'home'
+  | 'info'
+  | 'mail'
+  | 'sun'
+  | 'moon'
+  | 'chevronRight'
+  | 'chevronDown'
   // Social Icons
   | 'github'
   | 'linkedin';

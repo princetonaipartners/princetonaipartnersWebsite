@@ -1,14 +1,14 @@
 import { BespokeProcessFlow } from './demos/BespokeProcessFlow';
 
-// Pre-calculate orbit positions to avoid hydration mismatch
-const ORBIT_POSITIONS = [...Array(6)].map((_, i) => ({
-  x: Math.round(Math.cos((i * Math.PI) / 3) * 80 * 100) / 100,
-  y: Math.round(Math.sin((i * Math.PI) / 3) * 80 * 100) / 100,
+// Pre-calculate orbit positions to avoid hydration mismatch - reduced from 6 to 3
+const ORBIT_POSITIONS = [...Array(3)].map((_, i) => ({
+  x: Math.round(Math.cos((i * Math.PI * 2) / 3) * 80 * 100) / 100,
+  y: Math.round(Math.sin((i * Math.PI * 2) / 3) * 80 * 100) / 100,
 }));
 
 export function BespokeSoftwareBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden" style={{ contain: 'layout style paint' }}>
       {/* Subtle background geometric shapes - more subdued to not compete with demo */}
       <div className="absolute inset-0 flex items-center justify-center opacity-20 dark:opacity-10">
         {/* Central morphing shape */}
@@ -51,14 +51,14 @@ export function BespokeSoftwareBackground() {
           </div>
         </div>
 
-        {/* Orbiting particles */}
-        {[...Array(6)].map((_, i) => (
+        {/* Orbiting particles - reduced from 6 to 3 */}
+        {[...Array(3)].map((_, i) => (
           <div
             key={i}
             className="absolute animate-orbit"
             style={{
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: '6s',
+              animationDelay: `${i * 1}s`,
+              animationDuration: '8s',
               willChange: "transform",
               transform: "translateZ(0)",
             }}
@@ -73,16 +73,16 @@ export function BespokeSoftwareBackground() {
         ))}
       </div>
 
-      {/* Floating geometric fragments - reduced */}
-      {[...Array(6)].map((_, i) => (
+      {/* Floating geometric fragments - reduced from 6 to 3 */}
+      {[...Array(3)].map((_, i) => (
         <div
           key={i}
           className="absolute animate-float opacity-30"
           style={{
-            left: `${(i * 20 + 5) % 85}%`,
-            top: `${(i * 25 + 10) % 75}%`,
-            animationDelay: `${i * 0.4}s`,
-            animationDuration: `${5 + (i % 3)}s`,
+            left: `${(i * 30 + 10) % 85}%`,
+            top: `${(i * 30 + 40) % 60 + 30}%`,
+            animationDelay: `${i * 0.6}s`,
+            animationDuration: `${6 + i}s`,
             willChange: "transform",
             transform: "translateZ(0)",
           }}

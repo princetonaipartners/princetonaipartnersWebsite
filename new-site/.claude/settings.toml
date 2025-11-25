@@ -1,0 +1,16 @@
+# Claude Code Hooks Configuration
+# These hooks run automatically during Claude's workflow
+
+# Auto-format TypeScript/CSS/JSON files after writing
+[[hooks]]
+event = "PostToolUse"
+matcher = "Write"
+command = "npx prettier --write \"$FILEPATH\""
+timeout = 30000
+
+# Auto-format after edits to TS/TSX files
+[[hooks]]
+event = "PostToolUse"
+matcher = "Edit"
+command = "npx prettier --write \"$FILEPATH\""
+timeout = 30000

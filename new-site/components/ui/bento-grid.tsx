@@ -1,10 +1,25 @@
-import { ReactNode, useState, useRef, useEffect } from "react";
+import { ReactNode, useState, useRef, useEffect, useCallback } from "react";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
+
+// Throttle function for performance
+function throttle<T extends (...args: any[]) => void>(
+  func: T,
+  limit: number
+): T {
+  let inThrottle: boolean;
+  return function (this: any, ...args: any[]) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  } as T;
+}
 
 const BentoGrid = ({
   children,
@@ -47,31 +62,36 @@ const BentoCard = ({
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
+  // Throttled mouse position update (60ms = ~16fps, smooth enough for spotlight)
+  const throttledSetPosition = useCallback(
+    throttle((x: number, y: number) => {
+      setMousePosition({ x, y });
+    }, 60),
+    []
+  );
+
   useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!cardRef.current) return;
-      const rect = cardRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
+      const rect = card.getBoundingClientRect();
+      throttledSetPosition(e.clientX - rect.left, e.clientY - rect.top);
     };
 
-    const card = cardRef.current;
-    if (card) {
-      card.addEventListener('mousemove', handleMouseMove);
-      card.addEventListener('mouseenter', () => setIsHovering(true));
-      card.addEventListener('mouseleave', () => setIsHovering(false));
-    }
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+
+    card.addEventListener('mousemove', handleMouseMove, { passive: true });
+    card.addEventListener('mouseenter', handleMouseEnter);
+    card.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      if (card) {
-        card.removeEventListener('mousemove', handleMouseMove);
-        card.removeEventListener('mouseenter', () => setIsHovering(true));
-        card.removeEventListener('mouseleave', () => setIsHovering(false));
-      }
+      card.removeEventListener('mousemove', handleMouseMove);
+      card.removeEventListener('mouseenter', handleMouseEnter);
+      card.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [throttledSetPosition]);
 
   return (
     <div
@@ -80,14 +100,20 @@ const BentoCard = ({
       onClick={() => router.push(href)}
       className={cn(
         "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl cursor-pointer",
-        // light styles - Princeton AI theme
-        "bg-white [box-shadow:0_0_0_1px_rgba(10,132,255,0.1),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
-        // dark styles - Princeton AI dark theme
-        "transform-gpu dark:bg-dark-bg-card dark:[border:1px_solid_rgba(59,159,255,.2)] dark:[box-shadow:0_-20px_80px_-20px_rgba(59,159,255,0.1)_inset]",
-        // hover effects with enhanced shadow and scale
-        "transition-all duration-500 ease-out",
-        "hover:shadow-[0_0_0_2px_rgba(10,132,255,0.4),0_20px_40px_rgba(10,132,255,0.15)]",
-        "dark:hover:shadow-[0_0_0_2px_rgba(59,159,255,0.5),0_20px_40px_rgba(59,159,255,0.2)]",
+        // Glassmorphic base - light mode
+        "bg-white/70 backdrop-blur-md border border-slate-200/50",
+        "[box-shadow:0_4px_24px_rgba(0,0,0,0.06)]",
+        // Glassmorphic base - dark mode (Gemini "Glass" styling)
+        "transform-gpu dark:bg-zinc-900/40 dark:backdrop-blur-md dark:border-white/10",
+        "dark:[box-shadow:0_0_0_1px_rgba(255,255,255,0.05),0_4px_24px_rgba(0,0,0,0.3)]",
+        // Performance: contain layout for better paint performance
+        "[contain:layout_style_paint]",
+        // hover effects - specific transitions
+        "transition-[transform,box-shadow,background-color,border-color] duration-300 ease-out",
+        // Hover - light mode
+        "hover:bg-white/90 hover:border-brand-primary/30 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)]",
+        // Hover - dark mode (increases opacity, border visibility)
+        "dark:hover:bg-zinc-900/60 dark:hover:border-white/20 dark:hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_32px_rgba(59,130,246,0.15)]",
         "hover:-translate-y-1 active:translate-y-0",
         className,
       )}

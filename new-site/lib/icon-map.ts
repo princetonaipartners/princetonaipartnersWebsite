@@ -12,6 +12,13 @@ import {
   IoChatbubbleEllipsesOutline,
   IoCodeSlashOutline,
   IoPhonePortraitOutline,
+  IoHomeOutline,
+  IoInformationCircleOutline,
+  IoMailOutline,
+  IoSunnyOutline,
+  IoMoonOutline,
+  IoChevronForwardOutline,
+  IoChevronDownOutline,
 } from 'react-icons/io5';
 
 // Simple Icons for brand/social media
@@ -39,6 +46,13 @@ export const iconMap: Record<IconName, IconType> = {
   // UI Icons
   menu: IoMenuOutline,
   close: IoCloseOutline,
+  home: IoHomeOutline,
+  info: IoInformationCircleOutline,
+  mail: IoMailOutline,
+  sun: IoSunnyOutline,
+  moon: IoMoonOutline,
+  chevronRight: IoChevronForwardOutline,
+  chevronDown: IoChevronDownOutline,
 
   // Social/Brand Icons (Simple Icons - official brand logos)
   github: SiGithub,
