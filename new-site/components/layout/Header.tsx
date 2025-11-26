@@ -13,7 +13,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark-bg-primary/80 backdrop-blur-lg border-b border-neutral-100 dark:border-dark-border transition-colors">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-transparent backdrop-blur-md dark:backdrop-blur-0 border-b border-neutral-100 dark:border-none transition-colors">
       <nav className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}

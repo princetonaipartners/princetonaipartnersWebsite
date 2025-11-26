@@ -115,6 +115,13 @@ const config: Config = {
         'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',
         'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear',
         'shimmer-text': 'shimmer-text 2s ease-in-out infinite',
+        // DevTool aesthetic animations
+        'grid': 'grid 20s linear infinite',
+        'beam-pulse': 'beam-pulse 2s ease-in-out infinite',
+        'orbit-slow': 'orbit 30s linear infinite',
+        'orbit-medium': 'orbit 20s linear infinite',
+        'orbit-fast': 'orbit 15s linear infinite',
+        'blink': 'blink 1s step-end infinite',
       },
       keyframes: {
         fadeUp: {
@@ -218,6 +225,27 @@ const config: Config = {
         "shimmer-text": {
           "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
+        },
+        // RetroGrid animation - scrolls toward viewer
+        "grid": {
+          "0%": { transform: "translateY(-50%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        // Beam pulse animation
+        "beam-pulse": {
+          "0%": { opacity: "0.2", transform: "translateX(-100%)" },
+          "50%": { opacity: "1" },
+          "100%": { opacity: "0.2", transform: "translateX(100%)" },
+        },
+        // Orbit rotation
+        "orbit": {
+          "0%": { transform: "rotate(0deg) translateX(var(--radius)) rotate(0deg)" },
+          "100%": { transform: "rotate(360deg) translateX(var(--radius)) rotate(-360deg)" },
+        },
+        // Typing cursor blink
+        "blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
       transitionDuration: {
