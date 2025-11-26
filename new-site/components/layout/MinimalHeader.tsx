@@ -1,13 +1,29 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { SITE_CONFIG } from '@/lib/constants';
 
+// Page config for indicator badges
+const pageConfig: Record<string, string> = {
+  '/solutions/agents': 'AI Agents',
+  '/solutions/ai-phone-systems': 'AI Phone',
+  '/solutions/web-development': 'Web Dev',
+  '/solutions/bespoke-software': 'Bespoke',
+  '/solutions/automation': 'Automation',
+  '/solutions/custom-bots': 'Custom Bots',
+  '/solutions/web-scraping': 'Scraping',
+  '/quote': 'Get Quote',
+};
+
 export function MinimalHeader() {
+  const pathname = usePathname();
+  const currentPage = pageConfig[pathname];
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40 pointer-events-none">
-      <div className="p-4 sm:p-6">
+      <div className="p-4 sm:p-6 flex items-center justify-between">
         {/* Logo - floating with glow */}
         <Link
           href="/"
@@ -27,6 +43,13 @@ export function MinimalHeader() {
             Princeton AI
           </span>
         </Link>
+
+        {/* Page indicator - right side */}
+        {currentPage && (
+          <div className="px-3 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 pointer-events-auto backdrop-blur-sm">
+            <span className="text-sm font-medium text-brand-primary">{currentPage}</span>
+          </div>
+        )}
       </div>
     </header>
   );

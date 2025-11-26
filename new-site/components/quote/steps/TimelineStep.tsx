@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Clock, Zap, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -45,16 +44,14 @@ export function TimelineStep({
           const isDiscount = option.id === 'flexible';
 
           return (
-            <motion.button
+            <button
               key={option.id}
               onClick={() => onSelect(option.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               className={cn(
-                'relative p-6 rounded-2xl border-2 text-center transition-all duration-300',
+                'relative p-5 rounded-xl border-2 text-center transition-all duration-200',
                 'bg-white dark:bg-dark-bg-card',
                 isSelected
-                  ? 'border-brand-primary shadow-lg shadow-brand-primary/20'
+                  ? 'border-brand-primary shadow-md'
                   : 'border-neutral-200 dark:border-dark-border hover:border-brand-primary/50'
               )}
             >
@@ -73,11 +70,8 @@ export function TimelineStep({
 
               {/* Selected indicator */}
               {isSelected && (
-                <motion.div
-                  layoutId="timelineIndicator"
-                  className="absolute inset-0 rounded-2xl bg-brand-light/50 dark:bg-brand-primary/10"
-                  initial={false}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                <div
+                  className="absolute inset-0 rounded-xl bg-brand-light/50 dark:bg-brand-primary/10"
                 />
               )}
 
@@ -105,7 +99,7 @@ export function TimelineStep({
                   {option.duration}
                 </div>
               </div>
-            </motion.button>
+            </button>
           );
         })}
       </div>

@@ -33,7 +33,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 },
+    transition: { staggerChildren: 0.05 },
   },
 };
 
@@ -69,13 +69,11 @@ export function ProjectTypeStep({ selectedType, onSelect }: ProjectTypeStepProps
               key={type.id}
               variants={itemVariants}
               onClick={() => onSelect(type.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               className={cn(
-                'relative p-6 rounded-2xl border-2 text-left transition-all duration-300',
+                'relative p-5 rounded-xl border-2 text-left transition-all duration-200',
                 'bg-white dark:bg-dark-bg-card',
                 isSelected
-                  ? 'border-brand-primary shadow-lg shadow-brand-primary/20'
+                  ? 'border-brand-primary shadow-md'
                   : 'border-neutral-200 dark:border-dark-border hover:border-brand-primary/50'
               )}
             >
@@ -83,7 +81,7 @@ export function ProjectTypeStep({ selectedType, onSelect }: ProjectTypeStepProps
               {isSelected && (
                 <motion.div
                   layoutId="selectedIndicator"
-                  className="absolute inset-0 rounded-2xl bg-brand-light/50 dark:bg-brand-primary/10"
+                  className="absolute inset-0 rounded-xl bg-brand-light/50 dark:bg-brand-primary/10"
                   initial={false}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 />

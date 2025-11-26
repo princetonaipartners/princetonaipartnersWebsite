@@ -1,0 +1,184 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Paperclip, Link, Code, Mic, Send, Info, Bot } from 'lucide-react';
+
+export function AiChatDemo() {
+  const [message, setMessage] = useState('');
+  const [charCount, setCharCount] = useState(0);
+  const maxChars = 2000;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setMessage(value);
+    setCharCount(value.length);
+  };
+
+  const handleSend = () => {
+    if (message.trim()) {
+      console.log('Sending message:', message);
+      setMessage('');
+      setCharCount(0);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  return (
+    <div className="relative w-full max-w-2xl mx-auto">
+      <div className="relative flex flex-col rounded-3xl bg-gradient-to-br from-zinc-800/80 to-zinc-900/90 border border-zinc-500/50 shadow-2xl backdrop-blur-3xl overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-2">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></div>
+            <span className="text-xs font-medium text-zinc-400">AI Assistant</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-1 text-xs font-medium bg-zinc-800/60 text-zinc-300 rounded-2xl">
+              Princeton AI
+            </span>
+            <span className="px-2 py-1 text-xs font-medium bg-brand-primary/10 text-brand-primary border border-brand-primary/20 rounded-2xl">
+              Agent
+            </span>
+          </div>
+        </div>
+
+        {/* Input Section */}
+        <div className="relative overflow-hidden">
+          <textarea
+            value={message}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            rows={4}
+            className="w-full px-6 py-4 bg-transparent border-none outline-none resize-none text-base font-normal leading-relaxed min-h-[120px] text-zinc-100 placeholder-zinc-500 scrollbar-none"
+            placeholder="What would you like to explore today? Ask anything, share ideas, or request assistance..."
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-zinc-800/5 to-transparent pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(39, 39, 42, 0.05), transparent)' }}
+          ></div>
+        </div>
+
+        {/* Controls Section */}
+        <div className="px-4 pb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {/* Attachment Group */}
+              <div className="flex items-center gap-1.5 p-1 bg-zinc-800/40 rounded-xl border border-zinc-700/50">
+                {/* File Upload */}
+                <button className="group relative p-2.5 bg-transparent border-none rounded-lg cursor-pointer transition-all duration-300 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/80 hover:scale-105 hover:-rotate-3 transform">
+                  <Paperclip className="w-4 h-4 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-12" />
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-zinc-900/95 text-zinc-200 text-xs rounded-lg whitespace-nowrap opacity-0 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:-translate-y-1 shadow-lg border border-zinc-700/50 backdrop-blur-sm">
+                    Upload files
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900/95"></div>
+                  </div>
+                </button>
+
+                {/* Link */}
+                <button className="group relative p-2.5 bg-transparent border-none rounded-lg cursor-pointer transition-all duration-300 text-zinc-500 hover:text-brand-primary hover:bg-zinc-800/80 hover:scale-105 hover:rotate-6 transform">
+                  <Link className="w-4 h-4 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-zinc-900/95 text-zinc-200 text-xs rounded-lg whitespace-nowrap opacity-0 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:-translate-y-1 shadow-lg border border-zinc-700/50 backdrop-blur-sm">
+                    Web link
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900/95"></div>
+                  </div>
+                </button>
+
+                {/* Code */}
+                <button className="group relative p-2.5 bg-transparent border-none rounded-lg cursor-pointer transition-all duration-300 text-zinc-500 hover:text-green-400 hover:bg-zinc-800/80 hover:scale-105 hover:rotate-3 transform">
+                  <Code className="w-4 h-4 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-6" />
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-zinc-900/95 text-zinc-200 text-xs rounded-lg whitespace-nowrap opacity-0 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:-translate-y-1 shadow-lg border border-zinc-700/50 backdrop-blur-sm">
+                    Code repo
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900/95"></div>
+                  </div>
+                </button>
+
+                {/* Design (Figma icon) */}
+                <button className="group relative p-2.5 bg-transparent border-none rounded-lg cursor-pointer transition-all duration-300 text-zinc-500 hover:text-purple-400 hover:bg-zinc-800/80 hover:scale-105 hover:-rotate-6 transform">
+                  <svg
+                    className="w-4 h-4 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.015-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117v-6.038H8.148zm7.704 0c-2.476 0-4.49 2.015-4.49 4.49s2.014 4.49 4.49 4.49 4.49-2.015 4.49-4.49-2.014-4.49-4.49-4.49zm0 7.509c-1.665 0-3.019-1.355-3.019-3.019s1.355-3.019 3.019-3.019 3.019 1.354 3.019 3.019-1.354 3.019-3.019 3.019zM8.148 24c-2.476 0-4.49-2.015-4.49-4.49s2.014-4.49 4.49-4.49h4.588V24H8.148zm3.117-1.471V16.49H8.148c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.02 3.019 3.02h3.117z"></path>
+                  </svg>
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-zinc-900/95 text-zinc-200 text-xs rounded-lg whitespace-nowrap opacity-0 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:-translate-y-1 shadow-lg border border-zinc-700/50 backdrop-blur-sm">
+                    Design file
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900/95"></div>
+                  </div>
+                </button>
+              </div>
+
+              {/* Voice Button */}
+              <button className="group relative p-2.5 bg-transparent border border-zinc-700/30 rounded-lg cursor-pointer transition-all duration-300 text-zinc-500 hover:text-brand-primary hover:bg-zinc-800/80 hover:scale-110 hover:rotate-2 transform hover:border-brand-primary/30">
+                <Mic className="w-4 h-4 transition-all duration-300 group-hover:scale-125 group-hover:-rotate-3" />
+                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-zinc-900/95 text-zinc-200 text-xs rounded-lg whitespace-nowrap opacity-0 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:-translate-y-1 shadow-lg border border-zinc-700/50 backdrop-blur-sm">
+                  Voice input
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900/95"></div>
+                </div>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {/* Character Counter */}
+              <div className="text-xs font-medium text-zinc-500">
+                <span>{charCount}</span>/<span className="text-zinc-400">{maxChars}</span>
+              </div>
+
+              {/* Send Button */}
+              <button
+                onClick={handleSend}
+                className="group relative p-3 bg-gradient-to-r from-brand-primary to-brand-secondary border-none rounded-xl cursor-pointer transition-all duration-300 text-white shadow-lg hover:from-brand-primary/90 hover:to-brand-secondary/90 hover:scale-110 hover:shadow-brand-primary/30 hover:shadow-xl active:scale-95 transform hover:-rotate-2"
+              >
+                <Send className="w-5 h-5 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:rotate-12 group-hover:scale-110" />
+
+                {/* Animated background glow */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary opacity-0 group-hover:opacity-50 transition-opacity duration-300 blur-lg transform scale-110"></div>
+
+                {/* Ripple effect on click */}
+                <div className="absolute inset-0 rounded-xl overflow-hidden">
+                  <div className="absolute inset-0 bg-white/20 transform scale-0 group-active:scale-100 transition-transform duration-200 rounded-xl"></div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Footer Info */}
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800/50 text-xs text-zinc-500 gap-6">
+            <div className="flex items-center gap-2">
+              <Info className="w-3 h-3" />
+              <span>
+                Press{' '}
+                <kbd className="px-1.5 py-1 bg-zinc-800 border border-zinc-600 rounded text-zinc-400 font-mono text-xs shadow-sm">
+                  Shift + Enter
+                </kbd>{' '}
+                for new line
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 bg-brand-primary rounded-full"></div>
+              <span>All systems operational</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating Overlay */}
+        <div
+          className="absolute inset-0 rounded-3xl pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(10, 132, 255, 0.05), transparent, rgba(0, 102, 204, 0.05))',
+          }}
+        ></div>
+      </div>
+    </div>
+  );
+}
+
+export default AiChatDemo;

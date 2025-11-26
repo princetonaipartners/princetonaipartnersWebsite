@@ -130,6 +130,26 @@
   /* Orbit animation for tech stack */
   @keyframes orbit {
     0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Counter-orbit to keep icons upright while orbiting */
+  @keyframes counter-orbit {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+
+  /* Legacy orbit with translateX (for backwards compatibility) */
+  @keyframes orbit-translate {
+    0% {
       transform: rotate(0deg) translateX(var(--radius, 100px)) rotate(0deg);
     }
     100% {

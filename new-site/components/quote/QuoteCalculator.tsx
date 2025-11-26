@@ -15,7 +15,7 @@ import { QuoteResultStep } from './steps/QuoteResultStep';
 
 const stepVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 50 : -50,
+    x: direction > 0 ? 20 : -20,
     opacity: 0,
   }),
   center: {
@@ -23,7 +23,7 @@ const stepVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 50 : -50,
+    x: direction < 0 ? 20 : -20,
     opacity: 0,
   }),
 };
@@ -204,7 +204,7 @@ export function QuoteCalculator() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
             {renderStep()}
           </motion.div>

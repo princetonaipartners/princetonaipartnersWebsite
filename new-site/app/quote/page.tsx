@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function QuotePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background-primary to-brand-light/20 dark:from-dark-bg-primary dark:to-dark-bg-secondary">
+    <main className="min-h-screen bg-background-primary dark:bg-dark-bg-primary">
       <div className="container mx-auto px-4 py-12 md:py-20">
         <QuoteCalculator />
       </div>

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Calendar, Check, Sparkles, Loader2 } from 'lucide-react';
+import { Download, Calendar, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { QuoteState, PriceEstimate } from '@/lib/quote/types';
 import { formatPrice, getFeatureNames, generateQuoteId } from '@/lib/quote/pricing';
@@ -16,13 +16,7 @@ interface QuoteResultStepProps {
 
 export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
   const [quoteId] = useState(() => generateQuoteId());
-  const [showConfetti, setShowConfetti] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowConfetti(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   if (!estimate || !state.projectType) {
     return null;
@@ -52,22 +46,12 @@ export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
-      {/* Celebration header */}
+      {/* Header */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        {showConfetti && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex justify-center mb-4"
-          >
-            <Sparkles className="w-12 h-12 text-brand-primary animate-pulse" />
-          </motion.div>
-        )}
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
           Your Personalized Quote
         </h2>
@@ -81,19 +65,14 @@ export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-white dark:bg-dark-bg-card rounded-2xl border border-neutral-200 dark:border-dark-border overflow-hidden"
+        className="bg-white dark:bg-dark-bg-card rounded-xl border border-neutral-200 dark:border-dark-border overflow-hidden"
       >
         {/* Price header */}
-        <div className="bg-gradient-to-r from-brand-primary to-brand-secondary p-8 text-center text-white">
+        <div className="bg-brand-primary p-8 text-center text-white">
           <div className="text-sm font-medium opacity-90 mb-2">Estimated Investment</div>
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.4, type: 'spring', stiffness: 200 }}
-            className="text-4xl md:text-5xl font-bold"
-          >
+          <div className="text-4xl md:text-5xl font-bold">
             {formatPrice(estimate.low)} - {formatPrice(estimate.high)}
-          </motion.div>
+          </div>
           <div className="text-sm opacity-90 mt-2">
             {estimate.timeline.minWeeks}-{estimate.timeline.maxWeeks} weeks delivery
           </div>

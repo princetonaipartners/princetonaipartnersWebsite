@@ -1,51 +1,45 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import {
-  Smartphone,
-  Monitor,
-  ChevronLeft,
-  ChevronRight,
   Check,
-  Circle,
-  Loader2,
-  GitCommit,
-  GitBranch,
-  Rocket,
+  Palette,
+  Smartphone,
   Search,
-  Wrench,
-  Calendar,
-  Utensils,
-  Scissors,
-  ShoppingBag,
-  Stethoscope,
-  Dumbbell,
-  Home,
-  MessageSquare,
+  Zap,
+  Lock,
+  Pencil,
   Star,
-  Phone,
-  MapPin,
-  CreditCard,
-  Users,
-  FileText,
-  Shield,
-  Clock,
-  ArrowUpRight,
+  MessageCircle,
+  Sparkles,
+  ArrowRight,
+  Heart,
+  Expand,
+  MousePointer2,
+  Layers,
+  Type,
+  Square,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { RetroGrid } from '@/components/ui/retro-grid';
 import { FadeInSection } from '@/components/animations/FadeInSection';
+import { ShowcaseModal } from '@/components/ui/showcase-modal';
+import { MagneticBackground } from '@/components/ui/magnetic-background';
 
 // ============================================
 // MAIN PAGE COMPONENT
 // ============================================
 export default function WebDevelopmentPage() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen relative">
+      {/* Magnetic Particles Background */}
+      <MagneticBackground />
+
+      {/* Page Content */}
       <HeroSection />
-      <IndustryShowcase />
+      <PortfolioShowcase />
       <FeaturesSection />
       <ProcessSection />
       <CTASection />
@@ -54,13 +48,11 @@ export default function WebDevelopmentPage() {
 }
 
 // ============================================
-// HERO SECTION - Speed Test Comparison
+// HERO SECTION - Friendly & Approachable
 // ============================================
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Background */}
-      <RetroGrid className="opacity-30" />
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-transparent">
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -68,47 +60,61 @@ function HeroSection() {
           <FadeInSection>
             <div className="space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-primary/30 bg-brand-primary/10">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary" />
-                </span>
-                <span className="text-xs font-mono text-brand-primary uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-primary/30 bg-brand-primary/10">
+                <Sparkles className="w-4 h-4 text-brand-primary" />
+                <span className="text-sm text-brand-primary font-medium">
                   Web Development
                 </span>
               </div>
 
               {/* Headline */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1]">
-                Websites That{' '}
+                A Website You&apos;ll{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-cyan-400">
-                  Win Business
+                  Actually Love
                 </span>
               </h1>
 
               {/* Subtitle */}
               <p className="text-xl text-zinc-400 max-w-lg leading-relaxed">
-                Your website should be a high-performance asset, not a technical headache.
-                We build lightning-fast, SEO-optimized sites that convert visitors into customers.
+                No headaches. No jargon. Just a beautiful, fast website that helps your
+                business grow. We handle the tech so you can focus on what you do best.
               </p>
+
+              {/* Trust Points */}
+              <div className="flex flex-wrap gap-4 text-sm text-zinc-400">
+                <span className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400" />
+                  Mobile-friendly
+                </span>
+                <span className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400" />
+                  Easy to update
+                </span>
+                <span className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400" />
+                  Found on Google
+                </span>
+              </div>
 
               {/* CTA */}
               <Link href="/quote">
                 <motion.div
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl font-mono text-lg cursor-pointer hover:shadow-brand-lg transition-all duration-300"
+                  data-magnetic
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-full font-semibold text-lg cursor-pointer hover:shadow-brand-lg transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span>$</span>
-                  <span>npm run build-site</span>
+                  <span>Get a Free Quote</span>
+                  <ArrowRight className="w-5 h-5" />
                 </motion.div>
               </Link>
             </div>
           </FadeInSection>
 
-          {/* Right: Speed Test Terminal */}
+          {/* Right: Interactive Design Canvas */}
           <FadeInSection delay={0.2}>
-            <SpeedTestTerminal />
+            <DesignCanvas />
           </FadeInSection>
         </div>
       </div>
@@ -116,607 +122,481 @@ function HeroSection() {
   );
 }
 
-// Speed Test Terminal Component
-function SpeedTestTerminal() {
-  const [phase, setPhase] = useState<'scanning' | 'results'>('scanning');
-  const [progress, setProgress] = useState(0);
-  const [visibleRows, setVisibleRows] = useState<number[]>([]);
+// ============================================
+// DESIGN CANVAS - Interactive Figma-like animation
+// ============================================
+function DesignCanvas() {
+  const [animationStep, setAnimationStep] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [isAnimating, setIsAnimating] = useState(true);
+  const fullHeadline = 'Your Business';
 
-  const metrics = [
-    { label: 'Load Time', before: '4.2s', after: '0.8s', improvement: '↓ 81%', color: 'text-emerald-400' },
-    { label: 'First Paint', before: '2.1s', after: '0.3s', improvement: '↓ 86%', color: 'text-emerald-400' },
-    { label: 'Mobile Score', before: '47', after: '98', improvement: '↑ 108%', color: 'text-cyan-400' },
-    { label: 'SEO Score', before: '61', after: '100', improvement: '↑ 64%', color: 'text-brand-primary' },
-  ];
+  // Animation sequence timing
+  const ANIMATION_DURATION = 12000; // 12 second loop
+  const steps = {
+    IDLE: 0,
+    PLACE_HEADER: 1,
+    TYPE_TEXT: 2,
+    SELECT_COLOR: 3,
+    PLACE_BUTTON: 4,
+    PLACE_CARDS: 5,
+    COMPLETE: 6,
+  };
 
+  // Cursor positions for each step (relative to canvas)
+  const cursorPositions = {
+    [steps.IDLE]: { x: 50, y: 50 },
+    [steps.PLACE_HEADER]: { x: 120, y: 30 },
+    [steps.TYPE_TEXT]: { x: 100, y: 70 },
+    [steps.SELECT_COLOR]: { x: 280, y: 60 },
+    [steps.PLACE_BUTTON]: { x: 80, y: 120 },
+    [steps.PLACE_CARDS]: { x: 120, y: 170 },
+    [steps.COMPLETE]: { x: 150, y: 100 },
+  };
+
+  // Animation loop
   useEffect(() => {
-    // Progress animation
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          setPhase('results');
-          return 100;
+    if (!isAnimating) return;
+
+    const sequence = [
+      { step: steps.PLACE_HEADER, delay: 0 },
+      { step: steps.TYPE_TEXT, delay: 1500 },
+      { step: steps.SELECT_COLOR, delay: 4500 },
+      { step: steps.PLACE_BUTTON, delay: 6000 },
+      { step: steps.PLACE_CARDS, delay: 7500 },
+      { step: steps.COMPLETE, delay: 9500 },
+      { step: steps.IDLE, delay: 11500 },
+    ];
+
+    const timeouts: NodeJS.Timeout[] = [];
+
+    sequence.forEach(({ step, delay }) => {
+      const timeout = setTimeout(() => {
+        setAnimationStep(step);
+        if (step === steps.IDLE) {
+          // Reset for next loop
+          setTypedText('');
         }
-        return prev + 2;
-      });
-    }, 40);
+      }, delay);
+      timeouts.push(timeout);
+    });
 
-    return () => clearInterval(progressInterval);
-  }, []);
+    // Restart loop
+    const loopTimeout = setTimeout(() => {
+      setAnimationStep(steps.IDLE);
+      setTypedText('');
+    }, ANIMATION_DURATION);
+    timeouts.push(loopTimeout);
 
+    return () => timeouts.forEach(clearTimeout);
+  }, [isAnimating, animationStep === steps.IDLE]);
+
+  // Typing animation
   useEffect(() => {
-    if (phase === 'results') {
-      metrics.forEach((_, index) => {
-        setTimeout(() => {
-          setVisibleRows(prev => [...prev, index]);
-        }, index * 300);
-      });
-    }
-  }, [phase]);
+    if (animationStep !== steps.TYPE_TEXT) return;
+
+    let index = 0;
+    const typeInterval = setInterval(() => {
+      if (index < fullHeadline.length) {
+        setTypedText(fullHeadline.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 100);
+
+    return () => clearInterval(typeInterval);
+  }, [animationStep]);
+
+  const cursorPos = cursorPositions[animationStep] || cursorPositions[steps.IDLE];
 
   return (
     <div className="relative">
-      {/* Terminal Frame */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-2xl shadow-black/50">
-        {/* Terminal Header */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-red-500 transition-colors" />
-            <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-yellow-500 transition-colors" />
-            <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-green-500 transition-colors" />
+      {/* Main Design Tool Container */}
+      <div className="rounded-2xl border border-zinc-700 bg-zinc-900/80 backdrop-blur-xl overflow-hidden shadow-2xl shadow-black/50">
+        {/* Tool Header */}
+        <div className="flex items-center justify-between px-4 py-3 bg-zinc-800/80 border-b border-zinc-700">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
+            </div>
+            <span className="text-xs text-zinc-400 font-medium">Design Canvas</span>
           </div>
-          <div className="flex-1 text-center">
-            <span className="text-xs text-zinc-500 font-mono">
-              performance-audit.sh
-            </span>
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded bg-zinc-700 flex items-center justify-center">
+              <Square className="w-3 h-3 text-zinc-400" />
+            </div>
+            <div className="w-5 h-5 rounded bg-zinc-700 flex items-center justify-center">
+              <Type className="w-3 h-3 text-zinc-400" />
+            </div>
+            <div className="w-5 h-5 rounded bg-zinc-700 flex items-center justify-center">
+              <ImageIcon className="w-3 h-3 text-zinc-400" />
+            </div>
           </div>
-          <div className="w-12" />
         </div>
 
-        {/* Terminal Content */}
-        <div className="p-6 font-mono text-sm min-h-[380px]">
-          {/* Command */}
-          <div className="mb-4">
-            <span className="text-emerald-400">➜</span>
-            <span className="text-cyan-400 ml-2">~/audit</span>
-            <span className="text-zinc-500 ml-2">$</span>
-            <span className="text-white ml-2">princeton-ai audit --compare</span>
-          </div>
-
-          {/* Scanning Phase */}
-          {phase === 'scanning' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-3"
+        {/* Canvas Body */}
+        <div className="flex">
+          {/* Main Artboard */}
+          <div className="flex-1 p-4 relative min-h-[280px]">
+            {/* Grid Background */}
+            <div
+              className="absolute inset-4 rounded-xl bg-zinc-950 overflow-hidden"
+              style={{
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }}
             >
-              <div className="text-zinc-500 flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin text-brand-primary" />
-                Running performance audit...
-              </div>
-              <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
+              {/* Website Preview Elements */}
+              <div className="p-4 space-y-3 relative">
+                {/* Header Element */}
                 <motion.div
-                  className="h-full bg-gradient-to-r from-brand-primary to-cyan-400"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <div className="text-xs text-zinc-600">
-                Analyzing: Core Web Vitals, SEO, Accessibility, Best Practices
-              </div>
-            </motion.div>
-          )}
-
-          {/* Results Phase */}
-          {phase === 'results' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-4"
-            >
-              <div className="text-emerald-400 flex items-center gap-2 mb-6">
-                <Check className="w-4 h-4" />
-                Analysis complete
-              </div>
-
-              {/* Comparison Header */}
-              <div className="grid grid-cols-4 gap-4 text-xs text-zinc-500 border-b border-zinc-800 pb-2">
-                <span>METRIC</span>
-                <span className="text-center">CURRENT</span>
-                <span className="text-center">OPTIMIZED</span>
-                <span className="text-right">CHANGE</span>
-              </div>
-
-              {/* Metrics Rows */}
-              {metrics.map((metric, index) => (
-                <motion.div
-                  key={metric.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={visibleRows.includes(index) ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4 }}
-                  className="grid grid-cols-4 gap-4 items-center py-2"
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  animate={{
+                    opacity: animationStep >= steps.PLACE_HEADER ? 1 : 0,
+                    scaleX: animationStep >= steps.PLACE_HEADER ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="origin-left"
                 >
-                  <span className="text-zinc-400">{metric.label}</span>
-                  <span className="text-center text-red-400/70">{metric.before}</span>
-                  <span className="text-center text-emerald-400 font-bold">{metric.after}</span>
-                  <span className={cn('text-right font-bold', metric.color)}>
-                    {metric.improvement}
-                  </span>
-                </motion.div>
-              ))}
-
-              {/* Summary */}
-              {visibleRows.length === metrics.length && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-6 pt-4 border-t border-zinc-800"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-zinc-500">Overall Improvement</span>
-                    <span className="text-2xl font-bold text-emerald-400">+85%</span>
+                  <div className={cn(
+                    'h-8 rounded-lg transition-colors duration-300',
+                    animationStep >= steps.SELECT_COLOR
+                      ? 'bg-gradient-to-r from-brand-primary to-cyan-400'
+                      : 'bg-zinc-700'
+                  )}>
+                    {/* Selection box when active */}
+                    {animationStep === steps.PLACE_HEADER && (
+                      <SelectionBox />
+                    )}
                   </div>
                 </motion.div>
+
+                {/* Headline Text */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: animationStep >= steps.TYPE_TEXT ? 1 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative"
+                >
+                  <div className="h-6 flex items-center">
+                    <span className="text-white font-bold text-lg">
+                      {typedText}
+                      {animationStep === steps.TYPE_TEXT && (
+                        <motion.span
+                          className="inline-block w-0.5 h-5 bg-brand-primary ml-0.5"
+                          animate={{ opacity: [1, 0] }}
+                          transition={{ duration: 0.5, repeat: Infinity }}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  {animationStep === steps.TYPE_TEXT && <SelectionBox />}
+                </motion.div>
+
+                {/* Subtitle placeholder */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{
+                    opacity: animationStep >= steps.TYPE_TEXT ? 0.6 : 0,
+                    y: animationStep >= steps.TYPE_TEXT ? 0 : 10,
+                  }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                >
+                  <div className="h-2 w-3/4 bg-zinc-700 rounded" />
+                  <div className="h-2 w-1/2 bg-zinc-700 rounded mt-1.5" />
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{
+                    opacity: animationStep >= steps.PLACE_BUTTON ? 1 : 0,
+                    scale: animationStep >= steps.PLACE_BUTTON ? 1 : 0.8,
+                  }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  className="relative inline-block"
+                >
+                  <div className={cn(
+                    'h-8 w-24 rounded-lg flex items-center justify-center text-xs font-medium transition-colors duration-300',
+                    animationStep >= steps.SELECT_COLOR
+                      ? 'bg-brand-primary text-white'
+                      : 'bg-zinc-600 text-zinc-300'
+                  )}>
+                    Get Started
+                  </div>
+                  {animationStep === steps.PLACE_BUTTON && <SelectionBox />}
+                </motion.div>
+
+                {/* Feature Cards */}
+                <motion.div
+                  className="grid grid-cols-3 gap-2 pt-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: animationStep >= steps.PLACE_CARDS ? 1 : 0 }}
+                >
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: animationStep >= steps.PLACE_CARDS ? 1 : 0,
+                        y: animationStep >= steps.PLACE_CARDS ? 0 : 20,
+                      }}
+                      transition={{ delay: i * 0.1, duration: 0.3 }}
+                      className="aspect-video bg-zinc-800 rounded-lg border border-zinc-700"
+                    />
+                  ))}
+                </motion.div>
+                {animationStep === steps.PLACE_CARDS && (
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <SelectionBox />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Animated Cursor */}
+            <motion.div
+              className="absolute z-20 pointer-events-none"
+              animate={{
+                x: cursorPos.x,
+                y: cursorPos.y,
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: 150,
+                damping: 20,
+              }}
+            >
+              <MousePointer2
+                className="w-5 h-5 text-white drop-shadow-lg"
+                fill="white"
+                style={{ transform: 'rotate(-5deg)' }}
+              />
+              {/* Click indicator */}
+              {[steps.PLACE_HEADER, steps.SELECT_COLOR, steps.PLACE_BUTTON, steps.PLACE_CARDS].includes(animationStep) && (
+                <motion.div
+                  className="absolute top-0 left-0 w-4 h-4 rounded-full bg-brand-primary/50"
+                  initial={{ scale: 0, opacity: 1 }}
+                  animate={{ scale: 2, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                />
               )}
             </motion.div>
-          )}
+          </div>
+
+          {/* Side Panel */}
+          <div className="w-28 border-l border-zinc-700 bg-zinc-800/50 p-3 space-y-4">
+            {/* Color Palette */}
+            <div>
+              <div className="flex items-center gap-1.5 mb-2">
+                <Palette className="w-3 h-3 text-zinc-500" />
+                <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Colors</span>
+              </div>
+              <div className="space-y-1.5">
+                {[
+                  { color: '#0A84FF', label: 'Primary' },
+                  { color: '#00D4FF', label: 'Accent' },
+                  { color: '#FFFFFF', label: 'Text' },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.color}
+                    className={cn(
+                      'flex items-center gap-2 p-1.5 rounded-md transition-colors',
+                      animationStep === steps.SELECT_COLOR && i === 0
+                        ? 'bg-zinc-700 ring-1 ring-brand-primary'
+                        : 'hover:bg-zinc-700/50'
+                    )}
+                    animate={{
+                      scale: animationStep === steps.SELECT_COLOR && i === 0 ? [1, 1.05, 1] : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div
+                      className="w-4 h-4 rounded border border-zinc-600"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-[10px] text-zinc-400">{item.label}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Layers Panel */}
+            <div>
+              <div className="flex items-center gap-1.5 mb-2">
+                <Layers className="w-3 h-3 text-zinc-500" />
+                <span className="text-[10px] text-zinc-500 uppercase tracking-wider">Layers</span>
+              </div>
+              <div className="space-y-1">
+                {[
+                  { name: 'Header', step: steps.PLACE_HEADER },
+                  { name: 'Headline', step: steps.TYPE_TEXT },
+                  { name: 'Button', step: steps.PLACE_BUTTON },
+                  { name: 'Cards', step: steps.PLACE_CARDS },
+                ].map((layer) => (
+                  <motion.div
+                    key={layer.name}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{
+                      opacity: animationStep >= layer.step ? 1 : 0.3,
+                      x: animationStep >= layer.step ? 0 : -10,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className={cn(
+                      'flex items-center gap-2 p-1.5 rounded text-[10px]',
+                      animationStep === layer.step
+                        ? 'bg-brand-primary/20 text-brand-primary'
+                        : 'text-zinc-400'
+                    )}
+                  >
+                    <div className={cn(
+                      'w-2 h-2 rounded-sm',
+                      animationStep >= layer.step ? 'bg-brand-primary' : 'bg-zinc-600'
+                    )} />
+                    {layer.name}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Glow Effect */}
-      <div className="absolute -inset-4 bg-brand-primary/10 blur-[80px] rounded-full -z-10" />
+      <div className="absolute -inset-8 bg-brand-primary/10 blur-[100px] rounded-full -z-10" />
+
+      {/* Floating badge */}
+      <motion.div
+        className="absolute -top-3 -right-3 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-sm"
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <span className="text-xs text-emerald-400 font-medium flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          Live Preview
+        </span>
+      </motion.div>
     </div>
   );
 }
 
-// ============================================
-// INDUSTRY SHOWCASE - Device Carousel
-// ============================================
-interface Industry {
-  id: string;
-  name: string;
-  icon: React.ElementType;
-  description: string;
-  features: string[];
-  color: string;
+// Selection box component for active elements
+function SelectionBox() {
+  return (
+    <motion.div
+      className="absolute inset-0 rounded-lg pointer-events-none"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        border: '1.5px dashed #0A84FF',
+        boxShadow: '0 0 0 4px rgba(10, 132, 255, 0.1)',
+      }}
+    >
+      {/* Corner handles */}
+      {['top-left', 'top-right', 'bottom-left', 'bottom-right'].map((pos) => (
+        <div
+          key={pos}
+          className={cn(
+            'absolute w-2 h-2 bg-brand-primary rounded-sm',
+            pos === 'top-left' && '-top-1 -left-1',
+            pos === 'top-right' && '-top-1 -right-1',
+            pos === 'bottom-left' && '-bottom-1 -left-1',
+            pos === 'bottom-right' && '-bottom-1 -right-1'
+          )}
+        />
+      ))}
+    </motion.div>
+  );
 }
 
-const industries: Industry[] = [
+// ============================================
+// PORTFOLIO SHOWCASE - Real Projects Grid
+// ============================================
+interface PortfolioItem {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  tags: string[];
+  url: string;
+  type: 'live' | 'demo';
+}
+
+const portfolioItems: PortfolioItem[] = [
   {
-    id: 'restaurants',
-    name: 'Restaurants & Bars',
-    icon: Utensils,
-    description: 'Drive reservations and showcase your menu with stunning visuals that make mouths water.',
-    features: ['Online Reservations', 'Digital Menus', 'AI Chatbot'],
-    color: '#F97316',
+    id: 'renew-verse',
+    title: 'Renew-Verse',
+    category: 'E-commerce Platform',
+    description: 'Full-featured e-commerce platform with custom product configurator, AI-powered recommendations, and seamless checkout experience.',
+    tags: ['E-commerce', 'AI-Powered', 'Mobile-First'],
+    url: 'https://www.renew-verse.com/',
+    type: 'live',
   },
   {
-    id: 'salons',
-    name: 'Salons & Spas',
-    icon: Scissors,
-    description: 'Attract new clients and simplify booking with elegant scheduling systems.',
-    features: ['Appointment Booking', 'Service Gallery', 'Gift Cards'],
-    color: '#EC4899',
+    id: 'made-by-genie',
+    title: 'Made by Genie',
+    category: 'Creative Portfolio',
+    description: 'Stunning portfolio site with interactive galleries, smooth animations, and compelling storytelling that converts visitors into clients.',
+    tags: ['Portfolio', 'Creative', 'Animations'],
+    url: 'https://www.madebygenie.com/',
+    type: 'live',
   },
   {
-    id: 'retail',
-    name: 'Retail Boutiques',
-    icon: ShoppingBag,
-    description: 'Turn visitors into customers with beautiful e-commerce experiences.',
-    features: ['E-commerce Ready', 'Inventory Sync', 'Cart Recovery'],
-    color: '#8B5CF6',
+    id: 'medical-practice',
+    title: 'Premium Medical Practice',
+    category: 'Healthcare',
+    description: 'Professional medical site with patient portal, online booking, secure forms, and HIPAA-compliant infrastructure for modern healthcare.',
+    tags: ['Healthcare', 'HIPAA-Ready', 'Patient Portal'],
+    url: 'https://www.princeton-ai.com/mockups/medical.html',
+    type: 'demo',
   },
   {
-    id: 'medical',
-    name: 'Dental & Medical',
-    icon: Stethoscope,
-    description: 'Build patient trust with professional, HIPAA-compliant portals.',
-    features: ['Patient Booking', 'Online Forms', 'HIPAA Secure'],
-    color: '#06B6D4',
+    id: 'luxury-realestate',
+    title: 'Luxury Real Estate',
+    category: 'Real Estate',
+    description: 'High-end real estate showcase with virtual tours, property search, lead capture, and premium branding that attracts qualified buyers.',
+    tags: ['Real Estate', 'Virtual Tours', 'Lead Gen'],
+    url: 'https://www.princeton-ai.com/mockups/realestate.html',
+    type: 'demo',
   },
   {
-    id: 'fitness',
-    name: 'Gyms & Fitness',
-    icon: Dumbbell,
-    description: 'Motivate new members with high-energy class scheduling.',
-    features: ['Class Schedules', 'Membership Portal', 'Trainer Bios'],
-    color: '#22C55E',
+    id: 'fine-dining',
+    title: 'Fine Dining Restaurant',
+    category: 'Food & Beverage',
+    description: 'Mouth-watering restaurant site with online reservations, digital menu, photo galleries, and integrated ordering system.',
+    tags: ['Restaurant', 'Reservations', 'Online Orders'],
+    url: 'https://www.princeton-ai.com/mockups/restaurant.html',
+    type: 'demo',
   },
   {
-    id: 'home',
-    name: 'Home Services',
-    icon: Home,
-    description: 'Capture leads 24/7 with trustworthy, conversion-focused sites.',
-    features: ['Lead Capture', 'Service Areas', 'Review Integration'],
-    color: '#EAB308',
+    id: 'stimi-games',
+    title: 'Social Gaming Platform',
+    category: 'Entertainment & Gaming',
+    description: 'Free-to-play social sportsbook with live betting lines, prop predictions, and sweepstakes integration for real prizes.',
+    tags: ['Gaming', 'Social Features', 'Real-Time Data'],
+    url: 'https://www.princeton-ai.com/mockups/stimi.html',
+    type: 'demo',
   },
 ];
 
-function IndustryShowcase() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeIndustry = industries[activeIndex];
-
-  const nextIndustry = () => {
-    setActiveIndex((prev) => (prev + 1) % industries.length);
-  };
-
-  const prevIndustry = () => {
-    setActiveIndex((prev) => (prev - 1 + industries.length) % industries.length);
-  };
-
-  return (
-    <section className="py-32 bg-zinc-950 border-y border-zinc-900">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Section Header */}
-        <FadeInSection>
-          <div className="text-center mb-16">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
-              Industry Templates
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
-              Built For Your Business
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Different businesses have different needs. We build tailored experiences
-              designed to help you thrive.
-            </p>
-          </div>
-        </FadeInSection>
-
-        {/* Carousel */}
-        <FadeInSection delay={0.2}>
-          <div className="relative">
-            {/* Device Mockups */}
-            <div className="flex items-center justify-center gap-8 mb-12">
-              {/* Previous Preview (Phone) */}
-              <motion.div
-                className="hidden lg:block opacity-40 scale-75"
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <PhoneMockup industry={industries[(activeIndex - 1 + industries.length) % industries.length]} />
-              </motion.div>
-
-              {/* Main Device (Laptop) */}
-              <motion.div
-                key={activeIndustry.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <LaptopMockup industry={activeIndustry} />
-              </motion.div>
-
-              {/* Next Preview (Phone) */}
-              <motion.div
-                className="hidden lg:block opacity-40 scale-75"
-                animate={{ x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <PhoneMockup industry={industries[(activeIndex + 1) % industries.length]} />
-              </motion.div>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4">
-              <button
-                onClick={prevIndustry}
-                className="p-3 rounded-full border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {/* Dots */}
-              <div className="flex items-center gap-2">
-                {industries.map((ind, idx) => (
-                  <button
-                    key={ind.id}
-                    onClick={() => setActiveIndex(idx)}
-                    className={cn(
-                      'w-2 h-2 rounded-full transition-all duration-300',
-                      idx === activeIndex
-                        ? 'w-8 bg-brand-primary'
-                        : 'bg-zinc-700 hover:bg-zinc-600'
-                    )}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={nextIndustry}
-                className="p-3 rounded-full border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Industry Info */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndustry.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="text-center mt-12"
-              >
-                <div
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-                  style={{ backgroundColor: `${activeIndustry.color}20` }}
-                >
-                  <activeIndustry.icon className="w-4 h-4" style={{ color: activeIndustry.color }} />
-                  <span className="text-sm font-medium" style={{ color: activeIndustry.color }}>
-                    {activeIndustry.name}
-                  </span>
-                </div>
-                <p className="text-zinc-400 max-w-lg mx-auto mb-6">
-                  {activeIndustry.description}
-                </p>
-                <div className="flex items-center justify-center gap-4 flex-wrap">
-                  {activeIndustry.features.map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800"
-                    >
-                      <Check className="w-3 h-3 text-emerald-400" />
-                      <span className="text-sm text-zinc-300">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </FadeInSection>
-      </div>
-    </section>
-  );
-}
-
-// Laptop Mockup Component
-function LaptopMockup({ industry }: { industry: Industry }) {
-  return (
-    <div className="relative">
-      {/* Laptop Frame */}
-      <div className="w-[600px] max-w-full">
-        {/* Screen */}
-        <div className="relative bg-zinc-900 rounded-t-xl border border-zinc-700 overflow-hidden">
-          {/* Browser Bar */}
-          <div className="flex items-center gap-2 px-3 py-2 bg-zinc-800 border-b border-zinc-700">
-            <div className="flex gap-1">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-            </div>
-            <div className="flex-1 mx-2 px-3 py-1 bg-zinc-900 rounded text-xs text-zinc-500 font-mono">
-              https://your-{industry.id}.com
-            </div>
-          </div>
-
-          {/* Website Content */}
-          <div className="h-[320px] p-4">
-            <IndustryPreview industry={industry} />
-          </div>
-        </div>
-
-        {/* Laptop Base */}
-        <div className="h-4 bg-zinc-800 rounded-b-lg border-x border-b border-zinc-700" />
-        <div className="h-2 bg-zinc-700 rounded-b-xl mx-12" />
-      </div>
-
-      {/* Glow */}
-      <div
-        className="absolute inset-0 blur-[60px] opacity-20 -z-10"
-        style={{ backgroundColor: industry.color }}
-      />
-    </div>
-  );
-}
-
-// Phone Mockup Component
-function PhoneMockup({ industry }: { industry: Industry }) {
-  return (
-    <div className="w-[180px]">
-      {/* Phone Frame */}
-      <div className="relative bg-zinc-900 rounded-[24px] border-4 border-zinc-700 overflow-hidden">
-        {/* Notch */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-zinc-700 rounded-b-xl z-10" />
-
-        {/* Screen Content */}
-        <div className="h-[300px] pt-6 p-3">
-          <IndustryPreviewMobile industry={industry} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Desktop Preview Content
-function IndustryPreview({ industry }: { industry: Industry }) {
-  const previews: Record<string, React.ReactNode> = {
-    restaurants: (
-      <div className="space-y-3">
-        <div className="h-24 rounded-lg bg-gradient-to-br from-orange-900/50 to-orange-800/30 flex items-center justify-center">
-          <span className="text-2xl font-bold text-white">The Local Kitchen</span>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div className="p-3 rounded bg-zinc-800 border border-zinc-700">
-            <Calendar className="w-4 h-4 text-orange-400 mb-2" />
-            <div className="text-xs text-zinc-400">Tonight, 7 PM</div>
-            <div className="text-sm text-white font-medium">4 guests</div>
-          </div>
-          <div className="p-3 rounded bg-zinc-800 border border-zinc-700">
-            <Utensils className="w-4 h-4 text-orange-400 mb-2" />
-            <div className="text-xs text-zinc-400">View Menu</div>
-            <div className="text-sm text-white font-medium">24 items</div>
-          </div>
-        </div>
-        <button className="w-full py-2.5 bg-orange-500 text-white rounded-lg text-sm font-medium">
-          Book a Table
-        </button>
-      </div>
-    ),
-    salons: (
-      <div className="space-y-3">
-        <div className="h-24 rounded-lg bg-gradient-to-br from-pink-900/50 to-pink-800/30 flex items-center justify-center">
-          <span className="text-2xl font-bold text-white">Luxe Salon</span>
-        </div>
-        <div className="space-y-2">
-          {['Haircut & Style', 'Color Treatment'].map((service) => (
-            <div key={service} className="flex items-center justify-between p-2 rounded bg-zinc-800 border border-zinc-700">
-              <span className="text-sm text-white">{service}</span>
-              <span className="text-xs text-pink-400">Book →</span>
-            </div>
-          ))}
-        </div>
-        <button className="w-full py-2.5 bg-pink-500 text-white rounded-lg text-sm font-medium">
-          Schedule Appointment
-        </button>
-      </div>
-    ),
-    retail: (
-      <div className="space-y-3">
-        <div className="grid grid-cols-3 gap-2">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="aspect-square rounded bg-zinc-800 border border-zinc-700" />
-          ))}
-        </div>
-        <div className="flex items-center justify-between p-3 rounded bg-zinc-800 border border-zinc-700">
-          <div>
-            <div className="text-sm text-white font-medium">Summer Collection</div>
-            <div className="text-xs text-zinc-400">12 items in stock</div>
-          </div>
-          <ShoppingBag className="w-5 h-5 text-purple-400" />
-        </div>
-        <button className="w-full py-2.5 bg-purple-500 text-white rounded-lg text-sm font-medium">
-          Shop Now
-        </button>
-      </div>
-    ),
-    medical: (
-      <div className="space-y-3">
-        <div className="flex items-center gap-2 p-2 rounded bg-emerald-500/10 border border-emerald-500/20">
-          <Shield className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-emerald-400 font-mono">HIPAA SECURE</span>
-        </div>
-        <div className="p-3 rounded bg-zinc-800 border border-zinc-700">
-          <div className="text-sm text-white font-medium mb-2">New Patient Form</div>
-          <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
-            <div className="h-full w-3/4 bg-cyan-400" />
-          </div>
-          <div className="text-xs text-zinc-500 mt-1">75% complete</div>
-        </div>
-        <button className="w-full py-2.5 bg-cyan-500 text-white rounded-lg text-sm font-medium">
-          Schedule Visit
-        </button>
-      </div>
-    ),
-    fitness: (
-      <div className="space-y-3">
-        <div className="text-xs text-zinc-500 font-mono mb-1">TODAY&apos;S CLASSES</div>
-        {[
-          { name: 'HIIT', time: '9:00 AM', spots: 3 },
-          { name: 'Yoga Flow', time: '10:30 AM', spots: 0 },
-        ].map((cls) => (
-          <div
-            key={cls.name}
-            className={cn(
-              'flex items-center justify-between p-3 rounded border',
-              cls.spots > 0
-                ? 'bg-zinc-800 border-zinc-700'
-                : 'bg-zinc-900 border-zinc-800 opacity-60'
-            )}
-          >
-            <div>
-              <div className="text-sm text-white font-medium">{cls.name}</div>
-              <div className="text-xs text-zinc-500">{cls.time}</div>
-            </div>
-            <span className={cn(
-              'text-xs px-2 py-1 rounded',
-              cls.spots > 0 ? 'bg-green-500/20 text-green-400' : 'bg-zinc-800 text-zinc-500'
-            )}>
-              {cls.spots > 0 ? `${cls.spots} spots` : 'Full'}
-            </span>
-          </div>
-        ))}
-      </div>
-    ),
-    home: (
-      <div className="space-y-3">
-        <div className="p-4 rounded bg-red-500/10 border border-red-500/20 text-center">
-          <Phone className="w-6 h-6 text-red-400 mx-auto mb-2" />
-          <div className="text-sm text-red-400 font-bold">24/7 Emergency</div>
-          <div className="text-xs text-red-400/70">Call Now</div>
-        </div>
-        <div className="flex items-center gap-2 p-3 rounded bg-zinc-800 border border-zinc-700">
-          <MapPin className="w-4 h-4 text-yellow-400" />
-          <span className="text-sm text-zinc-300">Serving Princeton Area</span>
-        </div>
-        <div className="flex items-center gap-2 p-3 rounded bg-zinc-800 border border-zinc-700">
-          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-          <span className="text-sm text-zinc-300">4.9 rating (127 reviews)</span>
-        </div>
-      </div>
-    ),
-  };
-
-  return previews[industry.id] || null;
-}
-
-// Mobile Preview Content
-function IndustryPreviewMobile({ industry }: { industry: Industry }) {
-  return (
-    <div className="h-full flex flex-col">
-      <div
-        className="h-16 rounded-lg mb-2 flex items-center justify-center"
-        style={{ backgroundColor: `${industry.color}30` }}
-      >
-        <industry.icon className="w-6 h-6" style={{ color: industry.color }} />
-      </div>
-      <div className="flex-1 space-y-2">
-        <div className="h-3 w-3/4 bg-zinc-800 rounded" />
-        <div className="h-3 w-1/2 bg-zinc-800 rounded" />
-        <div className="h-8 bg-zinc-800 rounded mt-3" />
-        <div className="h-8 bg-zinc-800 rounded" />
-      </div>
-      <div
-        className="h-8 rounded-lg mt-2"
-        style={{ backgroundColor: industry.color }}
-      />
-    </div>
-  );
-}
-
-// ============================================
-// FEATURES SECTION - npm Install Terminal
-// ============================================
-interface PackageItem {
-  name: string;
-  description: string;
-  status: 'installed' | 'installing' | 'queued';
-}
-
-function FeaturesSection() {
-  const [packages, setPackages] = useState<PackageItem[]>([
-    { name: 'custom-design', description: 'Tailored aesthetics for your brand', status: 'queued' },
-    { name: 'mobile-responsive', description: 'Perfect on iPhone, Android, Desktop', status: 'queued' },
-    { name: 'seo-optimization', description: 'Schema markup + meta tags configured', status: 'queued' },
-    { name: 'edge-performance', description: 'Sub-100ms via global CDN', status: 'queued' },
-    { name: 'ssl-security', description: 'Enterprise-grade protection', status: 'queued' },
-    { name: 'content-management', description: 'Easy self-service updates', status: 'queued' },
-  ]);
-  const [started, setStarted] = useState(false);
+function PortfolioShowcase() {
+  const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Start animation when in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !started) {
-          setStarted(true);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (containerRef.current) {
@@ -724,230 +604,230 @@ function FeaturesSection() {
     }
 
     return () => observer.disconnect();
-  }, [started]);
+  }, []);
 
-  // Animate package installation
-  useEffect(() => {
-    if (!started) return;
+  const openModal = (project: PortfolioItem) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
 
-    packages.forEach((_, index) => {
-      // Start installing
-      setTimeout(() => {
-        setPackages(prev => prev.map((pkg, i) =>
-          i === index ? { ...pkg, status: 'installing' } : pkg
-        ));
-      }, index * 800);
-
-      // Complete installation
-      setTimeout(() => {
-        setPackages(prev => prev.map((pkg, i) =>
-          i === index ? { ...pkg, status: 'installed' } : pkg
-        ));
-      }, index * 800 + 600);
-    });
-  }, [started]);
-
-  const installedCount = packages.filter(p => p.status === 'installed').length;
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedProject(null), 300);
+  };
 
   return (
-    <section ref={containerRef} className="py-32 bg-zinc-950">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
-        {/* Section Header */}
-        <FadeInSection>
-          <div className="text-center mb-16">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
-              What&apos;s Included
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
-              The Foundation Package
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Every website starts with our battle-tested foundation.
-              Everything you need, nothing you don&apos;t.
-            </p>
-          </div>
-        </FadeInSection>
-
-        {/* Terminal */}
-        <FadeInSection delay={0.2}>
-          <div className="rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-2xl">
-            {/* Terminal Header */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
-              <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
+    <>
+      <section ref={containerRef} className="py-32 bg-transparent border-y border-zinc-900/50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Section Header */}
+          <FadeInSection>
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-primary/30 bg-brand-primary/10 mb-6">
+                <Sparkles className="w-4 h-4 text-brand-primary" />
+                <span className="text-sm text-brand-primary font-medium">
+                  Our Work
+                </span>
               </div>
-              <div className="flex-1 text-center">
-                <span className="text-xs text-zinc-500 font-mono">npm install</span>
-              </div>
-              <div className="w-12" />
+              <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+                Real Websites. Real Results.
+              </h2>
+              <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+                We don&apos;t just design—we build complete digital experiences
+                that drive business growth.
+              </p>
             </div>
+          </FadeInSection>
 
-            {/* Terminal Content */}
-            <div className="p-6 font-mono text-sm">
-              {/* Command */}
-              <div className="mb-6">
-                <span className="text-emerald-400">➜</span>
-                <span className="text-cyan-400 ml-2">~/your-website</span>
-                <span className="text-zinc-500 ml-2">$</span>
-                <span className="text-white ml-2">npm install @princeton/web-foundation</span>
-              </div>
-
-              {/* Package Header */}
-              <div className="text-zinc-500 mb-4">
-                📦 Installing princeton-web-foundation@3.0.0
-              </div>
-
-              {/* Packages */}
-              <div className="space-y-3">
-                {packages.map((pkg, index) => (
-                  <motion.div
-                    key={pkg.name}
-                    initial={{ opacity: 0.3 }}
-                    animate={{ opacity: pkg.status !== 'queued' ? 1 : 0.3 }}
-                    className="flex items-start gap-3"
-                  >
-                    {/* Tree line */}
-                    <span className="text-zinc-700">
-                      {index === packages.length - 1 ? '└──' : '├──'}
-                    </span>
-
-                    {/* Status Icon */}
-                    <span className="w-4 flex-shrink-0 mt-0.5">
-                      {pkg.status === 'installed' && (
-                        <motion.span
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                        >
-                          <Check className="w-4 h-4 text-emerald-400" />
-                        </motion.span>
-                      )}
-                      {pkg.status === 'installing' && (
-                        <Loader2 className="w-4 h-4 text-brand-primary animate-spin" />
-                      )}
-                      {pkg.status === 'queued' && (
-                        <Circle className="w-4 h-4 text-zinc-700" />
-                      )}
-                    </span>
-
-                    {/* Package Info */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className={cn(
-                          'transition-colors',
-                          pkg.status === 'installed' ? 'text-emerald-400' :
-                          pkg.status === 'installing' ? 'text-brand-primary' :
-                          'text-zinc-600'
-                        )}>
-                          {pkg.name}@latest
-                        </span>
-                        {pkg.status === 'installed' && (
-                          <span className="text-xs text-zinc-600">✓ installed</span>
-                        )}
-                        {pkg.status === 'installing' && (
-                          <span className="text-xs text-brand-primary">installing...</span>
-                        )}
-                      </div>
-                      <div className={cn(
-                        'text-xs mt-0.5 transition-colors',
-                        pkg.status === 'installed' ? 'text-zinc-500' : 'text-zinc-700'
-                      )}>
-                        └── {pkg.description}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Progress */}
-              <div className="mt-6 pt-4 border-t border-zinc-800">
-                <div className="flex items-center justify-between text-xs mb-2">
-                  <span className="text-zinc-500">Progress</span>
-                  <span className="text-zinc-400">{installedCount}/{packages.length} packages</span>
-                </div>
-                <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-brand-primary to-emerald-400"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(installedCount / packages.length) * 100}%` }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-              </div>
-
-              {/* Success Message */}
-              <AnimatePresence>
-                {installedCount === packages.length && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 p-3 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs"
-                  >
-                    ✓ Successfully installed 6 packages. Your website foundation is ready!
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          {/* Portfolio Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {portfolioItems.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <PortfolioCard project={project} onView={() => openModal(project)} />
+              </motion.div>
+            ))}
           </div>
-        </FadeInSection>
+        </div>
+      </section>
+
+      {/* Modal */}
+      <ShowcaseModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        url={selectedProject?.url || ''}
+        title={selectedProject?.title || ''}
+      />
+    </>
+  );
+}
+
+// Portfolio Card Component with Live iframe Preview
+function PortfolioCard({
+  project,
+  onView,
+}: {
+  project: PortfolioItem;
+  onView: () => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className={cn(
+        'group bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer',
+        'transition-all duration-500 ease-out',
+        'hover:-translate-y-2 hover:border-zinc-700',
+        'hover:shadow-[0_20px_40px_rgba(10,132,255,0.15)]'
+      )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onView}
+    >
+      {/* Live Preview Container */}
+      <div className="relative h-[280px] overflow-hidden bg-white">
+        {/* Scaled iframe showing live site */}
+        <div className="absolute inset-0 origin-top-left scale-[0.25] w-[400%] h-[400%]">
+          <iframe
+            src={project.url}
+            title={`${project.title} preview`}
+            className="w-full h-full border-none pointer-events-none"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
+          />
+        </div>
+
+        {/* Hover Overlay */}
+        <motion.div
+          className={cn(
+            'absolute inset-0 flex items-center justify-center',
+            'bg-gradient-to-br from-brand-primary/30 to-brand-secondary/40',
+            'backdrop-blur-[3px]'
+          )}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.button
+            className={cn(
+              'px-6 py-3 bg-white text-brand-primary rounded-full',
+              'font-semibold text-sm flex items-center gap-2',
+              'shadow-lg hover:shadow-xl transition-shadow'
+            )}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: isHovered ? 1 : 0.9, opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Expand className="w-4 h-4" />
+            {project.type === 'live' ? 'View Site' : 'View Demo'}
+          </motion.button>
+        </motion.div>
       </div>
-    </section>
+
+      {/* Info */}
+      <div className="p-6">
+        {/* Category */}
+        <p className="text-sm font-semibold text-brand-primary uppercase tracking-wide mb-2">
+          {project.category}
+        </p>
+
+        {/* Title */}
+        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand-primary transition-colors">
+          {project.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-zinc-400 text-sm leading-relaxed mb-4 line-clamp-2">
+          {project.description}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 bg-brand-primary/10 text-brand-primary text-xs font-medium rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
 // ============================================
-// PROCESS SECTION - Git Commit History
+// FEATURES SECTION - Friendly Feature Grid
 // ============================================
-interface CommitStep {
-  hash: string;
-  emoji: string;
+interface FeatureItem {
+  icon: React.ElementType;
   title: string;
-  items: string[];
-  duration: string;
-  status: 'complete' | 'active' | 'pending';
+  description: string;
+  color: string;
+  bgColor: string;
 }
 
-function ProcessSection() {
-  const commits: CommitStep[] = [
+function FeaturesSection() {
+  const features: FeatureItem[] = [
     {
-      hash: 'a1d5f78',
-      emoji: '🔍',
-      title: 'DISCOVERY',
-      items: ['Goals & requirements documented', 'Competitor analysis complete', 'Content gathered'],
-      duration: '~1 week',
-      status: 'complete',
+      icon: Palette,
+      title: 'Custom Design',
+      description: 'A unique look that matches your brand perfectly. No cookie-cutter templates.',
+      color: 'text-purple-400',
+      bgColor: 'bg-purple-500/10',
     },
     {
-      hash: 'b4c7e92',
-      emoji: '✨',
-      title: 'BUILD',
-      items: ['Custom design approved', 'Development complete', 'Revisions incorporated'],
-      duration: '~2 weeks',
-      status: 'active',
+      icon: Smartphone,
+      title: 'Mobile-First',
+      description: 'Looks amazing on phones, tablets, and desktops. Your customers browse everywhere.',
+      color: 'text-cyan-400',
+      bgColor: 'bg-cyan-500/10',
     },
     {
-      hash: '2f8a3d1',
-      emoji: '🚀',
-      title: 'LAUNCH',
-      items: ['Production deployment', 'SEO indexing initiated', 'Training & handoff'],
-      duration: '~3 days',
-      status: 'pending',
+      icon: Search,
+      title: 'SEO Ready',
+      description: 'Built to be found on Google. We handle the technical stuff so people find you.',
+      color: 'text-emerald-400',
+      bgColor: 'bg-emerald-500/10',
+    },
+    {
+      icon: Zap,
+      title: 'Super Fast',
+      description: 'Pages load in under a second. Fast sites keep visitors happy and boost rankings.',
+      color: 'text-yellow-400',
+      bgColor: 'bg-yellow-500/10',
+    },
+    {
+      icon: Lock,
+      title: 'Secure & Protected',
+      description: 'SSL certificates, secure hosting, and regular updates keep your site safe.',
+      color: 'text-red-400',
+      bgColor: 'bg-red-500/10',
+    },
+    {
+      icon: Pencil,
+      title: 'Easy Updates',
+      description: 'Make changes yourself with our simple editor. No coding needed.',
+      color: 'text-brand-primary',
+      bgColor: 'bg-brand-primary/10',
     },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const [visibleCommits, setVisibleCommits] = useState<number[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          commits.forEach((_, index) => {
-            setTimeout(() => {
-              setVisibleCommits(prev => [...prev, index]);
-            }, index * 400);
-          });
+          setIsVisible(true);
         }
       },
       { threshold: 0.2 }
@@ -961,147 +841,47 @@ function ProcessSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-32 bg-zinc-950 border-t border-zinc-900">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <section ref={containerRef} className="py-32 bg-transparent">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
         <FadeInSection>
           <div className="text-center mb-16">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
-              Timeline
-            </span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-6">
+              <Check className="w-4 h-4 text-emerald-400" />
+              <span className="text-sm text-emerald-400 font-medium">
+                Everything Included
+              </span>
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
-              From Commit to Launch
+              What You Get
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              A transparent, trackable process. You&apos;ll always know exactly where your project stands.
+            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+              Every website comes with everything you need to succeed online.
+              No hidden fees, no surprise extras.
             </p>
           </div>
         </FadeInSection>
 
-        {/* Git Log */}
-        <FadeInSection delay={0.2}>
-          <div className="rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden">
-            {/* Terminal Header */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
-              <GitBranch className="w-4 h-4 text-brand-primary" />
-              <span className="text-xs text-zinc-500 font-mono">
-                git log --oneline --graph
-              </span>
-            </div>
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
+              <FeatureCard feature={feature} index={index} />
+            </motion.div>
+          ))}
+        </div>
 
-            {/* Commits */}
-            <div className="p-6 font-mono text-sm">
-              {commits.map((commit, index) => (
-                <motion.div
-                  key={commit.hash}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={visibleCommits.includes(index) ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5 }}
-                  className={cn(
-                    'relative',
-                    index !== commits.length - 1 && 'pb-8'
-                  )}
-                >
-                  {/* Branch Line */}
-                  {index !== commits.length - 1 && (
-                    <div className="absolute left-[11px] top-6 bottom-0 w-0.5 bg-zinc-800" />
-                  )}
-
-                  {/* Commit */}
-                  <div className="flex items-start gap-4">
-                    {/* Commit Dot */}
-                    <div className={cn(
-                      'relative z-10 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs',
-                      commit.status === 'complete' && 'bg-emerald-500/20 border-emerald-500 text-emerald-400',
-                      commit.status === 'active' && 'bg-brand-primary/20 border-brand-primary text-brand-primary',
-                      commit.status === 'pending' && 'bg-zinc-900 border-zinc-700 text-zinc-600',
-                    )}>
-                      {commit.status === 'complete' && <Check className="w-3 h-3" />}
-                      {commit.status === 'active' && (
-                        <motion.div
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                          className="w-2 h-2 rounded-full bg-brand-primary"
-                        />
-                      )}
-                      {commit.status === 'pending' && <Circle className="w-2 h-2" />}
-                    </div>
-
-                    {/* Commit Content */}
-                    <div className="flex-1">
-                      {/* Header */}
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-yellow-500/70">{commit.hash}</span>
-                        {commit.status === 'active' && (
-                          <span className="text-xs px-2 py-0.5 rounded bg-brand-primary/20 text-brand-primary">
-                            HEAD → main
-                          </span>
-                        )}
-                        <span className={cn(
-                          'font-bold',
-                          commit.status === 'complete' && 'text-emerald-400',
-                          commit.status === 'active' && 'text-brand-primary',
-                          commit.status === 'pending' && 'text-zinc-500',
-                        )}>
-                          {commit.emoji} {commit.title}
-                        </span>
-                      </div>
-
-                      {/* Details */}
-                      <div className="ml-4 space-y-1.5">
-                        {commit.items.map((item) => (
-                          <div
-                            key={item}
-                            className={cn(
-                              'text-xs',
-                              commit.status === 'complete' && 'text-zinc-400',
-                              commit.status === 'active' && 'text-zinc-400',
-                              commit.status === 'pending' && 'text-zinc-600',
-                            )}
-                          >
-                            {item}
-                          </div>
-                        ))}
-                        <div className={cn(
-                          'text-xs mt-2',
-                          commit.status === 'complete' && 'text-emerald-400/60',
-                          commit.status === 'active' && 'text-cyan-400',
-                          commit.status === 'pending' && 'text-zinc-600',
-                        )}>
-                          {commit.duration}
-                        </div>
-                      </div>
-
-                      {/* Progress bar for active */}
-                      {commit.status === 'active' && (
-                        <div className="mt-3 ml-4">
-                          <div className="h-1.5 w-48 bg-zinc-800 rounded-full overflow-hidden">
-                            <motion.div
-                              className="h-full bg-gradient-to-r from-brand-primary to-cyan-400"
-                              initial={{ width: 0 }}
-                              animate={{ width: '65%' }}
-                              transition={{ duration: 1.5, delay: 0.5 }}
-                            />
-                          </div>
-                          <div className="text-xs text-cyan-400 mt-1">65% complete</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Timeline Summary */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={visibleCommits.length === commits.length ? { opacity: 1 } : {}}
-                transition={{ delay: 0.5 }}
-                className="mt-6 pt-4 border-t border-zinc-800 flex items-center justify-between"
-              >
-                <span className="text-zinc-500">Total timeline</span>
-                <span className="text-white font-bold">2-3 weeks</span>
-              </motion.div>
-            </div>
+        {/* Bottom Note */}
+        <FadeInSection delay={0.4}>
+          <div className="mt-12 text-center">
+            <p className="text-zinc-500">
+              Plus ongoing support to answer any questions after launch
+            </p>
           </div>
         </FadeInSection>
       </div>
@@ -1109,56 +889,552 @@ function ProcessSection() {
   );
 }
 
-// ============================================
-// CTA SECTION - Deploy Button
-// ============================================
-function CTASection() {
+// Feature Card with Animated Shader-like Background
+function FeatureCard({ feature, index }: { feature: FeatureItem; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Subtle gradient colors based on feature (all using blue/cyan tones for consistency)
+  const gradientConfigs = [
+    { from: 'from-purple-900/30', via: 'via-indigo-900/20', to: 'to-zinc-900' },
+    { from: 'from-cyan-900/30', via: 'via-blue-900/20', to: 'to-zinc-900' },
+    { from: 'from-emerald-900/30', via: 'via-teal-900/20', to: 'to-zinc-900' },
+    { from: 'from-amber-900/30', via: 'via-orange-900/20', to: 'to-zinc-900' },
+    { from: 'from-rose-900/30', via: 'via-pink-900/20', to: 'to-zinc-900' },
+    { from: 'from-blue-900/30', via: 'via-indigo-900/20', to: 'to-zinc-900' },
+  ];
+
+  const gradient = gradientConfigs[index % gradientConfigs.length];
+
   return (
-    <section className="py-32 border-t border-zinc-900">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-        <FadeInSection>
-          <Rocket className="w-12 h-12 text-brand-primary mx-auto mb-6" />
+    <div
+      className="group relative h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Card Container */}
+      <div className={cn(
+        'relative h-full rounded-2xl overflow-hidden',
+        'border border-white/10',
+        'transition-all duration-500 ease-out',
+        'hover:border-white/20',
+        'hover:shadow-xl hover:shadow-black/30'
+      )}>
+        {/* Animated Gradient Background */}
+        <div className={cn(
+          'absolute inset-0 bg-gradient-to-br',
+          gradient.from, gradient.via, gradient.to,
+          'opacity-0 group-hover:opacity-100 transition-opacity duration-700'
+        )} />
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Ready to Launch?
-          </h2>
+        {/* Animated mesh/noise overlay for texture */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+                             radial-gradient(circle at 80% 80%, rgba(74, 144, 226, 0.15) 0%, transparent 50%),
+                             radial-gradient(circle at 40% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%)`,
+            animation: isHovered ? 'pulse 4s ease-in-out infinite' : 'none',
+          }}
+        />
 
-          <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
-            Your competitors are already online. Don&apos;t let another customer slip away
-            to a faster, better-looking website.
+        {/* Base dark overlay */}
+        <div className="absolute inset-0 bg-zinc-950/80 group-hover:bg-zinc-950/70 transition-colors duration-500" />
+
+        {/* Content */}
+        <div className="relative z-10 p-6 h-full flex flex-col">
+          {/* Icon */}
+          <motion.div
+            className={cn(
+              'inline-flex p-3 rounded-xl mb-4 w-fit',
+              'bg-white/5 border border-white/10',
+              'group-hover:bg-white/10 group-hover:border-white/20',
+              'transition-all duration-300'
+            )}
+            animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+          >
+            <feature.icon className={cn(
+              'w-6 h-6 transition-all duration-300',
+              feature.color,
+              'group-hover:drop-shadow-lg'
+            )}
+            style={{
+              filter: isHovered ? `drop-shadow(0 0 8px currentColor)` : 'none'
+            }}
+            />
+          </motion.div>
+
+          {/* Title */}
+          <h3 className="text-lg font-semibold text-white mb-2">
+            {feature.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-zinc-400 text-sm leading-relaxed flex-1 group-hover:text-zinc-300 transition-colors duration-300">
+            {feature.description}
           </p>
 
-          {/* Deploy Button */}
-          <Link href="/quote">
+          {/* Bottom indicator */}
+          <div className="mt-4 flex items-center justify-between">
             <motion.div
-              className="relative inline-flex items-center gap-3 px-10 py-5 bg-white text-zinc-950 rounded-xl font-bold text-lg cursor-pointer overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
+              className="flex items-center gap-2 text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors"
+              animate={isHovered ? { x: 0, opacity: 1 } : { x: -5, opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-brand-primary to-cyan-400"
-                initial={{ x: '-100%' }}
-                animate={{ x: isHovered ? '0%' : '-100%' }}
-                transition={{ duration: 0.3 }}
-              />
-              <span className="relative z-10 flex items-center gap-3">
-                <span className={cn(isHovered && 'text-white')}>
-                  {isHovered ? '▲ Deploying...' : '▲ Deploy to Production'}
-                </span>
-                {!isHovered && <ArrowUpRight className="w-5 h-5" />}
-              </span>
+              <span>Included</span>
+              <ArrowRight className="w-3 h-3" />
             </motion.div>
-          </Link>
 
-          <p className="mt-6 text-sm text-zinc-600 font-mono">
-            Instant quote • No commitment
+            <motion.div
+              className={cn(
+                'p-1.5 rounded-full',
+                'bg-emerald-500/10 border border-emerald-500/20'
+              )}
+              animate={isHovered ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0.5 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
+              <Check className="w-3.5 h-3.5 text-emerald-400" />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Top edge glow on hover */}
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-[1px]"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+          }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={isHovered ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+          transition={{ duration: 0.5 }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// PROCESS SECTION - Modern Horizontal Steps
+// ============================================
+interface ProcessStep {
+  number: number;
+  title: string;
+  description: string;
+  details: string[];
+  icon: React.ElementType;
+}
+
+function ProcessSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-cycle through steps
+  useEffect(() => {
+    if (!isVisible) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isVisible]);
+
+  const commands = [
+    {
+      cmd: 'princeton plan',
+      flag: '--discovery',
+      output: ['Analyzing your business goals...', 'Creating project roadmap...', 'Gathering content requirements...'],
+      status: 'COMPLETE',
+      color: 'purple',
+      title: 'Plan',
+      description: 'We learn about your business in a friendly conversation. No jargon.',
+    },
+    {
+      cmd: 'princeton build',
+      flag: '--custom',
+      output: ['Designing custom mockups...', 'Building responsive layout...', 'Adding interactions...'],
+      status: 'COMPLETE',
+      color: 'cyan',
+      title: 'Build',
+      description: 'We create your site and refine it until it\'s perfect.',
+    },
+    {
+      cmd: 'princeton deploy',
+      flag: '--production',
+      output: ['Optimizing for performance...', 'Deploying to edge network...', 'Your site is live!'],
+      status: 'LIVE',
+      color: 'emerald',
+      title: 'Launch',
+      description: 'We handle everything and train you on the basics.',
+    },
+  ];
+
+  return (
+    <section ref={containerRef} className="py-32 bg-transparent border-t border-zinc-900/50 overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+        {/* Section Header */}
+        <FadeInSection>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-zinc-400">
+              Three commands to your new website
+            </p>
+          </div>
+        </FadeInSection>
+
+        {/* Terminal Window */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          {/* Terminal Container */}
+          <div className="relative rounded-2xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl overflow-hidden shadow-2xl shadow-black/50">
+            {/* Terminal Header */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              </div>
+              <div className="flex-1 text-center">
+                <span className="text-xs text-zinc-500 font-mono">princeton-cli — your-project</span>
+              </div>
+              <div className="w-16" />
+            </div>
+
+            {/* Terminal Body */}
+            <div className="p-6 md:p-8 font-mono text-sm space-y-8">
+              {commands.map((command, index) => (
+                <motion.div
+                  key={command.cmd}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.3 + 0.3 }}
+                  className={cn(
+                    'relative transition-all duration-500',
+                    activeStep === index ? 'opacity-100' : 'opacity-40'
+                  )}
+                  onMouseEnter={() => setActiveStep(index)}
+                >
+                  {/* Command Line */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-emerald-400">$</span>
+                    <span className="text-white">{command.cmd}</span>
+                    <span className={cn(
+                      command.color === 'purple' && 'text-purple-400',
+                      command.color === 'cyan' && 'text-cyan-400',
+                      command.color === 'emerald' && 'text-emerald-400',
+                    )}>{command.flag}</span>
+
+                    {/* Status Badge */}
+                    <motion.span
+                      className={cn(
+                        'ml-auto px-2 py-0.5 rounded text-[10px] font-bold tracking-wider',
+                        command.color === 'purple' && 'bg-purple-500/20 text-purple-400 border border-purple-500/30',
+                        command.color === 'cyan' && 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30',
+                        command.color === 'emerald' && 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+                      )}
+                      animate={activeStep === index ? { scale: [1, 1.05, 1] } : {}}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {command.status}
+                    </motion.span>
+                  </div>
+
+                  {/* Output Lines */}
+                  <div className="pl-4 border-l-2 border-zinc-800 space-y-1">
+                    {command.output.map((line, i) => (
+                      <motion.div
+                        key={line}
+                        className="flex items-center gap-2 text-zinc-500"
+                        initial={{ opacity: 0 }}
+                        animate={isVisible ? { opacity: 1 } : {}}
+                        transition={{ delay: index * 0.3 + i * 0.15 + 0.5 }}
+                      >
+                        <Check className={cn(
+                          'w-3 h-3',
+                          command.color === 'purple' && 'text-purple-400',
+                          command.color === 'cyan' && 'text-cyan-400',
+                          command.color === 'emerald' && 'text-emerald-400',
+                        )} />
+                        <span>{line}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Expanded Info (active step only) */}
+                  <AnimatePresence>
+                    {activeStep === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 p-4 rounded-lg bg-zinc-900/50 border border-zinc-800">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className={cn(
+                              'w-8 h-8 rounded-lg flex items-center justify-center',
+                              command.color === 'purple' && 'bg-purple-500/20',
+                              command.color === 'cyan' && 'bg-cyan-500/20',
+                              command.color === 'emerald' && 'bg-emerald-500/20',
+                            )}>
+                              <span className={cn(
+                                'text-lg font-bold',
+                                command.color === 'purple' && 'text-purple-400',
+                                command.color === 'cyan' && 'text-cyan-400',
+                                command.color === 'emerald' && 'text-emerald-400',
+                              )}>{index + 1}</span>
+                            </div>
+                            <h3 className="text-white font-semibold text-base font-sans">{command.title}</h3>
+                          </div>
+                          <p className="text-zinc-400 text-sm font-sans pl-11">{command.description}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+
+              {/* Blinking Cursor */}
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-400">$</span>
+                <motion.span
+                  className="w-2 h-5 bg-white"
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Glow Effects */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/10 via-cyan-500/10 to-emerald-500/10 blur-3xl -z-10 opacity-50" />
+        </motion.div>
+
+        {/* Step Indicators */}
+        <div className="flex justify-center gap-3 mt-8">
+          {[0, 1, 2].map((step) => (
+            <button
+              key={step}
+              onClick={() => setActiveStep(step)}
+              className={cn(
+                'w-2 h-2 rounded-full transition-all duration-300',
+                activeStep === step
+                  ? 'w-8 bg-brand-primary'
+                  : 'bg-zinc-700 hover:bg-zinc-600'
+              )}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// CTA SECTION - With Magnetic Particles
+// ============================================
+interface CTAParticle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  speed: number;
+  phase: number;
+}
+
+function CTASection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [buttonPos, setButtonPos] = useState<{ x: number; y: number } | null>(null);
+  const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
+  const [particles, setParticles] = useState<CTAParticle[]>([]);
+
+  // Generate particles on mount
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        x: 10 + Math.random() * 80,
+        y: 10 + Math.random() * 80,
+        size: 3 + Math.random() * 4,
+        opacity: 0.2 + Math.random() * 0.3,
+        speed: 0.3 + Math.random() * 0.3,
+        phase: Math.random() * Math.PI * 2,
+      }))
+    );
+  }, []);
+
+  // Track button position
+  useEffect(() => {
+    const updatePositions = () => {
+      if (containerRef.current) {
+        setContainerRect(containerRef.current.getBoundingClientRect());
+      }
+      if (buttonRef.current && containerRef.current) {
+        const btnRect = buttonRef.current.getBoundingClientRect();
+        const contRect = containerRef.current.getBoundingClientRect();
+        setButtonPos({
+          x: btnRect.left - contRect.left + btnRect.width / 2,
+          y: btnRect.top - contRect.top + btnRect.height / 2,
+        });
+      }
+    };
+    updatePositions();
+    window.addEventListener('resize', updatePositions);
+    window.addEventListener('scroll', updatePositions);
+    return () => {
+      window.removeEventListener('resize', updatePositions);
+      window.removeEventListener('scroll', updatePositions);
+    };
+  }, []);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative py-24 bg-transparent border-t border-zinc-900/50 overflow-hidden"
+    >
+      {/* Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {particles.map((particle) => (
+          <CTAFloatingParticle
+            key={particle.id}
+            particle={particle}
+            isHovered={isHovered}
+            buttonPos={buttonPos}
+            containerRect={containerRect}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-8 text-center">
+        <FadeInSection>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ready to get started?
+          </h2>
+
+          <p className="text-lg text-zinc-400 mb-8">
+            Let&apos;s talk about your project.
+          </p>
+
+          <div
+            ref={buttonRef}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="inline-block"
+          >
+            <Link href="/quote">
+              <motion.div
+                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-primary text-white rounded-full font-medium cursor-pointer hover:bg-brand-primary/90 transition-colors shadow-lg shadow-brand-primary/20 hover:shadow-xl hover:shadow-brand-primary/30"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>Get a Free Quote</span>
+                <ArrowRight className="w-4 h-4" />
+              </motion.div>
+            </Link>
+          </div>
+
+          <p className="mt-6 text-sm text-zinc-500">
+            Free consultation · No obligation · Response within 24 hours
           </p>
         </FadeInSection>
       </div>
     </section>
+  );
+}
+
+// Floating particle that gets attracted to button
+function CTAFloatingParticle({
+  particle,
+  isHovered,
+  buttonPos,
+  containerRect,
+}: {
+  particle: CTAParticle;
+  isHovered: boolean;
+  buttonPos: { x: number; y: number } | null;
+  containerRect: DOMRect | null;
+}) {
+  const [drift, setDrift] = useState({ x: 0, y: 0 });
+  const startTimeRef = useRef(Date.now());
+
+  // Ambient floating when not hovered
+  useEffect(() => {
+    if (isHovered) return;
+
+    let animationId: number;
+    const animate = () => {
+      const elapsed = (Date.now() - startTimeRef.current) / 1000;
+      const x = Math.sin(elapsed * particle.speed + particle.phase) * 15;
+      const y = Math.cos(elapsed * particle.speed * 0.7 + particle.phase) * 10;
+      setDrift({ x, y });
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
+  }, [isHovered, particle]);
+
+  // Calculate attraction target
+  const targetX = useMemo(() => {
+    if (!isHovered || !buttonPos || !containerRect) return drift.x;
+    const particleAbsX = (particle.x / 100) * containerRect.width;
+    return buttonPos.x - particleAbsX;
+  }, [isHovered, buttonPos, containerRect, particle.x, drift.x]);
+
+  const targetY = useMemo(() => {
+    if (!isHovered || !buttonPos || !containerRect) return drift.y;
+    const particleAbsY = (particle.y / 100) * containerRect.height;
+    return buttonPos.y - particleAbsY;
+  }, [isHovered, buttonPos, containerRect, particle.y, drift.y]);
+
+  return (
+    <motion.div
+      className="absolute rounded-full bg-brand-primary pointer-events-none"
+      style={{
+        left: `${particle.x}%`,
+        top: `${particle.y}%`,
+        width: particle.size,
+        height: particle.size,
+        filter: 'blur(1px)',
+        boxShadow: '0 0 8px rgba(10, 132, 255, 0.6)',
+      }}
+      animate={{
+        x: isHovered ? targetX : drift.x,
+        y: isHovered ? targetY : drift.y,
+        scale: isHovered ? 0.6 : 1,
+        opacity: isHovered ? particle.opacity * 1.8 : particle.opacity,
+      }}
+      transition={
+        isHovered
+          ? { type: 'spring', stiffness: 100, damping: 15 }
+          : { type: 'tween', duration: 0.1 }
+      }
+    />
   );
 }
