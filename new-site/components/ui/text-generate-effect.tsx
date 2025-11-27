@@ -54,7 +54,7 @@ export function TextGenerateEffect({
       y: 0,
       transition: {
         duration: duration,
-        ease: [0.25, 0.4, 0.25, 1],
+        ease: [0.25, 0.4, 0.25, 1] as const,
       },
     },
   };

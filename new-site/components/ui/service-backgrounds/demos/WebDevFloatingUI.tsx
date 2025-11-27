@@ -11,7 +11,7 @@ const techStack = [
 ];
 
 const floatVariants = {
-  initial: (custom: number) => ({
+  initial: () => ({
     y: 0,
     opacity: 0,
     scale: 0.8,
@@ -24,7 +24,7 @@ const floatVariants = {
       y: {
         duration: 3 + custom * 0.5,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: [0.42, 0, 0.58, 1] as const,
         delay: custom * 0.3,
       },
       opacity: {

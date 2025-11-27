@@ -237,11 +237,6 @@ const config: Config = {
           "50%": { opacity: "1" },
           "100%": { opacity: "0.2", transform: "translateX(100%)" },
         },
-        // Orbit rotation
-        "orbit": {
-          "0%": { transform: "rotate(0deg) translateX(var(--radius)) rotate(0deg)" },
-          "100%": { transform: "rotate(360deg) translateX(var(--radius)) rotate(-360deg)" },
-        },
         // Typing cursor blink
         "blink": {
           "0%, 100%": { opacity: "1" },

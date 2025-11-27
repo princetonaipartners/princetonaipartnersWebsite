@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Rocket, Brain, Workflow, Globe } from 'lucide-react';
+import { ArrowRight, Rocket, Brain, Workflow, Globe, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
@@ -12,7 +12,7 @@ import { FadeInSection } from '@/components/animations/FadeInSection';
 interface PreviewType {
   id: string;
   name: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   range: string;
 }
 

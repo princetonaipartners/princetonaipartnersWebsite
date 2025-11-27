@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { MessageSquare, Palette, Hammer, Sparkles, Rocket, Users, User } from "lucide-react";
+import { MessageSquare, Palette, Hammer, Sparkles, Rocket, Users, User, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 
 interface ProcessStage {
   id: number;
-  icon: React.ElementType;
+  icon: LucideIcon;
   title: string;
   subtitle: string;
   description: string;

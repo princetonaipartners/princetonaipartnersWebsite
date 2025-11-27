@@ -46,7 +46,7 @@ function FloatingParticle({
 }) {
   const controls = useAnimation();
   const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const startTimeRef = useRef(Date.now());
 
   // Ambient floating animation

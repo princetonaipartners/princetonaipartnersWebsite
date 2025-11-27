@@ -1,12 +1,15 @@
 // Framer Motion animation variants
 
+// Custom easing curve (cubic-bezier)
+const customEase = [0.22, 1, 0.36, 1] as const;
+
 // Fade up on scroll (Anthropic's approach) - Slowed down for premium feel
 export const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.8, ease: customEase },
   },
 };
 
@@ -17,7 +20,7 @@ export const blurFadeVariants = {
     opacity: 1,
     filter: 'blur(0px)',
     y: 0,
-    transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 1, ease: customEase },
   },
 };
 
@@ -39,7 +42,7 @@ export const scaleIn = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: { duration: 0.4, ease: 'easeOut' as const },
   },
 };
 
@@ -49,7 +52,7 @@ export const slideInFromRight = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, ease: customEase },
   },
 };
 
@@ -58,7 +61,7 @@ export const pageTransition = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 20 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.5, ease: customEase },
 };
 
 // Word reveal (for hero headlines)
@@ -70,7 +73,7 @@ export const wordReveal = {
     transition: {
       delay: i * 0.1,
       duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
+      ease: customEase,
     },
   }),
 };

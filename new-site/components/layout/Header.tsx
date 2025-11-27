@@ -86,7 +86,7 @@ export function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileMenuOpen ? <Icon name="close" size={24} aria-hidden="true" /> : <Icon name="menu" size={24} aria-hidden="true" />}
+            {mobileMenuOpen ? <Icon name="close" size={24} aria-hidden={true} /> : <Icon name="menu" size={24} aria-hidden={true} />}
           </button>
         </div>
 

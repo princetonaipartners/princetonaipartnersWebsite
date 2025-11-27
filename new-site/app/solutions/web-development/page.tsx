@@ -22,6 +22,7 @@ import {
   Type,
   Square,
   Image as ImageIcon,
+  type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FadeInSection } from '@/components/animations/FadeInSection';
@@ -767,7 +768,7 @@ function PortfolioCard({
 // FEATURES SECTION - Friendly Feature Grid
 // ============================================
 interface FeatureItem {
-  icon: React.ElementType;
+  icon: LucideIcon;
   title: string;
   description: string;
   color: string;

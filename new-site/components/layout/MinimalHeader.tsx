@@ -7,14 +7,21 @@ import { SITE_CONFIG } from '@/lib/constants';
 
 // Page config for indicator badges
 const pageConfig: Record<string, string> = {
-  '/solutions/agents': 'AI Agents',
+  '/': 'Home',
+  '/solutions/ai-agents': 'AI Agents',
   '/solutions/ai-phone-systems': 'AI Phone',
   '/solutions/web-development': 'Web Dev',
   '/solutions/bespoke-software': 'Bespoke',
-  '/solutions/automation': 'Automation',
+  '/solutions/process-automation': 'Automation',
   '/solutions/custom-bots': 'Custom Bots',
   '/solutions/web-scraping': 'Scraping',
+  '/solutions': 'Solutions',
   '/quote': 'Get Quote',
+  '/about': 'About Us',
+  '/contact': 'Contact',
+  '/clients': 'Clients',
+  '/privacy': 'Privacy',
+  '/terms': 'Terms',
 };
 
 export function MinimalHeader() {
@@ -23,7 +30,9 @@ export function MinimalHeader() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 pointer-events-none">
-      <div className="p-4 sm:p-6 flex items-center justify-between">
+      {/* Clean backdrop for header - solid top fading to transparent */}
+      <div className="absolute inset-0 h-24 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-transparent pointer-events-none" />
+      <div className="relative p-4 sm:p-6 flex items-center justify-between">
         {/* Logo - floating with glow */}
         <Link
           href="/"

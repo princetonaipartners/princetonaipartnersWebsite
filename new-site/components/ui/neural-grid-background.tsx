@@ -45,7 +45,7 @@ export function NeuralGridBackground({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef<Node[]>([]);
   const pulsesRef = useRef<Pulse[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
 
   const initializeGrid = useCallback((width: number, height: number) => {
     const nodes: Node[] = [];

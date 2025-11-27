@@ -15,24 +15,37 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'Princeton AI Partners - Custom AI Systems & Software Development',
+  metadataBase: new URL('https://princeton-ai.com'),
+  title: {
+    default: 'Princeton AI Partners | Custom Software, AI Agents & Automation',
+    template: '%s | Princeton AI Partners',
+  },
   description: 'We build custom AI agents, phone systems, web scrapers, and software in weeks. RAG agents, automation, and bespoke products from scratch.',
-  keywords: ['custom AI', 'RAG agents', 'AI phone agents', 'web scraping', 'custom software development', 'process automation'],
+  keywords: ['custom AI', 'RAG agents', 'AI phone agents', 'web scraping', 'custom software development', 'process automation', 'Princeton AI'],
+  authors: [{ name: 'Princeton AI Partners' }],
+  creator: 'Princeton AI Partners',
   icons: {
     icon: '/logos/favicon-base.png',
     apple: '/logos/favicon-base.png',
   },
   openGraph: {
-    title: 'Princeton AI Partners - Custom AI Systems & Software Development',
+    title: 'Princeton AI Partners | Custom Software, AI Agents & Automation',
     description: 'We build custom AI agents, phone systems, web scrapers, and software in weeks. RAG agents, automation, and bespoke products from scratch.',
+    url: 'https://princeton-ai.com',
+    siteName: 'Princeton AI Partners',
     images: ['/logos/logo-full.png'],
     type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: 'summary',
-    title: 'Princeton AI Partners - Custom AI Systems & Software Development',
+    card: 'summary_large_image',
+    title: 'Princeton AI Partners | Custom Software, AI Agents & Automation',
     description: 'We build custom AI agents, phone systems, web scrapers, and software in weeks.',
     images: ['/logos/logo-full.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -64,8 +77,8 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem
-          enableColorScheme
+          forcedTheme="dark"
+          disableTransitionOnChange
         >
           <MinimalHeader />
           <main className="min-h-screen pt-16 pb-24">{children}</main>

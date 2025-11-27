@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { DockItem } from './DockItem';
 import { DockCTA } from './DockCTA';
-import { DockThemeToggle } from './DockThemeToggle';
 import { SolutionsPanel } from './SolutionsPanel';
 import { cn } from '@/lib/utils';
 
@@ -112,13 +111,6 @@ export function FloatingDock() {
 
           {/* CTA Button */}
           <DockCTA href="/quote" />
-
-          {/* Theme Toggle */}
-          <DockThemeToggle
-            scale={getMagnification(DOCK_ITEMS.length + 1, hoveredIndex)}
-            onHover={() => handleItemHover(DOCK_ITEMS.length + 1)}
-            onLeave={handleItemLeave}
-          />
         </div>
       </motion.nav>
 
@@ -166,9 +158,6 @@ export function FloatingDock() {
 
           {/* CTA Button */}
           <DockCTA href="/quote" isMobile />
-
-          {/* Theme Toggle */}
-          <DockThemeToggle scale={1} isMobile />
         </div>
       </motion.nav>
     </>

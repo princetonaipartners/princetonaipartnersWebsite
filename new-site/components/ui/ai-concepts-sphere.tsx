@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, Brain, Database, Zap, MessageSquare, Search, Shield, Cpu, Network, Workflow, Lightbulb, Target, GitBranch, Layers, Lock, Sparkles, Bot, Cog, RefreshCw, FileText } from 'lucide-react';
+import { X, Brain, Database, Zap, MessageSquare, Search, Shield, Cpu, Network, Workflow, Lightbulb, Target, GitBranch, Layers, Lock, Sparkles, Bot, Cog, RefreshCw, FileText, type LucideIcon } from 'lucide-react';
 
 // ==========================================
 // TYPES & INTERFACES
@@ -29,7 +29,7 @@ export interface WorldPosition extends Position3D {
 
 export interface AiConcept {
   id: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   title: string;
   shortTitle: string;
   description: string;

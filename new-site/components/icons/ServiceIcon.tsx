@@ -7,5 +7,5 @@ interface ServiceIconProps {
 }
 
 export function ServiceIcon({ icon, className = '' }: ServiceIconProps) {
-  return <Icon name={icon} size={28} className={className} aria-hidden="true" />;
+  return <Icon name={icon} size={28} className={className} aria-hidden={true} />;
 }
