@@ -45,3 +45,12 @@ next-env.d.ts
 
 # Video examples (too large for git)
 /video_examples
+
+# Development screenshots
+*.png
+!public/**/*.png
+
+# Test artifacts
+/playwright-report
+/test-results
+/tests
