@@ -1,8 +1,20 @@
-# Princeton AI Partners - Website Rebrand v2.0
+# Princeton AI Partners
 
-> **Next.js 15** + **TypeScript** + **Tailwind CSS** + **React Three Fiber** + **Framer Motion**
+> Custom AI Systems & Software Development
 
-## 🚀 Getting Started
+**Live Site:** [princeton-ai.com](https://princeton-ai.com)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript (strict mode)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **3D Graphics:** React Three Fiber
+- **Icons:** Lucide React
+- **Deployment:** Vercel
+
+## Getting Started
 
 ```bash
 # Install dependencies
@@ -14,73 +26,67 @@ npm run dev
 # Build for production
 npm run build
 
-# Start production server
-npm start
-
 # Type check
 npm run type-check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the site.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-new-site/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Homepage
-│   └── globals.css         # Global styles
-├── components/             # React components
-│   ├── ui/                 # UI components (aurora, bento, typewriter, etc.)
-│   ├── layout/             # Header, Footer
-│   ├── animations/         # Animation wrappers
-│   ├── icons/              # Icon system
-│   └── providers/          # Theme provider
-├── lib/                    # Utilities
-│   ├── utils.ts            # cn() helper
-│   ├── constants.ts        # Site constants
-│   ├── icon-map.ts         # Icon mappings
-│   └── hooks/              # Custom hooks
-├── .rebrand/               # 📚 Vision & Planning Docs
-│   ├── docs/               # Vision 2.0, master plan, design system
-│   ├── VISION-SUMMARY.md   # Quick reference
-│   └── templates/          # Code templates
-├── _archive/               # Old/unused files (preserved)
-├── public/                 # Static assets
-└── types/                  # TypeScript types
+├── app/                 # Next.js pages (App Router)
+│   ├── page.tsx         # Homepage
+│   ├── about/           # About page
+│   ├── contact/         # Contact page
+│   ├── quote/           # Quote calculator
+│   └── solutions/       # Solution pages (7 services)
+├── components/
+│   ├── ui/              # UI components
+│   ├── layout/          # Header, Footer
+│   ├── navigation/      # Floating dock
+│   └── animations/      # Motion wrappers
+├── lib/                 # Utilities & constants
+└── public/              # Static assets (logos, images)
 ```
 
-## 🎨 Tech Stack
+## Pages
 
-- **Framework**: Next.js 15 (App Router, Server Components)
-- **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **3D Graphics**: React Three Fiber + Three.js
-- **UI Components**: shadcn/ui (customized)
-- **Icons**: Lucide React
-- **Deployment**: Vercel
+| Page | Route |
+|------|-------|
+| Home | `/` |
+| About | `/about` |
+| Contact | `/contact` |
+| Clients | `/clients` |
+| Quote Calculator | `/quote` |
+| Solutions Overview | `/solutions` |
+| AI Agents | `/solutions/ai-agents` |
+| AI Phone Systems | `/solutions/ai-phone-systems` |
+| Web Development | `/solutions/web-development` |
+| Process Automation | `/solutions/process-automation` |
+| Custom Bots | `/solutions/custom-bots` |
+| Bespoke Software | `/solutions/bespoke-software` |
+| Web Scraping | `/solutions/web-scraping` |
 
-## 📝 Development
+## Scripts
 
-This is a complete rebrand of Princeton AI Partners website. See `.rebrand/docs/` in the main repository for complete documentation.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Start production server |
+| `npm run type-check` | TypeScript validation |
+| `npm run format` | Format with Prettier |
 
-## 🎯 Brand Colors
+## Brand Colors
 
-- **Primary**: #0A84FF (Electric blue)
-- **Secondary**: #0060CE (Deep blue)
-- **Background**: #FAFAFA (Soft white)
-- **Text**: #0F0F0F (Near black)
-
-## 📊 Progress
-
-- **Phase 0**: ✅ Documentation
-- **Phase 1**: ✅ Research & Architecture
-- **Phase 2**: ✅ Project Setup (CURRENT)
-- **Phase 3-8**: ⏸️ Pending
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Primary | `#0A84FF` | CTAs, links, accents |
+| Secondary | `#0060CE` | Gradients, hover states |
+| Background | `#09090B` | Dark mode base |
+| Text | `#FAFAFA` | Primary text (dark mode) |
 
 ---
 
-**Created**: 2025-10-30
-**Status**: In Development
+**Princeton AI Partners** - Custom AI agents, phone systems, and software built in weeks.
