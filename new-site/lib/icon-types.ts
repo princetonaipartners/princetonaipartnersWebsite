@@ -1,7 +1,5 @@
-import { IconType } from 'react-icons';
-
 export type IconName =
-  // Service Icons
+  // Service Icons (Tabler)
   | 'database'
   | 'phone'
   | 'sparkles'
@@ -12,7 +10,7 @@ export type IconName =
   | 'bot'
   | 'code'
   | 'mobile'
-  // UI Icons
+  // UI Icons (Tabler)
   | 'menu'
   | 'close'
   | 'home'
@@ -22,9 +20,47 @@ export type IconName =
   | 'moon'
   | 'chevronRight'
   | 'chevronDown'
-  // Social Icons
+  | 'arrowRight'
+  | 'check'
+  | 'calendar'
+  | 'clock'
+  | 'user'
+  | 'users'
+  | 'settings'
+  | 'search'
+  | 'plus'
+  | 'minus'
+  | 'edit'
+  | 'trash'
+  | 'download'
+  | 'upload'
+  | 'link'
+  | 'externalLink'
+  | 'copy'
+  | 'refresh'
+  | 'send'
+  | 'heart'
+  | 'star'
+  | 'bell'
+  | 'filter'
+  | 'sort'
+  | 'grid'
+  | 'list'
+  | 'eye'
+  | 'eyeOff'
+  | 'lock'
+  | 'unlock'
+  | 'shield'
+  | 'warning'
+  | 'alertCircle'
+  | 'helpCircle'
+  | 'checkCircle'
+  | 'xCircle'
+  // Social Icons (Simple Icons - brand logos)
   | 'github'
-  | 'linkedin';
+  | 'linkedin'
+  // Brand
+  | 'princetonLogo';
 
 export interface IconProps {
   name: IconName;

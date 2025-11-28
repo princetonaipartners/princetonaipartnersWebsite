@@ -1,5 +1,6 @@
 import { iconMap } from '@/lib/icon-map';
 import { IconProps } from '@/lib/icon-types';
+import { PrincetonLogo } from './PrincetonLogo';
 
 export function Icon({
   name,
@@ -9,6 +10,18 @@ export function Icon({
   'aria-hidden': ariaHidden,
   ...props
 }: IconProps) {
+  // Handle Princeton Logo separately (it's an image, not an icon component)
+  if (name === 'princetonLogo') {
+    return (
+      <PrincetonLogo
+        size={size}
+        className={className}
+        aria-label={ariaLabel}
+        aria-hidden={ariaHidden}
+      />
+    );
+  }
+
   const IconComponent = iconMap[name];
 
   if (!IconComponent) {
@@ -26,3 +39,5 @@ export function Icon({
     />
   );
 }
+
+Icon.displayName = 'Icon';

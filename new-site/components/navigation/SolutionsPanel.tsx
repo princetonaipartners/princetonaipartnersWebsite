@@ -106,13 +106,13 @@ export function SolutionsPanel({ onClose }: SolutionsPanelProps) {
         ref={panelRef}
         className={cn(
           "fixed bottom-24 left-1/2 -translate-x-1/2 z-50",
-          "w-[90vw] max-w-md",
+          "w-[90vw] max-w-xs",
           "bg-white/95 dark:bg-zinc-900/95",
           "backdrop-blur-xl",
           "border border-neutral-200 dark:border-zinc-800",
           "rounded-2xl",
           "shadow-2xl shadow-black/20",
-          "p-4"
+          "p-3"
         )}
         variants={panelVariants}
         initial="hidden"
@@ -122,77 +122,83 @@ export function SolutionsPanel({ onClose }: SolutionsPanelProps) {
         aria-label="Solutions menu"
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+        <div className="flex items-center justify-between mb-2 px-1">
+          <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
             Solutions
           </h3>
           <button
             onClick={onClose}
             className={cn(
-              "w-8 h-8 flex items-center justify-center",
-              "rounded-lg",
-              "text-zinc-500 dark:text-zinc-400",
+              "w-6 h-6 flex items-center justify-center",
+              "rounded-md",
+              "text-zinc-400 dark:text-zinc-500",
               "hover:bg-zinc-100 dark:hover:bg-zinc-800",
               "transition-colors duration-200",
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             )}
             aria-label="Close menu"
           >
-            <Icon name="close" size={18} aria-hidden={true} />
+            <Icon name="close" size={14} aria-hidden={true} />
           </button>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        {/* List */}
+        <div className="flex flex-col gap-0.5">
           {SOLUTIONS.map((solution) => (
             <motion.div key={solution.href} variants={itemVariants}>
               <Link
                 href={solution.href}
                 onClick={onClose}
                 className={cn(
-                  "flex flex-col items-center gap-2 p-3",
-                  "rounded-xl",
+                  "flex items-center gap-3 px-2 py-2.5",
+                  "rounded-lg group",
                   "text-zinc-700 dark:text-zinc-300",
-                  "hover:bg-brand-primary/10",
-                  "hover:text-brand-primary dark:hover:text-brand-primary",
+                  "hover:bg-zinc-100 dark:hover:bg-zinc-800",
                   "transition-colors duration-200",
                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 )}
                 role="menuitem"
               >
                 <div className={cn(
-                  "w-10 h-10 flex items-center justify-center",
-                  "rounded-xl",
+                  "w-8 h-8 flex items-center justify-center",
+                  "rounded-lg",
                   "bg-zinc-100 dark:bg-zinc-800",
-                  "group-hover:bg-brand-primary/20"
+                  "group-hover:bg-brand-primary/10 group-hover:text-brand-primary",
+                  "transition-colors duration-200"
                 )}>
-                  <Icon name={solution.icon} size={20} aria-hidden={true} />
+                  <Icon name={solution.icon} size={16} aria-hidden={true} />
                 </div>
-                <span className="text-xs font-medium text-center leading-tight">
+                <span className="flex-1 text-sm font-medium">
                   {solution.title}
                 </span>
+                <Icon
+                  name="chevronRight"
+                  size={14}
+                  className="opacity-0 group-hover:opacity-50 transition-opacity"
+                  aria-hidden={true}
+                />
               </Link>
             </motion.div>
           ))}
         </div>
 
         {/* View All Link */}
-        <motion.div variants={itemVariants} className="mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700">
+        <motion.div variants={itemVariants} className="mt-2 pt-2 border-t border-zinc-200 dark:border-zinc-800">
           <Link
             href="/solutions"
             onClick={onClose}
             className={cn(
-              "flex items-center justify-center gap-2",
-              "py-2 px-4 rounded-lg",
-              "text-sm font-medium",
+              "flex items-center justify-center gap-1.5",
+              "py-2 rounded-lg",
+              "text-xs font-medium",
               "text-brand-primary hover:text-brand-primary/80",
-              "hover:bg-brand-primary/10",
+              "hover:bg-brand-primary/5",
               "transition-colors duration-200",
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
             )}
           >
             View All Solutions
-            <Icon name="chevronRight" size={16} aria-hidden={true} />
+            <Icon name="chevronRight" size={12} aria-hidden={true} />
           </Link>
         </motion.div>
       </motion.div>

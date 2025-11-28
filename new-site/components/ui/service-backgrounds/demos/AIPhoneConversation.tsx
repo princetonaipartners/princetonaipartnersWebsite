@@ -24,45 +24,45 @@ const conversationScript: Message[] = [
     sender: "ai",
     text: "I'm sorry to hear that! Let me help you get an appointment. How urgent is the pain?",
     icon: "brain",
-    delay: 1500,
+    delay: 2500,
   },
   {
     id: 3,
     sender: "patient",
     text: "Pretty bad, started yesterday",
-    delay: 3000,
+    delay: 5500,
   },
   {
     id: 4,
     sender: "ai",
     text: "I can fit you in tomorrow at 2pm or Thursday at 10am. Which works better?",
     icon: "calendar",
-    delay: 4200,
+    delay: 8000,
   },
   {
     id: 5,
     sender: "patient",
     text: "Tomorrow at 2pm please",
-    delay: 6500,
+    delay: 12000,
   },
   {
     id: 6,
     sender: "ai",
     text: "Perfect! Booking you for tomorrow at 2pm with Dr. Smith. What's your name?",
-    delay: 7800,
+    delay: 14500,
   },
   {
     id: 7,
     sender: "patient",
     text: "Michael Chen",
-    delay: 9500,
+    delay: 17500,
   },
   {
     id: 8,
     sender: "ai",
     text: "All set, Michael! Tomorrow at 2pm. We'll send a confirmation text. See you soon!",
     icon: "check",
-    delay: 10800,
+    delay: 20000,
   },
 ];
 
@@ -94,7 +94,7 @@ export function AIPhoneConversation() {
     const resetTimer = setTimeout(() => {
       setVisibleMessages([]);
       setTypingIndex(null);
-    }, 14000);
+    }, 25000);
     timers.push(resetTimer);
 
     return () => timers.forEach((timer) => clearTimeout(timer));

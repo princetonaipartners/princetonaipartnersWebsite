@@ -123,7 +123,7 @@ function HeroSection() {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setActiveScenario((prev) => (prev + 1) % scenarios.length);
-    }, 8000);
+    }, 12000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -238,7 +238,7 @@ function VoiceVisualization({ activeScenario, onScenarioClick }: VoiceVisualizat
     setProcessingProgress(0);
     setIsProcessing(true);
 
-    // Show processing bar
+    // Show processing bar (slower)
     const progressInterval = setInterval(() => {
       setProcessingProgress((prev) => {
         if (prev >= 100) {
@@ -246,15 +246,15 @@ function VoiceVisualization({ activeScenario, onScenarioClick }: VoiceVisualizat
           setIsProcessing(false);
           return 100;
         }
-        return prev + 4;
+        return prev + 2.5;
       });
     }, 50);
 
-    // Stagger message reveals
+    // Stagger message reveals (slower pacing)
     scenario.messages.forEach((_, index) => {
       setTimeout(() => {
         setVisibleMessages((prev) => [...prev, index]);
-      }, 1500 + index * 1200);
+      }, 2200 + index * 1800);
     });
 
     return () => clearInterval(progressInterval);

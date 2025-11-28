@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, Building2, FileText, Calendar } from 'lucide-react';
+import { Mail, Phone, Building2, FileText, Calendar, Shield, Sparkles, CheckCircle2, User, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -53,209 +53,313 @@ export function ContactStep({
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
-      <div className="text-center">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center"
+      >
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
-          Where should we send your quote?
+          Almost there!
         </h2>
         <p className="text-text-secondary dark:text-dark-text-secondary">
-          We&apos;ll send you a detailed quote and project brief
+          Where should we send your personalized quote?
         </p>
-      </div>
+      </motion.div>
 
+      {/* Main Form Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-dark-bg-card rounded-2xl border border-neutral-200 dark:border-dark-border p-6 md:p-8 space-y-6"
+        transition={{ delay: 0.1 }}
+        className={cn(
+          "relative rounded-2xl overflow-hidden",
+          // Gradient border effect
+          "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
+          "before:bg-gradient-to-b before:from-zinc-200 before:via-zinc-100 before:to-zinc-200",
+          "dark:before:from-zinc-700 dark:before:via-zinc-800 dark:before:to-zinc-700"
+        )}
       >
-        {/* Name fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              placeholder="John"
-              value={contact.firstName}
-              onChange={(e) => onUpdate({ firstName: e.target.value })}
-              className={errors.firstName ? 'border-red-500' : ''}
-            />
-            {errors.firstName && (
-              <p className="text-sm text-red-500">{errors.firstName}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <Input
-              placeholder="Smith"
-              value={contact.lastName}
-              onChange={(e) => onUpdate({ lastName: e.target.value })}
-              className={errors.lastName ? 'border-red-500' : ''}
-            />
-            {errors.lastName && (
-              <p className="text-sm text-red-500">{errors.lastName}</p>
-            )}
-          </div>
-        </div>
+        <div className="relative bg-white dark:bg-zinc-900 rounded-2xl p-6 md:p-8">
+          {/* Contact Info Section */}
+          <div className="space-y-6">
+            {/* Section Header */}
+            <div className="flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+              <User className="w-4 h-4" />
+              Contact Information
+            </div>
 
-        {/* Email */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            Email <span className="text-red-500">*</span>
-          </label>
-          <Input
-            type="email"
-            placeholder="john@company.com"
-            value={contact.email}
-            onChange={(e) => onUpdate({ email: e.target.value })}
-            className={errors.email ? 'border-red-500' : ''}
-          />
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email}</p>
-          )}
-        </div>
-
-        {/* Company (optional) */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
-            <Building2 className="w-4 h-4" />
-            Company <span className="text-text-tertiary">(optional)</span>
-          </label>
-          <Input
-            placeholder="Acme Inc."
-            value={contact.company || ''}
-            onChange={(e) => onUpdate({ company: e.target.value })}
-          />
-        </div>
-
-        {/* Phone (optional) */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
-            <Phone className="w-4 h-4" />
-            Phone <span className="text-text-tertiary">(optional)</span>
-          </label>
-          <Input
-            type="tel"
-            placeholder="+1 (555) 123-4567"
-            value={contact.phone || ''}
-            onChange={(e) => onUpdate({ phone: e.target.value })}
-          />
-        </div>
-
-        {/* Project description (optional) */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-            Project Description <span className="text-text-tertiary">(optional)</span>
-          </label>
-          <Textarea
-            placeholder="Tell us a bit about your project..."
-            rows={3}
-            value={contact.description || ''}
-            onChange={(e) => onUpdate({ description: e.target.value })}
-          />
-        </div>
-
-        {/* Preferences */}
-        <div className="space-y-3 pt-2">
-          <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-            I would like to:
-          </label>
-          <div className="space-y-2">
-            <label
-              className={cn(
-                'flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300',
-                contact.wantsPdf
-                  ? 'border-brand-primary bg-brand-light/30 dark:bg-brand-primary/10'
-                  : 'border-neutral-200 dark:border-dark-border hover:border-brand-primary/50'
-              )}
-            >
-              <input
-                type="checkbox"
-                checked={contact.wantsPdf}
-                onChange={(e) => onUpdate({ wantsPdf: e.target.checked })}
-                className="sr-only"
-              />
-              <div
-                className={cn(
-                  'w-5 h-5 rounded-md border-2 flex items-center justify-center',
-                  contact.wantsPdf
-                    ? 'border-brand-primary bg-brand-primary'
-                    : 'border-neutral-300 dark:border-dark-border'
-                )}
-              >
-                {contact.wantsPdf && (
-                  <svg className="w-3 h-3 text-white" viewBox="0 0 12 12">
-                    <path
-                      fill="currentColor"
-                      d="M10.28 2.28a.75.75 0 0 1 0 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-2.5-2.5a.75.75 0 1 1 1.06-1.06L4.25 7.2l4.97-4.92a.75.75 0 0 1 1.06 0Z"
-                    />
-                  </svg>
+            {/* Name Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                  First Name <span className="text-brand-primary">*</span>
+                </label>
+                <Input
+                  placeholder="John"
+                  value={contact.firstName}
+                  onChange={(e) => onUpdate({ firstName: e.target.value })}
+                  className={errors.firstName ? 'border-red-500 dark:border-red-500' : ''}
+                />
+                {errors.firstName && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-sm text-red-500"
+                  >
+                    {errors.firstName}
+                  </motion.p>
                 )}
               </div>
-              <FileText className="w-5 h-5 text-brand-primary" />
-              <span className="text-text-primary dark:text-dark-text-primary">
-                Receive PDF quote via email
-              </span>
-            </label>
-
-            <label
-              className={cn(
-                'flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300',
-                contact.wantsCall
-                  ? 'border-brand-primary bg-brand-light/30 dark:bg-brand-primary/10'
-                  : 'border-neutral-200 dark:border-dark-border hover:border-brand-primary/50'
-              )}
-            >
-              <input
-                type="checkbox"
-                checked={contact.wantsCall}
-                onChange={(e) => onUpdate({ wantsCall: e.target.checked })}
-                className="sr-only"
-              />
-              <div
-                className={cn(
-                  'w-5 h-5 rounded-md border-2 flex items-center justify-center',
-                  contact.wantsCall
-                    ? 'border-brand-primary bg-brand-primary'
-                    : 'border-neutral-300 dark:border-dark-border'
-                )}
-              >
-                {contact.wantsCall && (
-                  <svg className="w-3 h-3 text-white" viewBox="0 0 12 12">
-                    <path
-                      fill="currentColor"
-                      d="M10.28 2.28a.75.75 0 0 1 0 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-2.5-2.5a.75.75 0 1 1 1.06-1.06L4.25 7.2l4.97-4.92a.75.75 0 0 1 1.06 0Z"
-                    />
-                  </svg>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                  Last Name <span className="text-brand-primary">*</span>
+                </label>
+                <Input
+                  placeholder="Smith"
+                  value={contact.lastName}
+                  onChange={(e) => onUpdate({ lastName: e.target.value })}
+                  className={errors.lastName ? 'border-red-500 dark:border-red-500' : ''}
+                />
+                {errors.lastName && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-sm text-red-500"
+                  >
+                    {errors.lastName}
+                  </motion.p>
                 )}
               </div>
-              <Calendar className="w-5 h-5 text-brand-primary" />
-              <span className="text-text-primary dark:text-dark-text-primary">
-                Schedule a discovery call
-              </span>
-            </label>
+            </div>
+
+            {/* Email */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
+                <Mail className="w-4 h-4 text-brand-primary" />
+                Email <span className="text-brand-primary">*</span>
+              </label>
+              <Input
+                type="email"
+                placeholder="john@company.com"
+                value={contact.email}
+                onChange={(e) => onUpdate({ email: e.target.value })}
+                className={errors.email ? 'border-red-500 dark:border-red-500' : ''}
+              />
+              {errors.email && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-500"
+                >
+                  {errors.email}
+                </motion.p>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-zinc-200 dark:border-zinc-800" />
+
+            {/* Optional Fields Section */}
+            <div className="flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+              <Building2 className="w-4 h-4" />
+              Additional Details
+              <span className="text-xs font-normal normal-case">(optional)</span>
+            </div>
+
+            {/* Company & Phone Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                  Company
+                </label>
+                <Input
+                  placeholder="Acme Inc."
+                  value={contact.company || ''}
+                  onChange={(e) => onUpdate({ company: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-zinc-400" />
+                  Phone
+                </label>
+                <Input
+                  type="tel"
+                  placeholder="+1 (555) 123-4567"
+                  value={contact.phone || ''}
+                  onChange={(e) => onUpdate({ phone: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Project Description */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                Project Description
+              </label>
+              <Textarea
+                placeholder="Tell us a bit about your project goals and requirements..."
+                rows={3}
+                value={contact.description || ''}
+                onChange={(e) => onUpdate({ description: e.target.value })}
+              />
+            </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Trust badges */}
-      <div className="flex items-center justify-center gap-6 text-sm text-text-tertiary dark:text-dark-text-tertiary">
-        <span>256-bit SSL</span>
-        <span>No spam, ever</span>
-        <span>Free quote</span>
-      </div>
+      {/* Preferences Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="space-y-4"
+      >
+        <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider px-1">
+          Delivery Preferences
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* PDF Option */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onUpdate({ wantsPdf: !contact.wantsPdf })}
+            className={cn(
+              'relative flex flex-col items-start gap-3 p-5 rounded-xl border-2 text-left transition-all duration-300',
+              contact.wantsPdf
+                ? 'border-brand-primary bg-brand-primary/5 dark:bg-brand-primary/10'
+                : 'border-zinc-200 dark:border-zinc-700 hover:border-brand-primary/50 bg-white dark:bg-zinc-800'
+            )}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className={cn(
+                'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
+                contact.wantsPdf
+                  ? 'bg-brand-primary text-white'
+                  : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'
+              )}>
+                <FileText className="w-5 h-5" />
+              </div>
+              <div className={cn(
+                'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all',
+                contact.wantsPdf
+                  ? 'border-brand-primary bg-brand-primary'
+                  : 'border-zinc-300 dark:border-zinc-600'
+              )}>
+                {contact.wantsPdf && <CheckCircle2 className="w-4 h-4 text-white" />}
+              </div>
+            </div>
+            <div>
+              <div className="font-semibold text-text-primary dark:text-dark-text-primary">
+                PDF Quote
+              </div>
+              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
+                Get a detailed PDF sent to your email
+              </div>
+            </div>
+          </motion.button>
+
+          {/* Call Option */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onUpdate({ wantsCall: !contact.wantsCall })}
+            className={cn(
+              'relative flex flex-col items-start gap-3 p-5 rounded-xl border-2 text-left transition-all duration-300',
+              contact.wantsCall
+                ? 'border-brand-primary bg-brand-primary/5 dark:bg-brand-primary/10'
+                : 'border-zinc-200 dark:border-zinc-700 hover:border-brand-primary/50 bg-white dark:bg-zinc-800'
+            )}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className={cn(
+                'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
+                contact.wantsCall
+                  ? 'bg-brand-primary text-white'
+                  : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'
+              )}>
+                <Calendar className="w-5 h-5" />
+              </div>
+              <div className={cn(
+                'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all',
+                contact.wantsCall
+                  ? 'border-brand-primary bg-brand-primary'
+                  : 'border-zinc-300 dark:border-zinc-600'
+              )}>
+                {contact.wantsCall && <CheckCircle2 className="w-4 h-4 text-white" />}
+              </div>
+            </div>
+            <div>
+              <div className="font-semibold text-text-primary dark:text-dark-text-primary">
+                Discovery Call
+              </div>
+              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
+                Schedule a call to discuss your project
+              </div>
+            </div>
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Trust Badges */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="flex flex-wrap items-center justify-center gap-6"
+      >
+        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <Shield className="w-4 h-4 text-green-500" />
+          <span>256-bit SSL Encrypted</span>
+        </div>
+        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <CheckCircle2 className="w-4 h-4 text-green-500" />
+          <span>No spam, ever</span>
+        </div>
+        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <Sparkles className="w-4 h-4 text-brand-primary" />
+          <span>100% Free quote</span>
+        </div>
+      </motion.div>
 
       {/* Navigation */}
-      <div className="flex justify-between pt-4">
-        <Button variant="outline" onClick={onBack} disabled={isSubmitting}>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="flex justify-between pt-4"
+      >
+        <Button
+          variant="outline"
+          onClick={onBack}
+          disabled={isSubmitting}
+          className="px-6"
+        >
           Back
         </Button>
-        <Button onClick={handleSubmit} disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Get My Quote'}
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className={cn(
+            "px-8 bg-gradient-to-r from-brand-primary to-blue-600 hover:from-brand-primary/90 hover:to-blue-600/90",
+            "shadow-lg shadow-brand-primary/25 hover:shadow-xl hover:shadow-brand-primary/30",
+            "transition-all duration-300"
+          )}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            'Get My Quote'
+          )}
         </Button>
-      </div>
+      </motion.div>
     </div>
   );
 }

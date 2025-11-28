@@ -91,7 +91,7 @@ export function PremiumBackground() {
         style={{
           background: useMotionTemplate`
             radial-gradient(
-              400px circle at ${smoothX}px ${smoothY}px,
+              250px circle at ${smoothX}px ${smoothY}px,
               rgba(59, 130, 246, 0.08),
               rgba(14, 165, 233, 0.03) 50%,
               transparent 100%
@@ -105,7 +105,7 @@ export function PremiumBackground() {
         style={{
           background: useMotionTemplate`
             radial-gradient(
-              400px circle at ${smoothX}px ${smoothY}px,
+              250px circle at ${smoothX}px ${smoothY}px,
               rgba(59, 130, 246, 0.12),
               rgba(14, 165, 233, 0.04) 50%,
               transparent 100%

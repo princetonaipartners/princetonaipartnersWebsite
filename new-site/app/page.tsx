@@ -102,10 +102,10 @@ export default function Home() {
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-24 text-center z-20">
             <FadeInSection>
-              <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-tight tracking-tight text-balance">
+              <h1 className="text-6xl md:text-7xl font-bold mb-8 leading-snug tracking-tight text-balance">
                 <span className="flex flex-col items-center">
                   {/* Static "Custom" + Typewriter */}
-                  <span className="flex items-center justify-center gap-3 mb-2 flex-wrap">
+                  <span className="flex items-center justify-center gap-3 mb-2 flex-wrap pb-2">
                     <span className="bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary dark:from-dark-brand-primary dark:via-brand-secondary dark:to-dark-brand-primary bg-clip-text text-transparent">
                       Custom
                     </span>

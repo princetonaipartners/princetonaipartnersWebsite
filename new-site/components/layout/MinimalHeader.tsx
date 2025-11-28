@@ -9,7 +9,7 @@ import { SITE_CONFIG } from '@/lib/constants';
 const pageConfig: Record<string, string> = {
   '/': 'Home',
   '/solutions/ai-agents': 'AI Agents',
-  '/solutions/ai-phone-systems': 'AI Phone',
+  '/solutions/ai-phone-systems': 'Phone Agent',
   '/solutions/web-development': 'Web Dev',
   '/solutions/bespoke-software': 'Bespoke',
   '/solutions/process-automation': 'Automation',
