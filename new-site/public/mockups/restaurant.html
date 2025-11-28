@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fine Dining Restaurant | Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+      color: #fff;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Header */
+    .header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      font-style: italic;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav { display: flex; gap: 30px; }
+    .nav a { color: #a0a0a0; text-decoration: none; font-size: 14px; transition: color 0.3s; }
+    .nav a:hover { color: #fff; }
+    .btn-primary {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Hero */
+    .hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 60px 40px;
+      gap: 60px;
+    }
+    .hero-content { flex: 1; }
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero-content h1 span {
+      background: linear-gradient(135deg, #e74c3c, #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-content p {
+      font-size: 18px;
+      color: #a0a0a0;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .hero-buttons { display: flex; gap: 15px; }
+    .btn-secondary {
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(231,76,60,0.3);
+      border-radius: 8px;
+      color: #e74c3c;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Reservation Widget */
+    .reservation-widget {
+      width: 420px;
+      background: rgba(20, 20, 30, 0.95);
+      border-radius: 20px;
+      border: 1px solid rgba(231,76,60,0.2);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .widget-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    .widget-header h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+    .widget-header p { font-size: 13px; color: #888; }
+    .reservation-form {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-row { display: flex; gap: 12px; }
+    .form-group { flex: 1; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group select, .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .occasion-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .occasion-tag {
+      padding: 8px 16px;
+      background: rgba(231,76,60,0.1);
+      border: 1px solid rgba(231,76,60,0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #e74c3c;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .occasion-tag.active {
+      background: rgba(231,76,60,0.3);
+      border-color: #e74c3c;
+    }
+    .reserve-btn {
+      padding: 16px;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    /* Menu Preview */
+    .menu-preview {
+      padding: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .menu-header h2 { font-size: 24px; }
+    .menu-header a { color: #e74c3c; text-decoration: none; font-size: 14px; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .menu-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 20px;
+      text-align: center;
+    }
+    .menu-emoji { font-size: 40px; margin-bottom: 12px; }
+    .menu-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .menu-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">La Maison</div>
+      <nav class="nav">
+        <a href="#">Menu</a>
+        <a href="#">Reservations</a>
+        <a href="#">Private Events</a>
+        <a href="#">Gift Cards</a>
+        <a href="#">About</a>
+      </nav>
+      <button class="btn-primary">Order Online</button>
+    </header>
+
+    <main class="hero">
+      <div class="hero-content">
+        <h1>Culinary <span>Excellence</span></h1>
+        <p>Experience fine dining at its finest. Our award-winning chef crafts unforgettable dishes using locally-sourced ingredients. Book your table and embark on a gastronomic journey.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary">View Menu</button>
+          <button class="btn-secondary">Private Dining</button>
+        </div>
+      </div>
+
+      <div class="reservation-widget">
+        <div class="widget-header">
+          <h3>Reserve a Table</h3>
+          <p>Book your dining experience</p>
+        </div>
+        <div class="reservation-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="text" placeholder="Select date" value="Dec 15, 2025">
+            </div>
+            <div class="form-group">
+              <label>Time</label>
+              <select>
+                <option>7:00 PM</option>
+                <option>7:30 PM</option>
+                <option>8:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Party Size</label>
+              <select>
+                <option>2 Guests</option>
+                <option>4 Guests</option>
+                <option>6 Guests</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Seating</label>
+              <select>
+                <option>Indoor</option>
+                <option>Patio</option>
+                <option>Chef's Table</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Occasion</label>
+            <div class="occasion-tags">
+              <span class="occasion-tag active">Birthday</span>
+              <span class="occasion-tag">Anniversary</span>
+              <span class="occasion-tag">Business</span>
+              <span class="occasion-tag">Date Night</span>
+            </div>
+          </div>
+          <button class="reserve-btn">Complete Reservation</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="menu-preview">
+      <div class="menu-header">
+        <h2>Chef's Selections</h2>
+        <a href="#">Full Menu →</a>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-emoji">🦞</div>
+          <div class="menu-name">Maine Lobster</div>
+          <div class="menu-price">$68</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-emoji">🥩</div>
+          <div class="menu-name">Wagyu Ribeye</div>
+          <div class="menu-price">$125</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-emoji">🍝</div>
+          <div class="menu-name">Truffle Pasta</div>
+          <div class="menu-price">$42</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-emoji">🍰</div>
+          <div class="menu-name">Soufflé</div>
+          <div class="menu-price">$18</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

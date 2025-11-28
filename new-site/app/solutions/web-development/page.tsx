@@ -552,7 +552,7 @@ const portfolioItems: PortfolioItem[] = [
     category: 'Healthcare',
     description: 'Professional medical site with patient portal, online booking, secure forms, and HIPAA-compliant infrastructure for modern healthcare.',
     tags: ['Healthcare', 'HIPAA-Ready', 'Patient Portal'],
-    url: 'https://www.princeton-ai.com/mockups/medical.html',
+    url: '/mockups/medical.html',
     type: 'demo',
   },
   {
@@ -561,7 +561,7 @@ const portfolioItems: PortfolioItem[] = [
     category: 'Real Estate',
     description: 'High-end real estate showcase with virtual tours, property search, lead capture, and premium branding that attracts qualified buyers.',
     tags: ['Real Estate', 'Virtual Tours', 'Lead Gen'],
-    url: 'https://www.princeton-ai.com/mockups/realestate.html',
+    url: '/mockups/realestate.html',
     type: 'demo',
   },
   {
@@ -570,7 +570,7 @@ const portfolioItems: PortfolioItem[] = [
     category: 'Food & Beverage',
     description: 'Mouth-watering restaurant site with online reservations, digital menu, photo galleries, and integrated ordering system.',
     tags: ['Restaurant', 'Reservations', 'Online Orders'],
-    url: 'https://www.princeton-ai.com/mockups/restaurant.html',
+    url: '/mockups/restaurant.html',
     type: 'demo',
   },
   {
@@ -579,7 +579,7 @@ const portfolioItems: PortfolioItem[] = [
     category: 'Entertainment & Gaming',
     description: 'Free-to-play social sportsbook with live betting lines, prop predictions, and sweepstakes integration for real prizes.',
     tags: ['Gaming', 'Social Features', 'Real-Time Data'],
-    url: 'https://www.princeton-ai.com/mockups/stimi.html',
+    url: '/mockups/stimi.html',
     type: 'demo',
   },
 ];

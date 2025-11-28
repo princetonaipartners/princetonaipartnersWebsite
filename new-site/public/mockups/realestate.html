@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Real Estate | Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+      color: #fff;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Header */
+    .header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav { display: flex; gap: 30px; }
+    .nav a { color: #a0a0a0; text-decoration: none; font-size: 14px; transition: color 0.3s; }
+    .nav a:hover { color: #fff; }
+    .btn-primary {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Hero */
+    .hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 60px 40px;
+      gap: 60px;
+    }
+    .hero-content { flex: 1; }
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero-content h1 span {
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-content p {
+      font-size: 18px;
+      color: #a0a0a0;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .hero-buttons { display: flex; gap: 15px; }
+    .btn-secondary {
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 8px;
+      color: #d4af37;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Property Search */
+    .search-widget {
+      width: 420px;
+      background: rgba(20, 20, 30, 0.95);
+      border-radius: 20px;
+      border: 1px solid rgba(212,175,55,0.2);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .search-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .search-header h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+    .search-header p { font-size: 13px; color: #888; }
+    .search-form {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group select, .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .price-range {
+      display: flex;
+      gap: 12px;
+    }
+    .price-range input { flex: 1; }
+    .search-btn {
+      padding: 16px;
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    /* Featured Listings */
+    .listings {
+      padding: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .listings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .listings-header h2 { font-size: 24px; }
+    .listings-header a { color: #d4af37; text-decoration: none; font-size: 14px; }
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .listing-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .listing-image {
+      height: 140px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(244,208,63,0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+    .listing-info { padding: 16px; }
+    .listing-price {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .listing-address { font-size: 14px; color: #888; margin-bottom: 10px; }
+    .listing-details { display: flex; gap: 16px; font-size: 12px; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">Prestige Estates</div>
+      <nav class="nav">
+        <a href="#">Buy</a>
+        <a href="#">Rent</a>
+        <a href="#">Sell</a>
+        <a href="#">Agents</a>
+        <a href="#">About</a>
+      </nav>
+      <button class="btn-primary">List Property</button>
+    </header>
+
+    <main class="hero">
+      <div class="hero-content">
+        <h1>Find Your <span>Dream Home</span></h1>
+        <p>Discover luxury properties in the most exclusive neighborhoods. Our AI-powered search helps you find the perfect home that matches your lifestyle and preferences.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary">View Listings</button>
+          <button class="btn-secondary">Virtual Tours</button>
+        </div>
+      </div>
+
+      <div class="search-widget">
+        <div class="search-header">
+          <h3>Find Your Property</h3>
+          <p>Search our exclusive listings</p>
+        </div>
+        <div class="search-form">
+          <div class="form-group">
+            <label>Location</label>
+            <select>
+              <option>Manhattan, NY</option>
+              <option>Beverly Hills, CA</option>
+              <option>Miami Beach, FL</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Property Type</label>
+            <select>
+              <option>Penthouse</option>
+              <option>Villa</option>
+              <option>Estate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Price Range</label>
+            <div class="price-range">
+              <input type="text" placeholder="$1M">
+              <input type="text" placeholder="$10M+">
+            </div>
+          </div>
+          <button class="search-btn">Search Properties</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="listings">
+      <div class="listings-header">
+        <h2>Featured Properties</h2>
+        <a href="#">View All →</a>
+      </div>
+      <div class="listing-grid">
+        <div class="listing-card">
+          <div class="listing-image">🏠</div>
+          <div class="listing-info">
+            <div class="listing-price">$4,250,000</div>
+            <div class="listing-address">123 Park Avenue, Manhattan</div>
+            <div class="listing-details">
+              <span>4 Beds</span>
+              <span>3 Baths</span>
+              <span>3,200 sqft</span>
+            </div>
+          </div>
+        </div>
+        <div class="listing-card">
+          <div class="listing-image">🏡</div>
+          <div class="listing-info">
+            <div class="listing-price">$6,800,000</div>
+            <div class="listing-address">456 Ocean Drive, Miami</div>
+            <div class="listing-details">
+              <span>5 Beds</span>
+              <span>5 Baths</span>
+              <span>5,400 sqft</span>
+            </div>
+          </div>
+        </div>
+        <div class="listing-card">
+          <div class="listing-image">🏰</div>
+          <div class="listing-info">
+            <div class="listing-price">$12,500,000</div>
+            <div class="listing-address">789 Sunset Blvd, Beverly Hills</div>
+            <div class="listing-details">
+              <span>7 Beds</span>
+              <span>8 Baths</span>
+              <span>9,200 sqft</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
