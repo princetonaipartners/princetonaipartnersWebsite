@@ -3,286 +3,948 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luxury Real Estate | Demo</title>
+  <title>Prestige Estates | Luxury Real Estate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
-      color: #fff;
+
+    :root {
+      --gold: #c9a227;
+      --gold-light: #e8d48a;
+      --gold-dark: #8b6914;
+      --bg-dark: #0d0d0d;
+      --bg-card: #1a1a1a;
+      --text-primary: #ffffff;
+      --text-secondary: #9a9a9a;
+      --gradient: linear-gradient(135deg, #c9a227 0%, #e8d48a 50%, #c9a227 100%);
     }
-    .container {
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
     /* Header */
     .header {
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #d4af37, #f4d03f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav { display: flex; gap: 30px; }
-    .nav a { color: #a0a0a0; text-decoration: none; font-size: 14px; transition: color 0.3s; }
-    .nav a:hover { color: #fff; }
-    .btn-primary {
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #d4af37, #f4d03f);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    /* Hero */
-    .hero {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 60px 40px;
-      gap: 60px;
-    }
-    .hero-content { flex: 1; }
-    .hero-content h1 {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .hero-content h1 span {
-      background: linear-gradient(135deg, #d4af37, #f4d03f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-content p {
-      font-size: 18px;
-      color: #a0a0a0;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-    .hero-buttons { display: flex; gap: 15px; }
-    .btn-secondary {
-      padding: 12px 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
       background: transparent;
-      border: 1px solid rgba(212,175,55,0.3);
-      border-radius: 8px;
-      color: #d4af37;
-      font-weight: 600;
-      cursor: pointer;
+      transition: background 0.3s, padding 0.3s;
     }
-    /* Property Search */
-    .search-widget {
-      width: 420px;
-      background: rgba(20, 20, 30, 0.95);
-      border-radius: 20px;
-      border: 1px solid rgba(212,175,55,0.2);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+
+    .header.scrolled {
+      background: rgba(13, 13, 13, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 3rem;
     }
-    .search-header {
-      padding: 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .search-header h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-    .search-header p { font-size: 13px; color: #888; }
-    .search-form {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .form-group select, .form-group input {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-    }
-    .price-range {
-      display: flex;
-      gap: 12px;
-    }
-    .price-range input { flex: 1; }
-    .search-btn {
-      padding: 16px;
-      background: linear-gradient(135deg, #d4af37, #f4d03f);
-      border: none;
-      border-radius: 12px;
-      color: #000;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    /* Featured Listings */
-    .listings {
-      padding: 40px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    .listings-header {
+
+    .header-inner {
+      max-width: 1600px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
     }
-    .listings-header h2 { font-size: 24px; }
-    .listings-header a { color: #d4af37; text-decoration: none; font-size: 14px; }
-    .listing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: var(--gold);
     }
-    .listing-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.05);
+
+    .nav {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav a:hover {
+      color: var(--gold);
+    }
+
+    .header-contact {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+
+    /* Hero Section - Full Screen */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
       overflow: hidden;
     }
-    .listing-image {
-      height: 140px;
-      background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(244,208,63,0.1));
+
+    .hero-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+    }
+
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(13,13,13,1) 0%, rgba(13,13,13,0.3) 50%, rgba(13,13,13,0.4) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 5rem 3rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      max-width: 800px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-price {
+      font-size: 2rem;
+      color: var(--gold);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .hero-details {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .detail-item {
+      text-align: center;
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .btn-gold {
+      padding: 1rem 2.5rem;
+      background: var(--gradient);
+      border: none;
+      color: var(--bg-dark);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(201, 162, 39, 0.3);
+    }
+
+    .btn-outline {
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Featured Listings */
+    .listings {
+      padding: 8rem 3rem;
+      background: var(--bg-dark);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 3.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .listing-card {
+      position: relative;
+      height: 550px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .listing-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+
+    .listing-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .listing-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0) 60%);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: background 0.3s;
+    }
+
+    .listing-card:hover .listing-overlay {
+      background: linear-gradient(to top, rgba(13,13,13,1) 0%, rgba(13,13,13,0.2) 70%);
+    }
+
+    .listing-badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--gold);
+      color: var(--bg-dark);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .listing-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .listing-address {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .listing-features {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .listing-features span {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 48px;
+      gap: 0.5rem;
     }
-    .listing-info { padding: 16px; }
-    .listing-price {
-      font-size: 22px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #d4af37, #f4d03f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
+
+    /* Search Section */
+    .search-section {
+      padding: 6rem 3rem;
+      background: var(--bg-card);
     }
-    .listing-address { font-size: 14px; color: #888; margin-bottom: 10px; }
-    .listing-details { display: flex; gap: 16px; font-size: 12px; color: #666; }
+
+    .search-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .search-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .search-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 1rem;
+      background: var(--bg-dark);
+      padding: 2rem;
+      border: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 1rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .search-btn {
+      align-self: flex-end;
+      padding: 1rem 2rem;
+      background: var(--gradient);
+      border: none;
+      color: var(--bg-dark);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 6rem 3rem;
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(201, 162, 39, 0.1);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.1);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 2rem;
+    }
+
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* Agents Section */
+    .agents {
+      padding: 8rem 3rem;
+      background: var(--bg-card);
+    }
+
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .agent-card {
+      text-align: center;
+    }
+
+    .agent-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      overflow: hidden;
+      border: 3px solid var(--gold);
+    }
+
+    .agent-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(50%);
+      transition: filter 0.3s;
+    }
+
+    .agent-card:hover .agent-image img {
+      filter: grayscale(0%);
+    }
+
+    .agent-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .agent-title {
+      color: var(--gold);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .agent-sales {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 8rem 3rem;
+      background: linear-gradient(rgba(13,13,13,0.9), rgba(13,13,13,0.9)),
+                  url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80') center/cover;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta h2 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .cta p {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 3rem 2rem;
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(201, 162, 39, 0.1);
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .footer-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .footer-title {
+      font-size: 0.8rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .listings-grid { grid-template-columns: repeat(2, 1fr); }
+      .agents-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-form { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .hero h1 { font-size: 3rem; }
+      .listings-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .agents-grid { grid-template-columns: 1fr; }
+      .search-form { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="logo">Prestige Estates</div>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <div class="logo">PRESTIGE ESTATES</div>
       <nav class="nav">
         <a href="#">Buy</a>
-        <a href="#">Rent</a>
         <a href="#">Sell</a>
-        <a href="#">Agents</a>
+        <a href="#">Rent</a>
+        <a href="#">New Developments</a>
+        <a href="#">Our Agents</a>
         <a href="#">About</a>
       </nav>
-      <button class="btn-primary">List Property</button>
-    </header>
+      <div class="header-contact">
+        <span>+1 (310) 555-0199</span>
+      </div>
+    </div>
+  </header>
 
-    <main class="hero">
-      <div class="hero-content">
-        <h1>Find Your <span>Dream Home</span></h1>
-        <p>Discover luxury properties in the most exclusive neighborhoods. Our AI-powered search helps you find the perfect home that matches your lifestyle and preferences.</p>
-        <div class="hero-buttons">
-          <button class="btn-primary">View Listings</button>
-          <button class="btn-secondary">Virtual Tours</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-slider">
+      <div class="hero-slide active">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80" alt="Luxury Estate">
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80" alt="Modern Mansion">
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80" alt="Beachfront Property">
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">Featured Property</div>
+      <h1>The <span>Pinnacle</span> of Luxury Living</h1>
+      <div class="hero-price">$24,500,000</div>
+
+      <div class="hero-details">
+        <div class="detail-item">
+          <div class="detail-value">7</div>
+          <div class="detail-label">Bedrooms</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-value">9</div>
+          <div class="detail-label">Bathrooms</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-value">12,500</div>
+          <div class="detail-label">Square Feet</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-value">2.5</div>
+          <div class="detail-label">Acres</div>
         </div>
       </div>
 
-      <div class="search-widget">
-        <div class="search-header">
-          <h3>Find Your Property</h3>
-          <p>Search our exclusive listings</p>
-        </div>
-        <div class="search-form">
-          <div class="form-group">
-            <label>Location</label>
-            <select>
-              <option>Manhattan, NY</option>
-              <option>Beverly Hills, CA</option>
-              <option>Miami Beach, FL</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Property Type</label>
-            <select>
-              <option>Penthouse</option>
-              <option>Villa</option>
-              <option>Estate</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Price Range</label>
-            <div class="price-range">
-              <input type="text" placeholder="$1M">
-              <input type="text" placeholder="$10M+">
-            </div>
-          </div>
-          <button class="search-btn">Search Properties</button>
-        </div>
+      <div class="hero-btns">
+        <button class="btn-gold">Schedule Viewing</button>
+        <button class="btn-outline">View Details</button>
       </div>
-    </main>
+    </div>
+  </section>
 
-    <section class="listings">
-      <div class="listings-header">
-        <h2>Featured Properties</h2>
-        <a href="#">View All →</a>
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-container">
+      <div class="search-header">
+        <h2>Find Your Dream Home</h2>
+        <p style="color: var(--text-secondary);">Search our exclusive collection of luxury properties</p>
       </div>
-      <div class="listing-grid">
-        <div class="listing-card">
-          <div class="listing-image">🏠</div>
-          <div class="listing-info">
-            <div class="listing-price">$4,250,000</div>
-            <div class="listing-address">123 Park Avenue, Manhattan</div>
-            <div class="listing-details">
-              <span>4 Beds</span>
-              <span>3 Baths</span>
-              <span>3,200 sqft</span>
-            </div>
-          </div>
+
+      <form class="search-form">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" placeholder="Beverly Hills, Malibu, Bel Air...">
         </div>
-        <div class="listing-card">
-          <div class="listing-image">🏡</div>
-          <div class="listing-info">
-            <div class="listing-price">$6,800,000</div>
-            <div class="listing-address">456 Ocean Drive, Miami</div>
-            <div class="listing-details">
-              <span>5 Beds</span>
-              <span>5 Baths</span>
-              <span>5,400 sqft</span>
-            </div>
-          </div>
+        <div class="form-group">
+          <label>Property Type</label>
+          <select>
+            <option>All Types</option>
+            <option>Estate</option>
+            <option>Penthouse</option>
+            <option>Villa</option>
+            <option>Mansion</option>
+          </select>
         </div>
-        <div class="listing-card">
-          <div class="listing-image">🏰</div>
-          <div class="listing-info">
-            <div class="listing-price">$12,500,000</div>
-            <div class="listing-address">789 Sunset Blvd, Beverly Hills</div>
-            <div class="listing-details">
-              <span>7 Beds</span>
-              <span>8 Baths</span>
-              <span>9,200 sqft</span>
-            </div>
+        <div class="form-group">
+          <label>Min Price</label>
+          <select>
+            <option>$1M+</option>
+            <option>$5M+</option>
+            <option>$10M+</option>
+            <option>$20M+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Max Price</label>
+          <select>
+            <option>No Max</option>
+            <option>$10M</option>
+            <option>$25M</option>
+            <option>$50M</option>
+          </select>
+        </div>
+        <button type="button" class="search-btn">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Featured Listings -->
+  <section class="listings">
+    <div class="section-header">
+      <div class="section-tag">Exclusive Listings</div>
+      <h2>Featured Properties</h2>
+      <p>Discover our handpicked selection of the most exceptional estates on the market</p>
+    </div>
+
+    <div class="listings-grid">
+      <div class="listing-card">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Modern Estate">
+        <div class="listing-overlay">
+          <div class="listing-badge">New Listing</div>
+          <div class="listing-price">$18,750,000</div>
+          <div class="listing-address">742 Sunset Boulevard, Beverly Hills</div>
+          <div class="listing-features">
+            <span>6 Beds</span>
+            <span>8 Baths</span>
+            <span>9,200 sqft</span>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+
+      <div class="listing-card">
+        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" alt="Beach House">
+        <div class="listing-overlay">
+          <div class="listing-badge">Ocean View</div>
+          <div class="listing-price">$32,000,000</div>
+          <div class="listing-address">1200 Pacific Coast Hwy, Malibu</div>
+          <div class="listing-features">
+            <span>8 Beds</span>
+            <span>10 Baths</span>
+            <span>15,400 sqft</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="listing-card">
+        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=80" alt="Mediterranean Villa">
+        <div class="listing-overlay">
+          <div class="listing-badge">Private Estate</div>
+          <div class="listing-price">$45,500,000</div>
+          <div class="listing-address">88 Bellagio Road, Bel Air</div>
+          <div class="listing-features">
+            <span>10 Beds</span>
+            <span>14 Baths</span>
+            <span>22,000 sqft</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">$4.2B</div>
+        <div class="stat-label">Total Sales Volume</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">850+</div>
+        <div class="stat-label">Properties Sold</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">25</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agents Section -->
+  <section class="agents">
+    <div class="section-header">
+      <div class="section-tag">Our Team</div>
+      <h2>Elite Real Estate Advisors</h2>
+      <p>Meet the experts who will guide you through your luxury real estate journey</p>
+    </div>
+
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="agent-image">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Agent">
+        </div>
+        <div class="agent-name">Alexander Sterling</div>
+        <div class="agent-title">Founding Partner</div>
+        <div class="agent-sales">$1.2B in Career Sales</div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-image">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Agent">
+        </div>
+        <div class="agent-name">Victoria Laurent</div>
+        <div class="agent-title">Senior Advisor</div>
+        <div class="agent-sales">$890M in Career Sales</div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-image">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Agent">
+        </div>
+        <div class="agent-name">Marcus Chen</div>
+        <div class="agent-title">Luxury Specialist</div>
+        <div class="agent-sales">$650M in Career Sales</div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-image">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Agent">
+        </div>
+        <div class="agent-name">Sophia Rodriguez</div>
+        <div class="agent-title">Estate Director</div>
+        <div class="agent-sales">$720M in Career Sales</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Find Your <span>Dream Estate</span>?</h2>
+    <p>Let our expert advisors guide you through the world's most exclusive properties</p>
+    <button class="btn-gold">Schedule a Private Consultation</button>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">PRESTIGE ESTATES</div>
+        <p class="footer-desc">The premier luxury real estate brokerage serving discerning clients in the world's most prestigious markets since 1998.</p>
+      </div>
+
+      <div>
+        <div class="footer-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#">Featured Properties</a></li>
+          <li><a href="#">New Developments</a></li>
+          <li><a href="#">Sell Your Property</a></li>
+          <li><a href="#">Market Reports</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-title">Locations</div>
+        <ul class="footer-links">
+          <li><a href="#">Beverly Hills</a></li>
+          <li><a href="#">Malibu</a></li>
+          <li><a href="#">Bel Air</a></li>
+          <li><a href="#">Manhattan</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="#">+1 (310) 555-0199</a></li>
+          <li><a href="#">info@prestige-estates.com</a></li>
+          <li><a href="#">9876 Wilshire Blvd</a></li>
+          <li><a href="#">Beverly Hills, CA 90210</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Prestige Estates. All rights reserved. Licensed Real Estate Brokerage.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Hero slider
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 5000);
+  </script>
 </body>
 </html>

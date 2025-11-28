@@ -3,198 +3,582 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Medical Practice | Demo</title>
+  <title>Westside Medical Center | Premium Healthcare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
-      color: #fff;
+
+    :root {
+      --primary: #0891b2;
+      --primary-dark: #0e7490;
+      --accent: #06b6d4;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --gradient: linear-gradient(135deg, #0891b2 0%, #06b6d4 50%, #22d3ee 100%);
     }
-    .container {
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
+
     /* Header */
     .header {
-      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
+
     .logo {
-      font-size: 24px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #00d4aa, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav { display: flex; gap: 30px; }
-    .nav a { color: #a0a0a0; text-decoration: none; font-size: 14px; transition: color 0.3s; }
-    .nav a:hover { color: #fff; }
-    .btn-primary {
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #00d4aa, #0099ff);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    /* Hero */
-    .hero {
-      flex: 1;
       display: flex;
       align-items: center;
-      padding: 60px 40px;
-      gap: 60px;
+      gap: 0.75rem;
     }
-    .hero-content { flex: 1; }
-    .hero-content h1 {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .hero-content h1 span {
-      background: linear-gradient(135deg, #00d4aa, #0099ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-content p {
-      font-size: 18px;
-      color: #a0a0a0;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-    .hero-buttons { display: flex; gap: 15px; }
-    .btn-secondary {
-      padding: 12px 24px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    /* Chat Widget - Expanded */
-    .chat-widget {
-      width: 420px;
-      height: 520px;
-      background: rgba(20, 20, 30, 0.95);
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-    }
-    .chat-header {
-      padding: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .chat-avatar {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, #00d4aa, #0099ff);
-      border-radius: 50%;
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 20px;
     }
-    .chat-info h3 { font-size: 16px; font-weight: 600; }
-    .chat-info p { font-size: 12px; color: #00d4aa; }
-    .chat-messages {
-      flex: 1;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow-y: auto;
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
     }
-    .message {
-      max-width: 85%;
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.5;
+
+    .nav { display: flex; gap: 2rem; }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s;
     }
-    .message.bot {
-      background: rgba(0, 212, 170, 0.15);
-      border: 1px solid rgba(0, 212, 170, 0.3);
-      align-self: flex-start;
-    }
-    .message.user {
-      background: rgba(0, 153, 255, 0.2);
-      border: 1px solid rgba(0, 153, 255, 0.3);
-      align-self: flex-end;
-    }
-    .chat-input {
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      gap: 12px;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 14px;
-    }
-    .chat-input input::placeholder { color: #666; }
-    .chat-input button {
-      padding: 14px 20px;
-      background: linear-gradient(135deg, #00d4aa, #0099ff);
+    .nav a:hover { color: var(--accent); }
+
+    .header-cta {
+      padding: 0.75rem 1.5rem;
+      background: var(--gradient);
       border: none;
-      border-radius: 12px;
-      color: #fff;
+      border-radius: 50px;
+      color: white;
       font-weight: 600;
       cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    /* Features */
-    .features {
-      padding: 40px;
+    .header-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(8, 145, 178, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -2;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.3);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 50%, rgba(15, 23, 42, 0.9) 100%);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: center;
     }
-    .feature {
-      padding: 24px;
-      background: rgba(255,255,255,0.03);
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Booking Card */
+    .booking-card {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+
+    .booking-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .booking-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .book-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--gradient);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .book-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(8, 145, 178, 0.4);
+    }
+
+    /* Doctors Section */
+    .doctors {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+    }
+
+    .section-header {
+      max-width: 1400px;
+      margin: 0 auto 3rem;
       text-align: center;
     }
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 12px;
-      background: linear-gradient(135deg, rgba(0,212,170,0.2), rgba(0,153,255,0.2));
-      border-radius: 12px;
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .doctors-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .doctor-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .doctor-image {
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .doctor-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .doctor-card:hover .doctor-image img {
+      transform: scale(1.05);
+    }
+
+    .doctor-info {
+      padding: 1.5rem;
+    }
+
+    .doctor-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .doctor-specialty {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .doctor-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .stars {
+      color: #fbbf24;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 6rem 2rem;
+      background: var(--bg-dark);
+    }
+
+    .services-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(30, 41, 59, 0.5) 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(6, 182, 212, 0.1);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 28px;
+      margin-bottom: 1.5rem;
     }
-    .feature h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-    .feature p { font-size: 12px; color: #666; }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+    }
+
+    .testimonials-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .testimonial-quote {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .author-title {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 6rem 2rem;
+      background: var(--gradient);
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .cta-btn {
+      padding: 1rem 2.5rem;
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 2rem;
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero p { margin: 0 auto 2rem; }
+      .hero-stats { justify-content: center; }
+      .booking-card { max-width: 500px; margin: 0 auto; }
+      .doctors-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .doctors-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 1rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="logo">MedCare+</div>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🏥</div>
+        <span class="logo-text">Westside Medical</span>
+      </div>
       <nav class="nav">
         <a href="#">Services</a>
         <a href="#">Doctors</a>
@@ -202,63 +586,266 @@
         <a href="#">Insurance</a>
         <a href="#">Contact</a>
       </nav>
-      <button class="btn-primary">Book Appointment</button>
-    </header>
+      <button class="header-cta">Book Appointment</button>
+    </div>
+  </header>
 
-    <main class="hero">
-      <div class="hero-content">
-        <h1>Your Health, <span>Our Priority</span></h1>
-        <p>Experience world-class healthcare with our AI-powered patient portal. Book appointments, access records, and chat with our medical team 24/7.</p>
-        <div class="hero-buttons">
-          <button class="btn-primary">Schedule Visit</button>
-          <button class="btn-secondary">View Services</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1920&q=80" alt="Modern Medical Facility">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span>24/7 Emergency Care Available</span>
         </div>
-      </div>
+        <h1>Your Health,<br><span>Our Priority</span></h1>
+        <p>Experience world-class healthcare with our team of board-certified physicians. From routine checkups to specialized treatments, we're here for you every step of the way.</p>
 
-      <div class="chat-widget">
-        <div class="chat-header">
-          <div class="chat-avatar">🏥</div>
-          <div class="chat-info">
-            <h3>MedCare Assistant</h3>
-            <p>Online - Typically replies instantly</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-value">50+</div>
+            <div class="stat-label">Expert Doctors</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">25K+</div>
+            <div class="stat-label">Patients Treated</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">98%</div>
+            <div class="stat-label">Satisfaction Rate</div>
           </div>
         </div>
-        <div class="chat-messages">
-          <div class="message bot">Hi! Welcome to MedCare+. I'm your virtual health assistant. How can I help you today?</div>
-          <div class="message user">I'd like to schedule an appointment with Dr. Smith</div>
-          <div class="message bot">I'd be happy to help you schedule with Dr. Smith. She has availability this Thursday at 2pm or Friday at 10am. Which works better for you?</div>
-          <div class="message user">Thursday at 2pm works great</div>
-          <div class="message bot">Perfect! I've reserved Thursday at 2pm with Dr. Smith. You'll receive a confirmation email shortly with pre-visit forms. Is there anything else I can help with?</div>
-        </div>
-        <div class="chat-input">
-          <input type="text" placeholder="Type your message...">
-          <button>Send</button>
-        </div>
       </div>
-    </main>
 
-    <section class="features">
-      <div class="feature">
-        <div class="feature-icon">📅</div>
-        <h4>Easy Booking</h4>
-        <p>Schedule appointments online 24/7</p>
+      <div class="booking-card">
+        <h3>Book an Appointment</h3>
+        <p>Schedule your visit with our specialists</p>
+
+        <div class="form-group">
+          <label>Select Department</label>
+          <select>
+            <option>Primary Care</option>
+            <option>Cardiology</option>
+            <option>Orthopedics</option>
+            <option>Pediatrics</option>
+            <option>Dermatology</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preferred Date</label>
+            <input type="date" value="2025-12-01">
+          </div>
+          <div class="form-group">
+            <label>Preferred Time</label>
+            <select>
+              <option>9:00 AM</option>
+              <option>10:00 AM</option>
+              <option>11:00 AM</option>
+              <option>2:00 PM</option>
+              <option>3:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="(555) 123-4567">
+        </div>
+
+        <button class="book-btn">Schedule Appointment</button>
       </div>
-      <div class="feature">
-        <div class="feature-icon">📋</div>
-        <h4>Patient Portal</h4>
-        <p>Access your records anytime</p>
+    </div>
+  </section>
+
+  <!-- Doctors Section -->
+  <section class="doctors">
+    <div class="section-header">
+      <h2>Meet Our Specialists</h2>
+      <p>Our team of experienced physicians is dedicated to providing you with the highest quality care.</p>
+    </div>
+
+    <div class="doctors-grid">
+      <div class="doctor-card">
+        <div class="doctor-image">
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Dr. Sarah Chen">
+        </div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Sarah Chen</div>
+          <div class="doctor-specialty">Cardiology</div>
+          <div class="doctor-rating">
+            <span class="stars">★★★★★</span>
+            <span>4.9 (127 reviews)</span>
+          </div>
+        </div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">💬</div>
-        <h4>AI Chat Support</h4>
-        <p>Get answers instantly</p>
+
+      <div class="doctor-card">
+        <div class="doctor-image">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80" alt="Dr. Michael Rodriguez">
+        </div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Michael Rodriguez</div>
+          <div class="doctor-specialty">Orthopedics</div>
+          <div class="doctor-rating">
+            <span class="stars">★★★★★</span>
+            <span>4.8 (98 reviews)</span>
+          </div>
+        </div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h4>HIPAA Compliant</h4>
-        <p>Your data is secure</p>
+
+      <div class="doctor-card">
+        <div class="doctor-image">
+          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" alt="Dr. Emily Watson">
+        </div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Emily Watson</div>
+          <div class="doctor-specialty">Pediatrics</div>
+          <div class="doctor-rating">
+            <span class="stars">★★★★★</span>
+            <span>5.0 (156 reviews)</span>
+          </div>
+        </div>
       </div>
-    </section>
-  </div>
+
+      <div class="doctor-card">
+        <div class="doctor-image">
+          <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80" alt="Dr. James Park">
+        </div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. James Park</div>
+          <div class="doctor-specialty">Dermatology</div>
+          <div class="doctor-rating">
+            <span class="stars">★★★★★</span>
+            <span>4.9 (84 reviews)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services">
+    <div class="section-header">
+      <h2>Our Services</h2>
+      <p>Comprehensive healthcare services tailored to your needs</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🩺</div>
+        <h3>Primary Care</h3>
+        <p>Routine checkups, preventive care, and management of chronic conditions by our experienced physicians.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">❤️</div>
+        <h3>Cardiology</h3>
+        <p>Advanced heart care including diagnostics, interventions, and cardiac rehabilitation programs.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🦴</div>
+        <h3>Orthopedics</h3>
+        <p>Expert treatment for bone, joint, and muscle conditions with minimally invasive techniques.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">👶</div>
+        <h3>Pediatrics</h3>
+        <p>Compassionate care for children from newborns to adolescents in a family-friendly environment.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3>Neurology</h3>
+        <p>Specialized diagnosis and treatment for conditions affecting the brain and nervous system.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🔬</div>
+        <h3>Laboratory</h3>
+        <p>State-of-the-art diagnostic testing with quick turnaround times and accurate results.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="section-header">
+      <h2>What Our Patients Say</h2>
+      <p>Real stories from real patients</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          "The team at Westside Medical made me feel completely at ease. Dr. Chen took the time to explain everything and answered all my questions. The best healthcare experience I've ever had."
+        </div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Patient" class="author-avatar">
+          <div>
+            <div class="author-name">Jennifer Martinez</div>
+            <div class="author-title">Cardiology Patient</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          "After my knee surgery, the rehabilitation team was incredible. They helped me get back to running within months. I couldn't be more grateful for their expertise and support."
+        </div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Patient" class="author-avatar">
+          <div>
+            <div class="author-name">David Thompson</div>
+            <div class="author-title">Orthopedics Patient</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          "Dr. Watson is amazing with children. My kids actually look forward to their checkups now! The entire pediatrics department is warm, welcoming, and extremely professional."
+        </div>
+        <div class="testimonial-author">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Patient" class="author-avatar">
+          <div>
+            <div class="author-name">Sarah Johnson</div>
+            <div class="author-title">Pediatrics Parent</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Take Control of Your Health?</h2>
+    <p>Schedule your appointment today and experience the difference of personalized, compassionate care.</p>
+    <button class="cta-btn">Book Your Visit Now</button>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-text">© 2025 Westside Medical Center. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">HIPAA Notice</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

@@ -3,220 +3,796 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Gaming Platform | Demo</title>
+  <title>STIMI | Social Sports Gaming</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0f0a1a 100%);
-      color: #fff;
+
+    :root {
+      --purple: #8b5cf6;
+      --purple-dark: #7c3aed;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --pink: #ec4899;
+      --bg-dark: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-elevated: #1a1a25;
+      --text-primary: #ffffff;
+      --text-secondary: #71717a;
+      --gradient-main: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #10b981 100%);
+      --gradient-pink: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
     }
-    .container {
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
     }
+
+    /* Animated background */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+    }
+
+    .glow-orb {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      opacity: 0.15;
+      z-index: -1;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .glow-orb-1 {
+      top: -200px;
+      right: -200px;
+      background: var(--purple);
+    }
+
+    .glow-orb-2 {
+      bottom: -200px;
+      left: -200px;
+      background: var(--cyan);
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-50px, 50px); }
+    }
+
     /* Header */
     .header {
-      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
+
     .logo {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #9b59b6, #3498db, #1abc9c);
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: var(--gradient-main);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: 0.05em;
     }
-    .nav { display: flex; gap: 30px; }
-    .nav a { color: #a0a0a0; text-decoration: none; font-size: 14px; transition: color 0.3s; }
-    .nav a:hover { color: #fff; }
-    .header-actions { display: flex; gap: 12px; align-items: center; }
-    .balance {
-      padding: 8px 16px;
-      background: linear-gradient(135deg, rgba(155,89,182,0.2), rgba(52,152,219,0.2));
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
+
+    .nav {
+      display: flex;
+      gap: 2.5rem;
     }
-    .balance span { color: #1abc9c; }
-    .btn-primary {
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #9b59b6, #3498db);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
+
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s;
     }
-    /* Hero */
-    .hero {
-      flex: 1;
+
+    .nav a:hover {
+      color: var(--purple);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .balance-badge {
       display: flex;
       align-items: center;
-      padding: 40px;
-      gap: 60px;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 50px;
+      font-size: 0.9rem;
     }
-    .hero-content { flex: 1; }
-    .hero-content h1 {
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 20px;
+
+    .balance-badge span {
+      color: var(--green);
+      font-weight: 600;
     }
-    .hero-content h1 span {
-      background: linear-gradient(135deg, #9b59b6, #3498db, #1abc9c);
+
+    .btn-glow {
+      padding: 0.75rem 1.75rem;
+      background: var(--gradient-main);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--purple);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      background: var(--gradient-main);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero-content p {
-      font-size: 18px;
-      color: #a0a0a0;
-      margin-bottom: 30px;
-      line-height: 1.6;
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
     }
-    .hero-buttons { display: flex; gap: 15px; }
-    .btn-secondary {
-      padding: 12px 24px;
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-outline {
+      padding: 0.75rem 1.75rem;
       background: transparent;
-      border: 1px solid rgba(155,89,182,0.3);
-      border-radius: 8px;
-      color: #9b59b6;
-      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      color: white;
+      font-weight: 500;
+      font-size: 0.9rem;
       cursor: pointer;
+      transition: all 0.3s;
     }
+
+    .btn-outline:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
     /* Live Games Widget */
     .games-widget {
-      width: 440px;
-      background: rgba(20, 20, 35, 0.95);
-      border-radius: 20px;
-      border: 1px solid rgba(155,89,182,0.2);
-      display: flex;
-      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
       box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
+
     .widget-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .widget-header h3 { font-size: 18px; font-weight: 600; }
+
+    .widget-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
     .live-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background: rgba(231,76,60,0.2);
-      border-radius: 12px;
-      font-size: 11px;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 50px;
+      font-size: 0.75rem;
       font-weight: 600;
-      color: #e74c3c;
+      color: #ef4444;
     }
+
     .live-dot {
       width: 6px;
       height: 6px;
-      background: #e74c3c;
+      background: #ef4444;
       border-radius: 50%;
-      animation: pulse 1.5s infinite;
+      animation: blink 1s infinite;
     }
-    @keyframes pulse {
+
+    @keyframes blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      50% { opacity: 0.3; }
     }
+
     .games-list {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-height: 380px;
+      padding: 1rem;
+      max-height: 450px;
       overflow-y: auto;
     }
+
     .game-card {
-      padding: 16px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.05);
+      background: var(--bg-elevated);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: border-color 0.3s;
     }
+
+    .game-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
     .game-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 1rem;
     }
-    .game-teams { display: flex; align-items: center; gap: 10px; }
+
+    .teams {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
     .team {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0.5rem;
     }
+
     .team-logo {
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, rgba(155,89,182,0.3), rgba(52,152,219,0.3));
-      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      background: rgba(139, 92, 246, 0.2);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 16px;
     }
-    .team-name { font-size: 13px; font-weight: 600; }
-    .vs { color: #666; font-size: 11px; }
-    .game-time { font-size: 11px; color: #1abc9c; font-weight: 600; }
+
+    .team-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .vs {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      margin: 0 0.5rem;
+    }
+
+    .game-time {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--green);
+      padding: 0.25rem 0.75rem;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 50px;
+    }
+
     .odds-row {
-      display: flex;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
     }
+
     .odd-btn {
-      flex: 1;
-      padding: 10px;
-      background: rgba(155,89,182,0.1);
-      border: 1px solid rgba(155,89,182,0.2);
-      border-radius: 8px;
+      padding: 0.75rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 12px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s;
     }
+
     .odd-btn:hover {
-      background: rgba(155,89,182,0.2);
-      border-color: #9b59b6;
+      background: rgba(139, 92, 246, 0.2);
+      border-color: var(--purple);
     }
-    .odd-label { font-size: 10px; color: #888; margin-bottom: 4px; }
-    .odd-value { font-size: 14px; font-weight: 700; color: #fff; }
-    /* Stats Bar */
-    .stats-bar {
-      padding: 30px 40px;
+
+    .odd-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .odd-value {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+    }
+
+    .features-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
-    .stat {
+
+    .feature-card {
+      background: var(--bg-elevated);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 2rem;
       text-align: center;
-      padding: 20px;
-      background: rgba(255,255,255,0.02);
-      border-radius: 12px;
+      transition: transform 0.3s, border-color 0.3s;
     }
-    .stat-value {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #9b59b6, #3498db);
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1.5rem;
+      background: var(--gradient-main);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Leaderboard Section */
+    .leaderboard {
+      padding: 6rem 2rem;
+      background: var(--bg-dark);
+    }
+
+    .leaderboard-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      background: var(--bg-card);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 150px 150px;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+
+    .leaderboard-row:hover {
+      background: var(--bg-elevated);
+    }
+
+    .leaderboard-row.header {
+      background: var(--bg-elevated);
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rank {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .rank-1 { color: #fbbf24; }
+    .rank-2 { color: #9ca3af; }
+    .rank-3 { color: #b45309; }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .player-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .player-name {
+      font-weight: 600;
+    }
+
+    .player-username {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .winnings {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .accuracy {
+      font-weight: 600;
+    }
+
+    /* Prizes Section */
+    .prizes {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+    }
+
+    .prizes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .prize-card {
+      background: var(--bg-elevated);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prize-card.featured {
+      border-color: var(--purple);
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, var(--bg-elevated) 100%);
+    }
+
+    .prize-tag {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.25rem 0.75rem;
+      background: var(--gradient-pink);
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .prize-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .prize-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .prize-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: var(--gradient-main);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
+      margin-bottom: 1rem;
     }
-    .stat-label { font-size: 12px; color: #888; }
+
+    .prize-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 400px;
+      background: var(--gradient-main);
+      filter: blur(150px);
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta h2 span {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cta p {
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 2rem 2rem;
+      background: var(--bg-card);
+      border-top: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .footer-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .footer-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--purple);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .hero-container { grid-template-columns: 1fr; }
+      .games-widget { max-width: 500px; margin: 2rem auto 0; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .prizes-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .leaderboard-row { grid-template-columns: 60px 1fr; }
+      .leaderboard-row > *:nth-child(3),
+      .leaderboard-row > *:nth-child(4) { display: none; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
+  <!-- Animated Background -->
+  <div class="bg-grid"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
       <div class="logo">STIMI</div>
       <nav class="nav">
         <a href="#">Games</a>
@@ -226,18 +802,42 @@
         <a href="#">How It Works</a>
       </nav>
       <div class="header-actions">
-        <div class="balance">Balance: <span>5,420 coins</span></div>
-        <button class="btn-primary">Play Now</button>
+        <div class="balance-badge">
+          <span>5,420</span> coins
+        </div>
+        <button class="btn-glow">Play Now</button>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="hero">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
       <div class="hero-content">
-        <h1>Predict. Play. <span>Win Real Prizes</span></h1>
-        <p>Join thousands of sports fans making predictions on live games. No real money gambling - just skill, strategy, and the chance to win amazing prizes through our sweepstakes system.</p>
-        <div class="hero-buttons">
-          <button class="btn-primary">Start Playing Free</button>
-          <button class="btn-secondary">View Prizes</button>
+        <div class="hero-badge">
+          <span>No Purchase Necessary to Play</span>
+        </div>
+        <h1>Predict. Play.<br><span>Win Big.</span></h1>
+        <p>Join millions of sports fans making predictions on live games. Test your skills, climb the leaderboard, and win incredible prizes through our sweepstakes platform.</p>
+
+        <div class="hero-btns">
+          <button class="btn-glow">Start Playing Free</button>
+          <button class="btn-outline">View Prizes</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-value">2.4M+</div>
+            <div class="stat-label">Active Players</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">$2.5M</div>
+            <div class="stat-label">Prizes Awarded</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">15K+</div>
+            <div class="stat-label">Daily Games</div>
+          </div>
         </div>
       </div>
 
@@ -252,7 +852,7 @@
         <div class="games-list">
           <div class="game-card">
             <div class="game-header">
-              <div class="game-teams">
+              <div class="teams">
                 <div class="team">
                   <div class="team-logo">🏀</div>
                   <span class="team-name">Lakers</span>
@@ -283,7 +883,7 @@
 
           <div class="game-card">
             <div class="game-header">
-              <div class="game-teams">
+              <div class="teams">
                 <div class="team">
                   <div class="team-logo">⚽</div>
                   <span class="team-name">Man City</span>
@@ -314,7 +914,7 @@
 
           <div class="game-card">
             <div class="game-header">
-              <div class="game-teams">
+              <div class="teams">
                 <div class="team">
                   <div class="team-logo">🏈</div>
                   <span class="team-name">Chiefs</span>
@@ -344,26 +944,217 @@
           </div>
         </div>
       </div>
-    </main>
+    </div>
+  </section>
 
-    <section class="stats-bar">
-      <div class="stat">
-        <div class="stat-value">2.4M+</div>
-        <div class="stat-label">Active Players</div>
+  <!-- Features Section -->
+  <section class="features">
+    <div class="section-header">
+      <div class="section-tag">How It Works</div>
+      <h2>Play Your Way to Victory</h2>
+      <p>Make predictions, earn coins, and redeem them for amazing prizes</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Make Predictions</h3>
+        <p>Pick winners across all major sports leagues worldwide</p>
       </div>
-      <div class="stat">
-        <div class="stat-value">$500K</div>
-        <div class="stat-label">Prizes Awarded</div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Earn Coins</h3>
+        <p>Correct predictions earn you coins to climb the leaderboard</p>
       </div>
-      <div class="stat">
-        <div class="stat-value">15K+</div>
-        <div class="stat-label">Live Games Daily</div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>Win Prizes</h3>
+        <p>Redeem coins for gift cards, tech gadgets, and more</p>
       </div>
-      <div class="stat">
-        <div class="stat-value">4.9★</div>
-        <div class="stat-label">App Store Rating</div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔥</div>
+        <h3>Compete Daily</h3>
+        <p>Join daily challenges and weekly tournaments</p>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard Section -->
+  <section class="leaderboard">
+    <div class="section-header">
+      <div class="section-tag">Top Players</div>
+      <h2>This Week's Leaders</h2>
+      <p>The sharpest predictors on the platform</p>
+    </div>
+
+    <div class="leaderboard-container">
+      <div class="leaderboard-table">
+        <div class="leaderboard-row header">
+          <div>Rank</div>
+          <div>Player</div>
+          <div>Winnings</div>
+          <div>Accuracy</div>
+        </div>
+
+        <div class="leaderboard-row">
+          <div class="rank rank-1">1st</div>
+          <div class="player-info">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Player" class="player-avatar">
+            <div>
+              <div class="player-name">Alex Thompson</div>
+              <div class="player-username">@alexthompson</div>
+            </div>
+          </div>
+          <div class="winnings">142,850 coins</div>
+          <div class="accuracy">78.4%</div>
+        </div>
+
+        <div class="leaderboard-row">
+          <div class="rank rank-2">2nd</div>
+          <div class="player-info">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Player" class="player-avatar">
+            <div>
+              <div class="player-name">Sarah Martinez</div>
+              <div class="player-username">@sarahm</div>
+            </div>
+          </div>
+          <div class="winnings">128,420 coins</div>
+          <div class="accuracy">75.2%</div>
+        </div>
+
+        <div class="leaderboard-row">
+          <div class="rank rank-3">3rd</div>
+          <div class="player-info">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Player" class="player-avatar">
+            <div>
+              <div class="player-name">Marcus Chen</div>
+              <div class="player-username">@marcusc</div>
+            </div>
+          </div>
+          <div class="winnings">115,780 coins</div>
+          <div class="accuracy">73.8%</div>
+        </div>
+
+        <div class="leaderboard-row">
+          <div class="rank">4th</div>
+          <div class="player-info">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Player" class="player-avatar">
+            <div>
+              <div class="player-name">Emily Rodriguez</div>
+              <div class="player-username">@emilyrod</div>
+            </div>
+          </div>
+          <div class="winnings">98,340 coins</div>
+          <div class="accuracy">71.5%</div>
+        </div>
+
+        <div class="leaderboard-row">
+          <div class="rank">5th</div>
+          <div class="player-info">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Player" class="player-avatar">
+            <div>
+              <div class="player-name">David Kim</div>
+              <div class="player-username">@davidk</div>
+            </div>
+          </div>
+          <div class="winnings">87,620 coins</div>
+          <div class="accuracy">70.2%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prizes Section -->
+  <section class="prizes">
+    <div class="section-header">
+      <div class="section-tag">Rewards</div>
+      <h2>Amazing Prizes Await</h2>
+      <p>Redeem your coins for incredible rewards</p>
+    </div>
+
+    <div class="prizes-grid">
+      <div class="prize-card">
+        <div class="prize-icon">🎮</div>
+        <div class="prize-name">PS5 Console</div>
+        <div class="prize-value">75,000</div>
+        <p class="prize-desc">Latest PlayStation 5 with controller</p>
+        <button class="btn-glow">Redeem Now</button>
+      </div>
+
+      <div class="prize-card featured">
+        <div class="prize-tag">Most Popular</div>
+        <div class="prize-icon">💳</div>
+        <div class="prize-name">$500 Gift Card</div>
+        <div class="prize-value">50,000</div>
+        <p class="prize-desc">Amazon, Apple, or Visa gift card</p>
+        <button class="btn-glow">Redeem Now</button>
+      </div>
+
+      <div class="prize-card">
+        <div class="prize-icon">🎧</div>
+        <div class="prize-name">AirPods Pro</div>
+        <div class="prize-value">25,000</div>
+        <p class="prize-desc">Apple AirPods Pro 2nd Gen</p>
+        <button class="btn-glow">Redeem Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <h2>Ready to <span>Start Winning</span>?</h2>
+      <p>Join millions of players and start making predictions today. It's free to play!</p>
+      <button class="btn-glow">Create Free Account</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">STIMI</div>
+        <p class="footer-desc">The ultimate social sports prediction platform. Test your knowledge, compete with friends, and win amazing prizes.</p>
+      </div>
+
+      <div>
+        <div class="footer-title">Platform</div>
+        <ul class="footer-links">
+          <li><a href="#">Live Games</a></li>
+          <li><a href="#">Predictions</a></li>
+          <li><a href="#">Leaderboard</a></li>
+          <li><a href="#">Prize Store</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">How to Play</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Sweepstakes Rules</a></li>
+          <li><a href="#">Responsible Gaming</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 STIMI. All rights reserved. No purchase necessary. Void where prohibited. 21+ in some jurisdictions.</p>
+    </div>
+  </footer>
 </body>
 </html>
