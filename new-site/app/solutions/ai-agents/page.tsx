@@ -809,12 +809,6 @@ export default function AIAgentsPage() {
                 Start a Conversation
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                href="/case-studies"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-zinc-700 text-white font-medium hover:border-brand-primary/50 transition-colors"
-              >
-                See Case Studies
-              </Link>
             </div>
           </motion.div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { Metadata } from 'next';
-import { Mail, Phone, MapPin, Send, Check, Loader2 } from 'lucide-react';
+import { Mail, MapPin, Send, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FadeInSection } from '@/components/animations/FadeInSection';
 
@@ -19,28 +19,29 @@ export default function ContactPage() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('https://formspree.io/f/mblkbkkn', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        body: formData,
         headers: {
-          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          name: formData.get('name'),
+          email: formData.get('email'),
+          message: formData.get('message'),
+        }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         setFormState('success');
         form.reset();
       } else {
-        const data = await response.json();
-        if (data.errors) {
-          setErrorMessage(data.errors.map((err: { message: string }) => err.message).join(', '));
-        } else {
-          setErrorMessage('There was a problem submitting your form. Please try again.');
-        }
+        setErrorMessage(data.error || 'There was a problem submitting your form. Please try again.');
         setFormState('error');
       }
     } catch {
-      setErrorMessage('There was a problem submitting your form. Please try again.');
+      setErrorMessage('Unable to connect. Please check your internet and try again.');
       setFormState('error');
     }
   };
@@ -183,7 +184,7 @@ export default function ContactPage() {
 
           {/* Contact Info */}
           <FadeInSection delay={0.4}>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-md mx-auto">
               <div className="text-center">
                 <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Mail className="w-5 h-5 text-brand-primary" />
@@ -191,15 +192,6 @@ export default function ContactPage() {
                 <p className="text-sm text-zinc-400">Email</p>
                 <a href="mailto:hello@princeton-ai.com" className="text-white hover:text-brand-primary transition-colors">
                   hello@princeton-ai.com
-                </a>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Phone className="w-5 h-5 text-brand-primary" />
-                </div>
-                <p className="text-sm text-zinc-400">Phone</p>
-                <a href="tel:+16095551234" className="text-white hover:text-brand-primary transition-colors">
-                  (609) 555-1234
                 </a>
               </div>
               <div className="text-center">

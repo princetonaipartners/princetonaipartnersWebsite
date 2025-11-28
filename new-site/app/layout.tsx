@@ -72,6 +72,68 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* JSON-LD Schema for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Princeton AI Partners',
+              url: 'https://princeton-ai.com',
+              logo: 'https://princeton-ai.com/logos/logo-full.png',
+              description: 'Custom AI agents, phone systems, automation, and software development.',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Princeton',
+                addressRegion: 'NJ',
+                addressCountry: 'US',
+              },
+              contactPoint: {
+                '@type': 'ContactPoint',
+                email: 'hello@princeton-ai.com',
+                contactType: 'sales',
+              },
+              sameAs: [
+                'https://github.com/princetonaipartners',
+              ],
+              makesOffer: [
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'AI Agents',
+                    description: 'Custom AI agents for business automation',
+                  },
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'AI Phone Systems',
+                    description: 'AI-powered phone systems and voice agents',
+                  },
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Web Development',
+                    description: 'Modern web applications with Next.js and React',
+                  },
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Custom Software',
+                    description: 'Bespoke software development',
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="font-sans">
         <ThemeProvider
@@ -80,8 +142,15 @@ export default function RootLayout({
           forcedTheme="dark"
           disableTransitionOnChange
         >
+          {/* Skip link for keyboard navigation */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-primary focus:text-white focus:rounded-lg focus:outline-none"
+          >
+            Skip to main content
+          </a>
           <MinimalHeader />
-          <main className="min-h-screen pt-16 pb-24">{children}</main>
+          <main id="main-content" className="min-h-screen pt-16 pb-24">{children}</main>
           <Footer />
           <FloatingDock />
         </ThemeProvider>

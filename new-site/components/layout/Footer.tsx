@@ -29,7 +29,6 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <SocialIcon platform="github" url={SITE_CONFIG.links.github} />
-              <SocialIcon platform="linkedin" url="#" />
             </div>
           </div>
 
