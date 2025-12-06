@@ -2,13 +2,15 @@
 
 import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { QuoteState, FeatureId, ProjectType, Complexity, Timeline } from '@/lib/quote/types';
+import type { QuoteState, FeatureId, ProjectType, Complexity, Timeline, IndustryId, TechStackPreferences } from '@/lib/quote/types';
 import { createInitialQuoteState } from '@/lib/quote/types';
-import { calculateEstimate } from '@/lib/quote/pricing';
+import { calculateEstimate, generateQuoteId } from '@/lib/quote/pricing';
 import { QuoteProgress } from './QuoteProgress';
 import { QuoteEstimate } from './QuoteEstimate';
+import { IndustryStep } from './steps/IndustryStep';
 import { ProjectTypeStep } from './steps/ProjectTypeStep';
 import { ScopeFeaturesStep } from './steps/ScopeFeaturesStep';
+import { TechStackStep } from './steps/TechStackStep';
 import { TimelineStep } from './steps/TimelineStep';
 import { ContactStep } from './steps/ContactStep';
 import { QuoteResultStep } from './steps/QuoteResultStep';
@@ -32,36 +34,48 @@ export function QuoteCalculator() {
   const [state, setState] = useState<QuoteState>(createInitialQuoteState);
   const [direction, setDirection] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quoteId, setQuoteId] = useState<string | null>(null);
 
   const estimate = calculateEstimate(state);
 
   // Navigation
-  const goToStep = useCallback((step: 1 | 2 | 3 | 4 | 5) => {
+  const goToStep = useCallback((step: QuoteState['currentStep']) => {
     setDirection(step > state.currentStep ? 1 : -1);
     setState((prev) => ({ ...prev, currentStep: step }));
   }, [state.currentStep]);
 
   const nextStep = useCallback(() => {
-    if (state.currentStep < 5) {
+    if (state.currentStep < 7) {
       setDirection(1);
-      setState((prev) => ({ ...prev, currentStep: (prev.currentStep + 1) as 1 | 2 | 3 | 4 | 5 }));
+      setState((prev) => ({ ...prev, currentStep: (prev.currentStep + 1) as QuoteState['currentStep'] }));
     }
   }, [state.currentStep]);
 
   const prevStep = useCallback(() => {
     if (state.currentStep > 1) {
       setDirection(-1);
-      setState((prev) => ({ ...prev, currentStep: (prev.currentStep - 1) as 1 | 2 | 3 | 4 | 5 }));
+      setState((prev) => ({ ...prev, currentStep: (prev.currentStep - 1) as QuoteState['currentStep'] }));
     }
   }, [state.currentStep]);
 
   // State updaters
-  const setProjectType = useCallback((projectType: ProjectType) => {
-    setState((prev) => ({ ...prev, projectType }));
-    // Auto-advance after selection with slight delay
+  const setIndustry = useCallback((industry: IndustryId) => {
+    setState((prev) => ({ ...prev, industry }));
     setTimeout(() => {
       setDirection(1);
       setState((prev) => ({ ...prev, currentStep: 2 }));
+    }, 300);
+  }, []);
+
+  const setIndustryOther = useCallback((value: string) => {
+    setState((prev) => ({ ...prev, industryOther: value }));
+  }, []);
+
+  const setProjectType = useCallback((projectType: ProjectType) => {
+    setState((prev) => ({ ...prev, projectType, features: [] })); // Reset features when type changes
+    setTimeout(() => {
+      setDirection(1);
+      setState((prev) => ({ ...prev, currentStep: 3 }));
     }, 300);
   }, []);
 
@@ -78,6 +92,28 @@ export function QuoteCalculator() {
     }));
   }, []);
 
+  const updateTechStack = useCallback((updates: Partial<TechStackPreferences>) => {
+    setState((prev) => ({
+      ...prev,
+      techStack: { ...prev.techStack, ...updates },
+    }));
+  }, []);
+
+  const skipTechStack = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      techStack: {
+        frontend: 'no-preference',
+        backend: 'no-preference',
+        ai: 'no-preference',
+        database: 'no-preference',
+        hosting: 'no-preference',
+        existingInfrastructure: '',
+      },
+    }));
+    nextStep();
+  }, [nextStep]);
+
   const setTimeline = useCallback((timeline: Timeline) => {
     setState((prev) => ({ ...prev, timeline }));
   }, []);
@@ -93,17 +129,20 @@ export function QuoteCalculator() {
   const handleSubmit = useCallback(async () => {
     setIsSubmitting(true);
     try {
+      const newQuoteId = generateQuoteId();
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...state,
           estimate,
+          quoteId: newQuoteId,
           submittedAt: new Date().toISOString(),
         }),
       });
 
       if (response.ok) {
+        setQuoteId(newQuoteId);
         nextStep();
       } else {
         console.error('Quote submission failed');
@@ -120,14 +159,25 @@ export function QuoteCalculator() {
     switch (state.currentStep) {
       case 1:
         return (
+          <IndustryStep
+            selectedIndustry={state.industry}
+            industryOther={state.industryOther || ''}
+            onSelect={setIndustry}
+            onOtherChange={setIndustryOther}
+          />
+        );
+      case 2:
+        return (
           <ProjectTypeStep
             selectedType={state.projectType}
             onSelect={setProjectType}
           />
         );
-      case 2:
+      case 3:
         return (
           <ScopeFeaturesStep
+            projectType={state.projectType!}
+            industry={state.industry!}
             complexity={state.complexity}
             features={state.features}
             onComplexityChange={setComplexity}
@@ -136,7 +186,17 @@ export function QuoteCalculator() {
             onBack={prevStep}
           />
         );
-      case 3:
+      case 4:
+        return (
+          <TechStackStep
+            techStack={state.techStack}
+            onUpdate={updateTechStack}
+            onNext={nextStep}
+            onBack={prevStep}
+            onSkip={skipTechStack}
+          />
+        );
+      case 5:
         return (
           <TimelineStep
             timeline={state.timeline}
@@ -145,7 +205,7 @@ export function QuoteCalculator() {
             onBack={prevStep}
           />
         );
-      case 4:
+      case 6:
         return (
           <ContactStep
             contact={state.contact}
@@ -155,11 +215,12 @@ export function QuoteCalculator() {
             isSubmitting={isSubmitting}
           />
         );
-      case 5:
+      case 7:
         return (
           <QuoteResultStep
             state={state}
             estimate={estimate}
+            quoteId={quoteId || undefined}
           />
         );
       default:
@@ -184,15 +245,17 @@ export function QuoteCalculator() {
           transition={{ delay: 0.1 }}
           className="text-lg text-text-secondary dark:text-dark-text-secondary"
         >
-          Answer a few questions to receive a personalized estimate + project brief
+          Answer a few questions to receive a personalized estimate
         </motion.p>
       </div>
 
-      {/* Progress indicator */}
-      <QuoteProgress
-        currentStep={state.currentStep}
-        onStepClick={goToStep}
-      />
+      {/* Progress indicator - hide on result step */}
+      {state.currentStep < 7 && (
+        <QuoteProgress
+          currentStep={state.currentStep}
+          onStepClick={goToStep}
+        />
+      )}
 
       {/* Step content */}
       <div className="mt-8 md:mt-12">
@@ -211,8 +274,8 @@ export function QuoteCalculator() {
         </AnimatePresence>
       </div>
 
-      {/* Floating estimate (visible on steps 2-4) */}
-      {state.currentStep >= 2 && state.currentStep <= 4 && estimate && (
+      {/* Floating estimate (visible on steps 3-6 when we have enough data) */}
+      {state.currentStep >= 3 && state.currentStep <= 6 && estimate && (
         <QuoteEstimate estimate={estimate} />
       )}
     </div>

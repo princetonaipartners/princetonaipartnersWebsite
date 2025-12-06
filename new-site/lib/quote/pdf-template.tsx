@@ -7,7 +7,7 @@ import {
   Font,
 } from '@react-pdf/renderer';
 import type { QuoteState, PriceEstimate } from './types';
-import { PROJECT_TYPES, COMPLEXITY_OPTIONS, TIMELINE_OPTIONS } from './constants';
+import { getProjectTypeById, getIndustryById, getComplexityById, getTimelineById } from './constants';
 import { formatPrice, getFeatureNames } from './pricing';
 
 // Register fonts (using system fonts as fallback)
@@ -206,9 +206,10 @@ interface QuotePDFProps {
 }
 
 export function QuotePDF({ state, estimate, quoteId }: QuotePDFProps) {
-  const projectType = PROJECT_TYPES.find((p) => p.id === state.projectType);
-  const complexity = COMPLEXITY_OPTIONS.find((c) => c.id === state.complexity);
-  const timeline = TIMELINE_OPTIONS.find((t) => t.id === state.timeline);
+  const projectType = getProjectTypeById(state.projectType!);
+  const industry = getIndustryById(state.industry!);
+  const complexity = getComplexityById(state.complexity);
+  const timeline = getTimelineById(state.timeline);
   const featureNames = getFeatureNames(state.features);
   const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -256,7 +257,7 @@ export function QuotePDF({ state, estimate, quoteId }: QuotePDFProps) {
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Timeline:</Text>
-            <Text style={styles.value}>{timeline?.name} ({timeline?.duration})</Text>
+            <Text style={styles.value}>{timeline?.name}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Quote ID:</Text>
@@ -294,14 +295,22 @@ export function QuotePDF({ state, estimate, quoteId }: QuotePDFProps) {
                 Base ({projectType?.name}, {complexity?.name})
               </Text>
               <Text style={styles.breakdownValue}>
-                {formatPrice(estimate.breakdown.base)}
+                {formatPrice(estimate.breakdown.basePrice)}
               </Text>
             </View>
-            {estimate.breakdown.features > 0 && (
+            {estimate.breakdown.featuresTotal > 0 && (
               <View style={styles.breakdownRow}>
                 <Text style={styles.breakdownLabel}>Feature Add-ons</Text>
                 <Text style={styles.breakdownValue}>
-                  +{formatPrice(estimate.breakdown.features)}
+                  +{formatPrice(estimate.breakdown.featuresTotal)}
+                </Text>
+              </View>
+            )}
+            {estimate.breakdown.industryAdjustment > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={styles.breakdownLabel}>Industry Adjustment</Text>
+                <Text style={styles.breakdownValue}>
+                  +{formatPrice(estimate.breakdown.industryAdjustment)}
                 </Text>
               </View>
             )}

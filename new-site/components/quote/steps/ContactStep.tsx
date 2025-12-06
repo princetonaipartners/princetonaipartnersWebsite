@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, Building2, FileText, Calendar, Shield, Sparkles, CheckCircle2, User, Loader2 } from 'lucide-react';
+import { Mail, Phone, Building2, FileText, Calendar, Shield, Sparkles, CheckCircle2, User, Loader2, DollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import type { QuoteState } from '@/lib/quote/types';
+import type { QuoteState, BudgetRange } from '@/lib/quote/types';
+import { BUDGET_OPTIONS } from '@/lib/quote/constants';
 
 interface ContactStepProps {
   contact: QuoteState['contact'];
@@ -28,7 +29,6 @@ export function ContactStep({
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-
     if (!contact.firstName.trim()) {
       newErrors.firstName = 'First name is required';
     }
@@ -40,7 +40,6 @@ export function ContactStep({
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) {
       newErrors.email = 'Please enter a valid email';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -53,12 +52,7 @@ export function ContactStep({
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center"
-      >
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
           Almost there!
         </h2>
@@ -67,29 +61,24 @@ export function ContactStep({
         </p>
       </motion.div>
 
-      {/* Main Form Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
         className={cn(
           "relative rounded-2xl overflow-hidden",
-          // Gradient border effect
           "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
           "before:bg-gradient-to-b before:from-zinc-200 before:via-zinc-100 before:to-zinc-200",
           "dark:before:from-zinc-700 dark:before:via-zinc-800 dark:before:to-zinc-700"
         )}
       >
         <div className="relative bg-white dark:bg-zinc-900 rounded-2xl p-6 md:p-8">
-          {/* Contact Info Section */}
           <div className="space-y-6">
-            {/* Section Header */}
             <div className="flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               <User className="w-4 h-4" />
               Contact Information
             </div>
 
-            {/* Name Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
@@ -102,11 +91,7 @@ export function ContactStep({
                   className={errors.firstName ? 'border-red-500 dark:border-red-500' : ''}
                 />
                 {errors.firstName && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-sm text-red-500"
-                  >
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-red-500">
                     {errors.firstName}
                   </motion.p>
                 )}
@@ -122,18 +107,13 @@ export function ContactStep({
                   className={errors.lastName ? 'border-red-500 dark:border-red-500' : ''}
                 />
                 {errors.lastName && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-sm text-red-500"
-                  >
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-red-500">
                     {errors.lastName}
                   </motion.p>
                 )}
               </div>
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
                 <Mail className="w-4 h-4 text-brand-primary" />
@@ -147,32 +127,23 @@ export function ContactStep({
                 className={errors.email ? 'border-red-500 dark:border-red-500' : ''}
               />
               {errors.email && (
-                <motion.p
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-sm text-red-500"
-                >
+                <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-red-500">
                   {errors.email}
                 </motion.p>
               )}
             </div>
 
-            {/* Divider */}
             <div className="border-t border-zinc-200 dark:border-zinc-800" />
 
-            {/* Optional Fields Section */}
             <div className="flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               <Building2 className="w-4 h-4" />
               Additional Details
               <span className="text-xs font-normal normal-case">(optional)</span>
             </div>
 
-            {/* Company & Phone Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-                  Company
-                </label>
+                <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">Company</label>
                 <Input
                   placeholder="Acme Inc."
                   value={contact.company || ''}
@@ -193,11 +164,33 @@ export function ContactStep({
               </div>
             </div>
 
-            {/* Project Description */}
+            {/* Budget Range */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
-                Project Description
+              <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary flex items-center gap-2">
+                <DollarSign className="w-4 h-4 text-zinc-400" />
+                Budget Range
               </label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {BUDGET_OPTIONS.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => onUpdate({ budget: option.id })}
+                    className={cn(
+                      'px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all',
+                      contact.budget === option.id
+                        ? 'border-brand-primary bg-brand-light/50 dark:bg-brand-primary/10 text-brand-primary'
+                        : 'border-zinc-200 dark:border-zinc-700 hover:border-brand-primary/50 text-text-secondary'
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-primary dark:text-dark-text-primary">Project Description</label>
               <Textarea
                 placeholder="Tell us a bit about your project goals and requirements..."
                 rows={3}
@@ -209,19 +202,12 @@ export function ContactStep({
         </div>
       </motion.div>
 
-      {/* Preferences Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-4"
-      >
+      {/* Preferences */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="space-y-4">
         <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider px-1">
           Delivery Preferences
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* PDF Option */}
           <motion.button
             type="button"
             whileHover={{ scale: 1.02 }}
@@ -235,34 +221,19 @@ export function ContactStep({
             )}
           >
             <div className="flex items-center justify-between w-full">
-              <div className={cn(
-                'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
-                contact.wantsPdf
-                  ? 'bg-brand-primary text-white'
-                  : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'
-              )}>
+              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center transition-colors', contact.wantsPdf ? 'bg-brand-primary text-white' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500')}>
                 <FileText className="w-5 h-5" />
               </div>
-              <div className={cn(
-                'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all',
-                contact.wantsPdf
-                  ? 'border-brand-primary bg-brand-primary'
-                  : 'border-zinc-300 dark:border-zinc-600'
-              )}>
+              <div className={cn('w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all', contact.wantsPdf ? 'border-brand-primary bg-brand-primary' : 'border-zinc-300 dark:border-zinc-600')}>
                 {contact.wantsPdf && <CheckCircle2 className="w-4 h-4 text-white" />}
               </div>
             </div>
             <div>
-              <div className="font-semibold text-text-primary dark:text-dark-text-primary">
-                PDF Quote
-              </div>
-              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                Get a detailed PDF sent to your email
-              </div>
+              <div className="font-semibold text-text-primary dark:text-dark-text-primary">PDF Quote</div>
+              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">Get a detailed PDF sent to your email</div>
             </div>
           </motion.button>
 
-          {/* Call Option */}
           <motion.button
             type="button"
             whileHover={{ scale: 1.02 }}
@@ -276,42 +247,23 @@ export function ContactStep({
             )}
           >
             <div className="flex items-center justify-between w-full">
-              <div className={cn(
-                'w-10 h-10 rounded-xl flex items-center justify-center transition-colors',
-                contact.wantsCall
-                  ? 'bg-brand-primary text-white'
-                  : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'
-              )}>
+              <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center transition-colors', contact.wantsCall ? 'bg-brand-primary text-white' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500')}>
                 <Calendar className="w-5 h-5" />
               </div>
-              <div className={cn(
-                'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all',
-                contact.wantsCall
-                  ? 'border-brand-primary bg-brand-primary'
-                  : 'border-zinc-300 dark:border-zinc-600'
-              )}>
+              <div className={cn('w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all', contact.wantsCall ? 'border-brand-primary bg-brand-primary' : 'border-zinc-300 dark:border-zinc-600')}>
                 {contact.wantsCall && <CheckCircle2 className="w-4 h-4 text-white" />}
               </div>
             </div>
             <div>
-              <div className="font-semibold text-text-primary dark:text-dark-text-primary">
-                Discovery Call
-              </div>
-              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                Schedule a call to discuss your project
-              </div>
+              <div className="font-semibold text-text-primary dark:text-dark-text-primary">Discovery Call</div>
+              <div className="text-sm text-text-secondary dark:text-dark-text-secondary">Schedule a call to discuss your project</div>
             </div>
           </motion.button>
         </div>
       </motion.div>
 
       {/* Trust Badges */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="flex flex-wrap items-center justify-center gap-6"
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex flex-wrap items-center justify-center gap-6">
         <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
           <Shield className="w-4 h-4 text-green-500" />
           <span>256-bit SSL Encrypted</span>
@@ -327,20 +279,8 @@ export function ContactStep({
       </motion.div>
 
       {/* Navigation */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="flex justify-between pt-4"
-      >
-        <Button
-          variant="outline"
-          onClick={onBack}
-          disabled={isSubmitting}
-          className="px-6"
-        >
-          Back
-        </Button>
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex justify-between pt-4">
+        <Button variant="outline" onClick={onBack} disabled={isSubmitting} className="px-6">Back</Button>
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
@@ -350,14 +290,7 @@ export function ContactStep({
             "transition-all duration-300"
           )}
         >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Submitting...
-            </>
-          ) : (
-            'Get My Quote'
-          )}
+          {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Submitting...</>) : ('Get My Quote')}
         </Button>
       </motion.div>
     </div>

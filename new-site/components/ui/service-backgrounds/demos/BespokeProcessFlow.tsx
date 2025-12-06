@@ -92,7 +92,7 @@ export function BespokeProcessFlow() {
   }, []);
 
   return (
-    <div className="absolute inset-0 flex flex-col px-8 pt-24 pb-8 overflow-hidden">
+    <div className="absolute inset-0 flex flex-col px-8 pt-36 pb-8 overflow-hidden">
       <motion.div
         className="w-full max-w-5xl mx-auto flex-1 flex flex-col"
         initial={{ opacity: 0 }}

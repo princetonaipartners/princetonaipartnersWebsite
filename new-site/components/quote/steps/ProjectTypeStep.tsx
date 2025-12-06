@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion';
 import {
-  Rocket,
-  Brain,
-  Building2,
-  Workflow,
   Globe,
+  Brain,
+  Phone,
+  Workflow,
+  Search,
   Bot,
+  Building2,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -21,12 +22,13 @@ interface ProjectTypeStepProps {
 }
 
 const iconMap: Record<string, LucideIcon> = {
-  Rocket,
-  Brain,
-  Building2,
-  Workflow,
   Globe,
+  Brain,
+  Phone,
+  Workflow,
+  Search,
   Bot,
+  Building2,
 };
 
 const containerVariants = {
@@ -77,10 +79,9 @@ export function ProjectTypeStep({ selectedType, onSelect }: ProjectTypeStepProps
                   : 'border-neutral-200 dark:border-dark-border hover:border-brand-primary/50'
               )}
             >
-              {/* Selected indicator */}
               {isSelected && (
                 <motion.div
-                  layoutId="selectedIndicator"
+                  layoutId="projectSelectedIndicator"
                   className="absolute inset-0 rounded-xl bg-brand-light/50 dark:bg-brand-primary/10"
                   initial={false}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
@@ -108,7 +109,7 @@ export function ProjectTypeStep({ selectedType, onSelect }: ProjectTypeStepProps
                 </p>
 
                 <div className="text-sm font-medium text-brand-primary">
-                  {formatPrice(type.baseRange.low)} - {formatPrice(type.baseRange.high)}
+                  {formatPrice(type.priceRange.min)} - {formatPrice(type.priceRange.max)}
                 </div>
               </div>
             </motion.button>

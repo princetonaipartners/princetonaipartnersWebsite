@@ -117,7 +117,7 @@ function GlowSpotElement({
 
   return (
     <motion.div
-      className="absolute rounded-full"
+      className="absolute rounded-full will-change-transform"
       style={{
         left: spot.x,
         top: spot.y,
@@ -125,8 +125,9 @@ function GlowSpotElement({
         height: spot.size,
         y,
         opacity,
-        background: `radial-gradient(circle, ${spot.color}40 0%, ${spot.color}20 30%, transparent 70%)`,
-        filter: 'blur(80px)',
+        // OPTIMIZED: Reduced blur from 80px to 40px for better scroll performance
+        background: `radial-gradient(circle, ${spot.color}50 0%, ${spot.color}30 30%, transparent 70%)`,
+        filter: 'blur(40px)',
         transform: 'translate(-50%, -50%)',
       }}
     />

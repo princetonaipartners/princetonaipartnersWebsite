@@ -45,15 +45,16 @@ export function PremiumBackground() {
     <div className="fixed inset-0 z-0 overflow-hidden bg-zinc-50 dark:bg-zinc-950 pointer-events-none">
       {/* --- LAYER 1: Ambient Orbs (The "Deep") --- */}
       {/* These create the base atmosphere and move with parallax */}
-      <motion.div style={{ y: orbY }} className="absolute inset-0">
+      {/* OPTIMIZED: Reduced blur values and added will-change for GPU acceleration */}
+      <motion.div style={{ y: orbY }} className="absolute inset-0 will-change-transform">
         {/* Primary Blue Orb - Middle Left */}
-        <div className="absolute top-[35%] left-[-15%] h-[600px] w-[600px] rounded-full bg-blue-400/15 dark:bg-blue-600/20 blur-[120px]" />
+        <div className="absolute top-[35%] left-[-15%] h-[600px] w-[600px] rounded-full bg-blue-400/20 dark:bg-blue-600/25 blur-[60px]" />
 
         {/* Sky Blue Orb - Center Right */}
-        <div className="absolute top-[50%] right-[-10%] h-[500px] w-[500px] rounded-full bg-sky-400/10 dark:bg-sky-500/15 blur-[100px]" />
+        <div className="absolute top-[50%] right-[-10%] h-[500px] w-[500px] rounded-full bg-sky-400/15 dark:bg-sky-500/20 blur-[50px]" />
 
         {/* Deep Blue Orb - Bottom Left */}
-        <div className="absolute top-[75%] left-[10%] h-[400px] w-[400px] rounded-full bg-blue-500/8 dark:bg-blue-700/10 blur-[100px]" />
+        <div className="absolute top-[75%] left-[10%] h-[400px] w-[400px] rounded-full bg-blue-500/12 dark:bg-blue-700/15 blur-[50px]" />
       </motion.div>
 
       {/* --- LAYER 2: The Grid (Structure) --- */}
@@ -116,28 +117,30 @@ export function PremiumBackground() {
 
       {/* --- LAYER 4: The Hero "Aurora" (Top Layer) --- */}
       {/* This is your existing Aurora feel - fades as user scrolls */}
+      {/* OPTIMIZED: Reduced blur values for better scroll performance */}
       <motion.div
         style={{ opacity: heroOpacity, y: heroY }}
-        className="absolute -top-[5%] -right-[10%] h-[700px] w-[900px]"
+        className="absolute -top-[5%] -right-[10%] h-[700px] w-[900px] will-change-transform"
       >
         {/* Primary blue glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/25 via-blue-500/15 dark:from-blue-500/40 dark:via-blue-600/20 to-transparent blur-[100px]" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 via-blue-500/20 dark:from-blue-500/45 dark:via-blue-600/25 to-transparent blur-[50px]" />
         {/* Secondary sky blue accent */}
-        <div className="absolute top-[20%] right-[10%] h-[400px] w-[400px] rounded-full bg-sky-300/20 dark:bg-sky-400/25 blur-[80px]" />
+        <div className="absolute top-[20%] right-[10%] h-[400px] w-[400px] rounded-full bg-sky-300/25 dark:bg-sky-400/30 blur-[40px]" />
       </motion.div>
 
       {/* --- LAYER 5: The CTA "Event" (Bottom Layer) --- */}
       {/* A "Gravity Well" that intensifies as user approaches CTA */}
+      {/* OPTIMIZED: Reduced blur values */}
       <motion.div
         style={{ opacity: ctaIntensity }}
-        className="absolute -bottom-[20%] left-[10%] right-[10%] h-[500px]"
+        className="absolute -bottom-[20%] left-[10%] right-[10%] h-[500px] will-change-transform"
       >
         {/* Central convergence glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-blue-400/20 via-blue-400/10 dark:from-blue-600/30 dark:via-blue-500/15 to-transparent blur-[100px]" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-blue-400/25 via-blue-400/15 dark:from-blue-600/35 dark:via-blue-500/20 to-transparent blur-[50px]" />
         {/* Sky blue accent - left */}
-        <div className="absolute bottom-0 left-[20%] h-[300px] w-[400px] rounded-full bg-sky-400/15 dark:bg-sky-500/20 blur-[80px]" />
+        <div className="absolute bottom-0 left-[20%] h-[300px] w-[400px] rounded-full bg-sky-400/20 dark:bg-sky-500/25 blur-[40px]" />
         {/* Deep blue accent - right */}
-        <div className="absolute bottom-0 right-[20%] h-[300px] w-[400px] rounded-full bg-blue-400/15 dark:bg-blue-600/20 blur-[80px]" />
+        <div className="absolute bottom-0 right-[20%] h-[300px] w-[400px] rounded-full bg-blue-400/20 dark:bg-blue-600/25 blur-[40px]" />
       </motion.div>
 
       {/* --- LAYER 6: Noise Overlay (The Finish) --- */}

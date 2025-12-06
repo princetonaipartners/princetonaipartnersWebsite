@@ -1,25 +1,10 @@
-import { ReactNode, useState, useRef, useEffect, useCallback } from "react";
+import { ReactNode, useRef, useEffect } from "react";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
-
-// Throttle function for performance
-function throttle<T extends (...args: any[]) => void>(
-  func: T,
-  limit: number
-): T {
-  let inThrottle: boolean;
-  return function (this: any, ...args: any[]) {
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  } as T;
-}
 
 const BentoGrid = ({
   children,
@@ -59,39 +44,51 @@ const BentoCard = ({
 }) => {
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
-  // Throttled mouse position update (60ms = ~16fps, smooth enough for spotlight)
-  const throttledSetPosition = useCallback(
-    throttle((x: number, y: number) => {
-      setMousePosition({ x, y });
-    }, 60),
-    []
-  );
-
+  // OPTIMIZED: Use CSS custom properties for mouse tracking (no React state updates)
   useEffect(() => {
     const card = cardRef.current;
-    if (!card) return;
+    const spotlight = spotlightRef.current;
+    if (!card || !spotlight) return;
+
+    let rafId: number | null = null;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      throttledSetPosition(e.clientX - rect.left, e.clientY - rect.top);
+      if (rafId) return; // Skip if we have a pending frame
+      rafId = requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        spotlight.style.setProperty('--mouse-x', `${x}px`);
+        spotlight.style.setProperty('--mouse-y', `${y}px`);
+        rafId = null;
+      });
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const handleMouseEnter = () => {
+      spotlight.style.opacity = '1';
+    };
+
+    const handleMouseLeave = () => {
+      spotlight.style.opacity = '0';
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
 
     card.addEventListener('mousemove', handleMouseMove, { passive: true });
-    card.addEventListener('mouseenter', handleMouseEnter);
-    card.addEventListener('mouseleave', handleMouseLeave);
+    card.addEventListener('mouseenter', handleMouseEnter, { passive: true });
+    card.addEventListener('mouseleave', handleMouseLeave, { passive: true });
 
     return () => {
       card.removeEventListener('mousemove', handleMouseMove);
       card.removeEventListener('mouseenter', handleMouseEnter);
       card.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [throttledSetPosition]);
+  }, []);
 
   return (
     <div
@@ -118,15 +115,14 @@ const BentoCard = ({
         className,
       )}
     >
-      {/* Mouse tracking spotlight effect */}
-      {isHovering && (
-        <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(10, 132, 255, 0.08), transparent 40%)`,
-          }}
-        />
-      )}
+      {/* Mouse tracking spotlight effect - OPTIMIZED: Uses CSS variables instead of React state */}
+      <div
+        ref={spotlightRef}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(10, 132, 255, 0.08), transparent 40%)`,
+        }}
+      />
 
       {/* Background Animation Container */}
       <div className="pointer-events-none absolute inset-0 opacity-70 group-hover:opacity-100 transition-opacity duration-500">
@@ -136,21 +132,26 @@ const BentoCard = ({
       {/* Gradient overlay for better text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/60 dark:to-dark-bg-card/60 opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
 
-      {/* Content Container */}
-      <div className="relative z-10 flex transform-gpu flex-col gap-3 p-6 transition-all duration-500 group-hover:-translate-y-4">
-        {/* Icon + Title Row */}
-        <div className="flex items-center gap-4">
-          <Icon className="h-12 w-12 flex-shrink-0 transform-gpu text-brand-primary dark:text-dark-brand-primary transition-all duration-500 ease-out group-hover:scale-105 drop-shadow-lg" />
-          <h3 className="relative text-3xl font-bold transition-all duration-500 text-gray-800 dark:text-blue-100 group-hover:text-blue-600 dark:group-hover:text-white group-hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] dark:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap">
-            {name}
-            {/* Gradient underline on hover */}
-            <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-500 group-hover:w-full" />
-          </h3>
+      {/* Content Container - with gradient background for text readability */}
+      <div className="absolute top-0 left-0 right-0 z-10">
+        {/* Gradient background that fades to transparent */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-transparent dark:from-zinc-900/95 dark:via-zinc-900/80 dark:to-transparent pointer-events-none" />
+
+        <div className="relative flex transform-gpu flex-col gap-2 p-6 pb-8 transition-all duration-300 group-hover:-translate-y-1">
+          {/* Icon + Title Row */}
+          <div className="flex items-center gap-4">
+            <Icon className="h-12 w-12 flex-shrink-0 transform-gpu text-brand-primary dark:text-dark-brand-primary transition-all duration-300 ease-out group-hover:scale-105 drop-shadow-lg" />
+            <h3 className="relative text-3xl font-bold transition-all duration-300 text-gray-800 dark:text-blue-100 group-hover:text-blue-600 dark:group-hover:text-white group-hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] dark:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap">
+              {name}
+              {/* Gradient underline on hover */}
+              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full" />
+            </h3>
+          </div>
+          {/* Description - clamped to 2 lines */}
+          <p className="text-base leading-relaxed text-text-secondary dark:text-dark-text-secondary transition-all duration-300 group-hover:text-text-primary dark:group-hover:text-dark-text-secondary line-clamp-2">
+            {description}
+          </p>
         </div>
-        {/* Description */}
-        <p className="text-base leading-relaxed text-text-secondary dark:text-dark-text-secondary transition-all duration-300 group-hover:text-text-primary dark:group-hover:text-dark-text-secondary">
-          {description}
-        </p>
       </div>
 
       {/* Shimmer Button - bottom right corner, appears on hover */}

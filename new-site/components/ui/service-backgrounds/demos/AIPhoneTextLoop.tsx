@@ -82,9 +82,9 @@ export function AIPhoneTextLoop() {
   ];
 
   return (
-    <div className="absolute inset-0 flex flex-col p-5 pt-28">
-      {/* Top gradient fade for header safe zone */}
-      <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-white dark:from-dark-bg-card to-transparent pointer-events-none z-10" />
+    <div className="absolute inset-0 flex flex-col p-5 pt-36">
+      {/* Top gradient fade for header safe zone - matches card content area */}
+      <div className="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-transparent via-transparent to-transparent pointer-events-none z-10" />
 
       {/* Stats Row */}
       <div className="flex gap-2 mb-4">
