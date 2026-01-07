@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Princeton AI Partners',
-  description: 'Privacy policy for Princeton AI Partners. Learn how we collect, use, and protect your information.',
+  description:
+    'Privacy policy for Princeton AI Partners. Learn how we collect, use, and protect your information.',
+  openGraph: {
+    title: 'Privacy Policy | Princeton AI Partners',
+    description: 'Learn how we collect, use, and protect your information.',
+    url: 'https://princeton-ai.com/privacy',
+  },
 };
 
 export default function PrivacyPage() {

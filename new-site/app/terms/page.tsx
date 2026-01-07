@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | Princeton AI Partners',
-  description: 'Terms of service for Princeton AI Partners. Read our terms and conditions for using our services.',
+  description:
+    'Terms of service for Princeton AI Partners. Read our terms and conditions for using our services.',
+  openGraph: {
+    title: 'Terms of Service | Princeton AI Partners',
+    description: 'Read our terms and conditions for using our services.',
+    url: 'https://princeton-ai.com/terms',
+  },
 };
 
 export default function TermsPage() {

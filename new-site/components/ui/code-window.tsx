@@ -99,12 +99,12 @@ export function CodeWindow({
       // Numbers
       .replace(
         /\b(\d+)\b/g,
-        '<span class="text-accent-orange">$1</span>'
+        '<span class="text-colorful-orange">$1</span>'
       )
       // Function calls
       .replace(
         /(\w+)(?=\()/g,
-        '<span class="text-accent-pink">$1</span>'
+        '<span class="text-colorful-pink">$1</span>'
       );
   };
 

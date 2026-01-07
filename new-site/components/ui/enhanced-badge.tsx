@@ -24,13 +24,13 @@ export default function EnhancedBadge({ children, className }: EnhancedBadgeProp
       transition={{ duration: 0.3 }}
     >
       {/* Animated border gradient */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-primary via-accent-purple to-brand-primary bg-[length:200%_100%] animate-shimmer-text opacity-30" />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary bg-[length:200%_100%] animate-shimmer-text opacity-30" />
 
       {/* Inner background */}
       <div className="absolute inset-[1px] rounded-full bg-gradient-to-r from-brand-light to-white dark:from-dark-bg-secondary dark:to-dark-bg-tertiary" />
 
       {/* Content */}
-      <span className="relative bg-gradient-to-r from-brand-primary to-accent-purple bg-clip-text text-transparent">
+      <span className="relative bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">
         {children}
       </span>
     </motion.div>

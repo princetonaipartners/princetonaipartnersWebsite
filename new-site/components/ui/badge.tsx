@@ -10,7 +10,7 @@ const badgeVariants = cva(
         default:
           'bg-brand-light text-brand-primary border border-brand-primary/20',
         secondary:
-          'bg-background-secondary text-text-secondary border border-neutral-200',
+          'bg-surface-secondary text-text-secondary border border-neutral-200',
         success:
           'bg-green-50 text-green-700 border border-green-200',
         warning:

@@ -27,7 +27,7 @@ export default function EnhancedCTAButton({
       onClick={onClick}
     >
       {/* Glow effect layer */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-brand-primary via-accent-purple to-accent-pink rounded-xl opacity-0 blur-xl transition-all duration-500 group-hover:opacity-60" />
+      <div className="absolute -inset-1 bg-gradient-to-r from-brand-primary via-brand-secondary to-colorful-pink rounded-xl opacity-0 blur-xl transition-all duration-500 group-hover:opacity-60" />
 
       {/* Button content */}
       <div className="relative transition-all duration-300 group-hover:scale-105">

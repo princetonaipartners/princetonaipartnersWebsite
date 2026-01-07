@@ -30,7 +30,7 @@ const config: Config = {
           light: '#E5F2FF',
           dark: '#003D82',
         },
-        background: {
+        surface: {
           primary: '#FAFAFA',
           secondary: '#F5F5F5',
           card: '#FFFFFF',
@@ -41,8 +41,7 @@ const config: Config = {
           tertiary: '#9CA3AF',
           inverse: '#FFFFFF',
         },
-        accent: {
-          purple: '#8B5CF6',
+        colorful: {
           pink: '#EC4899',
           green: '#10B981',
           orange: '#F59E0B',
@@ -68,6 +67,39 @@ const config: Config = {
             light: '#1A3A52',
           },
         },
+        // shadcn/ui compatible semantic tokens
+        background: 'rgb(var(--background) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground) / <alpha-value>)',
+        card: {
+          DEFAULT: 'rgb(var(--card) / <alpha-value>)',
+          foreground: 'rgb(var(--card-foreground) / <alpha-value>)',
+        },
+        popover: {
+          DEFAULT: 'rgb(var(--popover) / <alpha-value>)',
+          foreground: 'rgb(var(--popover-foreground) / <alpha-value>)',
+        },
+        primary: {
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          foreground: 'rgb(var(--primary-foreground) / <alpha-value>)',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--secondary) / <alpha-value>)',
+          foreground: 'rgb(var(--secondary-foreground) / <alpha-value>)',
+        },
+        muted: {
+          DEFAULT: 'rgb(var(--muted) / <alpha-value>)',
+          foreground: 'rgb(var(--muted-foreground) / <alpha-value>)',
+        },
+        accent: {
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          foreground: 'rgb(var(--accent-foreground) / <alpha-value>)',
+        },
+        destructive: {
+          DEFAULT: 'rgb(var(--destructive) / <alpha-value>)',
+          foreground: 'rgb(var(--destructive-foreground) / <alpha-value>)',
+        },
+        input: 'rgb(var(--input) / <alpha-value>)',
+        ring: 'rgb(var(--ring) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['var(--font-manrope)', 'Manrope', 'system-ui', 'sans-serif'],

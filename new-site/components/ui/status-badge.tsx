@@ -20,8 +20,8 @@ export default function StatusBadge({
   const statusColors = {
     live: "bg-green-500",
     active: "bg-brand-primary dark:bg-dark-brand-primary",
-    new: "bg-accent-purple",
-    beta: "bg-accent-orange",
+    new: "bg-brand-primary",
+    beta: "bg-colorful-orange",
   };
 
   return (

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import type { Metadata } from 'next';
 import { Mail, MapPin, Send, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FadeInSection } from '@/components/animations/FadeInSection';

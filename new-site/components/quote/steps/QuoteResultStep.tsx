@@ -1,176 +1,180 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Download, Calendar, Mail, ArrowRight, FileText, Clock, Building2, Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Download, Calendar, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { QuoteState, PriceEstimate } from '@/lib/quote/types';
-import { getProjectTypeById, getIndustryById, getComplexityById, getTimelineById } from '@/lib/quote/constants';
 import { formatPrice, getFeatureNames, generateQuoteId } from '@/lib/quote/pricing';
+import { PROJECT_TYPES, COMPLEXITY_OPTIONS, TIMELINE_OPTIONS } from '@/lib/quote/constants';
+import { downloadQuotePDF } from '@/lib/quote/generate-pdf';
 
 interface QuoteResultStepProps {
   state: QuoteState;
   estimate: PriceEstimate | null;
-  quoteId?: string;
 }
 
-export function QuoteResultStep({ state, estimate, quoteId }: QuoteResultStepProps) {
-  const projectType = getProjectTypeById(state.projectType!);
-  const industry = getIndustryById(state.industry!);
-  const complexity = getComplexityById(state.complexity);
-  const timeline = getTimelineById(state.timeline);
-  const featureNames = getFeatureNames(state.features);
-  const displayQuoteId = quoteId || generateQuoteId();
+export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
+  const [quoteId] = useState(() => generateQuoteId());
+  const [isDownloading, setIsDownloading] = useState(false);
 
-  if (!estimate) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-text-secondary">Unable to generate estimate. Please try again.</p>
-      </div>
-    );
+  if (!estimate || !state.projectType) {
+    return null;
   }
 
-  const handleScheduleCall = () => {
-    window.open('https://calendly.com/princeton-ai', '_blank');
+  const projectType = PROJECT_TYPES.find((p) => p.id === state.projectType);
+  const complexity = COMPLEXITY_OPTIONS.find((c) => c.id === state.complexity);
+  const timeline = TIMELINE_OPTIONS.find((t) => t.id === state.timeline);
+  const featureNames = getFeatureNames(state.features);
+
+  const handleDownloadPDF = async () => {
+    setIsDownloading(true);
+    try {
+      await downloadQuotePDF(state, estimate, quoteId);
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
-  const handleDownloadPdf = async () => {
-    // TODO: Implement PDF download
-    console.log('Download PDF');
+  const handleScheduleCall = () => {
+    // TODO: Open Calendly or booking link
+    window.open('https://calendly.com', '_blank');
   };
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto">
+    <div className="space-y-8 max-w-2xl mx-auto">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
-          <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
-        </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center"
+      >
         <h2 className="text-2xl md:text-3xl font-bold text-text-primary dark:text-dark-text-primary mb-2">
-          Your Quote is Ready!
+          Your Personalized Quote
         </h2>
         <p className="text-text-secondary dark:text-dark-text-secondary">
-          We have sent a copy to <span className="font-medium text-text-primary dark:text-dark-text-primary">{state.contact.email}</span>
+          We&apos;ve sent a copy to {state.contact.email}
         </p>
       </motion.div>
 
-      {/* Price Card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="bg-gradient-to-br from-brand-primary to-blue-600 rounded-2xl p-8 text-white text-center"
-      >
-        <p className="text-blue-100 text-sm uppercase tracking-wide mb-2">Estimated Investment</p>
-        <p className="text-4xl md:text-5xl font-bold mb-2">
-          {formatPrice(estimate.low)} - {formatPrice(estimate.high)}
-        </p>
-        <div className="flex items-center justify-center gap-2 text-blue-100">
-          <Clock className="w-4 h-4" />
-          <span>{estimate.timeline.minWeeks}-{estimate.timeline.maxWeeks} weeks delivery</span>
-        </div>
-        {estimate.confidence === 'refined' && (
-          <div className="mt-3 inline-flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1">
-            <Sparkles className="w-3 h-3" />
-            Refined estimate based on your selections
-          </div>
-        )}
-      </motion.div>
-
-      {/* Project Summary */}
+      {/* Quote card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-white dark:bg-dark-bg-card rounded-2xl border border-neutral-200 dark:border-dark-border p-6"
+        className="bg-white dark:bg-dark-bg-card rounded-xl border border-neutral-200 dark:border-dark-border overflow-hidden"
       >
-        <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary mb-4">Project Summary</h3>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-text-tertiary mb-1">Industry</p>
-            <p className="font-medium text-text-primary dark:text-dark-text-primary">{industry?.name}</p>
+        {/* Price header */}
+        <div className="bg-brand-primary p-8 text-center text-white">
+          <div className="text-sm font-medium opacity-90 mb-2">Estimated Investment</div>
+          <div className="text-4xl md:text-5xl font-bold">
+            {formatPrice(estimate.low)} - {formatPrice(estimate.high)}
           </div>
-          <div>
-            <p className="text-text-tertiary mb-1">Project Type</p>
-            <p className="font-medium text-text-primary dark:text-dark-text-primary">{projectType?.name}</p>
-          </div>
-          <div>
-            <p className="text-text-tertiary mb-1">Complexity</p>
-            <p className="font-medium text-text-primary dark:text-dark-text-primary">{complexity?.name}</p>
-          </div>
-          <div>
-            <p className="text-text-tertiary mb-1">Timeline</p>
-            <p className="font-medium text-text-primary dark:text-dark-text-primary">{timeline?.name}</p>
-          </div>
-          <div className="col-span-2">
-            <p className="text-text-tertiary mb-1">Quote ID</p>
-            <p className="font-mono text-brand-primary">{displayQuoteId}</p>
+          <div className="text-sm opacity-90 mt-2">
+            {estimate.timeline.minWeeks}-{estimate.timeline.maxWeeks} weeks delivery
           </div>
         </div>
-      </motion.div>
 
-      {/* Features */}
-      {featureNames.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="bg-white dark:bg-dark-bg-card rounded-2xl border border-neutral-200 dark:border-dark-border p-6"
-        >
-          <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary mb-4">Features Included</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {featureNames.map((name) => (
-              <div key={name} className="flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary">
-                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>{name}</span>
+        {/* Quote details */}
+        <div className="p-6 md:p-8 space-y-6">
+          {/* Project summary */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+              Project Summary
+            </h3>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <div className="text-text-tertiary dark:text-dark-text-tertiary">Type</div>
+                <div className="font-medium text-text-primary dark:text-dark-text-primary">
+                  {projectType?.name}
+                </div>
               </div>
-            ))}
+              <div>
+                <div className="text-text-tertiary dark:text-dark-text-tertiary">Complexity</div>
+                <div className="font-medium text-text-primary dark:text-dark-text-primary">
+                  {complexity?.name}
+                </div>
+              </div>
+              <div>
+                <div className="text-text-tertiary dark:text-dark-text-tertiary">Timeline</div>
+                <div className="font-medium text-text-primary dark:text-dark-text-primary">
+                  {timeline?.name} ({timeline?.duration})
+                </div>
+              </div>
+              <div>
+                <div className="text-text-tertiary dark:text-dark-text-tertiary">Quote ID</div>
+                <div className="font-mono font-medium text-text-primary dark:text-dark-text-primary">
+                  {quoteId}
+                </div>
+              </div>
+            </div>
           </div>
-        </motion.div>
-      )}
 
-      {/* Price Breakdown */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="bg-white dark:bg-dark-bg-card rounded-2xl border border-neutral-200 dark:border-dark-border p-6"
-      >
-        <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary mb-4">Price Breakdown</h3>
-        <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Base ({projectType?.name}, {complexity?.name})</span>
-            <span className="font-medium text-text-primary dark:text-dark-text-primary">{formatPrice(estimate.breakdown.basePrice)}</span>
-          </div>
-          {estimate.breakdown.complexityAdjustment !== 0 && (
-            <div className="flex justify-between">
-              <span className="text-text-secondary">Complexity adjustment</span>
-              <span className="font-medium text-text-primary dark:text-dark-text-primary">+{formatPrice(estimate.breakdown.complexityAdjustment)}</span>
+          {/* Features included */}
+          {featureNames.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+                Features Included
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {featureNames.map((name) => (
+                  <div
+                    key={name}
+                    className="flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary"
+                  >
+                    <Check className="w-4 h-4 text-colorful-green flex-shrink-0" />
+                    {name}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-          {estimate.breakdown.featuresTotal > 0 && (
-            <div className="flex justify-between">
-              <span className="text-text-secondary">Feature add-ons ({state.features.length})</span>
-              <span className="font-medium text-text-primary dark:text-dark-text-primary">+{formatPrice(estimate.breakdown.featuresTotal)}</span>
+
+          {/* Price breakdown */}
+          <div className="space-y-3 pt-4 border-t border-neutral-200 dark:border-dark-border">
+            <h3 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+              Price Breakdown
+            </h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-text-secondary dark:text-dark-text-secondary">
+                  Base ({projectType?.name}, {complexity?.name})
+                </span>
+                <span className="font-medium text-text-primary dark:text-dark-text-primary">
+                  {formatPrice(estimate.breakdown.base)}
+                </span>
+              </div>
+              {estimate.breakdown.features > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-text-secondary dark:text-dark-text-secondary">
+                    Feature add-ons
+                  </span>
+                  <span className="font-medium text-text-primary dark:text-dark-text-primary">
+                    +{formatPrice(estimate.breakdown.features)}
+                  </span>
+                </div>
+              )}
+              {estimate.breakdown.timelineAdjustment !== 0 && (
+                <div className="flex justify-between">
+                  <span className="text-text-secondary dark:text-dark-text-secondary">
+                    Timeline adjustment ({timeline?.name})
+                  </span>
+                  <span
+                    className={
+                      estimate.breakdown.timelineAdjustment > 0
+                        ? 'font-medium text-colorful-orange'
+                        : 'font-medium text-colorful-green'
+                    }
+                  >
+                    {estimate.breakdown.timelineAdjustment > 0 ? '+' : ''}
+                    {formatPrice(estimate.breakdown.timelineAdjustment)}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
-          {estimate.breakdown.industryAdjustment !== 0 && (
-            <div className="flex justify-between">
-              <span className="text-text-secondary">Industry adjustment ({industry?.name})</span>
-              <span className="font-medium text-text-primary dark:text-dark-text-primary">+{formatPrice(estimate.breakdown.industryAdjustment)}</span>
-            </div>
-          )}
-          {estimate.breakdown.timelineAdjustment !== 0 && (
-            <div className="flex justify-between">
-              <span className="text-text-secondary">Timeline ({timeline?.name})</span>
-              <span className={cn('font-medium', estimate.breakdown.timelineAdjustment < 0 ? 'text-green-600' : 'text-text-primary dark:text-dark-text-primary')}>
-                {estimate.breakdown.timelineAdjustment < 0 ? '' : '+'}{formatPrice(estimate.breakdown.timelineAdjustment)}
-              </span>
-            </div>
-          )}
-          <div className="border-t border-neutral-200 dark:border-dark-border pt-3 flex justify-between">
-            <span className="font-semibold text-text-primary dark:text-dark-text-primary">Estimated Total</span>
-            <span className="font-bold text-brand-primary">{formatPrice(estimate.low)} - {formatPrice(estimate.high)}</span>
           </div>
         </div>
       </motion.div>
@@ -179,54 +183,46 @@ export function QuoteResultStep({ state, estimate, quoteId }: QuoteResultStepPro
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        transition={{ delay: 0.4 }}
+        className="flex flex-col sm:flex-row gap-4"
       >
         <Button
-          size="lg"
           onClick={handleScheduleCall}
-          className="bg-gradient-to-r from-brand-primary to-blue-600 hover:from-brand-primary/90 hover:to-blue-600/90 shadow-lg"
+          className="flex-1 h-14 text-lg"
         >
-          <Calendar className="w-4 h-4 mr-2" />
+          <Calendar className="w-5 h-5 mr-2" />
           Schedule Discovery Call
-          <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
         <Button
-          size="lg"
           variant="outline"
-          onClick={handleDownloadPdf}
+          onClick={handleDownloadPDF}
+          disabled={isDownloading}
+          className="flex-1 h-14 text-lg"
         >
-          <Download className="w-4 h-4 mr-2" />
-          Download PDF Quote
+          {isDownloading ? (
+            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+          ) : (
+            <Download className="w-5 h-5 mr-2" />
+          )}
+          {isDownloading ? 'Generating...' : 'Download PDF'}
         </Button>
       </motion.div>
 
-      {/* Contact Info */}
+      {/* Contact info */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.6 }}
         className="text-center text-sm text-text-tertiary dark:text-dark-text-tertiary"
       >
-        <p className="mb-2">Questions? We are here to help.</p>
+        Questions? Email us at{' '}
         <a
           href="mailto:hello@princeton-ai.com"
-          className="inline-flex items-center gap-2 text-brand-primary hover:underline"
+          className="text-brand-primary hover:underline"
         >
-          <Mail className="w-4 h-4" />
           hello@princeton-ai.com
         </a>
       </motion.div>
-
-      {/* Disclaimer */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.45 }}
-        className="text-xs text-text-tertiary dark:text-dark-text-tertiary text-center"
-      >
-        This estimate is valid for 30 days. Final pricing may vary based on detailed requirements discussed during the discovery call.
-      </motion.p>
     </div>
   );
 }
