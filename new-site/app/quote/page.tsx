@@ -5,10 +5,19 @@ export const metadata: Metadata = {
   title: 'Get a Quote | Princeton AI Partners',
   description:
     'Get an instant project estimate for your custom software, AI system, or automation project. Free quote in under 2 minutes.',
+  keywords: [
+    'software development quote',
+    'AI project estimate',
+    'custom software pricing',
+    'MVP cost calculator',
+    'automation project quote',
+    'free project estimate',
+  ],
   openGraph: {
     title: 'Get a Quote | Princeton AI Partners',
     description:
       'Get an instant project estimate for your custom software, AI system, or automation project.',
+    url: 'https://princeton-ai.com/quote',
   },
 };
 

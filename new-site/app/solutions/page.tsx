@@ -5,10 +5,20 @@ import { FadeInSection } from '@/components/animations/FadeInSection';
 
 export const metadata: Metadata = {
   title: 'Solutions | Princeton AI Partners',
-  description: 'Custom AI systems, automation, and software development. Web development, AI agents, phone systems, process automation, and more.',
+  description:
+    'Custom AI systems, automation, and software development. Web development, AI agents, phone systems, process automation, and more.',
+  keywords: [
+    'AI development services',
+    'custom software solutions',
+    'web development agency',
+    'automation services',
+    'AI agents',
+    'business software',
+  ],
   openGraph: {
     title: 'Solutions | Princeton AI Partners',
     description: 'Custom AI systems, automation, and software development.',
+    url: 'https://princeton-ai.com/solutions',
   },
 };
 

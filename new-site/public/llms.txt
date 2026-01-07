@@ -1,0 +1,63 @@
+# Princeton AI Partners
+
+> Custom software development and AI solutions agency based in Princeton, NJ.
+
+## About
+Princeton AI Partners builds production-ready MVPs, AI agents, phone systems, web applications, and automation tools. We serve as "Your Automated CTO with Live Support" - providing technical expertise with responsive human support.
+
+## Services
+
+### Web Development & SEO ($3k-$25k)
+Full-stack web applications, dashboards, and SaaS products built with Next.js, React, and modern frameworks. Includes SEO optimization and performance tuning.
+
+### AI Agents / RAG Systems ($10k-$30k)
+Custom AI agents that understand your business data. Retrieval-Augmented Generation (RAG) systems, knowledge bases, and intelligent chatbots.
+
+### AI Phone Systems ($5k-$15k)
+24/7 intelligent call handling, appointment scheduling, lead qualification, and voice AI solutions for businesses.
+
+### Process Automation ($5k-$20k)
+Streamline workflows and eliminate repetitive tasks with n8n, Zapier, and custom automation solutions.
+
+### Custom Bots ($2k-$10k)
+Telegram, WhatsApp, and Discord bots that automate conversations, handle customer support, and integrate with your systems.
+
+### Web Scraping ($3k-$15k)
+Extract and structure data from any website at scale. Automated data collection, monitoring, and ETL pipelines.
+
+### Bespoke Software ($50k-$250k+)
+End-to-end custom solutions with meticulous planning, system architecture, and implementation for complex enterprise needs.
+
+## Key Pages
+
+- / - Homepage with service overview
+- /quote - Interactive quote calculator for instant project estimates
+- /solutions - Complete services listing
+- /solutions/ai-agents - AI agents and RAG systems
+- /solutions/ai-phone-systems - Voice AI and phone automation
+- /solutions/web-development - Web apps and SEO
+- /solutions/bespoke-software - Custom enterprise software
+- /solutions/process-automation - Workflow automation
+- /solutions/custom-bots - Messaging platform bots
+- /solutions/web-scraping - Data extraction services
+- /contact - Contact form and consultation booking
+- /about - Company information and mission
+- /clients - Industries we serve
+
+## Technology Stack
+
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS
+- AI/ML: OpenAI, Anthropic Claude, LangChain, RAG pipelines
+- Automation: n8n, custom integrations
+- Voice: Twilio, custom voice AI
+- Infrastructure: Vercel, AWS, cloud-native deployments
+
+## Contact
+
+- Email: hello@princeton-ai.com
+- Location: Princeton, NJ, United States
+- Website: https://princeton-ai.com
+
+## Social
+
+- GitHub: https://github.com/princetonaipartners

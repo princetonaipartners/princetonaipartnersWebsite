@@ -101,7 +101,7 @@ export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
               <div>
                 <div className="text-text-tertiary dark:text-dark-text-tertiary">Timeline</div>
                 <div className="font-medium text-text-primary dark:text-dark-text-primary">
-                  {timeline?.name} ({timeline?.duration})
+                  {timeline?.name}
                 </div>
               </div>
               <div>
@@ -144,16 +144,16 @@ export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
                   Base ({projectType?.name}, {complexity?.name})
                 </span>
                 <span className="font-medium text-text-primary dark:text-dark-text-primary">
-                  {formatPrice(estimate.breakdown.base)}
+                  {formatPrice(estimate.breakdown.basePrice)}
                 </span>
               </div>
-              {estimate.breakdown.features > 0 && (
+              {estimate.breakdown.featuresTotal > 0 && (
                 <div className="flex justify-between">
                   <span className="text-text-secondary dark:text-dark-text-secondary">
                     Feature add-ons
                   </span>
                   <span className="font-medium text-text-primary dark:text-dark-text-primary">
-                    +{formatPrice(estimate.breakdown.features)}
+                    +{formatPrice(estimate.breakdown.featuresTotal)}
                   </span>
                 </div>
               )}

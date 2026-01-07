@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Zap, Calendar } from 'lucide-react';
+import { Clock, Zap, Calendar, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { Timeline } from '@/lib/quote/types';
@@ -13,10 +13,11 @@ interface TimelineStepProps {
   onBack: () => void;
 }
 
-const iconMap = {
-  flexible: Calendar,
+const iconMap: Record<Timeline, typeof Clock> = {
+  relaxed: Calendar,
   standard: Clock,
-  fast: Zap,
+  accelerated: Zap,
+  urgent: Rocket,
 };
 
 export function TimelineStep({
@@ -40,8 +41,8 @@ export function TimelineStep({
         {TIMELINE_OPTIONS.map((option) => {
           const Icon = iconMap[option.id];
           const isSelected = timeline === option.id;
-          const isPremium = option.id === 'fast';
-          const isDiscount = option.id === 'flexible';
+          const isPremium = option.id === 'urgent' || option.id === 'accelerated';
+          const isDiscount = option.id === 'relaxed';
 
           return (
             <button
@@ -91,13 +92,9 @@ export function TimelineStep({
                   {option.name}
                 </h3>
 
-                <p className="text-sm text-text-secondary dark:text-dark-text-secondary mb-3">
+                <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
                   {option.description}
                 </p>
-
-                <div className="text-lg font-bold text-brand-primary">
-                  {option.duration}
-                </div>
               </div>
             </button>
           );

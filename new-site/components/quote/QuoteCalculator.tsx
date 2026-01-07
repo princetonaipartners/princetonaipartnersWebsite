@@ -220,7 +220,6 @@ export function QuoteCalculator() {
           <QuoteResultStep
             state={state}
             estimate={estimate}
-            quoteId={quoteId || undefined}
           />
         );
       default:
