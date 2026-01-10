@@ -431,7 +431,6 @@ function HowAgentsWorkSection() {
 // ============================================
 export default function AIAgentsPage() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -440,14 +439,11 @@ export default function AIAgentsPage() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
-  // Aurora fades from 100% to 30% across the page
-  const auroraOpacity = useTransform(scrollY, [0, 500, 2000, 4000], [1, 0.7, 0.4, 0.3]);
-
   return (
     <main className="relative min-h-screen">
       {/* Global Background Layer */}
-      {/* Aurora shader - extends throughout, fades with scroll */}
-      <AuroraShaderBackground speed={1.0} opacity={auroraOpacity} />
+      {/* Aurora shader - shooting stars effect only, constant opacity */}
+      <AuroraShaderBackground speed={1.0} opacity={0.8} />
 
       {/* Content wrapper - sits above background layers (z-index: 10) */}
       <div className="relative" style={{ zIndex: 10 }}>
