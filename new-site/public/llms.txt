@@ -58,6 +58,17 @@ End-to-end custom solutions with meticulous planning, system architecture, and i
 - Location: Princeton, NJ, United States
 - Website: https://princeton-ai.com
 
+## Blog
+
+Insights and resources on AI automation, web development, and digital transformation.
+
+- /blog - Blog index with all articles
+- /blog/ai-customer-support-agents - Why AI Customer Support Agents Outperform Traditional Chatbots
+- /blog/modern-web-development-2025 - Modern Web Development in 2025: What Actually Matters
+- /blog/process-automation-roi - Calculating Process Automation ROI: A Practical Framework
+- /blog/choosing-ai-solution - How to Choose the Right AI Solution for Your Business
+- /blog/web-scraping-strategy - Web Scraping for Competitive Intelligence: Strategy and Best Practices
+
 ## Social
 
 - GitHub: https://github.com/princetonaipartners

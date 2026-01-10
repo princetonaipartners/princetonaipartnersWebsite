@@ -38,6 +38,7 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { title: 'Who We Serve', href: '/clients' },
+  { title: 'Blog', href: '/blog' },
   { title: 'About Us', href: '/about' },
   { title: 'Contact', href: '/contact' },
 ];

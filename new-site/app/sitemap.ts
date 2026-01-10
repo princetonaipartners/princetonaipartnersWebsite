@@ -1,7 +1,17 @@
 import { MetadataRoute } from 'next';
+import { getAllPosts } from '@/content/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://princeton-ai.com';
+
+  // Get all blog posts for dynamic sitemap entries
+  const posts = getAllPosts();
+  const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.updatedAt || post.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
 
   return [
     // Homepage - highest priority
@@ -99,5 +109,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    // Blog - medium-high priority
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    // Blog posts - dynamically generated
+    ...blogEntries,
   ];
 }

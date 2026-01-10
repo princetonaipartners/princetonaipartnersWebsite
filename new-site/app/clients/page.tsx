@@ -1,26 +1,6 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Utensils, ShoppingBag, Stethoscope, Building2, Briefcase, Truck, GraduationCap, Home } from 'lucide-react';
 import { FadeInSection } from '@/components/animations/FadeInSection';
-
-export const metadata: Metadata = {
-  title: 'Who We Serve | Princeton AI Partners',
-  description:
-    'We help businesses across industries leverage AI and automation. Restaurants, retail, healthcare, professional services, and more.',
-  keywords: [
-    'AI for restaurants',
-    'healthcare automation',
-    'retail AI solutions',
-    'professional services automation',
-    'industry-specific AI',
-    'business automation',
-  ],
-  openGraph: {
-    title: 'Who We Serve | Princeton AI Partners',
-    description: 'We help businesses across industries leverage AI and automation.',
-    url: 'https://princeton-ai.com/clients',
-  },
-};
 
 const industries = [
   {

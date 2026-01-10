@@ -1,27 +1,6 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Zap, Users, Target, Shield } from 'lucide-react';
 import { FadeInSection } from '@/components/animations/FadeInSection';
-
-export const metadata: Metadata = {
-  title: 'About Us | Princeton AI Partners',
-  description:
-    'Your Automated CTO with Live Support. We build custom AI systems, automation, and software that transform how businesses operate.',
-  keywords: [
-    'about Princeton AI Partners',
-    'AI development team',
-    'custom software agency',
-    'Princeton NJ tech company',
-    'CTO as a service',
-    'software development partner',
-  ],
-  openGraph: {
-    title: 'About Us | Princeton AI Partners',
-    description:
-      'Your Automated CTO with Live Support. We build custom AI systems and software.',
-    url: 'https://princeton-ai.com/about',
-  },
-};
 
 const values = [
   {
