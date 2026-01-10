@@ -2,9 +2,27 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SiSlack, SiSalesforce, SiGooglesheets } from "react-icons/si";
+import { IconBrandSlack } from "@tabler/icons-react";
 import { Check } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
+
+// Inline SVG icons for brands not in Tabler
+function SalesforceIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.16 5.22c-.45 0-.884-.06-1.305-.165a3.91 3.91 0 0 1-3.39 1.965c-.54 0-1.065-.105-1.545-.315a4.427 4.427 0 0 1-3.84 2.22c-1.98 0-3.69-1.32-4.23-3.15-.36.075-.72.12-1.095.12-2.61 0-4.72-2.13-4.72-4.785 0-2.655 2.115-4.8 4.725-4.8.66 0 1.29.135 1.86.375a4.26 4.26 0 0 1 4.71-2.355z"/>
+    </svg>
+  );
+}
+
+function GoogleSheetsIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.385 3H4.615A1.615 1.615 0 0 0 3 4.615v14.77A1.615 1.615 0 0 0 4.615 21h14.77A1.615 1.615 0 0 0 21 19.385V4.615A1.615 1.615 0 0 0 19.385 3zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8V7h8v2z"/>
+    </svg>
+  );
+}
 
 interface Destination {
   id: string;
@@ -15,9 +33,9 @@ interface Destination {
 }
 
 const destinations: Destination[] = [
-  { id: "slack", name: "Slack", icon: SiSlack, color: "#4A154B", lane: 0 },
-  { id: "sheets", name: "Sheets", icon: SiGooglesheets, color: "#34A853", lane: 1 },
-  { id: "salesforce", name: "Salesforce", icon: SiSalesforce, color: "#00A1E0", lane: 2 },
+  { id: "slack", name: "Slack", icon: IconBrandSlack, color: "#4A154B", lane: 0 },
+  { id: "sheets", name: "Sheets", icon: GoogleSheetsIcon, color: "#34A853", lane: 1 },
+  { id: "salesforce", name: "Salesforce", icon: SalesforceIcon, color: "#00A1E0", lane: 2 },
 ];
 
 interface DataPacket {
@@ -273,6 +291,7 @@ function DataHighway({
 }
 
 export function ProcessAutomationBackground() {
+  const shouldReduceMotion = useShouldReduceMotion();
   const [packet, setPacket] = useState<DataPacket | null>(null);
   const [phase, setPhase] = useState<"idle" | "traveling" | "routing" | "delivering" | "complete">("idle");
   const [activeDestination, setActiveDestination] = useState<string | null>(null);
@@ -280,6 +299,9 @@ export function ProcessAutomationBackground() {
   const [packetCount, setPacketCount] = useState(0);
 
   useEffect(() => {
+    // On mobile, show static "Ready" state without animation
+    if (shouldReduceMotion) return;
+
     const runAnimation = async () => {
       // Pick random destination and decision
       const dest = destinations[packetCount % destinations.length];
@@ -327,7 +349,7 @@ export function ProcessAutomationBackground() {
     runAnimation();
     const interval = setInterval(runAnimation, 6000);
     return () => clearInterval(interval);
-  }, [packetCount]);
+  }, [packetCount, shouldReduceMotion]);
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ contain: "layout style paint" }}>

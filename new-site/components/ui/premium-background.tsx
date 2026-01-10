@@ -1,64 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useMotionValue,
-  useMotionTemplate,
-} from "framer-motion";
+import React from "react";
 
 export function PremiumBackground() {
-  const { scrollYProgress } = useScroll();
-
-  // 1. Mouse Tracking (Performance optimized with useMotionValue)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth out the mouse movement for buttery feel
-  const smoothX = useSpring(mouseX, { damping: 50, stiffness: 400 });
-  const smoothY = useSpring(mouseY, { damping: 50, stiffness: 400 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  // 2. Parallax Effects based on Scroll
-  // The 'Aurora' moves down and fades out as user scrolls
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.25], [0, 200]);
-
-  // The 'Deep' orbs move up slowly - creates parallax against scroll
-  const orbY = useTransform(scrollYProgress, [0, 1], [0, -300]);
-
-  // CTA Intensity increases at the bottom
-  const ctaIntensity = useTransform(scrollYProgress, [0.7, 1], [0.2, 0.8]);
-
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-zinc-50 dark:bg-zinc-950 pointer-events-none">
-      {/* --- LAYER 1: Ambient Orbs (The "Deep") --- */}
-      {/* These create the base atmosphere and move with parallax */}
-      {/* OPTIMIZED: Reduced blur values and added will-change for GPU acceleration */}
-      <motion.div style={{ y: orbY }} className="absolute inset-0 will-change-transform">
-        {/* Primary Blue Orb - Middle Left */}
-        <div className="absolute top-[35%] left-[-15%] h-[600px] w-[600px] rounded-full bg-blue-400/20 dark:bg-blue-600/25 blur-[60px]" />
-
-        {/* Sky Blue Orb - Center Right */}
-        <div className="absolute top-[50%] right-[-10%] h-[500px] w-[500px] rounded-full bg-sky-400/15 dark:bg-sky-500/20 blur-[50px]" />
-
-        {/* Deep Blue Orb - Bottom Left */}
-        <div className="absolute top-[75%] left-[10%] h-[400px] w-[400px] rounded-full bg-blue-500/12 dark:bg-blue-700/15 blur-[50px]" />
-      </motion.div>
-
-      {/* --- LAYER 2: The Grid (Structure) --- */}
-      {/* Barely visible grid that adds "tech" feel when illuminated by mouse */}
+      {/* --- LAYER 1: The Grid (Structure) --- */}
+      {/* Subtle grid that adds "tech" feel */}
       <div
         className="absolute inset-0 opacity-[0.3] dark:opacity-[0.4]"
         style={{
@@ -85,65 +33,7 @@ export function PremiumBackground() {
         }}
       />
 
-      {/* --- LAYER 3: The "Lantern" (Mouse Follower) --- */}
-      {/* Creates a refined, tighter spotlight that follows cursor */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-10 opacity-50 dark:opacity-70 transition-opacity duration-300"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              250px circle at ${smoothX}px ${smoothY}px,
-              rgba(59, 130, 246, 0.08),
-              rgba(14, 165, 233, 0.03) 50%,
-              transparent 100%
-            )
-          `,
-        }}
-      />
-      {/* Dark mode lantern */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-10 opacity-0 dark:opacity-70 transition-opacity duration-300"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              250px circle at ${smoothX}px ${smoothY}px,
-              rgba(59, 130, 246, 0.12),
-              rgba(14, 165, 233, 0.04) 50%,
-              transparent 100%
-            )
-          `,
-        }}
-      />
-
-      {/* --- LAYER 4: The Hero "Aurora" (Top Layer) --- */}
-      {/* This is your existing Aurora feel - fades as user scrolls */}
-      {/* OPTIMIZED: Reduced blur values for better scroll performance */}
-      <motion.div
-        style={{ opacity: heroOpacity, y: heroY }}
-        className="absolute -top-[5%] -right-[10%] h-[700px] w-[900px] will-change-transform"
-      >
-        {/* Primary blue glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 via-blue-500/20 dark:from-blue-500/45 dark:via-blue-600/25 to-transparent blur-[50px]" />
-        {/* Secondary sky blue accent */}
-        <div className="absolute top-[20%] right-[10%] h-[400px] w-[400px] rounded-full bg-sky-300/25 dark:bg-sky-400/30 blur-[40px]" />
-      </motion.div>
-
-      {/* --- LAYER 5: The CTA "Event" (Bottom Layer) --- */}
-      {/* A "Gravity Well" that intensifies as user approaches CTA */}
-      {/* OPTIMIZED: Reduced blur values */}
-      <motion.div
-        style={{ opacity: ctaIntensity }}
-        className="absolute -bottom-[20%] left-[10%] right-[10%] h-[500px] will-change-transform"
-      >
-        {/* Central convergence glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-blue-400/25 via-blue-400/15 dark:from-blue-600/35 dark:via-blue-500/20 to-transparent blur-[50px]" />
-        {/* Sky blue accent - left */}
-        <div className="absolute bottom-0 left-[20%] h-[300px] w-[400px] rounded-full bg-sky-400/20 dark:bg-sky-500/25 blur-[40px]" />
-        {/* Deep blue accent - right */}
-        <div className="absolute bottom-0 right-[20%] h-[300px] w-[400px] rounded-full bg-blue-400/20 dark:bg-blue-600/25 blur-[40px]" />
-      </motion.div>
-
-      {/* --- LAYER 6: Noise Overlay (The Finish) --- */}
+      {/* --- LAYER 2: Noise Overlay (The Finish) --- */}
       {/* Crucial for premium feel - kills gradient banding */}
       <div
         className="absolute inset-0 opacity-[0.025] pointer-events-none mix-blend-overlay"
@@ -152,7 +42,7 @@ export function PremiumBackground() {
         }}
       />
 
-      {/* --- LAYER 7: Vignette (Depth) --- */}
+      {/* --- LAYER 3: Vignette (Depth) --- */}
       {/* Subtle darkening at edges for depth */}
       <div
         className="absolute inset-0 pointer-events-none opacity-30 dark:opacity-100"

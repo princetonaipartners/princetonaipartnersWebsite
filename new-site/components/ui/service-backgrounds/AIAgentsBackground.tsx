@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, FileText, TrendingUp, Users, Package } from "lucide-react";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
 
 interface QueryExample {
   id: number;
@@ -51,6 +52,7 @@ const queryExamples: QueryExample[] = [
 ];
 
 export function AIAgentsBackground() {
+  const shouldReduceMotion = useShouldReduceMotion();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
@@ -58,8 +60,14 @@ export function AIAgentsBackground() {
   const currentQuery = queryExamples[currentIndex];
   const Icon = currentQuery.icon;
 
-  // Typewriter effect
+  // Typewriter effect - DISABLED ON MOBILE
   useEffect(() => {
+    // On mobile, show full text immediately
+    if (shouldReduceMotion) {
+      setDisplayedText(currentQuery.query);
+      return;
+    }
+
     if (!isTyping) {
       const targetText = currentQuery.query;
       let charIndex = 0;
@@ -76,10 +84,13 @@ export function AIAgentsBackground() {
 
       return () => clearInterval(typeInterval);
     }
-  }, [currentIndex, isTyping, currentQuery.query]);
+  }, [currentIndex, isTyping, currentQuery.query, shouldReduceMotion]);
 
-  // Cycle through queries
+  // Cycle through queries - DISABLED ON MOBILE
   useEffect(() => {
+    // On mobile, show static first query
+    if (shouldReduceMotion) return;
+
     const cycleTimer = setInterval(() => {
       setIsTyping(true);
       setTimeout(() => {
@@ -89,7 +100,7 @@ export function AIAgentsBackground() {
     }, 4500);
 
     return () => clearInterval(cycleTimer);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ contain: 'layout style paint' }}>

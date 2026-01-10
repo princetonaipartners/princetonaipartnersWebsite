@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import './globals.css';
 import 'animate.css';
-import { MinimalHeader } from '@/components/layout/MinimalHeader';
+import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { FloatingDock } from '@/components/navigation';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
 const manrope = Manrope({
@@ -149,10 +148,9 @@ export default function RootLayout({
           >
             Skip to main content
           </a>
-          <MinimalHeader />
-          <main id="main-content" className="min-h-screen pt-16 pb-24">{children}</main>
+          <Header />
+          <main id="main-content" className="min-h-screen pt-20">{children}</main>
           <Footer />
-          <FloatingDock />
         </ThemeProvider>
       </body>
     </html>

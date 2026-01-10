@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
   children: ReactNode;
@@ -13,6 +14,8 @@ export const AuroraBackground = ({
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) => {
+  const shouldReduceMotion = useShouldReduceMotion();
+
   return (
     <div
       className={cn(
@@ -22,6 +25,7 @@ export const AuroraBackground = ({
       {...props}
     >
       {/* OPTIMIZED: Added contain property and reduced animation complexity */}
+      {/* MOBILE: Shows static gradient instead of animation */}
       <div className="absolute inset-0 overflow-hidden [contain:strict]">
         <div
           className={cn(
@@ -37,9 +41,12 @@ export const AuroraBackground = ({
             after:content-[""] after:absolute after:inset-0 after:[background-image:var(--white-gradient),var(--aurora)]
             after:dark:[background-image:var(--dark-gradient),var(--aurora)]
             after:[background-size:200%,_100%]
-            after:animate-aurora after:[background-attachment:fixed] after:mix-blend-difference
+            after:[background-attachment:fixed] after:mix-blend-difference
             pointer-events-none
             absolute -inset-[10px] opacity-50 will-change-transform [transform:translateZ(0)]`,
+
+            // Only animate on desktop
+            !shouldReduceMotion && "after:animate-aurora",
 
             showRadialGradient &&
               `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`

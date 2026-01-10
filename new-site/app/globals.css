@@ -257,14 +257,24 @@
 }
 
 /* ============================================
-   3D FLIP THEME TRANSITION
+   THEME TRANSITION (Scoped for Performance)
    ============================================ */
 
-/* Enable smooth transitions on theme change */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+/* Only apply theme transitions to specific elements - NOT universal selector */
+/* This prevents layout/paint overhead from global transitions */
+body,
+a,
+button,
+input,
+select,
+textarea,
+.card,
+[class*="bg-"],
+[class*="text-"],
+[class*="border-"] {
+  transition-property: color, background-color, border-color;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  transition-duration: 400ms;
+  transition-duration: 200ms;
 }
 
 /* Disable transitions for specific elements during page load */

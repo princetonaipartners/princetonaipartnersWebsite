@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SiTelegram, SiWhatsapp, SiDiscord, SiSlack } from "react-icons/si";
+import { IconBrandTelegram, IconBrandWhatsapp, IconBrandDiscord, IconBrandSlack } from "@tabler/icons-react";
 import { Check } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
 
 interface Platform {
   id: string;
@@ -20,7 +21,7 @@ const platforms: Platform[] = [
   {
     id: "telegram",
     name: "Telegram",
-    icon: SiTelegram,
+    icon: IconBrandTelegram,
     color: "#0088cc",
     darkColor: "#3BA5E8",
     glowColor: "rgba(0, 136, 204, 0.6)",
@@ -29,7 +30,7 @@ const platforms: Platform[] = [
   {
     id: "whatsapp",
     name: "WhatsApp",
-    icon: SiWhatsapp,
+    icon: IconBrandWhatsapp,
     color: "#25D366",
     darkColor: "#4ADE80",
     glowColor: "rgba(37, 211, 102, 0.6)",
@@ -38,7 +39,7 @@ const platforms: Platform[] = [
   {
     id: "discord",
     name: "Discord",
-    icon: SiDiscord,
+    icon: IconBrandDiscord,
     color: "#5865F2",
     darkColor: "#818CF8",
     glowColor: "rgba(88, 101, 242, 0.6)",
@@ -47,7 +48,7 @@ const platforms: Platform[] = [
   {
     id: "slack",
     name: "Slack",
-    icon: SiSlack,
+    icon: IconBrandSlack,
     color: "#E01E5A",
     darkColor: "#F472B6",
     glowColor: "rgba(224, 30, 90, 0.6)",
@@ -97,6 +98,7 @@ function PingEffect({ platform, isActive }: { platform: Platform; isActive: bool
 }
 
 export function CustomBotsBackground() {
+  const shouldReduceMotion = useShouldReduceMotion();
   const [particles, setParticles] = useState<Particle[]>([]);
   const [activeResponses, setActiveResponses] = useState<Set<string>>(new Set());
   const [activeLines, setActiveLines] = useState<Set<string>>(new Set());
@@ -104,6 +106,9 @@ export function CustomBotsBackground() {
 
   // Initialize particles with staggered timing
   useEffect(() => {
+    // On mobile, skip particle initialization
+    if (shouldReduceMotion) return;
+
     const initialParticles: Particle[] = [];
     platforms.forEach((platform, index) => {
       initialParticles.push({
@@ -115,10 +120,13 @@ export function CustomBotsBackground() {
       });
     });
     setParticles(initialParticles);
-  }, []);
+  }, [shouldReduceMotion]);
 
-  // Animate particles with enhanced effects
+  // Animate particles with enhanced effects - DISABLED ON MOBILE
   useEffect(() => {
+    // On mobile, skip animation
+    if (shouldReduceMotion) return;
+
     const interval = setInterval(() => {
       setParticles((prev) =>
         prev.map((particle) => {

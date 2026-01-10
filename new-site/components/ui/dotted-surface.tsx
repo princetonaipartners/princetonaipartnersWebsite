@@ -4,11 +4,13 @@ import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useShouldReduceMotion } from '@/lib/hooks/use-mobile';
 
 type DottedSurfaceProps = Omit<React.ComponentProps<'div'>, 'ref'>;
 
 export function DottedSurface({ className, children, ...props }: DottedSurfaceProps) {
   const { theme } = useTheme();
+  const shouldReduceMotion = useShouldReduceMotion();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<{
@@ -21,7 +23,8 @@ export function DottedSurface({ className, children, ...props }: DottedSurfacePr
   } | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    // Skip WebGL on mobile - use CSS fallback instead
+    if (shouldReduceMotion || !containerRef.current) return;
 
     const SEPARATION = 150;
     const AMOUNTX = 40;
@@ -165,7 +168,37 @@ export function DottedSurface({ className, children, ...props }: DottedSurfacePr
         }
       }
     };
-  }, [theme]);
+  }, [theme, shouldReduceMotion]);
+
+  // CSS fallback for mobile - static dot pattern
+  if (shouldReduceMotion) {
+    return (
+      <div
+        className={cn('pointer-events-none fixed inset-0 -z-10 bg-zinc-950', className)}
+        {...props}
+      >
+        {/* Static dot pattern via CSS */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle, ${
+              theme === 'dark' || !theme ? 'rgba(6, 182, 212, 0.4)' : 'rgba(0, 0, 0, 0.3)'
+            } 2px, transparent 2px)`,
+            backgroundSize: '40px 40px',
+            backgroundPosition: 'center center',
+          }}
+        />
+        {/* Gradient overlay for depth */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 0%, rgba(9, 9, 11, 0.8) 70%)',
+          }}
+        />
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div

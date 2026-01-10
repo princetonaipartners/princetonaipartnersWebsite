@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, useRef, useEffect } from "react";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
@@ -5,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
 
 const BentoGrid = ({
   children,
@@ -45,9 +48,13 @@ const BentoCard = ({
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useShouldReduceMotion();
 
   // OPTIMIZED: Use CSS custom properties for mouse tracking (no React state updates)
+  // Skip on mobile - no hover state on touch devices
   useEffect(() => {
+    if (shouldReduceMotion) return;
+
     const card = cardRef.current;
     const spotlight = spotlightRef.current;
     if (!card || !spotlight) return;
@@ -88,7 +95,7 @@ const BentoCard = ({
       card.removeEventListener('mouseleave', handleMouseLeave);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <div
@@ -111,7 +118,10 @@ const BentoCard = ({
         "hover:bg-white/90 hover:border-brand-primary/30 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)]",
         // Hover - dark mode (increases opacity, border visibility)
         "dark:hover:bg-zinc-900/60 dark:hover:border-white/20 dark:hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_32px_rgba(59,130,246,0.15)]",
-        "hover:-translate-y-1 active:translate-y-0",
+        "hover:-translate-y-1",
+        // Touch feedback - active state for mobile
+        "active:translate-y-0 active:scale-[0.98] active:bg-white/95 dark:active:bg-zinc-900/70",
+        "active:border-brand-primary/40 dark:active:border-white/25",
         className,
       )}
     >

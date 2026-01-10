@@ -55,13 +55,9 @@ import {
   IconHelpCircle,
   IconCircleCheck,
   IconCircleX,
+  IconBrandGithub,
+  IconBrandLinkedin,
 } from '@tabler/icons-react';
-
-// Simple Icons for brand/social media (official brand logos)
-import {
-  SiGithub,
-  SiLinkedin,
-} from 'react-icons/si';
 
 import { IconName } from './icon-types';
 import { ComponentType } from 'react';
@@ -129,7 +125,7 @@ export const iconMap: Record<Exclude<IconName, 'princetonLogo'>, IconComponent> 
   checkCircle: IconCircleCheck,
   xCircle: IconCircleX,
 
-  // Social/Brand Icons (Simple Icons - official brand logos)
-  github: SiGithub,
-  linkedin: SiLinkedin,
+  // Social/Brand Icons (Tabler - consistent style)
+  github: IconBrandGithub,
+  linkedin: IconBrandLinkedin,
 };

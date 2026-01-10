@@ -6,6 +6,7 @@ import {
   Briefcase, Home, Newspaper, TrendingUp,
   ShoppingBag, Check
 } from "lucide-react";
+import { useShouldReduceMotion } from "@/lib/hooks/use-mobile";
 
 // Source code that scrolls in background
 const CODE_SNIPPETS = [
@@ -158,10 +159,17 @@ function DataCard({ data, index }: { data: (typeof EXTRACTED_DATA)[0]; index: nu
 }
 
 export function WebScrapingBackground() {
+  const shouldReduceMotion = useShouldReduceMotion();
   const [extractedItems, setExtractedItems] = useState<number[]>([]);
   const currentIndexRef = useRef(0);
 
   useEffect(() => {
+    // On mobile, show static first 2 items
+    if (shouldReduceMotion) {
+      setExtractedItems([0, 1]);
+      return;
+    }
+
     // Start with one item after a delay
     const initialDelay = setTimeout(() => {
       setExtractedItems([0]);
@@ -183,7 +191,7 @@ export function WebScrapingBackground() {
       clearTimeout(initialDelay);
       clearInterval(interval);
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <div

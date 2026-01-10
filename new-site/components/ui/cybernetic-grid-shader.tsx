@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { cn } from '@/lib/utils';
+import { useShouldReduceMotion } from '@/lib/hooks/use-mobile';
 
 interface CyberneticGridShaderProps {
   className?: string;
@@ -10,8 +11,11 @@ interface CyberneticGridShaderProps {
 
 export function CyberneticGridShader({ className }: CyberneticGridShaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useShouldReduceMotion();
 
   useEffect(() => {
+    // On mobile, don't initialize WebGL - use CSS fallback
+    if (shouldReduceMotion) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -143,6 +147,37 @@ export function CyberneticGridShader({ className }: CyberneticGridShaderProps) {
       renderer.dispose();
     };
   }, []);
+
+  // CSS fallback for mobile - simple gradient instead of WebGL
+  if (shouldReduceMotion) {
+    return (
+      <div
+        className={cn('fixed inset-0 -z-10 pointer-events-none', className)}
+        aria-hidden="true"
+        style={{
+          background: `
+            linear-gradient(180deg,
+              rgb(9, 9, 11) 0%,
+              rgb(12, 12, 16) 50%,
+              rgb(9, 9, 11) 100%
+            )
+          `,
+        }}
+      >
+        {/* Subtle grid pattern via CSS */}
+        <div
+          className="absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(10, 132, 255, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(10, 132, 255, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div

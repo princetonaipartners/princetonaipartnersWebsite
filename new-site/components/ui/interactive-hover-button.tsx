@@ -20,14 +20,17 @@ const InteractiveHoverButton = React.forwardRef<
       )}
       {...props}
     >
-      <span className="inline-block translate-x-1 transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-brand-primary dark:text-dark-brand-primary">
+      <span className="inline-block translate-x-1 transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-brand-primary dark:text-dark-brand-primary transform-gpu">
         {text}
       </span>
-      <div className="absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-white opacity-0 transition-all duration-300 group-hover:-translate-x-1 group-hover:opacity-100">
+      <div className="absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-white opacity-0 transition-all duration-300 group-hover:-translate-x-1 group-hover:opacity-100 transform-gpu">
         <span>{text}</span>
         <ArrowRight className="w-4 h-4" />
       </div>
-      <div className="absolute left-[20%] top-[40%] h-2 w-2 scale-[1] rounded-lg bg-brand-primary dark:bg-dark-brand-primary transition-all duration-300 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8]"></div>
+      {/* Background circle - uses scale transform instead of width/height for performance */}
+      <div
+        className="absolute inset-0 rounded-full bg-brand-primary dark:bg-dark-brand-primary transform-gpu scale-0 group-hover:scale-150 transition-transform duration-300 ease-out origin-center"
+      />
     </button>
   );
 });
