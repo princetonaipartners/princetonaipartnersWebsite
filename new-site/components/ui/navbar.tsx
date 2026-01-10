@@ -48,7 +48,7 @@ const Menu = ({ list }: MenuProps) => {
                 )}
                 {item?.dropdown && hovered === item?.id && (
                   <div
-                    className='absolute left-0 top-full'
+                    className='absolute left-1/2 -translate-x-1/2 top-full'
                     onMouseEnter={() => setHovered(item.id)}
                     onMouseLeave={() => setHovered(null)}
                   >

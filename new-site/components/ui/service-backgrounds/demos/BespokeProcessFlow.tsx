@@ -92,7 +92,7 @@ export function BespokeProcessFlow() {
   }, []);
 
   return (
-    <div className="absolute inset-0 flex flex-col px-8 pt-36 pb-8 overflow-hidden">
+    <div className="absolute inset-0 flex flex-col px-6 pt-28 pb-4 overflow-hidden">
       <motion.div
         className="w-full max-w-5xl mx-auto flex-1 flex flex-col"
         initial={{ opacity: 0 }}
@@ -101,7 +101,7 @@ export function BespokeProcessFlow() {
       >
         <div className="relative w-full flex-1 flex items-center">
           {/* Vertical Timeline Line */}
-          <div className="absolute left-16 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gray-300 to-transparent dark:via-gray-700">
+          <div className="absolute left-[2.25rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-gray-300 to-transparent dark:via-gray-700">
             {/* Animated flowing particle */}
             <motion.div
               className="absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-brand-primary to-brand-secondary dark:from-dark-brand-primary dark:to-brand-secondary rounded-full shadow-lg"
@@ -117,7 +117,7 @@ export function BespokeProcessFlow() {
           </div>
 
           {/* Stages - Vertical Stack */}
-          <div className="w-full space-y-6">
+          <div className="w-full space-y-4">
             {stages.map((stage, index) => {
               const Icon = stage.icon;
               const isActive = activeStage === index;
@@ -134,7 +134,7 @@ export function BespokeProcessFlow() {
                   {/* Stage Number & Icon */}
                   <div className="relative flex items-center justify-center flex-shrink-0">
                     <motion.div
-                      className="relative z-10 flex items-center justify-center w-24 h-24 rounded-full bg-white dark:bg-gray-900 border-4 cursor-pointer"
+                      className="relative z-10 flex items-center justify-center w-[4.5rem] h-[4.5rem] rounded-full bg-white dark:bg-gray-900 border-2 cursor-pointer"
                       style={{
                         willChange: "transform, border-color, box-shadow",
                         transform: "translateZ(0)",
@@ -148,9 +148,9 @@ export function BespokeProcessFlow() {
                       }}
                       transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
                     >
-                      <div className="flex flex-col items-center gap-1">
+                      <div className="flex flex-col items-center gap-0.5">
                         <Icon
-                          className={`h-10 w-10 transition-colors ${
+                          className={`h-7 w-7 transition-colors ${
                             isActive ? stage.color : "text-gray-400 dark:text-gray-500"
                           }`}
                         />
