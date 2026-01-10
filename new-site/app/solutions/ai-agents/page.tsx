@@ -26,7 +26,6 @@ import {
   Banknote,
 } from 'lucide-react';
 import { AuroraShaderBackground } from '@/components/ui/aurora-shader-background';
-import { GradientGlowSpots } from '@/components/ui/gradient-glow-spots';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { FeaturesSectionWithHoverEffects } from '@/components/ui/feature-section-with-hover-effects';
 import { AiChatDemo } from '@/components/ui/ai-chat-demo';
@@ -446,12 +445,9 @@ export default function AIAgentsPage() {
 
   return (
     <main className="relative min-h-screen">
-      {/* Global Background Layers */}
-      {/* Layer 1: Aurora shader - extends throughout, fades with scroll (z-index: 0) */}
+      {/* Global Background Layer */}
+      {/* Aurora shader - extends throughout, fades with scroll */}
       <AuroraShaderBackground speed={1.0} opacity={auroraOpacity} />
-
-      {/* Layer 2: Gradient glow spots with parallax (z-index: 1) */}
-      <GradientGlowSpots />
 
       {/* Content wrapper - sits above background layers (z-index: 10) */}
       <div className="relative" style={{ zIndex: 10 }}>
