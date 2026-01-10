@@ -23,15 +23,28 @@ import {
   Circle,
 } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { RetroGrid } from '@/components/ui/retro-grid';
 import { CodeWindow, EXAMPLE_CODE } from '@/components/ui/code-window';
-import { TechStackGrid } from '@/components/ui/tech-stack-grid';
 import { ParticleBeam } from '@/components/ui/particle-beam';
 import { SystemNode } from '@/components/ui/system-node';
 import { LiveMetricsBar } from '@/components/ui/live-metrics-bar';
 import { ActivityLog } from '@/components/ui/activity-log';
 import { FadeInSection } from '@/components/animations/FadeInSection';
+
+// Lazy load heavy component (~30KB)
+const TechStackGrid = dynamic(
+  () => import('@/components/ui/tech-stack-grid').then(m => ({ default: m.TechStackGrid })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="max-w-5xl mx-auto h-64 rounded-xl bg-zinc-800/30 animate-pulse flex items-center justify-center">
+        <span className="text-zinc-600 font-mono text-sm">Loading tech stack...</span>
+      </div>
+    )
+  }
+);
 
 export default function BespokeSoftwarePage() {
   return (

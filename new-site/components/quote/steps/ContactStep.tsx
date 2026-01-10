@@ -170,7 +170,7 @@ export function ContactStep({
                 <DollarSign className="w-4 h-4 text-zinc-400" />
                 Budget Range
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {BUDGET_OPTIONS.map((option) => (
                   <button
                     key={option.id}

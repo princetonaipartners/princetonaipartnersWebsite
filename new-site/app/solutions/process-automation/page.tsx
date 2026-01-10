@@ -20,12 +20,25 @@ import {
   Circle,
 } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { DotShaderBackground } from '@/components/ui/dot-shader-background';
-import { WorkflowBuilder } from '@/components/ui/workflow-builder';
 import { FadeInSection } from '@/components/animations/FadeInSection';
 import * as Accordion from '@radix-ui/react-accordion';
 import * as Tabs from '@radix-ui/react-tabs';
+
+// Lazy load heavy component (~19KB)
+const WorkflowBuilder = dynamic(
+  () => import('@/components/ui/workflow-builder').then(m => ({ default: m.WorkflowBuilder })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-80 rounded-xl bg-zinc-800/30 animate-pulse flex items-center justify-center">
+        <span className="text-zinc-600 font-mono text-sm">Loading workflow builder...</span>
+      </div>
+    )
+  }
+);
 
 export default function ProcessAutomationPage() {
   return (

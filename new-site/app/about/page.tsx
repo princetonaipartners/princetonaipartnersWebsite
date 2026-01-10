@@ -50,14 +50,14 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-dark-bg-primary">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-primary/30 bg-brand-primary/10 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-primary/30 bg-brand-primary/10 mb-6 sm:mb-8">
               <span className="text-sm text-brand-primary font-medium">About Princeton AI Partners</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               Your{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-cyan-400">
                 Automated CTO
@@ -66,7 +66,7 @@ export default function AboutPage() {
               with Live Support
             </h1>
 
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
               We bridge the gap between vision and execution. Whether you need AI agents, custom software, or process automation, we deliver enterprise-grade solutions at startup speed.
             </p>
           </FadeInSection>
@@ -74,10 +74,10 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-20 px-6 border-t border-zinc-900/50">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 border-t border-zinc-900/50">
         <div className="max-w-5xl mx-auto">
           <FadeInSection>
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   Technology Should Empower, Not Overwhelm
@@ -89,7 +89,7 @@ export default function AboutPage() {
                   Our team combines deep technical expertise with a genuine passion for helping businesses succeed. We translate complex technical possibilities into practical solutions that deliver real results.
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-brand-primary/20 to-cyan-500/10 rounded-2xl p-8 border border-brand-primary/20">
+              <div className="bg-gradient-to-br from-brand-primary/20 to-cyan-500/10 rounded-2xl p-5 sm:p-8 border border-brand-primary/20">
                 <div className="text-5xl font-bold text-brand-primary mb-4">Weeks, Not Months</div>
                 <p className="text-xl text-white font-medium mb-2">Custom AI Solutions</p>
                 <p className="text-zinc-400">Full ownership, no vendor lock-in. Enterprise quality at startup speed.</p>
@@ -100,15 +100,15 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <FadeInSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-10 sm:mb-16">
               What We Stand For
             </h2>
           </FadeInSection>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
             {values.map((value, index) => (
               <FadeInSection key={value.title} delay={index * 0.1}>
                 <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors">
@@ -125,13 +125,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 border-t border-zinc-900/50">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 border-t border-zinc-900/50">
         <div className="max-w-3xl mx-auto text-center">
           <FadeInSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-lg text-zinc-400 mb-8">
+            <p className="text-base sm:text-lg text-zinc-400 mb-6 sm:mb-8">
               Let&apos;s discuss your project and see how we can help transform your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

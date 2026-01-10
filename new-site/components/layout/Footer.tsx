@@ -8,10 +8,10 @@ export function Footer() {
 
   return (
     <footer className="relative z-10 bg-transparent border-t border-white/10 dark:border-white/5">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Brand */}
-          <div className="col-span-1">
+          <div className="col-span-2 sm:col-span-2 md:col-span-1">
             <Link href="/" className="inline-flex items-center space-x-2 mb-4 group">
               <Image
                 src="/logos/logo-footer-blue.png"

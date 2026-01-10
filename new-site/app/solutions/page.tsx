@@ -78,16 +78,16 @@ export default function SolutionsPage() {
   return (
     <div className="min-h-screen bg-dark-bg-primary">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
               Our{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-cyan-400">
                 Solutions
               </span>
             </h1>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto px-2 sm:px-0">
               From AI agents to custom software, we build technology that transforms how your business operates.
             </p>
           </FadeInSection>
@@ -95,9 +95,9 @@ export default function SolutionsPage() {
       </section>
 
       {/* Solutions Grid */}
-      <section className="pb-32 px-6">
+      <section className="pb-20 sm:pb-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {solutions.map((solution, index) => (
               <FadeInSection key={solution.title} delay={index * 0.05}>
                 <Link href={solution.href} className="group block h-full">
@@ -124,13 +124,13 @@ export default function SolutionsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 border-t border-zinc-900/50">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 border-t border-zinc-900/50">
         <div className="max-w-3xl mx-auto text-center">
           <FadeInSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
               Not Sure Where to Start?
             </h2>
-            <p className="text-lg text-zinc-400 mb-8">
+            <p className="text-base sm:text-lg text-zinc-400 mb-6 sm:mb-8">
               Tell us about your business challenges and we&apos;ll recommend the right solutions.
             </p>
             <Link

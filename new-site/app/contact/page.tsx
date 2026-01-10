@@ -48,16 +48,16 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-dark-bg-primary">
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
               Let&apos;s Build Something{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-cyan-400">
                 Great
               </span>
             </h1>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto px-2 sm:px-0">
               Tell us about your business and goals. We&apos;ll get back to you within 24 hours to schedule your free consultation.
             </p>
           </FadeInSection>
@@ -65,10 +65,10 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="pb-32 px-6">
+      <section className="pb-20 sm:pb-32 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           <FadeInSection delay={0.2}>
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 md:p-10">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 sm:p-8 md:p-10">
               {formState === 'success' ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -183,7 +183,7 @@ export default function ContactPage() {
 
           {/* Contact Info */}
           <FadeInSection delay={0.4}>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-md mx-auto">
+            <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-md mx-auto">
               <div className="text-center">
                 <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Mail className="w-5 h-5 text-brand-primary" />

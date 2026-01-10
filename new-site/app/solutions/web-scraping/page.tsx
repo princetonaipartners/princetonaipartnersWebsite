@@ -27,11 +27,24 @@ import {
   Circle,
 } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { DottedSurface } from '@/components/ui/dotted-surface';
-import { LiveExtractionDemo } from '@/components/ui/live-extraction-demo';
 import { FadeInSection } from '@/components/animations/FadeInSection';
 import * as Accordion from '@radix-ui/react-accordion';
+
+// Lazy load heavy component (~29KB)
+const LiveExtractionDemo = dynamic(
+  () => import('@/components/ui/live-extraction-demo').then(m => ({ default: m.LiveExtractionDemo })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-80 rounded-xl bg-zinc-800/30 animate-pulse flex items-center justify-center">
+        <span className="text-zinc-600 font-mono text-sm">Loading extraction demo...</span>
+      </div>
+    )
+  }
+);
 
 export default function WebScrapingPage() {
   return (
