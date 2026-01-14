@@ -6,6 +6,11 @@
 import type { MDXComponents } from 'mdx/types';
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  BarChartComparison,
+  LineChartTrend,
+  SimpleBarChart,
+} from '@/components/blog/charts';
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -139,6 +144,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         </div>
       );
     },
+
+    // Chart components for data visualization
+    BarChartComparison,
+    LineChartTrend,
+    SimpleBarChart,
 
     ...components,
   };
