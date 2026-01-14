@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { SITE_CONFIG, NAV_LINKS } from '@/lib/constants';
-import { SocialIcon } from '@/components/icons';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -27,9 +26,6 @@ export function Footer() {
             <p className="text-sm text-text-secondary dark:text-zinc-400 mb-4">
               {SITE_CONFIG.description}
             </p>
-            <div className="flex space-x-4">
-              <SocialIcon platform="github" url={SITE_CONFIG.links.github} />
-            </div>
           </div>
 
           {/* Solutions */}

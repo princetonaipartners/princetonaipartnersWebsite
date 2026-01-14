@@ -6,9 +6,7 @@ export const SITE_CONFIG = {
   name: 'Princeton AI Partners',
   description: 'We build custom AI agents, phone systems, web scrapers, and software in weeks.',
   url: 'https://princeton-ai.com',
-  links: {
-    github: 'https://github.com/princetonaipartners',
-  },
+  links: {},
 };
 
 interface NavDropdownItem {

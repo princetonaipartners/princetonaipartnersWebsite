@@ -59,7 +59,7 @@ const organizationSchema = {
     '@type': 'Country',
     name: 'United States',
   },
-  sameAs: ['https://github.com/princetonaipartners'],
+  sameAs: [],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',

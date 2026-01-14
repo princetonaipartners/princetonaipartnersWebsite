@@ -203,9 +203,7 @@ export default function RootLayout({
                   availableLanguage: 'English',
                 },
               ],
-              sameAs: [
-                'https://github.com/princetonaipartners',
-              ],
+              sameAs: [],
               knowsAbout: [
                 'Artificial Intelligence',
                 'Machine Learning',
