@@ -117,12 +117,35 @@ const offerSchema = {
   },
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://princeton-ai.com',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Get a Quote',
+      item: 'https://princeton-ai.com/quote',
+    },
+  ],
+};
+
 export default function QuotePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(offerSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <main className="min-h-screen bg-surface-primary dark:bg-dark-bg-primary">
         <div className="container mx-auto px-4 py-12 md:py-20">

@@ -55,6 +55,31 @@ const jsonLd = {
   priceRange: '$50,000 - $250,000+',
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://princeton-ai.com',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Solutions',
+      item: 'https://princeton-ai.com/solutions',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Bespoke Software',
+      item: 'https://princeton-ai.com/solutions/bespoke-software',
+    },
+  ],
+};
+
 export default function BespokeSoftwareLayout({
   children,
 }: {
@@ -65,6 +90,10 @@ export default function BespokeSoftwareLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {children}
     </>
