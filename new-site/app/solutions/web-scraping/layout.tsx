@@ -1,28 +1,39 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Web Scraping & Data Extraction | Princeton AI Partners',
+  title: 'Web Scraping Services | Data Extraction for Business',
   description:
-    'Enterprise-grade web scraping at scale. Extract data from any website—e-commerce, real estate, job boards. 99% success rate, 1M+ pages per day.',
+    'Professional web scraping services for your business. Extract data from any website—e-commerce, real estate, job boards. 99% success rate, 1M+ pages per day. Competitive intelligence at scale.',
   keywords: [
+    // Commercial intent
+    'web scraping service',
+    'data extraction service',
+    'hire web scraper',
+    'scraping service for business',
+    'competitive intelligence data',
+    'lead list extraction',
+    // Service keywords
     'web scraping',
     'data extraction',
     'automated scraping',
-    'competitive intelligence',
-    'lead generation scraping',
-    'data collection',
-    'web crawler',
     'price monitoring',
+    'lead generation scraping',
+    'web crawler',
+    'data collection service',
+    // Location
+    'web scraping Princeton NJ',
+    'data extraction New Jersey',
   ],
   openGraph: {
-    title: 'Web Scraping & Data Extraction | Princeton AI Partners',
-    description: 'Enterprise-grade web scraping at scale. 99% success rate, 1M+ pages per day.',
+    title: 'Web Scraping Services | Data Extraction for Business',
+    description: 'Professional web scraping. Extract data from any website. 99% success rate, 1M+ pages/day.',
     url: 'https://princeton-ai.com/solutions/web-scraping',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Web Scraping & Data Extraction | Princeton AI Partners',
-    description: 'Enterprise-grade web scraping at scale.',
+    title: 'Web Scraping Services | Princeton AI Partners',
+    description: 'Professional web scraping services. 99% success rate, 1M+ pages per day.',
   },
   alternates: {
     canonical: 'https://princeton-ai.com/solutions/web-scraping',

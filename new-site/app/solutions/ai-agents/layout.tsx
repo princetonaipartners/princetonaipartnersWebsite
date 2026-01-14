@@ -1,10 +1,18 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Agents | Princeton AI Partners',
+  title: 'AI Agents for Business | Custom AI Solutions',
   description:
-    'Custom AI agents that automate complex business tasks. RAG systems, workflow automation, and intelligent assistants built for your specific needs.',
+    'Get AI for your business. Custom AI agents that automate customer support, answer questions from your documents, and handle complex tasks 24/7. RAG systems and intelligent assistants built for your needs.',
   keywords: [
+    // Commercial intent
+    'AI for my business',
+    'AI solutions for small business',
+    'hire AI developer',
+    'custom AI for business',
+    'AI customer service',
+    'AI assistant for business',
+    // Service keywords
     'AI agents',
     'RAG systems',
     'custom chatbots',
@@ -12,11 +20,23 @@ export const metadata: Metadata = {
     'business automation AI',
     'intelligent assistants',
     'LLM integration',
+    // Location
+    'AI development Princeton NJ',
+    'AI developers New Jersey',
   ],
+  alternates: {
+    canonical: 'https://princeton-ai.com/solutions/ai-agents',
+  },
   openGraph: {
-    title: 'AI Agents | Princeton AI Partners',
-    description: 'Custom AI agents that automate complex business tasks.',
+    title: 'AI Agents for Business | Custom AI Solutions',
+    description: 'Get AI for your business. Custom AI agents that automate tasks 24/7.',
     url: 'https://princeton-ai.com/solutions/ai-agents',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Agents for Business | Princeton AI Partners',
+    description: 'Custom AI agents that automate customer support and business tasks 24/7.',
   },
 };
 

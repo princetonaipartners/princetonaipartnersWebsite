@@ -97,8 +97,8 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-white mb-4">9. Contact Us</h2>
             <p className="text-zinc-400 leading-relaxed">
               If you have questions about this Privacy Policy, please contact us at:{' '}
-              <a href="mailto:hello@princeton-ai.com" className="text-brand-primary hover:underline">
-                hello@princeton-ai.com
+              <a href="mailto:support@princetonaipartners.com" className="text-brand-primary hover:underline">
+                support@princetonaipartners.com
               </a>
             </p>
           </section>

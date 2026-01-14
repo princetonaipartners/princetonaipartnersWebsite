@@ -1,27 +1,38 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Process Automation | Princeton AI Partners',
+  title: 'Business Process Automation | Automate Your Business',
   description:
-    'Automate repetitive tasks and streamline workflows. Save 20+ hours per week with custom integrations and intelligent workflow automation.',
+    'Automate your business operations. Eliminate repetitive tasks and streamline workflows. Save 20+ hours per week with custom integrations and intelligent workflow automation.',
   keywords: [
+    // Commercial intent
+    'automate my business',
+    'business automation services',
+    'automate repetitive tasks',
+    'workflow automation for business',
+    'save time automation',
+    'eliminate manual tasks',
+    // Service keywords
     'process automation',
     'workflow automation',
+    'business process automation',
     'n8n automation',
     'Zapier alternative',
-    'business process automation',
-    'task automation',
-    'integration automation',
+    'custom integrations',
+    // Location
+    'automation services Princeton NJ',
+    'business automation New Jersey',
   ],
   openGraph: {
-    title: 'Process Automation | Princeton AI Partners',
-    description: 'Automate repetitive tasks and streamline workflows. Save 20+ hours per week.',
+    title: 'Business Process Automation | Automate Your Business',
+    description: 'Automate your business. Save 20+ hours per week with intelligent workflow automation.',
     url: 'https://princeton-ai.com/solutions/process-automation',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Process Automation | Princeton AI Partners',
-    description: 'Automate repetitive tasks and streamline workflows.',
+    title: 'Business Process Automation | Princeton AI Partners',
+    description: 'Automate your business operations and save 20+ hours per week.',
   },
   alternates: {
     canonical: 'https://princeton-ai.com/solutions/process-automation',

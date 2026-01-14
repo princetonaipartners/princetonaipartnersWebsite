@@ -1,22 +1,41 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Phone Systems | Princeton AI Partners',
+  title: 'AI Phone Systems | AI Receptionist for Your Business',
   description:
-    'AI-powered phone systems that handle calls 24/7. Appointment scheduling, customer support, and lead qualification with natural voice AI.',
+    'Never miss a call again. AI-powered phone systems that answer calls 24/7, schedule appointments, qualify leads, and handle customer inquiries like your best employee.',
   keywords: [
+    // Commercial intent
+    'AI receptionist for my business',
+    'AI phone answering service',
+    'automated phone system for business',
+    'AI call handling',
+    'never miss a call',
+    '24/7 phone answering',
+    // Service keywords
     'AI phone system',
     'voice AI',
-    'automated call handling',
+    'virtual receptionist',
     'appointment scheduling AI',
     'lead qualification',
-    'virtual receptionist',
-    '24/7 phone support',
+    'AI customer service phone',
+    // Location
+    'AI phone system Princeton NJ',
+    'virtual receptionist New Jersey',
   ],
+  alternates: {
+    canonical: 'https://princeton-ai.com/solutions/ai-phone-systems',
+  },
   openGraph: {
-    title: 'AI Phone Systems | Princeton AI Partners',
-    description: 'AI-powered phone systems that handle calls 24/7.',
+    title: 'AI Phone Systems | AI Receptionist for Your Business',
+    description: 'Never miss a call. AI phone systems that handle calls 24/7 like your best employee.',
     url: 'https://princeton-ai.com/solutions/ai-phone-systems',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Phone Systems | Princeton AI Partners',
+    description: 'AI-powered phone systems that answer calls 24/7, schedule appointments, and qualify leads.',
   },
 };
 

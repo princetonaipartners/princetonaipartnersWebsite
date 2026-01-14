@@ -1,22 +1,40 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Custom Bots | Princeton AI Partners',
+  title: 'Custom Chatbots | AI Bot Development for Business',
   description:
-    'Chatbots, Discord bots, Slack integrations, and custom automation bots. Built for your specific platform and use case.',
+    'Custom chatbots for your business. Telegram bots, WhatsApp bots, Discord bots, Slack integrations, and AI-powered automation bots built for your specific needs.',
   keywords: [
+    // Commercial intent
+    'chatbot for my business',
+    'custom chatbot development',
+    'AI chatbot for website',
+    'customer service chatbot',
+    'lead generation chatbot',
+    // Service keywords
     'Telegram bot development',
     'WhatsApp bot',
     'Discord bot',
-    'Slack bot',
-    'custom chatbot',
+    'Slack bot integration',
+    'AI chatbot',
     'messaging automation',
-    'bot development',
+    // Location
+    'chatbot developer Princeton NJ',
+    'bot development New Jersey',
   ],
+  alternates: {
+    canonical: 'https://princeton-ai.com/solutions/custom-bots',
+  },
   openGraph: {
-    title: 'Custom Bots | Princeton AI Partners',
-    description: 'Chatbots, Discord bots, Slack integrations, and custom automation bots.',
+    title: 'Custom Chatbots | AI Bot Development for Business',
+    description: 'Custom chatbots for your business. Telegram, WhatsApp, Discord, and Slack bots.',
     url: 'https://princeton-ai.com/solutions/custom-bots',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Custom Chatbots | Princeton AI Partners',
+    description: 'AI-powered chatbots for customer service, lead generation, and automation.',
   },
 };
 

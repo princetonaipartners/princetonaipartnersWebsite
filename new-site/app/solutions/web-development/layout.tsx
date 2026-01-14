@@ -1,22 +1,41 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Web Development | Princeton AI Partners',
+  title: 'Web Development Services | Website for Your Business',
   description:
-    'Modern web applications built with Next.js, React, and TypeScript. Fast, responsive, and optimized for conversion.',
+    'Get a professional website for your business. Modern web applications built with Next.js, React, and TypeScript. Fast, responsive, SEO-optimized sites that convert visitors into customers.',
   keywords: [
-    'web development',
+    // Commercial intent
+    'website for my business',
+    'business website development',
+    'hire web developer',
+    'professional website design',
+    'custom website for small business',
+    'ecommerce website development',
+    // Service keywords
+    'web development services',
     'Next.js development',
     'React applications',
-    'TypeScript',
+    'custom web apps',
     'SEO optimization',
     'responsive design',
-    'custom web apps',
+    // Location
+    'web developer Princeton NJ',
+    'website design New Jersey',
   ],
+  alternates: {
+    canonical: 'https://princeton-ai.com/solutions/web-development',
+  },
   openGraph: {
-    title: 'Web Development | Princeton AI Partners',
-    description: 'Modern web applications built with Next.js, React, and TypeScript.',
+    title: 'Web Development Services | Website for Your Business',
+    description: 'Get a professional website for your business. Fast, responsive, SEO-optimized sites that convert.',
     url: 'https://princeton-ai.com/solutions/web-development',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Development Services | Princeton AI Partners',
+    description: 'Professional websites for your business. Fast, responsive, SEO-optimized.',
   },
 };
 

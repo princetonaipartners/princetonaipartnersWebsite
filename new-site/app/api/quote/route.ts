@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
           to: data.contact.email,
           subject: userSubject,
           html: generateUserQuoteEmail(emailData),
-          replyTo: process.env.EMAIL_REPLY_TO || 'hello@princeton-ai.com',
+          replyTo: process.env.EMAIL_REPLY_TO || 'support@princetonaipartners.com',
         })
       );
 

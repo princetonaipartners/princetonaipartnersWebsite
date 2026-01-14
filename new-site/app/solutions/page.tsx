@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Globe, Database, Phone, Zap, MessageSquare, Sparkles, Code } from 'lucide-react';
 import { FadeInSection } from '@/components/animations/FadeInSection';
+import { SolutionsBackground } from './solutions-background';
 
 export const metadata: Metadata = {
   title: 'Solutions | Princeton AI Partners',
@@ -76,9 +77,12 @@ const solutions = [
 
 export default function SolutionsPage() {
   return (
-    <div className="min-h-screen bg-dark-bg-primary">
+    <div className="relative min-h-screen bg-dark-bg-primary overflow-hidden">
+      {/* Background */}
+      <SolutionsBackground />
+
       {/* Hero Section */}
-      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6">
+      <section className="relative z-10 pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
@@ -95,36 +99,34 @@ export default function SolutionsPage() {
       </section>
 
       {/* Solutions Grid */}
-      <section className="pb-20 sm:pb-32 px-4 sm:px-6">
+      <section className="relative z-10 pb-20 sm:pb-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {solutions.map((solution, index) => (
-              <FadeInSection key={solution.title} delay={index * 0.05}>
-                <Link href={solution.href} className="group block h-full">
-                  <div className="h-full bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 hover:border-brand-primary/50 transition-all duration-300 hover:-translate-y-1">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${solution.color} rounded-xl flex items-center justify-center mb-4 opacity-80 group-hover:opacity-100 transition-opacity`}>
-                      <solution.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-brand-primary transition-colors">
-                      {solution.title}
-                    </h3>
-                    <p className="text-zinc-400 text-sm mb-4 leading-relaxed">
-                      {solution.description}
-                    </p>
-                    <span className="inline-flex items-center gap-2 text-sm text-brand-primary font-medium">
-                      Learn more
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
+            {solutions.map((solution) => (
+              <Link key={solution.title} href={solution.href} className="group block h-full">
+                <div className="h-full bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 hover:border-brand-primary/50 transition-all duration-300 hover:-translate-y-1">
+                  <div className={`w-12 h-12 bg-gradient-to-br ${solution.color} rounded-xl flex items-center justify-center mb-4 opacity-80 group-hover:opacity-100 transition-opacity`}>
+                    <solution.icon className="w-6 h-6 text-white" />
                   </div>
-                </Link>
-              </FadeInSection>
+                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-brand-primary transition-colors">
+                    {solution.title}
+                  </h3>
+                  <p className="text-zinc-400 text-sm mb-4 leading-relaxed">
+                    {solution.description}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-sm text-brand-primary font-medium">
+                    Learn more
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6 border-t border-zinc-900/50">
+      <section className="relative z-10 py-12 sm:py-20 px-4 sm:px-6 border-t border-zinc-900/50">
         <div className="max-w-3xl mx-auto text-center">
           <FadeInSection>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">

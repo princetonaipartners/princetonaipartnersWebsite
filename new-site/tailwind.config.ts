@@ -154,6 +154,8 @@ const config: Config = {
         'orbit-medium': 'orbit 20s linear infinite',
         'orbit-fast': 'orbit 15s linear infinite',
         'blink': 'blink 1s step-end infinite',
+        // Industries background pulse
+        'pulse-slow': 'pulseSlow 6s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -273,6 +275,11 @@ const config: Config = {
         "blink": {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0" },
+        },
+        // Industries background pulse
+        "pulseSlow": {
+          "0%, 100%": { opacity: "0.5", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.1)" },
         },
       },
       transitionDuration: {

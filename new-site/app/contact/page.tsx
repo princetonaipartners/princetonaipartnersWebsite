@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Mail, MapPin, Send, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FadeInSection } from '@/components/animations/FadeInSection';
+import { ContactBackground } from './contact-background';
 
 export default function ContactPage() {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -46,9 +47,12 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg-primary">
+    <div className="relative min-h-screen bg-dark-bg-primary overflow-hidden">
+      {/* Beams Background */}
+      <ContactBackground />
+
       {/* Hero Section */}
-      <section className="pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6">
+      <section className="relative z-10 pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
@@ -65,10 +69,9 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="pb-20 sm:pb-32 px-4 sm:px-6">
+      <section className="relative z-10 pb-16 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
-          <FadeInSection delay={0.2}>
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 sm:p-8 md:p-10">
+          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 sm:p-8 md:p-10">
               {formState === 'success' ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -179,18 +182,16 @@ export default function ContactPage() {
                 </form>
               )}
             </div>
-          </FadeInSection>
 
           {/* Contact Info */}
-          <FadeInSection delay={0.4}>
             <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-md mx-auto">
               <div className="text-center">
                 <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Mail className="w-5 h-5 text-brand-primary" />
                 </div>
                 <p className="text-sm text-zinc-400">Email</p>
-                <a href="mailto:hello@princeton-ai.com" className="text-white hover:text-brand-primary transition-colors">
-                  hello@princeton-ai.com
+                <a href="mailto:support@princetonaipartners.com" className="text-white hover:text-brand-primary transition-colors">
+                  support@princetonaipartners.com
                 </a>
               </div>
               <div className="text-center">
@@ -201,7 +202,6 @@ export default function ContactPage() {
                 <p className="text-white">Princeton, NJ</p>
               </div>
             </div>
-          </FadeInSection>
         </div>
       </section>
     </div>

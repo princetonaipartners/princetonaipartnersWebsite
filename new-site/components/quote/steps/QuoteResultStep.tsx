@@ -217,10 +217,10 @@ export function QuoteResultStep({ state, estimate }: QuoteResultStepProps) {
       >
         Questions? Email us at{' '}
         <a
-          href="mailto:hello@princeton-ai.com"
+          href="mailto:support@princetonaipartners.com"
           className="text-brand-primary hover:underline"
         >
-          hello@princeton-ai.com
+          support@princetonaipartners.com
         </a>
       </motion.div>
     </div>

@@ -1,5 +1,6 @@
 import { getAllPosts, getFeaturedPosts } from '@/content/blog';
 import { BlogHeader, BlogGrid, FeaturedBlogCard } from '@/components/blog';
+import { BlogBackground } from './blog-background';
 
 export default function BlogPage() {
   const allPosts = getAllPosts();
@@ -8,8 +9,11 @@ export default function BlogPage() {
   const otherPosts = allPosts.filter((post) => post.slug !== featuredPost?.slug);
 
   return (
-    <main className="min-h-screen bg-dark-bg pt-20">
-      <div className="max-w-6xl mx-auto px-6">
+    <main className="relative min-h-screen bg-dark-bg-primary pt-20 overflow-hidden">
+      {/* Shooting Stars Background */}
+      <BlogBackground />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Header */}
         <BlogHeader />
 

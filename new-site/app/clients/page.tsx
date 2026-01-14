@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Utensils, ShoppingBag, Stethoscope, Building2, Briefcase, Truck, GraduationCap, Home } from 'lucide-react';
 import { FadeInSection } from '@/components/animations/FadeInSection';
+import { IndustriesBackground } from '@/components/ui/industries-background';
 
 const industries = [
   {
@@ -55,9 +56,12 @@ const industries = [
 
 export default function ClientsPage() {
   return (
-    <div className="min-h-screen bg-dark-bg-primary">
+    <div className="relative min-h-screen bg-dark-bg-primary">
+      {/* Background Effect */}
+      <IndustriesBackground />
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="relative pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <FadeInSection>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -74,7 +78,7 @@ export default function ClientsPage() {
       </section>
 
       {/* Industries Grid */}
-      <section className="pb-32 px-6">
+      <section className="relative pb-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {industries.map((industry, index) => (
@@ -103,7 +107,7 @@ export default function ClientsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 border-t border-zinc-900/50">
+      <section className="relative py-20 px-6 border-t border-zinc-800/30">
         <div className="max-w-3xl mx-auto text-center">
           <FadeInSection>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">

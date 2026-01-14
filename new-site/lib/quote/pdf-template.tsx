@@ -365,7 +365,7 @@ export function QuotePDF({ state, estimate, quoteId }: QuotePDFProps) {
           <View style={styles.contactBox}>
             <View style={styles.row}>
               <Text style={styles.label}>Email:</Text>
-              <Text style={styles.value}>hello@princeton-ai.com</Text>
+              <Text style={styles.value}>support@princetonaipartners.com</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>Website:</Text>

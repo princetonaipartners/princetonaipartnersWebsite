@@ -63,7 +63,7 @@ const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
-    email: 'hello@princeton-ai.com',
+    email: 'support@princetonaipartners.com',
     availableLanguage: 'English',
   },
   knowsAbout: [

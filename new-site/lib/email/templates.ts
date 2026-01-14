@@ -185,7 +185,7 @@ export function generateUserQuoteEmail(data: QuoteEmailData): string {
           <tr>
             <td style="background-color: #f9fafb; padding: 30px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 10px; color: #6b7280; font-size: 14px;">Questions? Reply to this email or contact us at</p>
-              <a href="mailto:hello@princeton-ai.com" style="color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 500;">hello@princeton-ai.com</a>
+              <a href="mailto:support@princetonaipartners.com" style="color: #2563eb; text-decoration: none; font-size: 14px; font-weight: 500;">support@princetonaipartners.com</a>
               <p style="margin: 20px 0 0; color: #9ca3af; font-size: 12px;">This estimate is valid for 30 days. Final pricing may vary based on detailed requirements.</p>
               <p style="margin: 10px 0 0; color: #9ca3af; font-size: 12px;">&copy; ${new Date().getFullYear()} Princeton AI Partners. All rights reserved.</p>
             </td>
