@@ -35,6 +35,7 @@ export const NAV_LINKS: NavLink[] = [
       { title: 'Web Scraping', href: '/solutions/web-scraping', icon: 'globe' },
     ],
   },
+  { title: 'Free Site Audit', href: '/grade' },
   { title: 'Who We Serve', href: '/clients' },
   { title: 'Blog', href: '/blog' },
   { title: 'About Us', href: '/about' },
