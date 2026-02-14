@@ -1,26 +1,32 @@
-import { useEffect, useState } from "react"
-import { motion, Variants } from "framer-motion"
+'use client';
 
-import { cn } from "@/lib/utils"
+import { useEffect, useState, useMemo, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-mobile";
 
 interface TypewriterProps {
-  text: string | string[]
-  speed?: number
-  initialDelay?: number
-  waitTime?: number
-  deleteSpeed?: number
-  loop?: boolean
-  className?: string
-  showCursor?: boolean
-  hideCursorOnType?: boolean
-  cursorChar?: string | React.ReactNode
-  cursorAnimationVariants?: {
-    initial: Variants["initial"]
-    animate: Variants["animate"]
-  }
-  cursorClassName?: string
+  text: string | string[];
+  speed?: number;
+  initialDelay?: number;
+  waitTime?: number;
+  deleteSpeed?: number;
+  loop?: boolean;
+  className?: string;
+  showCursor?: boolean;
+  hideCursorOnType?: boolean;
+  cursorChar?: string | React.ReactNode;
+  cursorClassName?: string;
 }
 
+/**
+ * Typewriter - Optimized typing animation component
+ *
+ * Performance optimizations:
+ * - Batch character updates (every 2 chars instead of 1) for reduced re-renders
+ * - CSS animation for cursor blink (no JS interval)
+ * - Respects prefers-reduced-motion (shows full text immediately)
+ * - Memoized text array to prevent recalculations
+ */
 const Typewriter = ({
   text,
   speed = 50,
@@ -33,68 +39,78 @@ const Typewriter = ({
   hideCursorOnType = false,
   cursorChar = "|",
   cursorClassName = "ml-1",
-  cursorAnimationVariants = {
-    initial: { opacity: 0 },
-    animate: {
-      opacity: 1,
-      transition: {
-        duration: 0.01,
-        repeat: Infinity,
-        repeatDelay: 0.4,
-        repeatType: "reverse",
-      },
-    },
-  },
 }: TypewriterProps) => {
-  const [displayText, setDisplayText] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const texts = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
-  const texts = Array.isArray(text) ? text : [text]
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
 
+  // If user prefers reduced motion, show full first text immediately
+  // This provides accessible experience without jarring animations
   useEffect(() => {
-    let timeout: NodeJS.Timeout
+    if (prefersReducedMotion && texts.length > 0) {
+      setDisplayText(texts[0]);
+    }
+  }, [prefersReducedMotion, texts]);
 
-    const currentText = texts[currentTextIndex]
+  // Main typing logic - optimized with batching
+  useEffect(() => {
+    // Skip if reduced motion
+    if (prefersReducedMotion) return;
+
+    let timeout: NodeJS.Timeout;
+    const currentText = texts[currentTextIndex];
 
     const startTyping = () => {
       if (isDeleting) {
+        setIsTyping(true);
         if (displayText === "") {
-          setIsDeleting(false)
+          setIsDeleting(false);
+          setIsTyping(false);
           if (currentTextIndex === texts.length - 1 && !loop) {
-            return
+            return;
           }
-          setCurrentTextIndex((prev) => (prev + 1) % texts.length)
-          setCurrentIndex(0)
-          timeout = setTimeout(() => {}, waitTime)
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+          setCurrentIndex(0);
+          timeout = setTimeout(() => {}, waitTime);
         } else {
+          // Delete 2 chars at a time for faster deletion
           timeout = setTimeout(() => {
-            setDisplayText((prev) => prev.slice(0, -1))
-          }, deleteSpeed)
+            setDisplayText((prev) => prev.slice(0, -2) || prev.slice(0, -1));
+          }, deleteSpeed);
         }
       } else {
         if (currentIndex < currentText.length) {
+          setIsTyping(true);
+          // Type 2 chars at a time if we have enough left, otherwise type 1
+          const charsToAdd = Math.min(2, currentText.length - currentIndex);
           timeout = setTimeout(() => {
-            setDisplayText((prev) => prev + currentText[currentIndex])
-            setCurrentIndex((prev) => prev + 1)
-          }, speed)
+            setDisplayText((prev) => prev + currentText.slice(currentIndex, currentIndex + charsToAdd));
+            setCurrentIndex((prev) => prev + charsToAdd);
+          }, speed);
         } else if (texts.length > 1) {
+          setIsTyping(false);
           timeout = setTimeout(() => {
-            setIsDeleting(true)
-          }, waitTime)
+            setIsDeleting(true);
+          }, waitTime);
+        } else {
+          setIsTyping(false);
         }
       }
-    }
+    };
 
     // Apply initial delay only at the start
     if (currentIndex === 0 && !isDeleting && displayText === "") {
-      timeout = setTimeout(startTyping, initialDelay)
+      timeout = setTimeout(startTyping, initialDelay);
     } else {
-      startTyping()
+      startTyping();
     }
 
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(timeout);
   }, [
     currentIndex,
     displayText,
@@ -106,29 +122,33 @@ const Typewriter = ({
     currentTextIndex,
     loop,
     initialDelay,
-  ])
+    prefersReducedMotion,
+  ]);
+
+  // Determine if cursor should be hidden
+  const shouldHideCursor = useMemo(() => {
+    if (!showCursor) return true;
+    if (hideCursorOnType && isTyping) return true;
+    return false;
+  }, [showCursor, hideCursorOnType, isTyping]);
 
   return (
-    <div className={`inline-block whitespace-pre-wrap tracking-tight pb-[0.1em] ${className}`}>
+    <span className={cn("inline-block whitespace-pre-wrap tracking-tight pb-[0.1em]", className)}>
       <span>{displayText}</span>
-      {showCursor && (
-        <motion.span
-          variants={cursorAnimationVariants}
+      {!shouldHideCursor && (
+        <span
           className={cn(
             cursorClassName,
-            hideCursorOnType &&
-              (currentIndex < texts[currentTextIndex].length || isDeleting)
-              ? "hidden"
-              : ""
+            // CSS animation for cursor blink - no JS needed
+            "animate-cursor-blink"
           )}
-          initial="initial"
-          animate="animate"
+          aria-hidden="true"
         >
           {cursorChar}
-        </motion.span>
+        </span>
       )}
-    </div>
-  )
-}
+    </span>
+  );
+};
 
-export { Typewriter }
+export { Typewriter };

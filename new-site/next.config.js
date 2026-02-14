@@ -5,8 +5,41 @@ const nextConfig = {
     remotePatterns: [],
   },
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    // Tree-shake these packages for smaller bundle
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      '@tabler/icons-react',
+      '@radix-ui/react-icons',
+    ],
   },
+
+  // Cache headers for static assets (Vercel edge caching)
+  async headers() {
+    return [
+      {
+        // Cache static assets for 1 year (immutable)
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|woff|woff2|ttf|eot|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Cache JS/CSS chunks for 1 year (content-hashed by Next.js)
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
   // Redirects for SEO
   async redirects() {
     return [
@@ -47,4 +80,9 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// Optional: Bundle analyzer (run with ANALYZE=true npm run build)
+const withBundleAnalyzer = process.env.ANALYZE === 'true'
+  ? require('@next/bundle-analyzer')({ enabled: true })
+  : (config) => config;
+
+module.exports = withBundleAnalyzer(nextConfig);

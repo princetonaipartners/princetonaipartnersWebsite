@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Icon } from '@/components/icons';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Menu, { IMenu } from '@/components/ui/navbar';
@@ -22,17 +22,59 @@ const menuItems: IMenu[] = NAV_LINKS.map((link, index) => ({
   })),
 }));
 
+/**
+ * Header - Site navigation with optimized scroll handling
+ *
+ * Performance optimizations:
+ * - RAF-throttled scroll handler (prevents scroll jank)
+ * - Passive scroll event listener
+ * - Memoized callbacks to prevent unnecessary re-renders
+ */
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const rafId = useRef<number | null>(null);
+  const lastScrollY = useRef(0);
+
+  // RAF-throttled scroll handler for smooth performance
+  const handleScroll = useCallback(() => {
+    // Skip if we already have a pending RAF
+    if (rafId.current !== null) return;
+
+    rafId.current = requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      // Only update state if threshold is crossed (reduces renders)
+      const shouldBeScrolled = scrollY > 20;
+      if (shouldBeScrolled !== (lastScrollY.current > 20)) {
+        setScrolled(shouldBeScrolled);
+      }
+      lastScrollY.current = scrollY;
+      rafId.current = null;
+    });
+  }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    // Initial check
+    setScrolled(window.scrollY > 20);
+    lastScrollY.current = window.scrollY;
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, [handleScroll]);
+
+  // Memoized mobile menu toggle
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen(prev => !prev);
+  }, []);
+
+  // Close mobile menu callback
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
   }, []);
 
   return (
@@ -76,8 +118,9 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2 text-dark-text-primary"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={toggleMobileMenu}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <Icon name="close" size={24} aria-hidden />
@@ -102,7 +145,7 @@ export function Header() {
                     <Link
                       href={link.href || '#'}
                       className="text-dark-text-secondary hover:text-dark-brand-primary transition-colors font-medium py-2 flex items-center gap-1"
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={closeMobileMenu}
                     >
                       {link.title}
                     </Link>
@@ -112,7 +155,7 @@ export function Header() {
                           key={item.href}
                           href={item.href}
                           className="flex items-center gap-2 text-dark-text-tertiary hover:text-dark-brand-primary transition-colors text-sm py-1.5"
-                          onClick={() => setMobileMenuOpen(false)}
+                          onClick={closeMobileMenu}
                         >
                           <Icon name={item.icon as 'layout' | 'database' | 'phone' | 'zap' | 'bot' | 'sparkles' | 'globe'} size={16} />
                           <span>{item.title}</span>
@@ -124,7 +167,7 @@ export function Header() {
                   <Link
                     href={link.href || '#'}
                     className="text-dark-text-secondary hover:text-dark-brand-primary transition-colors font-medium py-2"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
                     {link.title}
                   </Link>
@@ -132,7 +175,7 @@ export function Header() {
               </div>
             ))}
             <div className="pt-2">
-              <Link href="/contact" className="block" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/contact" className="block" onClick={closeMobileMenu}>
                 <InteractiveHoverButton text="Get Started" className="w-full" />
               </Link>
             </div>

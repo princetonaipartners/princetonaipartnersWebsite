@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import './globals.css';
-import 'animate.css';
+// animate.css removed - unused (80KB savings)
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -309,6 +311,10 @@ export default function RootLayout({
           <Header />
           <main id="main-content" className="min-h-screen pt-20">{children}</main>
           <Footer />
+
+          {/* Vercel Analytics & Speed Insights for Core Web Vitals monitoring */}
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

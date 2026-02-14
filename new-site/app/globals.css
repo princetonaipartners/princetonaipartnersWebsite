@@ -254,6 +254,20 @@
       opacity: 0;
     }
   }
+
+  /* Typewriter cursor animation - CSS-based instead of JS */
+  @keyframes cursor-blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .animate-cursor-blink {
+    animation: cursor-blink 0.8s ease-in-out infinite;
+  }
 }
 
 /* ============================================
