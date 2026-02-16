@@ -36,24 +36,51 @@ function normalizeUrl(url: string): string {
   return normalized;
 }
 
-// Fetch website HTML
+// Fetch website HTML with timeout
 async function fetchWebsite(url: string): Promise<{ html: string; headers: Headers; loadTime: number }> {
   const startTime = Date.now();
-  const response = await fetch(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (compatible; PrincetonAI-Grader/1.0)',
-    },
-    redirect: 'follow',
-  });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch website: ${response.status}`);
+  // Create abort controller for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+      },
+      redirect: 'follow',
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch website: ${response.status}`);
+    }
+
+    const html = await response.text();
+    const loadTime = Date.now() - startTime;
+
+    // Check if we got a meaningful response (not a captcha/block page)
+    if (html.length < 500) {
+      throw new Error('Website returned minimal content - it may be blocking automated requests');
+    }
+
+    return { html, headers: response.headers, loadTime };
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Request timed out - the website took too long to respond');
+      }
+      throw error;
+    }
+    throw new Error('Failed to fetch website');
   }
-
-  const html = await response.text();
-  const loadTime = Date.now() - startTime;
-
-  return { html, headers: response.headers, loadTime };
 }
 
 // Analyze SEO

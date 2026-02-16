@@ -7,6 +7,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { analyzeWebsite } from '@/lib/grade/analyzer';
 import type { AnalysisRequest, AnalysisResponse } from '@/lib/grade/types';
 
+// Force Node.js runtime (required for jsdom)
+export const runtime = 'nodejs';
+
+// Increase max duration for website analysis (Vercel Pro: up to 300s, Hobby: 10s)
+export const maxDuration = 30;
+
 // Validate URL
 function isValidUrl(url: string): boolean {
   try {
