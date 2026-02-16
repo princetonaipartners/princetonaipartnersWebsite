@@ -37,7 +37,19 @@ export default function GradePage() {
         body: JSON.stringify({ url }),
       });
 
-      const data = await response.json();
+      // Check if response has content before parsing
+      const text = await response.text();
+      if (!text) {
+        throw new Error('Analysis service is temporarily unavailable. Please try again.');
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error('Failed to parse response:', text);
+        throw new Error('Received invalid response from server. Please try again.');
+      }
 
       if (!data.success) {
         throw new Error(data.error || 'Analysis failed');

@@ -24,9 +24,20 @@ function isValidUrl(url: string): boolean {
   }
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse<AnalysisResponse>> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  // Wrap everything in try-catch to ensure we always return a response
   try {
-    const body = await request.json() as AnalysisRequest;
+    let body: AnalysisRequest;
+
+    try {
+      body = await request.json() as AnalysisRequest;
+    } catch {
+      return NextResponse.json(
+        { success: false, error: 'Invalid request body' },
+        { status: 400 }
+      );
+    }
+
     const { url } = body;
 
     // Validate URL
@@ -44,7 +55,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalysisR
       );
     }
 
-    // Run analysis
+    // Run analysis with dynamic import to catch module loading errors
+    let analyzeWebsite;
+    try {
+      const analyzer = await import('@/lib/grade/analyzer');
+      analyzeWebsite = analyzer.analyzeWebsite;
+    } catch (importError) {
+      console.error('Failed to load analyzer module:', importError);
+      return NextResponse.json(
+        { success: false, error: 'Analysis service temporarily unavailable' },
+        { status: 503 }
+      );
+    }
+
     const analysis = await analyzeWebsite(url);
 
     return NextResponse.json({
@@ -58,13 +81,33 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalysisR
       error instanceof Error ? error.message : 'Failed to analyze website';
 
     // Check for common errors
-    if (message.includes('Failed to fetch')) {
+    if (message.includes('Failed to fetch') || message.includes('fetch failed')) {
       return NextResponse.json(
         {
           success: false,
           error: 'Could not reach the website. Please check the URL and try again.',
         },
         { status: 400 }
+      );
+    }
+
+    if (message.includes('timed out')) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'The website took too long to respond. Please try again.',
+        },
+        { status: 408 }
+      );
+    }
+
+    if (message.includes('blocking')) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'This website appears to block automated analysis. Try a different site.',
+        },
+        { status: 403 }
       );
     }
 
