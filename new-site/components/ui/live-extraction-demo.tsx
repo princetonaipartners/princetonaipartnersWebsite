@@ -97,7 +97,7 @@ const websiteScenarios: WebsiteScenario[] = [
     items: [
       {
         id: 1,
-        color: '#10B981',
+        color: '#3B82F6', // Blue
         data: {
           address: '742 Evergreen Terrace',
           price: 485000,
@@ -107,7 +107,7 @@ const websiteScenarios: WebsiteScenario[] = [
       },
       {
         id: 2,
-        color: '#059669',
+        color: '#8B5CF6', // Purple
         data: {
           address: '123 Oak Street',
           price: 325000,
@@ -117,7 +117,7 @@ const websiteScenarios: WebsiteScenario[] = [
       },
       {
         id: 3,
-        color: '#047857',
+        color: '#F59E0B', // Amber
         data: {
           address: '456 Maple Avenue',
           price: 599000,
@@ -382,15 +382,15 @@ export function LiveExtractionDemo({ className }: LiveExtractionDemoProps) {
   }, [runExtraction, scenarioIndex]);
 
   return (
-    <div ref={containerRef} className={cn('relative', className)}>
+    <div ref={containerRef} className={cn('relative overflow-hidden', className)}>
       {/* Category indicator */}
-      <div className="flex items-center justify-center gap-2 mb-4">
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
         {websiteScenarios.map((scenario, idx) => (
           <motion.div
             key={scenario.id}
             className={cn(
-              'w-2 h-2 rounded-full transition-all duration-300',
-              idx === scenarioIndex ? 'w-6' : ''
+              'w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full transition-all duration-300',
+              idx === scenarioIndex ? 'w-4 sm:w-6' : ''
             )}
             style={{
               backgroundColor: idx === scenarioIndex ? scenario.accentColor : '#3f3f46',
@@ -399,9 +399,9 @@ export function LiveExtractionDemo({ className }: LiveExtractionDemoProps) {
         ))}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 items-stretch">
+      <div className="grid md:grid-cols-2 gap-4 sm:gap-6 items-stretch overflow-hidden">
         {/* Left: Website Mockup */}
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <WebsiteMockup
             scenario={currentScenario}
             currentItemIndex={currentItemIndex}
@@ -439,15 +439,15 @@ export function LiveExtractionDemo({ className }: LiveExtractionDemoProps) {
       </div>
 
       {/* Status bar */}
-      <div className="mt-4 flex items-center justify-center gap-4 text-xs font-mono text-zinc-500">
+      <div className="mt-3 sm:mt-4 flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs font-mono text-zinc-500">
         <div className="flex items-center gap-1.5">
           <div
-            className={cn('w-2 h-2 rounded-full', isExtracting && 'animate-pulse')}
+            className={cn('w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full', isExtracting && 'animate-pulse')}
             style={{ backgroundColor: isExtracting ? currentScenario.accentColor : '#52525b' }}
           />
-          <span>{isExtracting ? `Extracting ${currentScenario.category}...` : 'Ready'}</span>
+          <span>{isExtracting ? `Extracting...` : 'Ready'}</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="hidden sm:flex items-center gap-1.5">
           <RefreshCw className={cn('w-3 h-3', isExtracting && 'animate-spin')} />
           <span>Cycling through use cases</span>
         </div>
@@ -484,26 +484,27 @@ function WebsiteMockup({
         className="bg-zinc-900/80 backdrop-blur-sm border border-zinc-700 rounded-xl overflow-hidden"
       >
         {/* Browser Chrome */}
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-zinc-800/80 border-b border-zinc-700">
+        <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 bg-zinc-800/80 border-b border-zinc-700">
           {/* Traffic lights */}
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-zinc-600" />
-            <div className="w-3 h-3 rounded-full bg-zinc-600" />
-            <div className="w-3 h-3 rounded-full bg-zinc-600" />
+          <div className="flex gap-1 sm:gap-1.5">
+            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-zinc-600" />
+            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-zinc-600" />
+            <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-zinc-600" />
           </div>
 
           {/* URL bar */}
-          <div className="flex-1 flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 rounded-lg ml-2">
-            <Lock className="w-3 h-3 text-emerald-400" />
-            <span className="text-xs text-zinc-400 font-mono">{scenario.url}</span>
+          <div className="flex-1 flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-zinc-900/80 rounded-lg ml-1 sm:ml-2 min-w-0">
+            <Lock className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-emerald-400 flex-shrink-0" />
+            <span className="text-[10px] sm:text-xs text-zinc-400 font-mono truncate">{scenario.url}</span>
           </div>
 
           {/* Category badge */}
           <div
-            className="px-2 py-0.5 rounded text-xs font-mono text-white"
+            className="px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono text-white flex-shrink-0"
             style={{ backgroundColor: scenario.accentColor }}
           >
-            {scenario.category}
+            <span className="hidden sm:inline">{scenario.category}</span>
+            <span className="sm:hidden">{scenario.category.split(' ')[0].slice(0, 5)}</span>
           </div>
         </div>
 
@@ -903,12 +904,12 @@ function JsonOutput({ extractedData, isExtracting, dataKey, accentColor }: JsonO
   return (
     <div className="bg-zinc-900/80 backdrop-blur-sm border border-zinc-700 rounded-xl overflow-hidden h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-800/80 border-b border-zinc-700">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-emerald-400" />
-          <span className="text-xs font-mono text-zinc-400">extracted_data.json</span>
+      <div className="flex items-center justify-between px-2 sm:px-4 py-2 sm:py-2.5 bg-zinc-800/80 border-b border-zinc-700">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded bg-emerald-400" />
+          <span className="text-[10px] sm:text-xs font-mono text-zinc-400">extracted_data.json</span>
         </div>
-        <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-500">
+        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-mono text-zinc-500">
           <span style={{ color: isExtracting ? accentColor : '#10B981' }}>
             {extractedData.length} items
           </span>
@@ -916,7 +917,7 @@ function JsonOutput({ extractedData, isExtracting, dataKey, accentColor }: JsonO
       </div>
 
       {/* Code content */}
-      <div className="p-4 font-mono text-xs overflow-auto max-h-80">
+      <div className="p-2 sm:p-4 font-mono text-[10px] sm:text-xs overflow-auto max-h-60 sm:max-h-80">
         <pre className="text-zinc-300">
           <AnimatePresence mode="wait">
             <motion.div

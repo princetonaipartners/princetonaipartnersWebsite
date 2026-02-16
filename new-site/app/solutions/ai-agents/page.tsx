@@ -347,19 +347,19 @@ function HowAgentsWorkSection() {
       <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50">
         {/* Placeholder content - replace with Image component when user provides flowchart */}
         <div className="p-8 text-center">
-          <div className="mb-8 flex items-center justify-center gap-8">
+          <div className="mb-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
             {/* Input */}
             <motion.div
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-1.5 md:gap-2"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex h-20 w-20 items-center justify-center rounded-xl border border-brand-primary/30 bg-brand-primary/10">
-                <span className="text-2xl">📥</span>
+              <div className="flex h-14 w-14 md:h-20 md:w-20 items-center justify-center rounded-xl border border-brand-primary/30 bg-brand-primary/10">
+                <span className="text-lg md:text-2xl">📥</span>
               </div>
-              <span className="text-sm text-zinc-400">Input</span>
-              <span className="text-xs text-zinc-600">Voice, Text, Data</span>
+              <span className="text-xs md:text-sm text-zinc-400">Input</span>
+              <span className="text-[10px] md:text-xs text-zinc-600">Voice, Text, Data</span>
             </motion.div>
 
             {/* Arrow */}
@@ -370,22 +370,22 @@ function HowAgentsWorkSection() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <ArrowRight className="h-8 w-8" />
+              <ArrowRight className="h-6 w-6 md:h-8 md:w-8 rotate-90 md:rotate-0" />
             </motion.div>
 
             {/* Processing */}
             <motion.div
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-1.5 md:gap-2"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <div className="flex h-24 w-24 items-center justify-center rounded-2xl border border-brand-primary/50 bg-gradient-to-br from-brand-primary/20 to-brand-secondary/20 shadow-lg shadow-brand-primary/20">
-                <Brain className="h-10 w-10 text-brand-primary" />
+              <div className="flex h-16 w-16 md:h-24 md:w-24 items-center justify-center rounded-xl md:rounded-2xl border border-brand-primary/50 bg-gradient-to-br from-brand-primary/20 to-brand-secondary/20 shadow-lg shadow-brand-primary/20">
+                <Brain className="h-7 w-7 md:h-10 md:w-10 text-brand-primary" />
               </div>
-              <span className="text-sm font-medium text-zinc-300">AI Engine</span>
-              <span className="text-xs text-zinc-600">Memory + Tools + Reasoning</span>
+              <span className="text-xs md:text-sm font-medium text-zinc-300">AI Engine</span>
+              <span className="text-[10px] md:text-xs text-zinc-600">Memory + Tools + Reasoning</span>
             </motion.div>
 
             {/* Arrow */}
@@ -396,22 +396,22 @@ function HowAgentsWorkSection() {
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
             >
-              <ArrowRight className="h-8 w-8" />
+              <ArrowRight className="h-6 w-6 md:h-8 md:w-8 rotate-90 md:rotate-0" />
             </motion.div>
 
             {/* Output */}
             <motion.div
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-1.5 md:gap-2"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              <div className="flex h-20 w-20 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10">
-                <span className="text-2xl">✅</span>
+              <div className="flex h-14 w-14 md:h-20 md:w-20 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10">
+                <span className="text-lg md:text-2xl">✅</span>
               </div>
-              <span className="text-sm text-zinc-400">Output</span>
-              <span className="text-xs text-zinc-600">Actions, Reports, Replies</span>
+              <span className="text-xs md:text-sm text-zinc-400">Output</span>
+              <span className="text-[10px] md:text-xs text-zinc-600">Actions, Reports, Replies</span>
             </motion.div>
           </div>
 
@@ -430,7 +430,7 @@ function HowAgentsWorkSection() {
 // ============================================
 export default function AIAgentsPage() {
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen overflow-x-hidden">
       {/* Global Background Layer */}
       {/* Aurora shader - shooting stars effect, subtle opacity */}
       <AuroraShaderBackground speed={1.0} opacity={0.4} />

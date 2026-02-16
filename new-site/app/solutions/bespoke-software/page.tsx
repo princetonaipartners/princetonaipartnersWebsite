@@ -72,9 +72,9 @@ export default function BespokeSoftwarePage() {
 // ============================================
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section className="relative min-h-screen flex items-center py-16 sm:py-20 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left: Text Content */}
           <FadeInSection>
             <div className="space-y-6">
@@ -87,7 +87,7 @@ function HeroSection() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
                 <span className="text-white">We Build</span>
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
@@ -96,26 +96,26 @@ function HeroSection() {
               </h1>
 
               {/* Description */}
-              <p className="text-lg md:text-xl text-zinc-400 max-w-lg leading-relaxed font-mono">
+              <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-lg leading-relaxed font-mono break-words">
                 Full-cycle custom software development.{' '}
                 <span className="text-zinc-300">Scalable</span>,{' '}
                 <span className="text-zinc-300">secure</span>, and{' '}
                 <span className="text-zinc-300">architected for the future</span>.
               </p>
 
-              <p className="text-base text-zinc-500">
+              <p className="text-sm sm:text-base text-zinc-500">
                 We don&apos;t just write code; we engineer systems.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 pt-4">
-                <button className="group relative px-6 py-3 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-lg font-semibold text-white overflow-hidden transition-all duration-300 hover:shadow-brand-lg hover:scale-105">
-                  <span className="relative z-10 flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4">
+                <button className="group relative px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-lg font-semibold text-white overflow-hidden transition-all duration-300 hover:shadow-brand-lg hover:scale-105">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
                     Start Building
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </button>
-                <button className="px-6 py-3 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-brand-primary/50 hover:text-zinc-200 transition-all duration-300">
+                <button className="px-5 sm:px-6 py-2.5 sm:py-3 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-brand-primary/50 hover:text-zinc-200 transition-all duration-300">
                   View Architecture →
                 </button>
               </div>
@@ -124,7 +124,7 @@ function HeroSection() {
 
           {/* Right: Code Window */}
           <FadeInSection delay={0.2}>
-            <div className="relative">
+            <div className="relative hidden sm:block">
               {/* Glow effect behind window */}
               <div className="absolute -inset-4 bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 rounded-2xl blur-xl opacity-50" />
               <CodeWindow
@@ -133,6 +133,7 @@ function HeroSection() {
                 language="typescript"
                 typingSpeed={25}
                 showBuildProgress={true}
+                className="max-w-full"
               />
             </div>
           </FadeInSection>
@@ -271,19 +272,31 @@ function ArchitectureSection() {
     },
   };
 
+  // Mobile-friendly node data for simplified grid view
+  const mobileNodes = [
+    { icon: Database, label: 'PostgreSQL', color: 'from-emerald-500/20 to-emerald-600/10', iconColor: 'text-emerald-400' },
+    { icon: HardDrive, label: 'Redis Cache', color: 'from-amber-500/20 to-amber-600/10', iconColor: 'text-amber-400' },
+    { icon: Brain, label: 'AI Engine', color: 'from-purple-500/20 to-purple-600/10', iconColor: 'text-purple-400' },
+    { icon: Shield, label: 'Auth Service', color: 'from-cyan-500/20 to-cyan-600/10', iconColor: 'text-cyan-400' },
+    { icon: User, label: 'Client App', color: 'from-brand-primary/20 to-brand-secondary/10', iconColor: 'text-brand-primary' },
+    { icon: Cloud, label: 'Edge CDN', color: 'from-sky-500/20 to-sky-600/10', iconColor: 'text-sky-400' },
+    { icon: MessageSquare, label: 'Message Queue', color: 'from-pink-500/20 to-pink-600/10', iconColor: 'text-pink-400' },
+    { icon: Server, label: 'API Gateway', color: 'from-orange-500/20 to-orange-600/10', iconColor: 'text-orange-400' },
+  ];
+
   return (
-    <section className="relative py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-24 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <FadeInSection>
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
               System Design
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Event-Driven Architecture
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto px-2">
               Every system we build follows battle-tested architectural patterns.
               Real-time data flow, fault tolerance, infinite scale.
             </p>
@@ -292,14 +305,52 @@ function ArchitectureSection() {
 
         {/* Live Metrics Bar */}
         <FadeInSection delay={0.1}>
-          <LiveMetricsBar className="max-w-4xl mx-auto mb-8" />
+          <LiveMetricsBar className="max-w-4xl mx-auto mb-6 sm:mb-8" />
         </FadeInSection>
 
-        {/* Architecture Diagram */}
+        {/* Mobile: Simplified Grid View */}
+        <FadeInSection delay={0.2}>
+          <div className="block lg:hidden mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-2xl mx-auto">
+              {mobileNodes.map((node, index) => {
+                const IconComponent = node.icon;
+                return (
+                  <motion.div
+                    key={node.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className={cn(
+                      'relative p-4 rounded-xl border border-zinc-800 bg-gradient-to-br backdrop-blur-sm',
+                      node.color,
+                      'hover:border-zinc-700 transition-all duration-300'
+                    )}
+                  >
+                    <div className="flex flex-col items-center text-center gap-2">
+                      <div className={cn('w-10 h-10 rounded-lg bg-zinc-900/50 flex items-center justify-center', node.iconColor)}>
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      <span className="text-xs font-mono text-zinc-300">{node.label}</span>
+                      <div className="flex items-center gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[10px] text-zinc-500">Active</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+            <p className="text-center text-zinc-600 text-xs font-mono mt-4">
+              All services connected via central orchestration
+            </p>
+          </div>
+        </FadeInSection>
+
+        {/* Desktop: Full Architecture Diagram */}
         <FadeInSection delay={0.2}>
           <div
             ref={containerRef}
-            className="relative h-[600px] w-full max-w-4xl mx-auto"
+            className="relative h-[600px] w-full max-w-4xl mx-auto hidden lg:block"
           >
             {/* Particle Beams - Connections from center to all nodes */}
             {mounted && centerRef.current && (
@@ -535,13 +586,13 @@ function ArchitectureSection() {
           </div>
         </FadeInSection>
 
-        {/* Activity Log */}
+        {/* Activity Log - Desktop only */}
         <FadeInSection delay={0.3}>
-          <ActivityLog className="max-w-4xl mx-auto mt-8" maxEntries={4} />
+          <ActivityLog className="max-w-4xl mx-auto mt-8 hidden lg:block" maxEntries={4} />
         </FadeInSection>
 
-        {/* Hover Instruction */}
-        <p className="text-center text-zinc-600 text-sm font-mono mt-6">
+        {/* Hover Instruction - Desktop only */}
+        <p className="hidden lg:block text-center text-zinc-600 text-sm font-mono mt-6">
           Hover over nodes to see service details and live metrics
         </p>
       </div>
@@ -554,18 +605,18 @@ function ArchitectureSection() {
 // ============================================
 function TechStackSection() {
   return (
-    <section className="relative py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-24 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
               Technology
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Modern Primitives
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto px-2">
               Production-grade tools for every layer of your stack.
               Hover to see how we use each one.
             </p>
@@ -584,18 +635,18 @@ function TechStackSection() {
 // ============================================
 function CapabilitiesSection() {
   return (
-    <section className="relative py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-24 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <FadeInSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
               Live Metrics
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Performance You Can See
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto px-2">
               We build dashboards that don&apos;t lag. Here&apos;s proof.
             </p>
           </div>
@@ -603,7 +654,7 @@ function CapabilitiesSection() {
 
         {/* Bento Grid Dashboard */}
         <FadeInSection delay={0.2}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {/* Latency Widget */}
             <LatencyWidget />
 
@@ -1290,18 +1341,18 @@ function ProcessSection() {
   }, [commandText, fullCommand]);
 
   return (
-    <section ref={containerRef} className="relative py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section ref={containerRef} className="relative py-16 sm:py-24 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <FadeInSection>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
               Methodology
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               From Zero to Production
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto px-2">
               A battle-tested process refined over hundreds of successful deployments.
             </p>
           </div>
@@ -1313,29 +1364,30 @@ function ProcessSection() {
             {/* Terminal Frame */}
             <div className="rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-2xl shadow-black/50">
               {/* Terminal Header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
+              <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-zinc-900/80 border-b border-zinc-800">
                 {/* Traffic lights */}
                 <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-red-500 transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-yellow-500 transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-zinc-700 hover:bg-green-500 transition-colors" />
+                  <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700 hover:bg-red-500 transition-colors" />
+                  <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700 hover:bg-yellow-500 transition-colors" />
+                  <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700 hover:bg-green-500 transition-colors" />
                 </div>
                 {/* Terminal title */}
                 <div className="flex-1 text-center">
-                  <span className="text-xs text-zinc-500 font-mono">
+                  <span className="text-[10px] sm:text-xs text-zinc-500 font-mono">
                     princeton-ai — deploy
                   </span>
                 </div>
                 {/* Spacer for centering */}
-                <div className="w-12" />
+                <div className="w-8 sm:w-12" />
               </div>
 
               {/* Terminal Content */}
-              <div className="p-6 space-y-6 min-h-[400px]">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 min-h-[300px] sm:min-h-[400px] overflow-x-auto">
                 {/* Command Input */}
-                <div className="font-mono text-base md:text-lg">
+                <div className="font-mono text-sm sm:text-base md:text-lg whitespace-nowrap">
                   <span className="text-emerald-400">➜</span>
-                  <span className="text-cyan-400 ml-2">~/projects/client-mvp</span>
+                  <span className="text-cyan-400 ml-2 hidden sm:inline">~/projects/client-mvp</span>
+                  <span className="text-cyan-400 ml-2 sm:hidden">~/mvp</span>
                   <span className="text-zinc-500 ml-2">$</span>
                   <span className="text-white ml-2">
                     {commandText}
@@ -1423,16 +1475,16 @@ function ProcessSection() {
 // ============================================
 function CTASection() {
   return (
-    <section className="relative py-32">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+    <section className="relative py-16 sm:py-24 md:py-32">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <FadeInSection>
           <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
             Initialize
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-4 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mt-3 sm:mt-4 mb-4 sm:mb-6">
             Ready to Compile?
           </h2>
-          <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-400 mb-8 sm:mb-12 max-w-2xl mx-auto px-2">
             Let&apos;s architect something extraordinary. Our team is ready to transform
             your vision into production-grade software.
           </p>
@@ -1440,13 +1492,14 @@ function CTASection() {
           {/* Terminal-style CTA - Blue theme */}
           <Link href="/quote">
             <motion.div
-              className="relative inline-block w-full max-w-md px-8 py-4 rounded-xl font-mono text-lg overflow-hidden bg-gradient-to-r from-brand-primary to-brand-secondary text-white hover:shadow-brand-lg transition-all duration-500 cursor-pointer"
+              className="relative inline-block w-full max-w-md px-5 sm:px-8 py-3 sm:py-4 rounded-xl font-mono text-sm sm:text-lg overflow-hidden bg-gradient-to-r from-brand-primary to-brand-secondary text-white hover:shadow-brand-lg transition-all duration-500 cursor-pointer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="relative z-10 flex items-center justify-center gap-3">
+              <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
                 <span>$</span>
-                <span>npm run start-project</span>
+                <span className="hidden sm:inline">npm run start-project</span>
+                <span className="sm:hidden">start-project</span>
               </span>
             </motion.div>
           </Link>

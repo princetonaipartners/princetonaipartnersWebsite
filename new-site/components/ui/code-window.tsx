@@ -135,28 +135,29 @@ export function CodeWindow({
       </div>
 
       {/* Code Area */}
-      <div className="p-4 font-mono text-sm leading-relaxed min-h-[300px] overflow-auto">
+      <div className="p-3 sm:p-4 font-mono text-xs sm:text-sm leading-relaxed min-h-[200px] sm:min-h-[300px] overflow-x-auto">
         {/* Line numbers + code */}
         <div className="flex">
           {/* Line numbers */}
-          <div className="pr-4 text-right text-zinc-600 select-none border-r border-zinc-800 mr-4">
+          <div className="pr-2 sm:pr-4 text-right text-zinc-600 select-none border-r border-zinc-800 mr-2 sm:mr-4">
             {displayedCode.split('\n').map((_, i) => (
-              <div key={i} className="leading-6">
+              <div key={i} className="leading-5 sm:leading-6">
                 {i + 1}
               </div>
             ))}
           </div>
 
           {/* Code content */}
-          <pre className="flex-1 text-zinc-300">
+          <pre className="flex-1 text-zinc-300 whitespace-pre overflow-x-auto">
             <code
               dangerouslySetInnerHTML={{
                 __html: highlightCode(displayedCode),
               }}
+              className="leading-5 sm:leading-6"
             />
             {/* Typing cursor */}
             {isTyping && (
-              <span className="inline-block w-2 h-5 bg-brand-primary ml-0.5 animate-blink" />
+              <span className="inline-block w-2 h-4 sm:h-5 bg-brand-primary ml-0.5 animate-blink" />
             )}
           </pre>
         </div>

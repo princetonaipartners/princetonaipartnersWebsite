@@ -1,5 +1,5 @@
 'use client';
-
+// Mobile responsive version
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -73,20 +73,20 @@ export default function WebScrapingPage() {
 // ============================================
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+    <section className="relative min-h-screen flex items-center py-16 sm:py-20 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-4 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-xs font-mono text-zinc-400">
+              <span className="text-[10px] sm:text-xs font-mono text-zinc-400">
                 WEB SCRAPING & DATA EXTRACTION
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-4 sm:mb-6">
               <span className="text-white">Turn Any Website Into</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-brand-primary">
@@ -95,42 +95,42 @@ function HeroSection() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-2">
               Extract data from any website at scale. Product prices, competitor analysis,
               market research, lead generation—whatever you need, we scrape it{' '}
               <span className="text-white font-semibold">cleanly, quickly, and legally</span>.
             </p>
 
             {/* Trust Points */}
-            <div className="flex flex-wrap justify-center gap-6 mb-10">
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8 sm:mb-10">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400">
                 <Database className="w-4 h-4 text-cyan-400" />
                 <span>1M+ Pages/Day</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400">
                 <Target className="w-4 h-4 text-emerald-400" />
                 <span>99% Success Rate</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400">
                 <Globe className="w-4 h-4 text-amber-400" />
                 <span>195+ Countries</span>
               </div>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
               <a
                 href="#use-cases"
-                className="group px-6 py-3 bg-gradient-to-r from-cyan-500 to-brand-primary rounded-lg font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105"
+                className="group px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-cyan-500 to-brand-primary rounded-lg font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105"
               >
-                <span className="flex items-center gap-2">
+                <span className="flex items-center justify-center gap-2">
                   See Use Cases
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </a>
               <Link
                 href="/quote"
-                className="px-6 py-3 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-cyan-400/50 hover:text-zinc-200 transition-all duration-300"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-cyan-400/50 hover:text-zinc-200 transition-all duration-300"
               >
                 Get a Quote
               </Link>
@@ -140,9 +140,9 @@ function HeroSection() {
 
         {/* Live Extraction Demo */}
         <FadeInSection delay={0.2}>
-          <div className="relative mt-8">
+          <div className="relative mt-6 sm:mt-8">
             <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 to-brand-primary/10 rounded-2xl blur-xl opacity-50" />
-            <div className="relative bg-zinc-900/60 backdrop-blur-sm border border-zinc-800 rounded-2xl p-6 md:p-8">
+            <div className="relative bg-zinc-900/60 backdrop-blur-sm border border-zinc-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 overflow-hidden">
               <LiveExtractionDemo />
             </div>
           </div>
@@ -208,24 +208,24 @@ const capabilities = [
 
 function CapabilitiesGrid() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               Capabilities
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Enterprise-Grade Extraction
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               Built for reliability, speed, and scale. No site is too complex.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {capabilities.map((cap, index) => {
               const Icon = cap.icon;
               return (
@@ -305,24 +305,24 @@ const useCases = [
 
 function UseCasesSection() {
   return (
-    <section id="use-cases" className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section id="use-cases" className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               Use Cases
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               What Our Clients Scrape
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               From price monitoring to lead generation—see how businesses use our extraction services.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {useCases.map((useCase, index) => {
               const Icon = useCase.icon;
               return (
@@ -454,17 +454,17 @@ function HowItWorks() {
   };
 
   return (
-    <section ref={containerRef} className="relative py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <section ref={containerRef} className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               Process
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               From URL to Data
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               A streamlined process that gets you clean data fast.
             </p>
           </div>
@@ -473,19 +473,19 @@ function HowItWorks() {
         <FadeInSection delay={0.2}>
           <div className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden shadow-2xl">
             {/* Terminal header */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-zinc-900/80 border-b border-zinc-800">
               <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
+                <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700" />
+                <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700" />
+                <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-zinc-700" />
               </div>
-              <span className="flex-1 text-center text-xs text-zinc-500 font-mono">
+              <span className="flex-1 text-center text-[10px] sm:text-xs text-zinc-500 font-mono">
                 extraction-pipeline
               </span>
             </div>
 
             {/* Terminal content */}
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
               {processSteps.map((step, index) => (
                 <motion.div
                   key={step.id}
@@ -580,24 +580,24 @@ const ethicalPillars = [
 
 function LegalEthicalSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-emerald-400 uppercase tracking-widest">
               Ethics
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Responsible Data Extraction
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               We believe in ethical scraping. Our practices protect both you and the websites we access.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {ethicalPillars.map((pillar, index) => {
               const Icon = pillar.icon;
               return (
@@ -646,24 +646,24 @@ const outputFormats = [
 
 function OutputFormatsSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               Delivery
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Your Data, Your Format
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               Get your data exactly how you need it—no conversion headaches.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {outputFormats.map((format, index) => (
               <motion.div
                 key={format.name}
@@ -748,24 +748,24 @@ const solutionTiers = [
 
 function SolutionTiersSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               Solutions
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Choose Your Plan
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto px-2">
               From one-time projects to enterprise data pipelines. We&apos;ll provide a custom quote based on your needs.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {solutionTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
@@ -861,14 +861,14 @@ const faqs = [
 
 function FAQSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
               FAQ
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Common Questions
             </h2>
           </div>
@@ -903,13 +903,13 @@ function FAQSection() {
 // ============================================
 function CTASection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+    <section className="relative py-16 sm:py-20 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <FadeInSection>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             Ready to Unlock Your Data?
           </h2>
-          <p className="text-xl text-zinc-400 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-400 mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
             Tell us what data you need. We&apos;ll tell you how we&apos;ll get it—and give you a free feasibility assessment.
           </p>
 
@@ -917,16 +917,16 @@ function CTASection() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-brand-primary rounded-xl font-semibold text-lg text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+              className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-cyan-500 to-brand-primary rounded-xl font-semibold text-base sm:text-lg text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 Get a Free Consultation
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </motion.button>
           </Link>
 
-          <p className="text-sm text-zinc-500 mt-4">
+          <p className="text-xs sm:text-sm text-zinc-500 mt-4">
             No commitment required. Response within 24 hours.
           </p>
         </FadeInSection>

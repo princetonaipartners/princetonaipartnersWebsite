@@ -75,20 +75,20 @@ export default function ProcessAutomationPage() {
 // ============================================
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+    <section className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-4 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
-              <span className="text-xs font-mono text-zinc-400">
+              <span className="text-[10px] sm:text-xs font-mono text-zinc-400">
                 WORKFLOW AUTOMATION
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-4 sm:mb-6">
               <span className="text-white">Stop Doing Work</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
@@ -97,42 +97,42 @@ function HeroSection() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-2">
               We design, build, and maintain custom automation systems that save your team{' '}
               <span className="text-white font-semibold">20+ hours per week</span>.
               No Zapier tinkering required.
             </p>
 
             {/* Trust Points */}
-            <div className="flex flex-wrap justify-center gap-6 mb-10">
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <Clock className="w-4 h-4 text-brand-primary" />
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8 sm:mb-10">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-zinc-400">
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-primary" />
                 <span>20+ Hours Saved/Week</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <Target className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-zinc-400">
+                <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
                 <span>99.9% Accuracy</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <DollarSign className="w-4 h-4 text-amber-400" />
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-zinc-400">
+                <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
                 <span>ROI in &lt; 90 Days</span>
               </div>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
               <a
                 href="#what-we-automate"
-                className="group px-6 py-3 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-lg font-semibold text-white transition-all duration-300 hover:shadow-brand-lg hover:scale-105"
+                className="group px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-lg font-semibold text-sm sm:text-base text-white transition-all duration-300 hover:shadow-brand-lg hover:scale-105"
               >
-                <span className="flex items-center gap-2">
+                <span className="flex items-center justify-center gap-2">
                   See What We Automate
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </a>
               <Link
                 href="/quote"
-                className="px-6 py-3 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-brand-primary/50 hover:text-zinc-200 transition-all duration-300"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 border border-zinc-700 rounded-lg font-mono text-xs sm:text-sm text-zinc-400 hover:border-brand-primary/50 hover:text-zinc-200 transition-all duration-300"
               >
                 Get a Quote
               </Link>
@@ -208,17 +208,17 @@ function IntegrationShowcase() {
   const [activeTab, setActiveTab] = useState('crm');
 
   return (
-    <section className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Integrations
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Connect Your Entire Stack
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
               We integrate with 100+ tools. If it has an API, we can connect it.
             </p>
           </div>
@@ -226,23 +226,25 @@ function IntegrationShowcase() {
 
         <FadeInSection delay={0.2}>
           <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
-            {/* Tab triggers */}
-            <Tabs.List className="flex flex-wrap justify-center gap-2 mb-8">
-              {Object.entries(integrationCategories).map(([key, category]) => (
-                <Tabs.Trigger
-                  key={key}
-                  value={key}
-                  className={cn(
-                    'px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300',
-                    activeTab === key
-                      ? 'bg-brand-primary text-white'
-                      : 'bg-zinc-800/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
-                  )}
-                >
-                  {category.label}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
+            {/* Tab triggers - horizontal scroll on mobile */}
+            <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible">
+              <Tabs.List className="flex sm:flex-wrap sm:justify-center gap-2 mb-6 sm:mb-8 min-w-max sm:min-w-0">
+                {Object.entries(integrationCategories).map(([key, category]) => (
+                  <Tabs.Trigger
+                    key={key}
+                    value={key}
+                    className={cn(
+                      'px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-mono text-xs sm:text-sm transition-all duration-300 whitespace-nowrap',
+                      activeTab === key
+                        ? 'bg-brand-primary text-white'
+                        : 'bg-zinc-800/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+                    )}
+                  >
+                    {category.label}
+                  </Tabs.Trigger>
+                ))}
+              </Tabs.List>
+            </div>
 
             {/* Tab content */}
             {Object.entries(integrationCategories).map(([key, category]) => (
@@ -250,27 +252,27 @@ function IntegrationShowcase() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-6"
+                  className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl p-4 sm:p-6"
                 >
-                  <p className="text-center text-zinc-400 mb-6">
+                  <p className="text-center text-sm sm:text-base text-zinc-400 mb-4 sm:mb-6">
                     {category.description}
                   </p>
-                  <div className="flex flex-wrap justify-center gap-4">
+                  <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
                     {category.integrations.map((integration) => (
                       <div
                         key={integration.name}
-                        className="flex items-center gap-2 px-4 py-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50 hover:border-brand-primary/30 transition-colors"
+                        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50 hover:border-brand-primary/30 transition-colors"
                       >
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                           style={{ backgroundColor: integration.color }}
                         />
-                        <span className="text-sm text-zinc-300">
+                        <span className="text-xs sm:text-sm text-zinc-300">
                           {integration.name}
                         </span>
                       </div>
                     ))}
-                    <div className="flex items-center gap-2 px-4 py-2 text-sm text-zinc-500">
+                    <div className="flex items-center gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-zinc-500">
                       + 20 more
                     </div>
                   </div>
@@ -336,24 +338,24 @@ const automationExamples = [
 
 function WhatWeAutomate() {
   return (
-    <section id="what-we-automate" className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section id="what-we-automate" className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Use Cases
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Real Automations We&apos;ve Built
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
               From simple two-step workflows to complex multi-branch automations with AI.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {automationExamples.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -363,26 +365,26 @@ function WhatWeAutomate() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group p-6 bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl hover:border-brand-primary/30 transition-all duration-300"
+                  className="group p-4 sm:p-6 bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl hover:border-brand-primary/30 transition-all duration-300"
                 >
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-4">
                     <div
-                      className="p-2 rounded-lg"
+                      className="p-1.5 sm:p-2 rounded-lg"
                       style={{ backgroundColor: `${item.color}20` }}
                     >
-                      <Icon className="w-5 h-5" style={{ color: item.color }} />
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: item.color }} />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-base sm:text-lg font-semibold text-white">
                       {item.category}
                     </h3>
                   </div>
-                  <ul className="space-y-2">
+                  <ul className="space-y-1.5 sm:space-y-2">
                     {item.examples.map((example) => (
                       <li
                         key={example}
-                        className="flex items-center gap-2 text-sm text-zinc-400"
+                        className="flex items-center gap-2 text-xs sm:text-sm text-zinc-400"
                       >
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                        <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" />
                         {example}
                       </li>
                     ))}
@@ -411,17 +413,17 @@ const comparisonData = [
 
 function DIYComparison() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Comparison
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Why Not Just Use Zapier?
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
               DIY tools are great for simple tasks. For business-critical workflows,
               you need something more robust.
             </p>
@@ -429,39 +431,42 @@ function DIYComparison() {
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden">
-            {/* Header */}
-            <div className="grid grid-cols-3 gap-4 p-4 border-b border-zinc-800 bg-zinc-900/80">
-              <div className="font-mono text-sm text-zinc-500">Feature</div>
-              <div className="font-mono text-sm text-zinc-500 text-center">DIY (Zapier/Make)</div>
-              <div className="font-mono text-sm text-brand-primary text-center">Done-For-You</div>
-            </div>
-
-            {/* Rows */}
-            {comparisonData.map((row, index) => (
-              <div
-                key={row.feature}
-                className={cn(
-                  'grid grid-cols-3 gap-4 p-4',
-                  index !== comparisonData.length - 1 && 'border-b border-zinc-800/50'
-                )}
-              >
-                <div className="text-sm text-zinc-300">{row.feature}</div>
-                <div className="text-sm text-zinc-500 text-center flex items-center justify-center gap-1">
-                  <X className="w-3 h-3 text-red-400" />
-                  {row.diy}
-                </div>
-                <div className="text-sm text-emerald-400 text-center flex items-center justify-center gap-1">
-                  <Check className="w-3 h-3" />
-                  {row.done}
-                </div>
+          {/* Horizontal scroll wrapper for mobile */}
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible">
+            <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden min-w-[480px] sm:min-w-0">
+              {/* Header */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 p-3 sm:p-4 border-b border-zinc-800 bg-zinc-900/80">
+                <div className="font-mono text-[10px] sm:text-sm text-zinc-500">Feature</div>
+                <div className="font-mono text-[10px] sm:text-sm text-zinc-500 text-center">DIY (Zapier/Make)</div>
+                <div className="font-mono text-[10px] sm:text-sm text-brand-primary text-center">Done-For-You</div>
               </div>
-            ))}
+
+              {/* Rows */}
+              {comparisonData.map((row, index) => (
+                <div
+                  key={row.feature}
+                  className={cn(
+                    'grid grid-cols-3 gap-2 sm:gap-4 p-3 sm:p-4',
+                    index !== comparisonData.length - 1 && 'border-b border-zinc-800/50'
+                  )}
+                >
+                  <div className="text-[11px] sm:text-sm text-zinc-300">{row.feature}</div>
+                  <div className="text-[11px] sm:text-sm text-zinc-500 text-center flex items-center justify-center gap-1">
+                    <X className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-400 flex-shrink-0" />
+                    <span className="line-clamp-2">{row.diy}</span>
+                  </div>
+                  <div className="text-[11px] sm:text-sm text-emerald-400 text-center flex items-center justify-center gap-1">
+                    <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 flex-shrink-0" />
+                    <span className="line-clamp-2">{row.done}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Callout */}
-          <div className="mt-6 p-4 bg-brand-primary/10 border border-brand-primary/20 rounded-lg text-center">
-            <p className="text-brand-primary font-medium">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-brand-primary/10 border border-brand-primary/20 rounded-lg text-center">
+            <p className="text-sm sm:text-base text-brand-primary font-medium">
               &ldquo;Zapier connects apps. We solve business problems.&rdquo;
             </p>
           </div>
@@ -548,30 +553,30 @@ function HowItWorks() {
   const getStatusIcon = (status: ProcessStep['status']) => {
     switch (status) {
       case 'completed':
-        return <Check className="w-4 h-4 text-emerald-400" />;
+        return <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />;
       case 'active':
         return (
           <motion.div animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-            <Play className="w-3.5 h-3.5 text-brand-primary fill-brand-primary" />
+            <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-primary fill-brand-primary" />
           </motion.div>
         );
       case 'pending':
-        return <Circle className="w-3.5 h-3.5 text-zinc-600" />;
+        return <Circle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-zinc-600" />;
     }
   };
 
   return (
-    <section ref={containerRef} className="relative py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <section ref={containerRef} className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Process
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               From Discovery to Deployment
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
               A proven process refined over dozens of automation projects.
             </p>
           </div>
@@ -580,19 +585,19 @@ function HowItWorks() {
         <FadeInSection delay={0.2}>
           <div className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden shadow-2xl">
             {/* Terminal header */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-900/80 border-b border-zinc-800">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
-                <div className="w-3 h-3 rounded-full bg-zinc-700" />
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-zinc-900/80 border-b border-zinc-800">
+              <div className="flex gap-1 sm:gap-1.5">
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-zinc-700" />
               </div>
-              <span className="flex-1 text-center text-xs text-zinc-500 font-mono">
+              <span className="flex-1 text-center text-[10px] sm:text-xs text-zinc-500 font-mono">
                 automation-pipeline
               </span>
             </div>
 
             {/* Terminal content */}
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
               {processSteps.map((step, index) => (
                 <motion.div
                   key={step.id}
@@ -600,12 +605,12 @@ function HowItWorks() {
                   animate={visibleSteps.includes(index) ? { opacity: 1, x: 0 } : {}}
                   className="font-mono"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="w-6 flex justify-center">{getStatusIcon(step.status)}</span>
-                    <span className="text-zinc-500">[{index + 1}/4]</span>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="w-5 sm:w-6 flex justify-center flex-shrink-0">{getStatusIcon(step.status)}</span>
+                    <span className="text-[10px] sm:text-sm text-zinc-500">[{index + 1}/4]</span>
                     <span
                       className={cn(
-                        'font-medium',
+                        'text-xs sm:text-sm font-medium',
                         step.status === 'completed' && 'text-emerald-400',
                         step.status === 'active' && 'text-brand-primary',
                         step.status === 'pending' && 'text-zinc-500'
@@ -613,11 +618,12 @@ function HowItWorks() {
                     >
                       {step.title}
                     </span>
-                    <span className="text-zinc-700 flex-1 hidden sm:block">
+                    <span className="text-zinc-700 flex-1 hidden md:block">
                       {'·'.repeat(20)}
                     </span>
                     <span
                       className={cn(
+                        'text-[10px] sm:text-sm ml-auto',
                         step.status === 'completed' && 'text-emerald-400/70',
                         step.status === 'active' && 'text-cyan-400',
                         step.status === 'pending' && 'text-zinc-600'
@@ -633,7 +639,7 @@ function HowItWorks() {
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        className="ml-9 mt-2 space-y-1"
+                        className="ml-7 sm:ml-9 mt-1.5 sm:mt-2 space-y-0.5 sm:space-y-1"
                       >
                         {step.deliverables.map((d, i) => (
                           <motion.div
@@ -641,7 +647,7 @@ function HowItWorks() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: i * 0.1 }}
-                            className="flex items-center gap-2 text-sm"
+                            className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm"
                           >
                             <span className={step.status === 'completed' ? 'text-emerald-500/60' : 'text-zinc-600'}>
                               →
@@ -696,21 +702,21 @@ const metrics = [
 
 function ROIMetrics() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Results
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               The Numbers That Matter
             </h2>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {metrics.map((metric, index) => {
               const Icon = metric.icon;
               return (
@@ -720,20 +726,20 @@ function ROIMetrics() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-6 bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl text-center hover:border-brand-primary/30 transition-colors"
+                  className="p-4 sm:p-6 bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl text-center hover:border-brand-primary/30 transition-colors"
                 >
                   <div
-                    className="inline-flex p-3 rounded-xl mb-4"
+                    className="inline-flex p-2.5 sm:p-3 rounded-xl mb-3 sm:mb-4"
                     style={{ backgroundColor: `${metric.color}15` }}
                   >
-                    <Icon className="w-6 h-6" style={{ color: metric.color }} />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: metric.color }} />
                   </div>
-                  <div className="text-4xl font-bold text-white mb-1">
+                  <div className="text-3xl sm:text-4xl font-bold text-white mb-1">
                     {metric.value}
-                    <span className="text-lg text-zinc-400 ml-1">{metric.unit}</span>
+                    <span className="text-base sm:text-lg text-zinc-400 ml-1">{metric.unit}</span>
                   </div>
-                  <div className="text-sm font-medium text-zinc-300 mb-1">{metric.label}</div>
-                  <div className="text-xs text-zinc-500">{metric.description}</div>
+                  <div className="text-xs sm:text-sm font-medium text-zinc-300 mb-1">{metric.label}</div>
+                  <div className="text-[10px] sm:text-xs text-zinc-500">{metric.description}</div>
                 </motion.div>
               );
             })}
@@ -791,24 +797,24 @@ const pricingTiers = [
 
 function PricingSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               Solutions
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Choose Your Level
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
               Select the tier that matches your automation needs. We&apos;ll provide a custom quote based on your specific requirements.
             </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {pricingTiers.map((tier, index) => (
               <motion.div
                 key={tier.name}
@@ -817,25 +823,25 @@ function PricingSection() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={cn(
-                  'relative p-6 rounded-xl border transition-all duration-300',
+                  'relative p-4 sm:p-6 rounded-xl border transition-all duration-300',
                   tier.highlighted
                     ? 'bg-gradient-to-b from-brand-primary/10 to-transparent border-brand-primary/50'
                     : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
                 )}
               >
                 {tier.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-primary text-xs font-mono text-white rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 sm:px-3 py-0.5 sm:py-1 bg-brand-primary text-[10px] sm:text-xs font-mono text-white rounded-full whitespace-nowrap">
                     Most Popular
                   </div>
                 )}
 
-                <h3 className="text-xl font-semibold text-white mb-2">{tier.name}</h3>
-                <p className="text-sm text-zinc-400 mb-6">{tier.description}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-1.5 sm:mb-2">{tier.name}</h3>
+                <p className="text-xs sm:text-sm text-zinc-400 mb-4 sm:mb-6">{tier.description}</p>
 
-                <ul className="space-y-3">
+                <ul className="space-y-2 sm:space-y-3">
                   {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-zinc-300">
-                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <li key={feature} className="flex items-center gap-2 text-xs sm:text-sm text-zinc-300">
+                      <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
@@ -844,7 +850,7 @@ function PricingSection() {
                 <Link
                   href="/quote"
                   className={cn(
-                    'mt-6 block w-full py-3 rounded-lg font-medium text-center transition-all duration-300',
+                    'mt-5 sm:mt-6 block w-full py-2.5 sm:py-3 rounded-lg font-medium text-sm sm:text-base text-center transition-all duration-300',
                     tier.highlighted
                       ? 'bg-brand-primary text-white hover:bg-brand-primary/90'
                       : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
@@ -904,33 +910,33 @@ const faqs = [
 
 function FAQSection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeInSection>
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-brand-primary uppercase tracking-widest">
+          <div className="text-center mb-8 sm:mb-12">
+            <span className="text-[10px] sm:text-xs font-mono text-brand-primary uppercase tracking-widest">
               FAQ
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-4 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
               Common Questions
             </h2>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.2}>
-          <Accordion.Root type="single" collapsible className="space-y-3">
+          <Accordion.Root type="single" collapsible className="space-y-2 sm:space-y-3">
             {faqs.map((faq, index) => (
               <Accordion.Item
                 key={index}
                 value={`faq-${index}`}
                 className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden"
               >
-                <Accordion.Trigger className="flex items-center justify-between w-full p-4 text-left text-white hover:text-brand-primary transition-colors group">
-                  <span className="font-medium pr-4">{faq.question}</span>
-                  <ChevronDown className="w-5 h-5 text-zinc-500 group-data-[state=open]:rotate-180 transition-transform" />
+                <Accordion.Trigger className="flex items-center justify-between w-full p-3 sm:p-4 text-left text-white hover:text-brand-primary transition-colors group">
+                  <span className="text-sm sm:text-base font-medium pr-3 sm:pr-4">{faq.question}</span>
+                  <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-500 group-data-[state=open]:rotate-180 transition-transform flex-shrink-0" />
                 </Accordion.Trigger>
-                <Accordion.Content className="px-4 pb-4">
-                  <p className="text-zinc-400 leading-relaxed">{faq.answer}</p>
+                <Accordion.Content className="px-3 sm:px-4 pb-3 sm:pb-4">
+                  <p className="text-xs sm:text-base text-zinc-400 leading-relaxed">{faq.answer}</p>
                 </Accordion.Content>
               </Accordion.Item>
             ))}
@@ -946,13 +952,13 @@ function FAQSection() {
 // ============================================
 function CTASection() {
   return (
-    <section className="relative py-24">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+    <section className="relative py-12 sm:py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <FadeInSection>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             Ready to Free Your Team?
           </h2>
-          <p className="text-xl text-zinc-400 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-400 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto">
             Let&apos;s talk about what&apos;s eating up your team&apos;s time.
             The first call is free, and we&apos;ll tell you exactly what we&apos;d automate.
           </p>
@@ -961,16 +967,16 @@ function CTASection() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="group px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl font-semibold text-lg text-white shadow-lg hover:shadow-brand-lg transition-all duration-300"
+              className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl font-semibold text-base sm:text-lg text-white shadow-lg hover:shadow-brand-lg transition-all duration-300"
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 Get a Free Consultation
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </motion.button>
           </Link>
 
-          <p className="text-sm text-zinc-500 mt-4">
+          <p className="text-xs sm:text-sm text-zinc-500 mt-3 sm:mt-4">
             No commitment required. Response within 24 hours.
           </p>
         </FadeInSection>

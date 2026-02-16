@@ -19,7 +19,7 @@ const BentoGrid = ({
   return (
     <div
       className={cn(
-        "grid w-full auto-rows-[18rem] sm:auto-rows-[20rem] md:auto-rows-[22rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4",
+        "grid w-full auto-rows-[4.5rem] sm:auto-rows-[16rem] md:auto-rows-[20rem] lg:auto-rows-[22rem] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4",
         className,
       )}
     >
@@ -103,7 +103,7 @@ const BentoCard = ({
       key={name}
       onClick={() => router.push(href)}
       className={cn(
-        "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl cursor-pointer",
+        "group relative col-span-1 overflow-hidden rounded-lg sm:rounded-xl cursor-pointer",
         // Glassmorphic base - light mode
         "bg-white/70 backdrop-blur-md border border-slate-200/50",
         "[box-shadow:0_4px_24px_rgba(0,0,0,0.06)]",
@@ -118,9 +118,9 @@ const BentoCard = ({
         "hover:bg-white/90 hover:border-brand-primary/30 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)]",
         // Hover - dark mode (increases opacity, border visibility)
         "dark:hover:bg-zinc-900/60 dark:hover:border-white/20 dark:hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_32px_rgba(59,130,246,0.15)]",
-        "hover:-translate-y-1",
+        "sm:hover:-translate-y-1",
         // Touch feedback - active state for mobile
-        "active:translate-y-0 active:scale-[0.98] active:bg-white/95 dark:active:bg-zinc-900/70",
+        "active:scale-[0.98] active:bg-white/95 dark:active:bg-zinc-900/70",
         "active:border-brand-primary/40 dark:active:border-white/25",
         className,
       )}
@@ -128,65 +128,82 @@ const BentoCard = ({
       {/* Mouse tracking spotlight effect - OPTIMIZED: Uses CSS variables instead of React state */}
       <div
         ref={spotlightRef}
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 hidden sm:block"
         style={{
           background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(10, 132, 255, 0.08), transparent 40%)`,
         }}
       />
 
-      {/* Background Animation Container */}
-      <div className="pointer-events-none absolute inset-0 opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+      {/* Background Animation Container - hidden on mobile for cleaner cards */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 sm:opacity-70 group-hover:opacity-100 transition-opacity duration-500 hidden sm:block">
         {background}
       </div>
 
-      {/* Gradient overlay for better text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/60 dark:to-dark-bg-card/60 opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
+      {/* Gradient overlay for better text contrast - desktop only */}
+      <div className="hidden sm:block absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/60 dark:to-dark-bg-card/60 opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
 
-      {/* Content Container - with gradient background for text readability */}
-      <div className="absolute top-0 left-0 right-0 z-10">
-        {/* Gradient background that fades to transparent */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-transparent dark:from-zinc-900/95 dark:via-zinc-900/80 dark:to-transparent pointer-events-none" />
-
-        <div className="relative flex transform-gpu flex-col gap-2 p-6 pb-8 transition-all duration-300 group-hover:-translate-y-1">
-          {/* Icon + Title Row */}
-          <div className="flex items-center gap-4">
-            <Icon className="h-12 w-12 flex-shrink-0 transform-gpu text-brand-primary dark:text-dark-brand-primary transition-all duration-300 ease-out group-hover:scale-105 drop-shadow-lg" />
-            <h3 className="relative text-3xl font-bold transition-all duration-300 text-gray-800 dark:text-blue-100 group-hover:text-blue-600 dark:group-hover:text-white group-hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] dark:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] whitespace-nowrap">
-              {name}
-              {/* Gradient underline on hover */}
-              <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full" />
-            </h3>
-          </div>
-          {/* Description - clamped to 2 lines */}
-          <p className="text-base leading-relaxed text-text-secondary dark:text-dark-text-secondary transition-all duration-300 group-hover:text-text-primary dark:group-hover:text-dark-text-secondary line-clamp-2">
+      {/* MOBILE LAYOUT: Simple horizontal card */}
+      <div className="flex sm:hidden items-center gap-3 p-3 h-full">
+        <Icon className="h-8 w-8 flex-shrink-0 text-brand-primary dark:text-dark-brand-primary" />
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base font-semibold text-gray-800 dark:text-white truncate">
+            {name}
+          </h3>
+          <p className="text-xs text-text-secondary dark:text-dark-text-secondary line-clamp-1">
             {description}
           </p>
         </div>
+        <ArrowRightIcon className="h-5 w-5 flex-shrink-0 text-brand-primary dark:text-dark-brand-primary" />
       </div>
 
-      {/* Shimmer Button - bottom right corner, appears on hover */}
-      <div className="absolute bottom-4 right-4 z-20 opacity-0 translate-y-2 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0">
-        <ShimmerButton
-          shimmerColor="#ffffff"
-          shimmerSize="0.05em"
-          borderRadius="12px"
-          shimmerDuration="2s"
-          background="linear-gradient(135deg, rgba(10, 132, 255, 0.9), rgba(0, 96, 206, 0.9))"
-          className="text-sm px-4 py-2 font-semibold shadow-lg hover:shadow-xl"
-          onClick={(e) => {
-            e.stopPropagation();
-            router.push(href);
-          }}
-        >
-          {cta}
-        </ShimmerButton>
+      {/* DESKTOP LAYOUT: Original bento card with background animations */}
+      <div className="hidden sm:block absolute inset-0">
+        {/* Content Container - with gradient background for text readability */}
+        <div className="absolute top-0 left-0 right-0 z-10">
+          {/* Gradient background that fades to transparent */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-transparent dark:from-zinc-900/95 dark:via-zinc-900/80 dark:to-transparent pointer-events-none" />
+
+          <div className="relative flex transform-gpu flex-col gap-1.5 md:gap-2 p-4 md:p-6 pb-4 md:pb-8 transition-all duration-300 group-hover:-translate-y-1">
+            {/* Icon + Title Row */}
+            <div className="flex items-center gap-3 md:gap-4">
+              <Icon className="h-9 w-9 md:h-12 md:w-12 flex-shrink-0 transform-gpu text-brand-primary dark:text-dark-brand-primary transition-all duration-300 ease-out group-hover:scale-105 drop-shadow-lg" />
+              <h3 className="relative text-xl md:text-3xl font-bold transition-all duration-300 text-gray-800 dark:text-blue-100 group-hover:text-blue-600 dark:group-hover:text-white group-hover:drop-shadow-[0_0_20px_rgba(37,99,235,0.5)] dark:group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                {name}
+                {/* Gradient underline on hover */}
+                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full" />
+              </h3>
+            </div>
+            {/* Description - clamped to 2 lines */}
+            <p className="text-sm md:text-base leading-relaxed text-text-secondary dark:text-dark-text-secondary transition-all duration-300 group-hover:text-text-primary dark:group-hover:text-dark-text-secondary line-clamp-2">
+              {description}
+            </p>
+          </div>
+        </div>
+
+        {/* Shimmer Button - bottom right corner, appears on hover for desktop */}
+        <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20 opacity-0 translate-y-2 transition-all duration-500 ease-out lg:group-hover:opacity-100 lg:group-hover:translate-y-0">
+          <ShimmerButton
+            shimmerColor="#ffffff"
+            shimmerSize="0.05em"
+            borderRadius="12px"
+            shimmerDuration="2s"
+            background="linear-gradient(135deg, rgba(10, 132, 255, 0.9), rgba(0, 96, 206, 0.9))"
+            className="text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 font-semibold shadow-lg hover:shadow-xl"
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(href);
+            }}
+          >
+            {cta}
+          </ShimmerButton>
+        </div>
       </div>
 
-      {/* Hover Overlay with subtle glow */}
-      <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-500 group-hover:bg-gradient-to-br group-hover:from-brand-primary/[.05] group-hover:to-transparent dark:group-hover:from-dark-brand-primary/10 dark:group-hover:to-transparent" />
+      {/* Hover Overlay with subtle glow - desktop only */}
+      <div className="hidden sm:block pointer-events-none absolute inset-0 transform-gpu transition-all duration-500 group-hover:bg-gradient-to-br group-hover:from-brand-primary/[.05] group-hover:to-transparent dark:group-hover:from-dark-brand-primary/10 dark:group-hover:to-transparent" />
 
-      {/* Spotlight effect on hover */}
-      <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-brand-primary/10 to-transparent blur-xl" />
+      {/* Spotlight effect on hover - desktop only */}
+      <div className="hidden sm:block pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-brand-primary/10 to-transparent blur-xl" />
     </div>
   );
 };

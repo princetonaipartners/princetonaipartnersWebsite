@@ -151,6 +151,12 @@ const scenarios: WorkflowScenario[] = [
   },
 ];
 
+// Truncate action label for mobile
+function truncateAction(action: string, maxLength: number = 10): string {
+  if (action.length <= maxLength) return action;
+  return action.slice(0, maxLength - 1) + '…';
+}
+
 // Individual workflow node component
 interface WorkflowNodeProps {
   node: WorkflowNodeData;
@@ -180,11 +186,11 @@ const WorkflowNode = forwardRef<HTMLDivElement, WorkflowNodeProps>(
             : { opacity: 0, scale: 0.8, y: 20 }
         }
         transition={{ delay: index * 0.15, duration: 0.4, ease: 'easeOut' }}
-        className="flex flex-col items-center gap-2"
+        className="flex flex-col items-center gap-1.5 sm:gap-2 flex-shrink-0"
       >
         <motion.div
           className={cn(
-            'relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-xl border-2 transition-all duration-300',
+            'relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 rounded-lg sm:rounded-xl border-2 transition-all duration-300',
             statusStyles[status]
           )}
           style={{
@@ -201,7 +207,7 @@ const WorkflowNode = forwardRef<HTMLDivElement, WorkflowNodeProps>(
           {/* Status indicator */}
           <div
             className={cn(
-              'absolute -top-1 -right-1 w-3 h-3 rounded-full transition-colors duration-300',
+              'absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-colors duration-300',
               status === 'idle' && 'bg-zinc-600',
               status === 'processing' && 'bg-brand-primary animate-pulse',
               status === 'complete' && 'bg-emerald-400'
@@ -212,7 +218,7 @@ const WorkflowNode = forwardRef<HTMLDivElement, WorkflowNodeProps>(
           {Icon && (
             <Icon
               className={cn(
-                'w-7 h-7 md:w-8 md:h-8 transition-colors duration-300',
+                'w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 transition-colors duration-300',
                 status === 'idle' && 'text-zinc-500',
                 status === 'processing' && 'text-brand-primary',
                 status === 'complete' && 'text-white'
@@ -222,20 +228,21 @@ const WorkflowNode = forwardRef<HTMLDivElement, WorkflowNodeProps>(
         </motion.div>
 
         {/* Label */}
-        <span className="text-xs md:text-sm font-mono text-zinc-400">
+        <span className="text-[10px] sm:text-xs md:text-sm font-mono text-zinc-400 whitespace-nowrap">
           {node.label}
         </span>
 
-        {/* Action */}
+        {/* Action - truncated on mobile */}
         <span
           className={cn(
-            'text-[10px] md:text-xs font-mono px-2 py-0.5 rounded-full transition-colors duration-300',
+            'text-[9px] sm:text-[10px] md:text-xs font-mono px-1.5 sm:px-2 py-0.5 rounded-full transition-colors duration-300 whitespace-nowrap',
             status === 'idle' && 'text-zinc-600 bg-zinc-800/50',
             status === 'processing' && 'text-brand-primary bg-brand-primary/10',
             status === 'complete' && 'text-emerald-400 bg-emerald-400/10'
           )}
         >
-          {node.action}
+          <span className="sm:hidden">{truncateAction(node.action, 8)}</span>
+          <span className="hidden sm:inline">{node.action}</span>
         </span>
       </motion.div>
     );
@@ -371,7 +378,7 @@ export function WorkflowBuilder({ className }: WorkflowBuilderProps) {
       {/* Workflow visualization */}
       <div
         ref={containerRef}
-        className="relative h-48 md:h-56 w-full max-w-4xl mx-auto"
+        className="relative h-40 sm:h-48 md:h-56 w-full max-w-4xl mx-auto"
       >
         {/* Particle beams */}
         {mounted &&
@@ -409,7 +416,7 @@ export function WorkflowBuilder({ className }: WorkflowBuilderProps) {
           })}
 
         {/* Nodes */}
-        <div className="absolute inset-0 flex items-center justify-between px-4 md:px-8">
+        <div className="absolute inset-0 flex items-center justify-center gap-3 sm:gap-6 md:gap-8 lg:gap-12 px-2 sm:px-4 md:px-8">
           {scenario.nodes.map((node, index) => (
             <WorkflowNode
               key={`${scenario.id}-${node.id}`}

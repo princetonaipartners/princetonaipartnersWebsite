@@ -34,7 +34,7 @@ import { MagneticBackground } from '@/components/ui/magnetic-background';
 // ============================================
 export default function WebDevelopmentPage() {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative overflow-x-hidden">
       {/* Magnetic Particles Background */}
       <MagneticBackground />
 
